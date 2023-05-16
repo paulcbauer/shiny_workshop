@@ -1,0 +1,192 @@
+--- 
+title: "About this workshop"
+---
+
+
+```{r functions, echo=FALSE}
+# Generate package chunk
+   file_names <- stringr::str_subset(dir(), "qmd")
+  packages_all <- NULL
+  for(i in file_names){
+  	#print(i)
+  	
+  lines_text <- readLines(i) 
+  packages <- gsub("library\\(|\\)", "",  
+                  unlist(stringr::str_extract_all(lines_text,  
+                                         "library\\([a-zA-z0-9]*\\)|p_load\\([a-zA-z0-9]*\\)"))) 
+  packages <- packages[packages!="pacman"] 
+  packages <- packages[packages!="p_load("] 
+  packages_all <- c(packages_all, packages)
+  
+  }
+  packages <- paste("# install.packages('pacman')", "library(pacman)", "p_load('", paste(unique(packages_all), collapse="', '"), "')",sep="") 
+  packages <- stringr::str_wrap(packages, width = 80) 
+  packages <- gsub("install.packages\\('pacman'\\)", "install.packages\\('pacman'\\)\n", packages) 
+  packages <- gsub("library\\(pacman\\)", "library\\(pacman\\)\n", packages)
+```
+
+
+
+
+
+
+
+## About us (Paul & Jonas)
+- Paul
+	- Currently [MZES](https://www.mzes.uni-mannheim.de/d7/en) Research fellow (University of Mannheim)
+	- Previously... University of Bern (PhD, 2015), European University Institute (Postdoc, 15'-17')
+	- My research interests: political sociology & methodology [see [Google Scholar](https://scholar.google.com/citations?user=hw-b-MkAAAAJ&hl=en&oi=ao))
+	- Started R around 2009, first shiny apps ~2015 for teaching purposes
+	- Contact: `mail@paulcbauer.de`; Website: `www.paulcbauer.de`; Twitter: [p_c_bauer](https://twitter.com/p_c_bauer)
+- Jonas
+	- ...
+
+
+
+
+
+## Your turn
+
+- Let's check our the survey results...
+
+1. Name?
+2. Affiliation? Country?
+3. Research interests?
+4. Previous experience with R?
+5. Why are you interested in this
+workshop?
+
+
+
+
+
+## Workshop: Contact & Outline & Dates
+
+- Framework
+  + GESIS – Leibniz Institute for the Social Sciences
+  + [Gesis Training Courses](https://training.gesis.org/?site=pOverview&cat=Workshop)
+- **Dates**, **Contact** and **Outline:** See syllabus (received link via email).
+  + **I hope you are fine with the schedule?**
+    + Whenever you need a break let us know!
+
+
+
+
+## Workshop: Script & material {#material}
+* **Literature**: See syllabus.
+* **Website/script**: https://bookdown.org/paul/shiny_workshop/
+	- Find it: Google "shiny paul jonas"
+	- Document = slides  + script (Zoom in/out with ```STRG + mousewheel```)
+	- **Code**: can all be found in the script
+	- **Data**: can usually be downloaded over links in the script
+	- Full screen: F11
+	- TOCs on left and right
+	- Search document (upper left)
+	- Document generated with [quarto](https://quarto.org/)
+* **Motivation**: Have a go-to script for participants (and ourselves!)
+* Mixture of theory, lab sessions, exercises and pure code examples for discussion
+
+
+
+
+## Workshop: Goals
+
+- By the end of the course participants will:
+	- understand the basics of reactive programming for interactive data analysis and visualization
+	- know what the structure of a Shiny application looks like
+	- be comfortable to use R Shiny to build their own interactive applications
+	- have learned about different ways to launch their Shiny application
+
+
+## Workshop: Structure
+
+* Strategy: From the simple to the complex
+	- Slowly building up a complex Shiny app that includes various aspects (data, descriptive statistics, modelling, map)
+* Let's have a [look at the app]!
+
+
+
+
+## Workshop: Online vs. offline
+
+* **Negative**
+    + Screen fatigue
+    + Can't run around to check your code
+    + Less engaging, less social
+    + Voice
+    + Screen sharing &less screen space than classroom 
+* **Positive**
+    + We see the graphs where they are mostly consumed
+    ;-) (on a screen)
+        + Remember: "How is your graph consumed (smartphone)?"
+    + Participation from everywhere
+* **Rule(s)**: Please keep your camera online!
+  + Distracting animals/children/partners are a welcome distraction!
+  + Yawning, leaving, looking bored etc. allowed!
+  + Use a virtual background if you like!
+  
+
+
+
+
+
+
+
+  
+    
+## Workshop: Recommended readings
+
+- Important: The course does not require any prior reading. 
+- However, our schedule is primarily based on two textbooks which we generally recommend for further reading:
+	- @wickham2021mastering: Mastering Shiny: Build Interactive Apps, Reports, and Dashboards Powered by R. Accessible online at: https://mastering-shiny.org/. 
+	- Fay, Colin, Rochette, Sébastien, Guyader, Vincent, and Girard, Cervan (2022): Engineering Production-Grade Shiny Apps. Accessible online at: https://engineering-shiny.org/.
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+## Workshop: Software we will use
+
+* What software will we use?
+* Open-source software!
+		+ Q: What speaks for open-source software?
+
+* R (only viable competitor is Python)^[Creators: [Core contributors](https://www.r-project.org/contributors.html) and thousands of package authors.]
+    + Install the necessary packages using the code below.
+
+```{r workshop-1, echo=FALSE, comment=NA}
+options(width = 300)
+cat(packages)
+```
+
+* Shiny
+	- ...
+	
+* Ggplot2^[Creators: https://github.com/tidyverse/ggplot2]
+* Plotly^[Creators: https://github.com/plotly/plotly.js; https://github.com/ropensci/plotly]
+* Note: Ideally cite the software you use in your research especially when it is open-source (see `citation("ggplot2")`)
+
+
+
+
+
+
+## Helpful resources
+
+1. Shiny user showcase: https://shiny.posit.co/r/gallery/#user-showcase
+2. Shiny feature demos: https://shiny.posit.co/r/gallery/#feature-demos
+3. ...
+
+
+

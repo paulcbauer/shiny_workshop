@@ -1,0 +1,35 @@
+--- 
+title: "Introduction: why Shiny?"
+---
+
+* Learning outcomes (first intuitions): Learn...
+    + ...
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+# install.packages("pacman)
+pacman::p_load(knitr, quarto)
+```
+
+
+## Why interactive data visualization?
+- Aims
+- Audiences.. 
+
+
+
+## Why Shiny?
+
+### Arguments for Shiny
+- choosing the right software
+- open-source
+- long-term prospects
+- adaptiblity
+- costs
+
+
+### Arguments against Shiny
+
+
+
+### Short history of Shiny
