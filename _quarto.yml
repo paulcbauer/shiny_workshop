@@ -8,7 +8,6 @@ website:
   twitter-card: true
   site-url: https://bookdown.org/paul/shiny-workshop/
   repo-url: https://github.com/paulcbauer/shiny-workshop
-  issue-url: https://github.com/paulcbauer/shiny-workshop/issues
   repo-actions: [edit, issue]
   sidebar:
     title: "Interactive Data Analysis with Shiny"
