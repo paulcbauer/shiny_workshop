@@ -1,0 +1,9 @@
+
+index_cache/
+.quarto/
+_site/
+01-workshop_cache/
+02-introduction_cache/
+.Rhistory
+.Rproj.user/
+rsconnect/
