@@ -11,7 +11,14 @@ library(dplyr)
 library(RColorBrewer)
 library(viridis)
 library(leaflet)
+library(plotly)
 library(jsonlite)
+library(ggplot2)
+library(GGally)
+library(datawizard)
+library(parameters)
+library(performance)
+library(ggdark)
 
 # Preparation ----
 
@@ -76,7 +83,12 @@ pals <- list(
   Viridis = c("Magma", "Inferno", "Plasma", "Viridis",
               "Cividis", "Rocket", "Mako", "Turbo")
 )
-"#58748f"
+
+plotly_buttons <- c(
+	"sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
+	"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
+)
+
 ## Create theme ----
 dash_theme <- create_theme(
   bs4dash_status(
@@ -97,7 +109,7 @@ dash_theme <- create_theme(
   bs4dash_sidebar_dark(bg = "#2c2c25", color = "#FFF"),
   bs4dash_color(
   	orange = "#F06400",
-    white = "#E6EAEE",
+    white = "#FDFDFD",
     black = "#000",
     gray_600 = "#666",
     gray_800 = "#333",
@@ -156,6 +168,7 @@ ui <- dashboardPage(
       menuItem(tabName = "intro", text = "Introduction", icon = icon("home")),
       menuItem(tabName = "exp", text = "Explore data", icon = icon("map")),
       menuItem(tabName = "insp", text = "Inspect data", icon = icon("table")),
+      menuItem(tabName = "model", text = "Model data", icon = icon("chart-line")),
       flat = TRUE
     ),
     minified = TRUE,
@@ -180,6 +193,7 @@ ui <- dashboardPage(
         	btnName = NULL
         ),
         fluidRow(
+        	column(width = 1),
           column(
             width = 6,
             box(
@@ -188,21 +202,52 @@ ui <- dashboardPage(
               width = 12,
               p("From Wikipedia:"),
               blockQuote("André-Michel Guerry was a French lawyer and
-                              amateur statistician. Together with Adolphe
-                              Quetelet he may be regarded as the founder of
-                              moral statistics which led to the development
-                              of criminology, sociology and ultimately,
-                              modern social science.", color = "primary")
+                          amateur statistician. Together with Adolphe
+                          Quetelet he may be regarded as the founder of
+                          moral statistics which led to the development
+                          of criminology, sociology and ultimately,
+                          modern social science.", color = "primary"),
+              p(HTML("In his work “Essai sur la statistique morale de la France”
+              	Guerry collected a range of indicators on what is called
+              	<i>moral statistics</i>. In this app, we aim to explore Guerry’s data
+              	using spatial exploration and regression modelling.")),
+              hr(),
+              accordion(
+              	id = "accord",
+              	accordionItem(
+              		title = "References",
+              		status = "primary",
+              		solidHeader = FALSE,
+              		"The following sources are referenced in this app:",
+              		tags$ul(
+              			class = "list-style: none",
+              			style = "margin-left: -30px;",
+              			p("Angeville, A. (1836). Essai sur la Statistique de la Population française Paris: F. Doufour."),
+              			p("Guerry, A.-M. (1833). Essai sur la statistique morale de la France Paris: Crochard. English translation: Hugh P. Whitt and Victor W. Reinking, Lewiston, N.Y. : Edwin Mellen Press, 2002."),
+              			p("Parent-Duchatelet, A. (1836). De la prostitution dans la ville de Paris, 3rd ed, 1857, p. 32, 36"),
+              			p("Palsky, G. (2008). Connections and exchanges in European thematic cartography. The case of 19th century choropleth maps. Belgeo 3-4, 413-426.")
+              		)
+              	),
+              	accordionItem(
+              		title = "Details",
+              		status = "primary",
+              		solidHeader = FALSE,
+              		p("This app was created as part of a Shiny workshop held in July 2023"),
+              		p("Last update: June 2023"),
+              		p("Further information about the data can be found",
+              			a("here.", href = "https://www.datavis.ca/gallery/guerry/guerrydat.html"))
+              	)
+              )
             )
           ),
           column(
-            width = 6,
+            width = 4,
             box(
               title = "André Michel Guerry",
               status = "primary",
               width = 12,
               tags$img(src = "guerry.jpg", width = "100%"),
-              p("Source: Palsky, G. (2008). Connections and exchanges in European thematic cartography. The case of 19th century choropleth maps. Belgeo 3-4, 413-426.", style = "font-size: 10px; padding-top: 5px;")
+              p("Source: Palsky (2008)")
             )
           )
         )
@@ -236,8 +281,8 @@ ui <- dashboardPage(
                 selected = "Departments",
                 individual = TRUE,
                 checkIcon = list(
-                  yes = tags$i(class = "fa fa-circle", style = "color: #FED22B;"),
-                  no = tags$i(class = "fa fa-circle-o", style = "color: #FED22B;")
+                  yes = tags$i(class = "fa fa-circle", style = "color: #58748f;"),
+                  no = tags$i(class = "fa fa-circle-o", style = "color: #58748f;")
                 )
               ),
               shinyWidgets::pickerInput(
@@ -288,15 +333,95 @@ ui <- dashboardPage(
             selected = "Departments",
             individual = TRUE,
             checkIcon = list(
-              yes = tags$i(class = "fa fa-circle", style = "color: #FED22B;"),
-              no = tags$i(class = "fa fa-circle-o", style = "color: #FED22B;")
+              yes = tags$i(class = "fa fa-circle", style = "color: #58748f;"),
+              no = tags$i(class = "fa fa-circle-o", style = "color: #58748f;")
             )
           )
         ),
         hr(),
         DT::dataTableOutput("insp_table")
+      ),
+      tabItem(
+      	tabName = "model",
+      	fluidRow(
+      		column(
+      			width = 6,
+      			box(
+      				width = 12,
+      				title = "Select variables",
+      				status = "primary",
+      				shinyWidgets::pickerInput(
+      					"model_x",
+      					label = "Select a dependent variable",
+      					choices = setNames(variables, sapply(txts, "[[", "title")),
+      					options = shinyWidgets::pickerOptions(liveSearch = TRUE),
+      					selected = "Literacy"
+      				),
+      				shinyWidgets::pickerInput(
+      					"model_y",
+      					label = "Select independent variables",
+      					choices = setNames(variables, sapply(txts, "[[", "title")),
+      					options = shinyWidgets::pickerOptions(
+      						actionsBox = TRUE,
+      						liveSearch = TRUE,
+      						selectedTextFormat = "count",
+      						countSelectedText = "{0} variables selected",
+      						noneSelectedText = "No variables selected"
+      					),
+      					multiple = TRUE,
+      					selected = "Commerce"
+      				),
+      				shinyWidgets::prettyCheckbox(
+      					"model_std",
+      					label = "Standardize variables?",
+      					value = FALSE,
+      					status = "primary",
+      					shape = "curve",
+      					fill = TRUE
+      				),
+      				hr(),
+      				actionButton(
+      					"refresh",
+      					label = "Apply changes",
+      					icon = icon("refresh"),
+      					flat = TRUE
+      				)
+      			),
+      			box(
+      				title = "Effect sizes",
+      				status = "primary",
+      				width = 12,
+      				plotly::plotlyOutput("regplot")
+      			)
+      		),
+      		column(
+      			width = 6,
+      			box(
+      				width = 12,
+      				title = "Pair diagram",
+      				status = "primary",
+      				plotly::plotlyOutput("pairplot")
+      			),
+      			tabBox(
+      				status = "primary",
+      				type = "tabs",
+      				width = 12,
+      				tabPanel(
+      					title = "Normality",
+      					plotly::plotlyOutput("normality")
+      				),
+      				tabPanel(
+      					title = "Outliers",
+      					plotly::plotlyOutput("outliers")
+      				),
+      				tabPanel(
+      					title = "Heteroskedasticity",
+      					plotly::plotlyOutput("heteroskedasticity")
+      				)
+      			)
+      		)
+      	)
       )
-      
     ) # end tabItems
   ),
   ## Controlbar ----
@@ -542,6 +667,92 @@ server <- function(input, output, session) {
   })
   
   output$insp_table <- DT::renderDataTable(dt(), server = FALSE)
+  
+  
+  ## Model data ----
+  
+  mparams <- reactive({
+  	x <- input$model_x
+  	y <- input$model_y
+  	dt <- sf::st_drop_geometry(guerry)[c(x, y)]
+  	if (input$model_std) dt <- datawizard::standardise(dt)
+  	form <- as.formula(paste(x, "~", paste(y, collapse = " + ")))
+  	mod <- lm(form, data = dt)
+
+  	list(
+  		x = x,
+  		y = y,
+  		data = dt,
+  		model = mod
+  	)
+  }) %>%
+  	bindEvent(input$refresh, ignoreNULL = FALSE)
+  
+  output$pairplot <- plotly::renderPlotly({
+  	params <- mparams()
+  	p <- GGally::ggpairs(params$data, axisLabels = "none")
+  	if (isTRUE(input$dark_mode)) p <- p +
+  		dark_theme_gray() +
+  		theme(plot.background = element_rect(fill = "#343a40"))
+  	ggplotly(p) %>%
+  		config(modeBarButtonsToRemove = plotly_buttons,
+  					 displaylogo = FALSE)
+  })
+  
+  output$regplot <- renderPlotly({
+  	params <- mparams()
+  	dt <- params$data
+  	x <- params$x
+  	y <- params$y
+  	if (length(y) == 1) {
+  		p <- ggplot(params$data, aes(x = .data[[params$x]], y = .data[[params$y]])) +
+  			geom_point() +
+  			geom_smooth()
+  	} else {
+  		p <- plot(parameters::model_parameters(params$model))
+  	}
+  	if (isTRUE(input$dark_mode)) p <- p +
+  		dark_theme_gray() +
+  		theme(plot.background = element_rect(fill = "#343a40"))
+  	ggplotly(p) %>%
+  		config(modeBarButtonsToRemove = plotly_buttons,
+  					 displaylogo = FALSE)
+  })
+  
+  output$normality <- renderPlotly({
+  	params <- mparams()
+  	p <- plot(performance::check_normality(params$model))
+  	if (isTRUE(input$dark_mode)) p <- p +
+  		dark_theme_gray() +
+  		theme(plot.background = element_rect(fill = "#343a40"))
+  	ggplotly(p) %>%
+  		config(modeBarButtonsToRemove = plotly_buttons,
+  					 displaylogo = FALSE)
+  })
+  
+  output$outliers <- renderPlotly({
+  	params <- mparams()
+  	p <- plot(performance::check_outliers(params$model), show_labels = FALSE)
+  	if (isTRUE(input$dark_mode)) p <- p +
+  		dark_theme_gray() +
+  		theme(plot.background = element_rect(fill = "#343a40"))
+  	p$labels$x <- "Leverage"
+  	ggplotly(p) %>%
+  		config(modeBarButtonsToRemove = plotly_buttons,
+  					 displaylogo = FALSE)
+  })
+
+  output$heteroskedasticity <- renderPlotly({
+  	params <- mparams()
+  	p <- plot(performance::check_heteroskedasticity(params$model))
+  	if (isTRUE(input$dark_mode)) p <- p +
+  		dark_theme_gray() +
+  		theme(plot.background = element_rect(fill = "#343a40"))
+  	p$labels$y <- "Sqrt. |Std. residuals|" # ggplotly doesn't support expressions
+  	ggplotly(p) %>%
+  		config(modeBarButtonsToRemove = plotly_buttons,
+  					 displaylogo = FALSE)
+  })
 }
 
 shinyApp(ui, server)
