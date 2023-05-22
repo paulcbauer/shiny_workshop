@@ -76,37 +76,35 @@ pals <- list(
   Viridis = c("Magma", "Inferno", "Plasma", "Viridis",
               "Cividis", "Rocket", "Mako", "Turbo")
 )
-
+"#58748f"
 ## Create theme ----
 dash_theme <- create_theme(
-  fresh::bs4dash_status(
-    primary = "#FED22B",
-    secondary = "#F4F4F2",
-    info = "#B3DDFE",
+  bs4dash_status(
+    primary = "#58748f",
+    secondary = "#666666",
+    info = "#E6EAEE",
     danger = "#BF616A",
+    warning = "#FF6100",
     light = "#F4F4F2",
     dark = "#2c2c25"
   ),
-  fresh::bs4dash_layout(
+  bs4dash_layout(
     font_size_root = "5rem",
     main_bg = "#FDFDFD",
     sidebar_width = "350px"
   ),
-  fresh::bs4dash_sidebar_light(bg = "#F4F4F2", color = "#000"),
-  fresh::bs4dash_sidebar_dark(bg = "#2c2c25", color = "#FFF"),
-  fresh::bs4dash_color(
-    white = "#FDFDFD",
+  bs4dash_sidebar_light(bg = "#F4F4F2", color = "#000"),
+  bs4dash_sidebar_dark(bg = "#2c2c25", color = "#FFF"),
+  bs4dash_color(
+  	orange = "#F06400",
+    white = "#E6EAEE",
     black = "#000",
-    gray_600 = "#CFCFCF",
-    gray_800 = "#B4B4B4",
+    gray_600 = "#666",
+    gray_800 = "#333",
     gray_900 = "#000",
-    red = "#C1120E",
-    purple = "#3F1354",
-    yellow = "#FFFD37",
-    blue = "#002562",
-    teal = "#00767E"
+    blue = "#58748f"
   ),
-  fresh::bs4dash_font(
+  bs4dash_font(
     family_sans_serif = "Verdana",
     family_base = "Georgia",
     family_monospace = "Courier New"
@@ -143,10 +141,10 @@ ui <- dashboardPage(
       href = "https://gesis.org/",
       img(src = "gesis-logo.png", style = "height: 1.8em;")
     ),
-    title = HTML(paste(
+    title = tagList(
       img(src = "workshop-logo.png", width = 35, height = 35),
       span("Guerry Dashboard", class = "brand-text")
-    )),
+    ),
     skin = "light",
     sidebarIcon = tags$i(class = "fa fa-bars", style = "color: black;")
   ),
@@ -162,7 +160,7 @@ ui <- dashboardPage(
     ),
     minified = TRUE,
     collapsed = TRUE,
-    fixed = TRUE,
+    fixed = FALSE,
     skin = "light"
   ),
   ## Body ----
@@ -175,20 +173,26 @@ ui <- dashboardPage(
       ### Home tab ----
       tabItem(
         tabName = "intro",
+        jumbotron(
+        	title = "Welcome to the Guerry dashboard",
+        	lead = "A Shiny app to explore and analyze early social science",
+        	status = "info",
+        	btnName = NULL
+        ),
         fluidRow(
           column(
             width = 6,
             box(
-              title = "Welcome!",
+              title = "About",
               status = "primary",
               width = 12,
               p("From Wikipedia:"),
-              tags$blockquote("André-Michel Guerry was a French lawyer and
+              blockQuote("André-Michel Guerry was a French lawyer and
                               amateur statistician. Together with Adolphe
                               Quetelet he may be regarded as the founder of
                               moral statistics which led to the development
                               of criminology, sociology and ultimately,
-                              modern social science.")
+                              modern social science.", color = "primary")
             )
           ),
           column(
@@ -197,7 +201,7 @@ ui <- dashboardPage(
               title = "André Michel Guerry",
               status = "primary",
               width = 12,
-              tags$img(src = "guerry.jpg", height = "4st00px"),
+              tags$img(src = "guerry.jpg", width = "100%"),
               p("Source: Palsky, G. (2008). Connections and exchanges in European thematic cartography. The case of 19th century choropleth maps. Belgeo 3-4, 413-426.", style = "font-size: 10px; padding-top: 5px;")
             )
           )
@@ -297,11 +301,18 @@ ui <- dashboardPage(
   ),
   ## Controlbar ----
   controlbar = dashboardControlbar(
-    skinSelector()
+    skinSelector(),
+  	width = "100%",
+  	skin = "light"
   ),
   ## Footer ----
   footer = dashboardFooter(
-    
+  	left = span(
+  		"This dashboard was created by Jonas Lieth. Find the source code",
+  		a("here.", href = "https://github.com/paulcbauer/shiny_workshop/tree/main/shinyapps/guerry"),
+  		"It is based on data from the",
+  		a("Guerry R package.", href = "https://cran.r-project.org/web/packages/Guerry/index.html")
+  	)
   )
 )
 

@@ -39,7 +39,10 @@ title: "About this workshop"
 	- Started R around 2009, first shiny apps ~2015 for teaching purposes
 	- Contact: `mail@paulcbauer.de`; Website: `www.paulcbauer.de`; Twitter: [p_c_bauer](https://twitter.com/p_c_bauer)
 - Jonas
-	- ...
+	- Currently a research fellow at GESIS' survey data curation (SDC) department
+	- Constantly learning about R and Shiny since 2020
+	- Interested in social geography, spatial analysis and computational text analysis
+	- Contact: `jonas.lieth@gesis.org`; GitHub: [JsLth](https://github.com/JsLth)
 
 
 
