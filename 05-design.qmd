@@ -12,6 +12,14 @@ You will know how to:
 -   Upgrade your apps using custom theming
 -   Combine Shiny with common interfaces like Leaflet, Plotly and Datatable
 
+## Building a Shiny app
+
+-   The following sections will introduce you to the Shiny app building process
+
+-   The course is guided by a Shiny app that was created for this workshop (for the code click [here](https://github.com/paulcbauer/shiny_workshop/tree/main/shinyapps/guerry), for the final app click )
+
+-   You may follow the existing code closely, or freestyle and create your own app entirely
+
 ## Planning
 
 ![Stages of app development](resources/app-design.svg)

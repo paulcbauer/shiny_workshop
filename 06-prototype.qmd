@@ -103,7 +103,7 @@ sidebar <- dashboardSidebar(
       menuItem(tabName = "intro", text = "Introduction", icon = icon("home")),
       menuItem(tabName = "exp", text = "Explore data", icon = icon("map")),
       menuItem(tabName = "insp", text = "Inspect data", icon = icon("table")),
-      menuItem(tabName = "model", text = "Model data", icon = icon("chart-scatter")),
+      menuItem(tabName = "model", text = "Model data", icon = icon("chart-line")),
       flat = TRUE
     ),
     minified = TRUE,
@@ -195,7 +195,7 @@ shiny::shinyApp(ui, server)
 
 -   Supposed to be: an attention catcher, a guide, and an introduction
 
--   Useful for Dashboards, but probably over the top for smaller Shiny apps
+-   Useful for Dashboards, but probably over the top for more concise Shiny apps
 
 -   `bs4Dash` supports some cool utilities for landing pages; `shinyLP` is another cool package to design landing pages
 
