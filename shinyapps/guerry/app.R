@@ -699,6 +699,7 @@ server <- function(input, output, session) {
   	x <- input$model_x
   	y <- input$model_y
   	dt <- sf::st_drop_geometry(guerry)[c(x, y)]
+  	dt_labels <- sf::st_drop_geometry(guerry)[c("Department")]
   	if (input$model_std) dt <- datawizard::standardise(dt)
   	form <- as.formula(paste(x, "~", paste(y, collapse = " + ")))
   	mod <- lm(form, data = dt)
@@ -707,6 +708,7 @@ server <- function(input, output, session) {
   		x = x,
   		y = y,
   		data = dt,
+  		data_labels = dt_labels,
   		model = mod
   	)
   }) %>%
@@ -747,7 +749,8 @@ server <- function(input, output, session) {
   output$scatterplot <- renderPlotly({
     params <- mparams()
     dt <- params$data
-    x <- params$x
+    dt_labels <- params$data_labels
+    x <- params$x 
     y <- params$y
     
     
@@ -755,7 +758,9 @@ server <- function(input, output, session) {
       p <- ggplot(params$data, 
                   aes(x = .data[[params$x]], 
                       y = .data[[params$y]])) +
-        geom_point(color = "black") +
+        geom_point(aes(text = paste0("Dep.: ", 
+                                     dt_labels[["Department"]])),
+                   color = "black") +
         geom_smooth() + 
         theme_light()
     } else {
