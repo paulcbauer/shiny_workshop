@@ -390,12 +390,19 @@ ui <- dashboardPage(
       					flat = TRUE
       				)
       			),
-      			#### Box: Effect sizes ----
-      			box(
-      				title = "Effect sizes",
-      				status = "primary",
-      				width = 12,
-      				plotly::plotlyOutput("regplot")
+      			#### Box: Coefficient/Scatterplot ----
+      			tabBox(
+      			  status = "primary",
+      			  type = "tabs",
+      			  width = 12,
+      			  tabPanel(
+      			    title = "Effect sizes (coefficient plot)",
+      			    plotly::plotlyOutput("coefficientplot")
+      			  ),
+      			  tabPanel(
+      			    title = "Relationship (scatter plot)",
+      			    plotly::plotlyOutput("scatterplot")
+      			  )
       			)
       		),
       		column(
@@ -700,8 +707,7 @@ server <- function(input, output, session) {
   ### Pair diagram ----
   output$pairplot <- plotly::renderPlotly({
   	params <- mparams()
-  	p <- GGally::ggpairs(params$data, axisLabels = "none") +
-  	  theme_light()
+  	p <- GGally::ggpairs(params$data, axisLabels = "none")
   	if (isTRUE(input$dark_mode)) p <- p +
   		dark_theme_gray() +
   		theme(plot.background = element_rect(fill = "#343a40"))
@@ -710,22 +716,16 @@ server <- function(input, output, session) {
   					 displaylogo = FALSE)
   })
   
-  ### Scatterplot ----
-  output$regplot <- renderPlotly({
+  ### Plot: Coefficientplot ----
+  output$coefficientplot <- renderPlotly({
   	params <- mparams()
   	dt <- params$data
   	x <- params$x
   	y <- params$y
-  	if (length(y) == 1) {
-  		p <- ggplot(params$data, 
-  		            aes(x = .data[[params$x]], 
-  		                y = .data[[params$y]])) +
-  			geom_point(color = "black") +
-  			geom_smooth() + 
-  		  theme_light()
-  	} else {
+
+ 
   		p <- plot(parameters::model_parameters(params$model))
-  	}
+
   	if (isTRUE(input$dark_mode)) p <- p +
   	  geom_point(color = "white") +
   		dark_theme_gray() +
@@ -733,6 +733,44 @@ server <- function(input, output, session) {
   	ggplotly(p) %>%
   		config(modeBarButtonsToRemove = plotly_buttons,
   					 displaylogo = FALSE)
+  })
+  
+  ### Plot: Scatterplot ----
+  output$scatterplot <- renderPlotly({
+    params <- mparams()
+    dt <- params$data
+    x <- params$x
+    y <- params$y
+    
+    
+    if (length(y) == 1) {
+      p <- ggplot(params$data, 
+                  aes(x = .data[[params$x]], 
+                      y = .data[[params$y]])) +
+        geom_point(color = "black") +
+        geom_smooth() + 
+        theme_light()
+    } else {
+      p <- ggplot() +
+        theme_void() +
+        annotate("text", 
+                 label = "Cannot create scatterplot.\nMore than two variables selected.", 
+                 x = 0, y = 0, 
+                 size = 5, 
+                 colour = "red",
+                 hjust = 0.5,
+                 vjust = 0.5) +
+      xlab(NULL)
+      
+    }
+    
+    if (isTRUE(input$dark_mode)) p <- p +
+      geom_point(color = "white") +
+      dark_theme_gray() +
+      theme(plot.background = element_rect(fill = "#343a40"))
+    ggplotly(p) %>%
+      config(modeBarButtonsToRemove = plotly_buttons,
+             displaylogo = FALSE)
   })
   
   ### Plot: Normality residuals ----
