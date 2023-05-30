@@ -290,7 +290,7 @@ ui <- dashboardPage(
                 "exp_pal",
                 label = "Color palette",
                 choices = pals,
-                selected = "Plasma"
+                selected = "Reds"
               ) # end input
             ) # end box
           ), # end column
