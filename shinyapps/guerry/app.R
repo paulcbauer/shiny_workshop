@@ -431,23 +431,28 @@ ui <- dashboardPage(
       				status = "primary",
       				plotly::plotlyOutput("pairplot")
       			),
-      			#### Box: Model inspection ----
-      			tabBox(
-      				status = "primary",
-      				type = "tabs",
-      				width = 12,
-      				tabPanel(
-      					title = "Normality",
-      					plotly::plotlyOutput("normality")
-      				),
-      				tabPanel(
-      					title = "Outliers",
-      					plotly::plotlyOutput("outliers")
-      				),
-      				tabPanel(
-      					title = "Heteroskedasticity",
-      					plotly::plotlyOutput("heteroskedasticity")
-      				)
+      			#### Box: Model diagnostics ----
+      			box(
+      			  width = 12,
+      			  title = "Model diagnostics",
+      			  status = "primary",
+      			  tabBox(
+      			    status = "primary",
+      			    type = "tabs",
+      			    width = 12,
+      			    tabPanel(
+      			      title = "Normality",
+      			      plotly::plotlyOutput("normality")
+      			    ),
+      			    tabPanel(
+      			      title = "Outliers",
+      			      plotly::plotlyOutput("outliers")
+      			    ),
+      			    tabPanel(
+      			      title = "Heteroskedasticity",
+      			      plotly::plotlyOutput("heteroskedasticity")
+      			    )
+      			  )
       			)
       		)
       	)
