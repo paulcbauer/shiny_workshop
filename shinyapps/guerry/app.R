@@ -188,7 +188,7 @@ ui <- dashboardPage(
         tabName = "intro",
         jumbotron(
         	title = "Welcome to the Guerry dashboard",
-        	lead = "A Shiny app to explore and analyze early social science",
+        	lead = "A Shiny app to explore the classic Guerry dataset",
         	status = "info",
         	btnName = NULL
         ),
@@ -339,13 +339,16 @@ ui <- dashboardPage(
           )
         ),
         hr(),
+        #### Data table ----
         DT::dataTableOutput("insp_table")
       ),
+      ### Model data ----
       tabItem(
       	tabName = "model",
       	fluidRow(
       		column(
       			width = 6,
+      			#### Box: Select variables ----
       			box(
       				width = 12,
       				title = "Select variables",
@@ -387,6 +390,7 @@ ui <- dashboardPage(
       					flat = TRUE
       				)
       			),
+      			#### Box: Effect sizes ----
       			box(
       				title = "Effect sizes",
       				status = "primary",
@@ -396,12 +400,14 @@ ui <- dashboardPage(
       		),
       		column(
       			width = 6,
+      			#### Box: Pair diagramm ----
       			box(
       				width = 12,
       				title = "Pair diagram",
       				status = "primary",
       				plotly::plotlyOutput("pairplot")
       			),
+      			#### Box: Model inspection ----
       			tabBox(
       				status = "primary",
       				type = "tabs",
@@ -424,13 +430,13 @@ ui <- dashboardPage(
       )
     ) # end tabItems
   ),
-  ## Controlbar ----
+  ## Controlbar (top)----
   controlbar = dashboardControlbar(
     skinSelector(),
   	width = "100%",
   	skin = "light"
   ),
-  ## Footer ----
+  ## Footer (bottom)----
   footer = dashboardFooter(
   	left = span(
   		"This dashboard was created by Jonas Lieth. Find the source code",
@@ -601,7 +607,7 @@ server <- function(input, output, session) {
   
   
   ## Inspect data ----
-  
+  #### Variable selection ----
   tab <- reactive({
     var <- input$insp_select
     if (identical(input$insp_aggr, "Departments")) {
@@ -624,6 +630,8 @@ server <- function(input, output, session) {
     poly
   })
   
+  #### Data table ----
+  ##### Create ----
   dt <- reactive({
     tab <- tab()
     ridx <- ifelse("Department" %in% names(tab), 3, 1)
@@ -666,11 +674,12 @@ server <- function(input, output, session) {
     )
   })
   
+  ##### Render ----
   output$insp_table <- DT::renderDataTable(dt(), server = FALSE)
   
   
   ## Model data ----
-  
+  ### Define & estimate model ----
   mparams <- reactive({
   	x <- input$model_x
   	y <- input$model_y
@@ -688,9 +697,11 @@ server <- function(input, output, session) {
   }) %>%
   	bindEvent(input$refresh, ignoreNULL = FALSE)
   
+  ### Pair diagram ----
   output$pairplot <- plotly::renderPlotly({
   	params <- mparams()
-  	p <- GGally::ggpairs(params$data, axisLabels = "none")
+  	p <- GGally::ggpairs(params$data, axisLabels = "none") +
+  	  theme_light()
   	if (isTRUE(input$dark_mode)) p <- p +
   		dark_theme_gray() +
   		theme(plot.background = element_rect(fill = "#343a40"))
@@ -699,19 +710,24 @@ server <- function(input, output, session) {
   					 displaylogo = FALSE)
   })
   
+  ### Scatterplot ----
   output$regplot <- renderPlotly({
   	params <- mparams()
   	dt <- params$data
   	x <- params$x
   	y <- params$y
   	if (length(y) == 1) {
-  		p <- ggplot(params$data, aes(x = .data[[params$x]], y = .data[[params$y]])) +
-  			geom_point() +
-  			geom_smooth()
+  		p <- ggplot(params$data, 
+  		            aes(x = .data[[params$x]], 
+  		                y = .data[[params$y]])) +
+  			geom_point(color = "black") +
+  			geom_smooth() + 
+  		  theme_light()
   	} else {
   		p <- plot(parameters::model_parameters(params$model))
   	}
   	if (isTRUE(input$dark_mode)) p <- p +
+  	  geom_point(color = "white") +
   		dark_theme_gray() +
   		theme(plot.background = element_rect(fill = "#343a40"))
   	ggplotly(p) %>%
@@ -719,6 +735,7 @@ server <- function(input, output, session) {
   					 displaylogo = FALSE)
   })
   
+  ### Plot: Normality residuals ----
   output$normality <- renderPlotly({
   	params <- mparams()
   	p <- plot(performance::check_normality(params$model))
@@ -730,6 +747,7 @@ server <- function(input, output, session) {
   					 displaylogo = FALSE)
   })
   
+  ### Plot: Outliers ----
   output$outliers <- renderPlotly({
   	params <- mparams()
   	p <- plot(performance::check_outliers(params$model), show_labels = FALSE)
@@ -742,6 +760,7 @@ server <- function(input, output, session) {
   					 displaylogo = FALSE)
   })
 
+  ### Plot: Heteroskedasticity ----
   output$heteroskedasticity <- renderPlotly({
   	params <- mparams()
   	p <- plot(performance::check_heteroskedasticity(params$model))
