@@ -22,18 +22,18 @@ website:
       - section: "2 Introduction: why Shiny?"
         contents:
           - 02-introduction.qmd
-     - section: "5 Building from scratch: Design"
-       contents:
-         - 05-design.qmd
-     - section: "6 Building from scratch: Prototype"
-       contents:
-         - 06-prototype.qmd
-     - section: "7 Building from scratch: Build"
-       contents:
-         - 07-build.qmd
-     - section: "8 Building from scratch: Strengthen & Deploy"
-       contents:
-         - 08-strengthen-deploy.qmd
+      - section: "5 Building from scratch: Design"
+        contents:
+          - 05-design.qmd
+      - section: "6 Building from scratch: Prototype"
+        contents:
+          - 06-prototype.qmd
+      - section: "7 Building from scratch: Build"
+        contents:
+          - 07-build.qmd
+      - section: "8 Building from scratch: Strengthen & Deploy"
+        contents:
+          - 08-strengthen-deploy.qmd
 
 
 
