@@ -135,7 +135,7 @@ preloader <- list(
 # UI ----
 
 ui <- dashboardPage(
-  title = "Guerry dashboard",
+  title = "The Guerry Dashboard",
   freshTheme = dash_theme,
   preloader = preloader,
   ## Header ----
@@ -156,7 +156,7 @@ ui <- dashboardPage(
     ),
     title = tagList(
       img(src = "workshop-logo.png", width = 35, height = 35),
-      span("Guerry Dashboard", class = "brand-text")
+      span("The Guerry Dashboard", class = "brand-text")
     ),
     skin = "light",
     sidebarIcon = tags$i(class = "fa fa-bars", style = "color: black;")
@@ -188,8 +188,8 @@ ui <- dashboardPage(
       tabItem(
         tabName = "intro",
         jumbotron(
-        	title = "Welcome to the Guerry dashboard",
-        	lead = "A Shiny app to explore the classic Guerry dataset",
+        	title = "The Guerry Dashboard",
+        	lead = "A Shiny app to explore the classic Guerry dataset.",
         	status = "info",
         	btnName = NULL
         ),
@@ -208,9 +208,18 @@ ui <- dashboardPage(
                           moral statistics which led to the development
                           of criminology, sociology and ultimately,
                           modern social science.", color = "primary"),
-              p(HTML("In his work “Essai sur la statistique morale de la France”
-              	Guerry collected a range of indicators on what is called
-              	<i>moral statistics</i>. In this app, we aim to explore Guerry’s data
+              p(HTML("Andre-Michel Guerry (1833) was the first to 
+              systematically collect and analyze social data 
+               on such things as crime, literacy and suicide 
+               with the view to determining social laws and the 
+               relations among these variables. The Guerry data 
+               frame comprises a collection of 'moral variables' 
+               (cf. <i><a href='https://en.wikipedia.org/wiki/Moral_statistics'>moral statistics</a></i>) 
+               on the 86 departments of France around 1830. 
+               A few additional variables have been added 
+               from other sources. In total the data frame has 
+               86 observations (the departments of France) on 23 variables. 
+               In this app, we aim to explore Guerry’s data
               	using spatial exploration and regression modelling.")),
               hr(),
               accordion(
