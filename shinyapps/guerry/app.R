@@ -699,7 +699,7 @@ server <- function(input, output, session) {
   	x <- input$model_x
   	y <- input$model_y
   	dt <- sf::st_drop_geometry(guerry)[c(x, y)]
-  	dt_labels <- sf::st_drop_geometry(guerry)[c("Department")]
+  	dt_labels <- sf::st_drop_geometry(guerry)[c("Department", "Region")]
   	if (input$model_std) dt <- datawizard::standardise(dt)
   	form <- as.formula(paste(x, "~", paste(y, collapse = " + ")))
   	mod <- lm(form, data = dt)
@@ -758,8 +758,10 @@ server <- function(input, output, session) {
       p <- ggplot(params$data, 
                   aes(x = .data[[params$x]], 
                       y = .data[[params$y]])) +
-        geom_point(aes(text = paste0("Dep.: ", 
-                                     dt_labels[["Department"]])),
+        geom_point(aes(text = paste0("Department: ", 
+                                     dt_labels[["Department"]],
+                                     "<br>Region: ", 
+                                     dt_labels[["Region"]])),
                    color = "black") +
         geom_smooth() + 
         theme_light()
