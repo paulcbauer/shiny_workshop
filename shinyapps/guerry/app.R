@@ -218,7 +218,7 @@ ui <- dashboardPage(
                on the 86 departments of France around 1830. 
                A few additional variables have been added 
                from other sources. In total the data frame has 
-               86 observations (the departments of France) on 23 variables. 
+               86 observations (the departments of France) on 23 variables <i>(Source: ?Guerry)</i>. 
                In this app, we aim to explore Guerry’s data
               	using spatial exploration and regression modelling.")),
               hr(),
