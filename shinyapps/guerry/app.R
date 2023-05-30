@@ -19,6 +19,7 @@ library(datawizard)
 library(parameters)
 library(performance)
 library(ggdark)
+library(modelsummary)
 
 # Preparation ----
 
@@ -395,13 +396,20 @@ ui <- dashboardPage(
       			  status = "primary",
       			  type = "tabs",
       			  width = 12,
+      			  ##### Tab: Coefficient plot ----
       			  tabPanel(
-      			    title = "Effect sizes (coefficient plot)",
+      			    title = "Plot: Coefficients",
       			    plotly::plotlyOutput("coefficientplot")
       			  ),
+      			  ##### Tab: Scatterplot ----
       			  tabPanel(
-      			    title = "Relationship (scatter plot)",
+      			    title = "Plot: Scatterplot",
       			    plotly::plotlyOutput("scatterplot")
+      			  ),
+      			  ##### Tab: Table: Regression ----
+      			  tabPanel(
+      			    title = "Table: Model",
+      			    htmlOutput("tableregression")
       			  )
       			)
       		),
@@ -637,7 +645,7 @@ server <- function(input, output, session) {
     poly
   })
   
-  #### Data table ----
+  #### Table: Data ----
   ##### Create ----
   dt <- reactive({
     tab <- tab()
@@ -771,6 +779,16 @@ server <- function(input, output, session) {
     ggplotly(p) %>%
       config(modeBarButtonsToRemove = plotly_buttons,
              displaylogo = FALSE)
+  })
+  
+  ### Table: Regression ----
+  output$tableregression <- renderUI({
+    
+    
+    params <- mparams()
+    HTML(modelsummary(dvnames(list(params$mod)),
+                      gof_omit = "AIC|BIC|Log|Adj|RMSE"))
+    
   })
   
   ### Plot: Normality residuals ----
