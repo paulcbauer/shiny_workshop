@@ -10,3 +10,5 @@ _site/
 .Rproj.user/122161FC/sources/prop/INDEX
 
 /.quarto/
+05-design_cache/
+06-prototype_cache/

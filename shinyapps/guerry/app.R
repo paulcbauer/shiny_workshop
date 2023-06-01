@@ -19,6 +19,7 @@ library(datawizard)
 library(parameters)
 library(performance)
 library(ggdark)
+library(modelsummary)
 
 # Preparation ----
 
@@ -134,7 +135,7 @@ preloader <- list(
 # UI ----
 
 ui <- dashboardPage(
-  title = "Guerry dashboard",
+  title = "The Guerry Dashboard",
   freshTheme = dash_theme,
   preloader = preloader,
   ## Header ----
@@ -155,7 +156,7 @@ ui <- dashboardPage(
     ),
     title = tagList(
       img(src = "workshop-logo.png", width = 35, height = 35),
-      span("Guerry Dashboard", class = "brand-text")
+      span("The Guerry Dashboard", class = "brand-text")
     ),
     skin = "light",
     sidebarIcon = tags$i(class = "fa fa-bars", style = "color: black;")
@@ -187,8 +188,8 @@ ui <- dashboardPage(
       tabItem(
         tabName = "intro",
         jumbotron(
-        	title = "Welcome to the Guerry dashboard",
-        	lead = "A Shiny app to explore and analyze early social science",
+        	title = "The Guerry Dashboard",
+        	lead = "A Shiny app to explore the classic Guerry dataset.",
         	status = "info",
         	btnName = NULL
         ),
@@ -207,9 +208,18 @@ ui <- dashboardPage(
                           moral statistics which led to the development
                           of criminology, sociology and ultimately,
                           modern social science.", color = "primary"),
-              p(HTML("In his work “Essai sur la statistique morale de la France”
-              	Guerry collected a range of indicators on what is called
-              	<i>moral statistics</i>. In this app, we aim to explore Guerry’s data
+              p(HTML("Andre-Michel Guerry (1833) was the first to 
+              systematically collect and analyze social data 
+               on such things as crime, literacy and suicide 
+               with the view to determining social laws and the 
+               relations among these variables. The Guerry data 
+               frame comprises a collection of 'moral variables' 
+               (cf. <i><a href='https://en.wikipedia.org/wiki/Moral_statistics'>moral statistics</a></i>) 
+               on the 86 departments of France around 1830. 
+               A few additional variables have been added 
+               from other sources. In total the data frame has 
+               86 observations (the departments of France) on 23 variables <i>(Source: ?Guerry)</i>. 
+               In this app, we aim to explore Guerry’s data
               	using spatial exploration and regression modelling.")),
               hr(),
               accordion(
@@ -289,7 +299,7 @@ ui <- dashboardPage(
                 "exp_pal",
                 label = "Color palette",
                 choices = pals,
-                selected = "Plasma"
+                selected = "Reds"
               ) # end input
             ) # end box
           ), # end column
@@ -339,13 +349,16 @@ ui <- dashboardPage(
           )
         ),
         hr(),
+        #### Data table ----
         DT::dataTableOutput("insp_table")
       ),
+      ### Model data ----
       tabItem(
       	tabName = "model",
       	fluidRow(
       		column(
       			width = 6,
+      			#### Box: Select variables ----
       			box(
       				width = 12,
       				title = "Select variables",
@@ -387,50 +400,72 @@ ui <- dashboardPage(
       					flat = TRUE
       				)
       			),
-      			box(
-      				title = "Effect sizes",
-      				status = "primary",
-      				width = 12,
-      				plotly::plotlyOutput("regplot")
+      			#### Box: Coefficient/Scatterplot ----
+      			tabBox(
+      			  status = "primary",
+      			  type = "tabs",
+      			  width = 12,
+      			  ##### Tab: Coefficient plot ----
+      			  tabPanel(
+      			    title = "Plot: Coefficients",
+      			    plotly::plotlyOutput("coefficientplot")
+      			  ),
+      			  ##### Tab: Scatterplot ----
+      			  tabPanel(
+      			    title = "Plot: Scatterplot",
+      			    plotly::plotlyOutput("scatterplot")
+      			  ),
+      			  ##### Tab: Table: Regression ----
+      			  tabPanel(
+      			    title = "Table: Model",
+      			    htmlOutput("tableregression")
+      			  )
       			)
       		),
       		column(
       			width = 6,
+      			#### Box: Pair diagramm ----
       			box(
       				width = 12,
       				title = "Pair diagram",
       				status = "primary",
       				plotly::plotlyOutput("pairplot")
       			),
-      			tabBox(
-      				status = "primary",
-      				type = "tabs",
-      				width = 12,
-      				tabPanel(
-      					title = "Normality",
-      					plotly::plotlyOutput("normality")
-      				),
-      				tabPanel(
-      					title = "Outliers",
-      					plotly::plotlyOutput("outliers")
-      				),
-      				tabPanel(
-      					title = "Heteroskedasticity",
-      					plotly::plotlyOutput("heteroskedasticity")
-      				)
+      			#### Box: Model diagnostics ----
+      			box(
+      			  width = 12,
+      			  title = "Model diagnostics",
+      			  status = "primary",
+      			  tabBox(
+      			    status = "primary",
+      			    type = "tabs",
+      			    width = 12,
+      			    tabPanel(
+      			      title = "Normality",
+      			      plotly::plotlyOutput("normality")
+      			    ),
+      			    tabPanel(
+      			      title = "Outliers",
+      			      plotly::plotlyOutput("outliers")
+      			    ),
+      			    tabPanel(
+      			      title = "Heteroskedasticity",
+      			      plotly::plotlyOutput("heteroskedasticity")
+      			    )
+      			  )
       			)
       		)
       	)
       )
     ) # end tabItems
   ),
-  ## Controlbar ----
+  ## Controlbar (top)----
   controlbar = dashboardControlbar(
     skinSelector(),
   	width = "100%",
   	skin = "light"
   ),
-  ## Footer ----
+  ## Footer (bottom)----
   footer = dashboardFooter(
   	left = span(
   		"This dashboard was created by Jonas Lieth. Find the source code",
@@ -601,7 +636,7 @@ server <- function(input, output, session) {
   
   
   ## Inspect data ----
-  
+  #### Variable selection ----
   tab <- reactive({
     var <- input$insp_select
     if (identical(input$insp_aggr, "Departments")) {
@@ -620,6 +655,8 @@ server <- function(input, output, session) {
     poly
   })
   
+  #### Table: Data ----
+  ##### Create ----
   dt <- reactive({
     tab <- tab()
     ridx <- ifelse("Department" %in% names(tab), 3, 1)
@@ -654,15 +691,17 @@ server <- function(input, output, session) {
     )
   })
   
+  ##### Render ----
   output$insp_table <- DT::renderDataTable(dt(), server = FALSE)
   
   
   ## Model data ----
-  
+  ### Define & estimate model ----
   mparams <- reactive({
   	x <- input$model_x
   	y <- input$model_y
   	dt <- sf::st_drop_geometry(guerry)[c(x, y)]
+  	dt_labels <- sf::st_drop_geometry(guerry)[c("Department", "Region")]
   	if (input$model_std) dt <- datawizard::standardise(dt)
   	form <- as.formula(paste(x, "~", paste(y, collapse = " + ")))
   	mod <- lm(form, data = dt)
@@ -671,11 +710,13 @@ server <- function(input, output, session) {
   		x = x,
   		y = y,
   		data = dt,
+  		data_labels = dt_labels,
   		model = mod
   	)
   }) %>%
   	bindEvent(input$refresh, ignoreNULL = FALSE)
   
+  ### Pair diagram ----
   output$pairplot <- plotly::renderPlotly({
   	params <- mparams()
   	p <- GGally::ggpairs(params$data, axisLabels = "none")
@@ -687,19 +728,18 @@ server <- function(input, output, session) {
   					 displaylogo = FALSE)
   })
   
-  output$regplot <- renderPlotly({
+  ### Plot: Coefficientplot ----
+  output$coefficientplot <- renderPlotly({
   	params <- mparams()
   	dt <- params$data
   	x <- params$x
   	y <- params$y
-  	if (length(y) == 1) {
-  		p <- ggplot(params$data, aes(x = .data[[params$x]], y = .data[[params$y]])) +
-  			geom_point() +
-  			geom_smooth()
-  	} else {
+
+ 
   		p <- plot(parameters::model_parameters(params$model))
-  	}
+
   	if (isTRUE(input$dark_mode)) p <- p +
+  	  geom_point(color = "white") +
   		dark_theme_gray() +
   		theme(plot.background = element_rect(fill = "#343a40"))
   	ggplotly(p) %>%
@@ -707,6 +747,60 @@ server <- function(input, output, session) {
   					 displaylogo = FALSE)
   })
   
+  ### Plot: Scatterplot ----
+  output$scatterplot <- renderPlotly({
+    params <- mparams()
+    dt <- params$data
+    dt_labels <- params$data_labels
+    x <- params$x 
+    y <- params$y
+    
+    
+    if (length(y) == 1) {
+      p <- ggplot(params$data, 
+                  aes(x = .data[[params$x]], 
+                      y = .data[[params$y]])) +
+        geom_point(aes(text = paste0("Department: ", 
+                                     dt_labels[["Department"]],
+                                     "<br>Region: ", 
+                                     dt_labels[["Region"]])),
+                   color = "black") +
+        geom_smooth() + 
+        theme_light()
+    } else {
+      p <- ggplot() +
+        theme_void() +
+        annotate("text", 
+                 label = "Cannot create scatterplot.\nMore than two variables selected.", 
+                 x = 0, y = 0, 
+                 size = 5, 
+                 colour = "red",
+                 hjust = 0.5,
+                 vjust = 0.5) +
+      xlab(NULL)
+      
+    }
+    
+    if (isTRUE(input$dark_mode)) p <- p +
+      geom_point(color = "white") +
+      dark_theme_gray() +
+      theme(plot.background = element_rect(fill = "#343a40"))
+    ggplotly(p) %>%
+      config(modeBarButtonsToRemove = plotly_buttons,
+             displaylogo = FALSE)
+  })
+  
+  ### Table: Regression ----
+  output$tableregression <- renderUI({
+    
+    
+    params <- mparams()
+    HTML(modelsummary(dvnames(list(params$mod)),
+                      gof_omit = "AIC|BIC|Log|Adj|RMSE"))
+    
+  })
+  
+  ### Plot: Normality residuals ----
   output$normality <- renderPlotly({
   	params <- mparams()
   	p <- plot(performance::check_normality(params$model))
@@ -718,6 +812,7 @@ server <- function(input, output, session) {
   					 displaylogo = FALSE)
   })
   
+  ### Plot: Outliers ----
   output$outliers <- renderPlotly({
   	params <- mparams()
   	p <- plot(performance::check_outliers(params$model), show_labels = FALSE)
@@ -730,6 +825,7 @@ server <- function(input, output, session) {
   					 displaylogo = FALSE)
   })
 
+  ### Plot: Heteroskedasticity ----
   output$heteroskedasticity <- renderPlotly({
   	params <- mparams()
   	p <- plot(performance::check_heteroskedasticity(params$model))

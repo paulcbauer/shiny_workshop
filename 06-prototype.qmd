@@ -244,7 +244,7 @@ intro <- tabItem(
 
 ### Data explorer
 
-```{r}
+```{r eval=F}
 exp <- tabItem(
   tabName = "exp", # must correspond to related menuItem name
   fluidRow(
@@ -302,7 +302,7 @@ exp <- tabItem(
 
 ### Data analyzer
 
-```{r}
+```{r eval=F}
 insp <- tabItem(
   tabName = "insp",
   fluidRow(
