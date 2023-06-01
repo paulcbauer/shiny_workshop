@@ -787,12 +787,11 @@ server <- function(input, output, session) {
   
   ### Table: Regression ----
   output$tableregression <- renderUI({
-    
-    
     params <- mparams()
-    HTML(modelsummary(dvnames(list(params$mod)),
-                      gof_omit = "AIC|BIC|Log|Adj|RMSE"))
-    
+    HTML(modelsummary(
+    	dvnames(list(params$model)),
+      gof_omit = "AIC|BIC|Log|Adj|RMSE"
+    ))
   })
   
   ### Plot: Normality residuals ----
