@@ -605,22 +605,18 @@ server <- function(input, output, session) {
   tab <- reactive({
     var <- input$insp_select
     if (identical(input$insp_aggr, "Departments")) {
-      poly <- guerry_long
+      poly <- guerry
     } else {
-      poly <- guerry_region_long
+      poly <- guerry_region
     }
     
     if (!is.null(var)) {
-      poly <- poly[poly$variable %in% var, ]
+      poly <- poly[var]
     }
     
-    poly$CODE_DEPT <- NULL
-    poly$COUNT <- NULL
-    poly$AVE_ID_GEO <- NULL
-    poly$dept <- NULL
-    poly$value <- round(poly$value, 2)
-    
-    
+    poly <- select(poly, !any_of(c("CODE_DEPT", "COUNT", "AVE_ID_GEO", "dept")))
+		poly <- st_drop_geometry(poly)
+    poly[var] <- round(poly[var], 2)
     poly
   })
   
@@ -630,23 +626,15 @@ server <- function(input, output, session) {
     DT::datatable(
       tab,
       class = "hover",
-      extensions = c("Buttons", "RowGroup"),
+      extensions = c("Buttons"),
       selection = "none",
       filter = list(position = "top", clear = FALSE),
       style = "bootstrap4",
       rownames = FALSE,
       options = list(
         dom = "Brtip",
-        pageLength = -1,
         deferRender = TRUE,
-        rowGroup = list(
-          dataSrc = ridx,
-          emptyDataGroup = NULL,
-          startRender = DT::JS("function(rows, groups, level) {
-            return 'Variable: ' + groups;
-          }")
-        ),
-        columnDefs = list(list(targets = ridx, visible = FALSE)),
+        scroller = TRUE,
         buttons = list(
           list(extend = "copy", text = "Copy to clipboard"),
           list(extend = "pdf", text = "Save as PDF"),

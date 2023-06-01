@@ -55,19 +55,24 @@ For building our app we will make use of a range of packages that go beyond shin
 pacman::p_load(
 	shiny,
 	htmltools,
-	bs4Dash,
-	fresh,
-	waiter,
-	shinyWidgets,
-	Guerry,
-	sf,
-	tidyr,
-	dplyr,
-	RColorBrewer,
-	viridis,
-	leaflet,
-	plotly,
-	jsonlite
+	bs4Dash, # dashboards in Shiny
+	fresh, # Shiny app theming
+	waiter, # Shiny spinners
+	shinyWidgets, # pretty UI widgets
+	Guerry, # dataset
+	sf, # spatial data
+	tidyr, # clean data
+	dplyr, # wrangle data
+	RColorBrewer, # color palettes
+	viridis, # colorblind palettes
+	leaflet, # interactive maps
+	plotly, # interactive plots
+	jsonlite, # read JSON files
+	ggplot2, # plotting
+	GGally, # pair plots
+	datawizard, # wrangle data
+	performance, # model diagnostics
+	parameters # model summaries
 )
 ```
 
