@@ -201,13 +201,13 @@ ui <- dashboardPage(
               title = "About",
               status = "primary",
               width = 12,
-              p("From Wikipedia:"),
-              blockQuote("André-Michel Guerry was a French lawyer and
+              blockQuote(HTML("André-Michel Guerry was a French lawyer and
                           amateur statistician. Together with Adolphe
                           Quetelet he may be regarded as the founder of
                           moral statistics which led to the development
                           of criminology, sociology and ultimately,
-                          modern social science.", color = "primary"),
+                          modern social science. <br>— Wikipedia: <a href='https://en.wikipedia.org/wiki/Andr%C3%A9-Michel_Guerry'>André-Michel Guerry</a>"),
+              					 color = "primary"),
               p(HTML("Andre-Michel Guerry (1833) was the first to 
               systematically collect and analyze social data 
                on such things as crime, literacy and suicide 
@@ -218,7 +218,7 @@ ui <- dashboardPage(
                on the 86 departments of France around 1830. 
                A few additional variables have been added 
                from other sources. In total the data frame has 
-               86 observations (the departments of France) on 23 variables <i>(Source: ?Guerry)</i>. 
+               86 observations (the departments of France) on 23 variables <i>(Source: <code>?Guerry</code>)</i>. 
                In this app, we aim to explore Guerry’s data
               	using spatial exploration and regression modelling.")),
               hr(),
@@ -389,8 +389,7 @@ ui <- dashboardPage(
       					label = "Standardize variables?",
       					value = FALSE,
       					status = "primary",
-      					shape = "curve",
-      					fill = TRUE
+      					shape = "curve"
       				),
       				hr(),
       				actionButton(
@@ -461,14 +460,13 @@ ui <- dashboardPage(
   ),
   ## Controlbar (top)----
   controlbar = dashboardControlbar(
-    skinSelector(),
-  	width = "100%",
+    div(class = "p-3", skinSelector()),
   	skin = "light"
   ),
   ## Footer (bottom)----
   footer = dashboardFooter(
   	left = span(
-  		"This dashboard was created by Jonas Lieth. Find the source code",
+  		"This dashboard was created by Jonas Lieth and Paul Bauer. Find the source code",
   		a("here.", href = "https://github.com/paulcbauer/shiny_workshop/tree/main/shinyapps/guerry"),
   		"It is based on data from the",
   		a("Guerry R package.", href = "https://cran.r-project.org/web/packages/Guerry/index.html")
