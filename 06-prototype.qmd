@@ -120,7 +120,7 @@ sidebar <- dashboardSidebar(
 -   It can take any type of UI element, it's basically just an additional space for anything concerning the entire app
 
 ```{r}
-controlbar <- dashboardControlbar(skinSelector(), skin = "light")
+controlbar <- dashboardControlbar(div(class = "p-3", skinSelector()), skin = "light")
 ```
 
 ### Footer
@@ -132,7 +132,7 @@ controlbar <- dashboardControlbar(skinSelector(), skin = "light")
 ```{r}
 footer <- dashboardFooter(
 	left = span(
-		"This dashboard was created by Jonas Lieth. Find the source code",
+		"This dashboard was created by Jonas Lieth and Paul Bauer. Find the source code",
 		a("here.", href = "https://github.com/paulcbauer/shiny_workshop/tree/main/shinyapps/guerry"),
 		"It is based on data from the",
 		a("Guerry R package.", href = "https://cran.r-project.org/web/packages/Guerry/index.html")
@@ -188,6 +188,46 @@ shiny::shinyApp(ui, server)
 ## Building a prototype
 
 -   Here, we fill the empty canvases inside the dashboard body
+-   During prototyping, only the UI is assembled
+-   Functionality (i.e. the server function) is then added later
+-   Essential functions to structure Shiny bodies:
+    -   `bs4Dash::box()`: boxes hold UI elements like texts or plots
+    -   `fluidRow()`: align items (e.g. boxes) in a row
+    -   `column()`: divide fluid rows into multiple columns
+    -   `hr()`: seperate elements using a horizontal line
+-   A box can look like this:
+
+```{r eval=F}
+tabBox(
+	title = "Box title",
+	type = "tabs",
+	footer = "Box footer",
+	status = "primary",
+	closable = TRUE,
+	maximizable = TRUE,
+	icon = icon("box"),
+	elevation = 4,
+	boxToolSize = "lg",
+	label = boxLabel("label", "primary"),
+	dropdownMenu = boxDropdown(
+		boxDropdown("Chicken", icon = icon("drumstick-bite"), id = "chicken"),
+		boxDropdown("Cookie", icon = icon("cookie-bite"), id = "cookie"),
+		boxDropdown("Bacon", icon = icon("bacon"), id = "bacon"),
+		boxDropdown("Carrot", icon = icon("carrot", id = "carrot"))
+	),
+	sidebar = boxSidebar("sidebar"),
+	tabPanel(
+		title = "Tab 1",
+		"This is the box content. A plot, a text, a table, or a figure could go here."
+	),
+	tabPanel(
+		title = "Tab 2",
+		"This is the second tab of this box."
+	)
+)
+```
+
+![A fully customized box](resources/box.png)
 
 ### Landing page
 
@@ -199,50 +239,116 @@ shiny::shinyApp(ui, server)
 
 -   `bs4Dash` supports some cool utilities for landing pages; `shinyLP` is another cool package to design landing pages
 
+    -   Here, we use a [Jumbotron](https://getbootstrap.com/docs/4.0/components/jumbotron/) and an [Accordion](https://getbootstrap.com/docs/4.0/components/collapse/#accordion-example)
+
+    -   We use `column` and `fluidRow` to align and scale the contents
+
 -   Note: The `tabName` argument of the `tabItem` must be the same as the `tabName` argument of the `menuItem` in the sidebar
 
 ```{r}
 intro <- tabItem(
   tabName = "intro",
   jumbotron(
-  	title = "Welcome to the Guerry dashboard",
-  	lead = "A Shiny app to explore and analyze early social science",
+  	title = "The Guerry Dashboard",
+  	lead = "A Shiny app to explore the classic Guerry dataset.",
   	status = "info",
   	btnName = NULL
   ),
   fluidRow(
+  	column(width = 1),
     column(
       width = 6,
       box(
         title = "About",
         status = "primary",
         width = 12,
-        p("From Wikipedia:"),
-        blockQuote("André-Michel Guerry was a French lawyer and
+        blockQuote(HTML("André-Michel Guerry was a French lawyer and
                     amateur statistician. Together with Adolphe
                     Quetelet he may be regarded as the founder of
                     moral statistics which led to the development
                     of criminology, sociology and ultimately,
-                    modern social science.", color = "primary")
+                    modern social science. - Wikipedia: <a href='https://en.wikipedia.org/wiki/Andr%C3%A9-Michel_Guerry'>André-Michel Guerry</a>"),
+        					 color = "primary"),
+        p(HTML("Andre-Michel Guerry (1833) was the first to 
+						    systematically collect and analyze social data 
+						    on such things as crime, literacy and suicide 
+						    with the view to determining social laws and the 
+						    relations among these variables. The Guerry data 
+						    frame comprises a collection of 'moral variables' 
+						    (cf. <i><a href='https://en.wikipedia.org/wiki/Moral_statistics'>moral statistics</a></i>) 
+						    on the 86 departments of France around 1830. 
+						    A few additional variables have been added 
+						    from other sources. In total the data frame has 
+						    86 observations (the departments of France) on 23
+						    variables <i>(Source: <code>?Guerry</code>)</i>. 
+						    In this app, we aim to explore Guerry’s data
+						    using spatial exploration and regression modelling.")),
+        hr(),
+        accordion(
+        	id = "accord",
+        	accordionItem(
+        		title = "References",
+        		status = "primary",
+        		solidHeader = FALSE,
+        		"The following sources are referenced in this app:",
+        		tags$ul(
+        			class = "list-style: none",
+        			style = "margin-left: -30px;",
+        			p("Angeville, A. (1836). Essai sur la Statistique de la Population française Paris: F. Doufour."),
+        			p("Guerry, A.-M. (1833). Essai sur la statistique morale de la France Paris: Crochard. English translation: Hugh P. Whitt and Victor W. Reinking, Lewiston, N.Y. : Edwin Mellen Press, 2002."),
+        			p("Parent-Duchatelet, A. (1836). De la prostitution dans la ville de Paris, 3rd ed, 1857, p. 32, 36"),
+        			p("Palsky, G. (2008). Connections and exchanges in European thematic cartography. The case of 19th century choropleth maps. Belgeo 3-4, 413-426.")
+        		)
+        	),
+        	accordionItem(
+        		title = "Details",
+        		status = "primary",
+        		solidHeader = FALSE,
+        		p("This app was created as part of a Shiny workshop held in July 2023"),
+        		p("Last update: June 2023"),
+        		p("Further information about the data can be found",
+        			a("here.", href = "https://www.datavis.ca/gallery/guerry/guerrydat.html"))
+        	)
+        )
       )
     ),
     column(
-      width = 6,
+      width = 4,
       box(
         title = "André Michel Guerry",
         status = "primary",
         width = 12,
         tags$img(src = "guerry.jpg", width = "100%"),
-        p("Source: Palsky, G. (2008). Connections and exchanges in European thematic cartography.
-        	 The case of 19th century choropleth maps. Belgeo 3-4, 413-426.",
-        	style = "font-size: 10px; padding-top: 5px;")
+        p("Source: Palsky (2008)")
       )
     )
   )
 )
 ```
 
+![Final landing page UI](resources/landing-page.png){alt="Final landing page UI"}
+
 ### Data explorer
+
+-   Supposed to enable exploration of the spatial structure of the Guerry dataset
+
+-   Objectives:
+
+    -   Focus on mapping
+
+    -   No more words than necessary
+
+    -   Embrace interactivity
+
+-   We use UI inputs from the `shinyWidgets` package
+
+    -   consult `?pickerInput` and `?radioGroupButtons` to get to know all the options of these extended widgets
+
+-   To improve explorability, we insert a Leaflet map
+
+-   We maximize the mapping area and minimize everything else
+
+-   **Question:** Which inputs and outputs are created in the code below and what is their purpose?
 
 ```{r eval=F}
 exp <- tabItem(
@@ -300,17 +406,23 @@ exp <- tabItem(
 ) # end tabItem
 ```
 
-### Data analyzer
+### Data inspector
+
+-   Many Shiny apps include their raw datasets to inspect and filter the data more liberally
+
+-   The `DT` package is a widespread extension for advanced table UI's
+
+-   Additionally, we provide inputs to filter variables and change the aggregation level
 
 ```{r eval=F}
 insp <- tabItem(
   tabName = "insp",
   fluidRow(
-    pickerInput(
+    shinyWidgets::pickerInput(
       "insp_select",
       label = "Filter variables",
       choices = setNames(variables, sapply(txts, "[[", "title")),
-      options = pickerOptions(
+      options = shinyWidgets::pickerOptions(
         actionsBox = TRUE,
         windowPadding = c(30, 0, 0, 0),
         liveSearch = TRUE,
@@ -322,7 +434,7 @@ insp <- tabItem(
       multiple = TRUE
     ),
     div(style = "width: 20px;"),
-    radioGroupButtons(
+    shinyWidgets::radioGroupButtons(
       "insp_aggr",
       label = "Aggregation level",
       choices = c("Departments", "Regions"),
@@ -339,7 +451,125 @@ insp <- tabItem(
 )
 ```
 
-### Data inspector
+### Data modeller
+
+-   Modelling data is arguably a very different task than exploring when designing a dashboard
+
+-   Objectives:
+
+    -   Focus on information density
+
+    -   Avoid overspecific technical jargon
+
+    -   Avoid ["reactive infernos"](https://engineering-shiny.org/common-app-caveats.html#reactivity-is-awesome-until-it-is-not)
+
+-   In other words: We want to build a Shiny app that's concise, but doesn't flood you with choices, dependencies and things you don't understand
+
+-   We designed this tab to be organized in four quadrants:
+
+    1.  Data selection
+
+    2.  Statistical distributions
+
+    3.  Regression modelling
+
+    4.  Model diagnostics
+
+-   The first quadrant, **data selection**, allows you to select one dependent variable and several independent variables
+
+-   You can also standardize the variables if needed (makes sense for some variables)
+
+-   There probably are thousands of more potential options, but most of them are likely too much for a single app
+
+-   Note: Options are only applied after clicking on an "Apply" button. This can be a good idea to prevent a "reactive inferno" when adding the server function.
+
+```{r}
+quad1 <- box(
+	width = 12,
+	title = "Select variables",
+	status = "primary",
+	shinyWidgets::pickerInput(
+		"model_x",
+		label = "Select a dependent variable",
+		choices = setNames(variables, sapply(txts, "[[", "title")),
+		options = shinyWidgets::pickerOptions(liveSearch = TRUE),
+		selected = "Literacy"
+	),
+	shinyWidgets::pickerInput(
+		"model_y",
+		label = "Select independent variables",
+		choices = setNames(variables, sapply(txts, "[[", "title")),
+		options = shinyWidgets::pickerOptions(
+			actionsBox = TRUE,
+			liveSearch = TRUE,
+			selectedTextFormat = "count",
+			countSelectedText = "{0} variables selected",
+			noneSelectedText = "No variables selected"
+		),
+		multiple = TRUE,
+		selected = "Commerce"
+	),
+	shinyWidgets::prettyCheckbox(
+		"model_std",
+		label = "Standardize variables?",
+		value = FALSE,
+		status = "primary",
+		shape = "curve"
+	),
+	hr(),
+	actionButton(
+		"refresh",
+		label = "Apply changes",
+		icon = icon("refresh"),
+		flat = TRUE
+	)
+)
+```
+
+-   In the second quadrant, **statistical distributions**, we decide to insert a pair plot (see the `GGally` package)
+
+-   We keep the plot interactive using the `plotly` package
+
+```{r}
+quad2 <- box(
+	width = 12,
+	title = "Pair diagram",
+	status = "primary",
+	plotly::plotlyOutput("pairplot")
+)
+```
+
+-   In the third quadrant, **regression modelling**, we introduce a new concept: tab boxes
+
+-   Regression can be hard to visualize concisely
+
+-   Tab boxes help to use space efficiently
+
+-   Each tab is denoted using the `tabPanel()` function
+
+```{r}
+quad3 <- tabBox(
+  status = "primary",
+  type = "tabs",
+  width = 12,
+  tabPanel(
+    title = "Plot: Coefficients",
+    plotly::plotlyOutput("coefficientplot")
+  ),
+  tabPanel(
+    title = "Plot: Scatterplot",
+    plotly::plotlyOutput("scatterplot")
+  ),
+  tabPanel(
+    title = "Table: Model",
+    htmlOutput("tableregression")
+  )
+)
+```
+
+-   Finally, for the studied user, we insert a fourth quadrant: **Model diagnostics**
+
+-   
 
 ## Theming
 
@@ -347,7 +577,7 @@ insp <- tabItem(
 
 -   Especially in case of corporate designs, theming is an important issue
 
--   Shiny has some really cool extensions for amping up your UI, e.g.: bslib, fresh, waiter, shinyWidgets, shinyjs, ...
+-   Shiny has some really cool extensions for amping up your UI, e.g.: `bslib`, `fresh`, `waiter`, `shinyWidgets`, `shinyjs`, ...
 
 ### Global themes
 
@@ -436,9 +666,19 @@ ui <- dashboardPage(
 
 -   However, to give an app the final touch, it's hard to get around CSS
 
+-   Not least, Shiny apps are built using HTML, CSS and JavaScript, so it's naturally a good idea to know the essentials
+
+-   The `bs4Dash::box()` applies a lot of styling behind the scenes and we can inspect what exactly is happening by printing its returned object:
+
+```{r}
+bs4Dash::box()
+```
+
 -   [CSS](https://en.wikipedia.org/wiki/CSS) (Cascading Style Sheets) is a computer language that is used to style HTML documents
 
 -   HTML provides the containers, CSS styles them
+
+-   We can write HTML and CSS easily from within R using the `htmltools` package (see `?builder` and `?browsable`)
 
 ```{r}
 browsable(div(
@@ -454,13 +694,16 @@ browsable(div(
 			display: inline-block;
 			padding: 5px;
 			transform: rotate(5deg);
-			margin-top: 15px
+			margin-top: 15px;
+			font-family: Verdana;
 		"
 	)
 ))
 ```
 
 -   CSS is usually defined using classes or IDs
+    -   IDs are unique identifiers for a single UI elements and are specified using a hashtag `#`
+    -   Classes can be given to multiple UI elements and are specified using a dot `.`
 
 ```{r}
 browsable(div(
@@ -480,9 +723,11 @@ browsable(div(
 ))
 ```
 
+-   A complete reference of CSS can be found in the [Mozilla developer docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
+
 -   CSS can either be defined using inline CSS (`tags$style`) or an external CSS file
 
--   In the Guerry app, I include a CSS file which takes care of some styling:
+-   In the Guerry app, we include a CSS file which takes care of some styling:
 
     -   Add a folder called "www" in your app directory
 
@@ -540,6 +785,16 @@ a.par:hover {
 
     -   Makes you somewhat understand HTML and CSS more in-depth
 
-![The Inspect tool in Firefox](inspect.png)
+![The Inspect tool in Firefox](resources/inspect.png)
 
 **Exercise:** What changes after we include the external CSS file? Pinpoint the UI elements that are amended by the CSS file using the Inspect tool
+
+**Exercise:** Using the tools above, change one of the sidebar tabs that we introduced.
+
+-   Add better theming (colors, fonts, text styling, ...)
+
+-   Add UI elements (e.g. using the `shinyWidgets`, `bs4Dash` or `shinyBS` packages)
+
+-   Change the scale and configuration of UI elements
+
+-   Look around the [![](resources/awesome-logo.svg)](https://github.com/nanxstats/awesome-shiny-extensions#ui-components) list of Shiny extensions and experiment with different UI components

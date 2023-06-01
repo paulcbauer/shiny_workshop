@@ -5,12 +5,11 @@ editor: visual
 
 ## Learning outcomes
 
-You will know how to:
+You will learn how to:
 
--   Build a neat Shiny app from start to finish
--   Create simple but appealing user interfaces
--   Upgrade your apps using custom theming
--   Combine Shiny with common interfaces like Leaflet, Plotly and Datatable
+-   Design the goals and objectives of a Shiny app
+-   Learn to prepare data, structure and tools before starting to code
+-   Learn about data storage for Shiny apps
 
 ## Building a Shiny app
 
@@ -165,26 +164,6 @@ guerry_region <- guerry %>%
   }
 ))
 guerry_region
-```
-
-Finally, I like to pivot the Guerry dataset to enable a more comfortable way of exploring the raw data:
-
-```{r}
-guerry_long <- tidyr::pivot_longer(
-  st_drop_geometry(guerry),
-  cols = all_of(variables),
-  names_to = "variable"
-) %>%
-  mutate(variable = factor(variable, levels = unique(variable))) %>%
-  arrange(variable)
-
-guerry_region_long <- tidyr::pivot_longer(
-  st_drop_geometry(guerry_region),
-  cols = all_of(variables),
-  names_to = "variable"
-) %>%
-  mutate(variable = factor(variable, levels = unique(variable))) %>%
-  arrange(variable)
 ```
 
 ## Data storage
