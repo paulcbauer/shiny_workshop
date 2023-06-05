@@ -137,6 +137,8 @@ shinyApp(ui=ui, server = server)
 * Shiny's **HTML tag functions** translate input into html code
     + Paste ```h2("A NEW HOPE", align = "center")``` into your console
 * Here we just do a quick example but in [this tutorial you find more information](https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/)
+
+SUGGESTION: Refer to `tags` object and to a full ordered reference of HTML tags for further information? (https://developer.mozilla.org/en-US/docs/Web/HTML/Element)
 ```{r, cache=TRUE, eval=FALSE, include=TRUE}
 ui <- fluidPage(
   titlePanel("My Shiny App"),
