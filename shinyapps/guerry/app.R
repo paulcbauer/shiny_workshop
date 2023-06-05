@@ -387,7 +387,7 @@ ui <- dashboardPage(
       				shinyWidgets::prettyCheckbox(
       					"model_std",
       					label = "Standardize variables?",
-      					value = FALSE,
+      					value = TRUE,
       					status = "primary",
       					shape = "curve"
       				),
@@ -714,7 +714,25 @@ server <- function(input, output, session) {
   ### Pair diagram ----
   output$pairplot <- plotly::renderPlotly({
   	params <- mparams()
-  	p <- GGally::ggpairs(params$data, axisLabels = "none")
+  	dt <- params$data
+  	dt_labels <- params$data_labels
+  	p <- GGally::ggpairs(
+  		params$data,
+  		axisLabels = "none",
+  		lower = list(
+  			continuous = function(data, mapping, ...) {
+  				ggplot(data, mapping) +
+  					suppressWarnings(geom_point(
+  						aes(text = paste0(
+  							"Department: ", 
+  							dt_labels[["Department"]],
+  							"<br>Region: ", 
+  							dt_labels[["Region"]])),
+  						color = "black"
+  					))
+  			}
+  		)
+  	)
   	if (isTRUE(input$dark_mode)) p <- p +
   		dark_theme_gray() +
   		theme(plot.background = element_rect(fill = "#343a40"))
