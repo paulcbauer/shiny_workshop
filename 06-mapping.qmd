@@ -20,6 +20,39 @@ pacman::p_load(
 	plotly,
 	jsonlite
 )
+
+guerry <- Guerry::gfrance85 %>%
+  st_as_sf() %>% # convert sp to the newer sf format
+  as_tibble() %>%
+  st_as_sf(crs = 27572) %>% # set the correct coordinate reference system
+  mutate(Region = case_match(
+    Region,
+    "C" ~ "Central",
+    "E" ~ "East",
+    "N" ~ "North",
+    "S" ~ "South",
+    "W" ~ "West"
+  ))
+
+variables <- guerry %>%
+  st_drop_geometry() %>%
+  select(where(is.numeric) & !all_of(c("COUNT", "dept", "AVE_ID_GEO"))) %>%
+  names()
+
+guerry_region <- guerry %>%
+  group_by(Region) %>%
+  summarise(across(
+  .cols = all_of(variables),
+  function(x) {
+    if (cur_column() %in% c("Area", "Pop1831")) {
+      sum(x)
+    } else {
+      mean(x)
+    }
+  }
+ ))
+  
+txts <- read_json("shinyapps/guerry/app_labels.json", simplifyVector = TRUE)
 ```
 
 ## Planning and building a prototype

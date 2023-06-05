@@ -1,0 +1,488 @@
+---
+title: "Visualization in Shiny apps"
+editor: visual
+---
+
+## Learning outcomes
+
+You will learn how to:
+
+-   Embed plots and diagrams from ggplot2 in Shiny apps
+-   Make your plots interactive using Plotly
+-   Explore issues using the power of interactive visualization dashboards
+
+## Interactive visualization: The core of Shiny
+
+-   Shiny offers the perfect basis for visualization
+
+    -   Plots can be modified using UI inputs
+
+    -   Seamless integration of interactivity elements (e.g. pan, zoom)
+
+    -   Dashboards facilitate the idea of side-by-side comparison or provision of context
+
+-   Examples of these concepts can be seen in many Shiny apps, one example is Edward Parker's [COVID-19 tracker](https://vac-lshtm.shinyapps.io/ncov_tracker/)
+
+-   Further resources:
+
+    -   [Chapter "Graphics"](https://mastering-shiny.org/action-graphics.html) in Hadley Wickham's Mastering Shiny
+
+    -   ["Server-side linking with shiny"](https://plotly-r.com/linking-views-with-shiny.html) in Carson Sievert's Plotly book
+
+![COVID-19 Tracker](https://raw.githubusercontent.com/eparker12/nCoV_tracker/master/www/app_image.png)
+
+## Plotting in Shiny
+
+-   Inserting plots in Shiny apps works just like any other UI component
+
+-   You need two things: `plotOutput()` (or similar) in the UI and `renderPlot()` (or similar) in the server function
+
+    -   `plotOutput()` creates the empty element in the UI where the plot will go
+
+    -   `renderPlot()` renders the plot and updates the UI element every time a reactive dependency is invalidated
+
+-   Taking our Shiny app as an example, we add another tab:
+
+```{r eval=F}
+model <- tabItem(
+	"model",
+	fluidRow(
+		column(
+			width = 6,
+	    box(
+				width = 12,
+				title = "Pair diagram",
+				status = "primary",
+				plotOutput("pairplot")
+			)
+		)
+	)
+)
+```
+
+-   Pretty easy so far!
+
+-   On the server side we do the plotting:
+
+```{r eval=F}
+output$pairplot <- renderPlot({
+	dt <- st_drop_geometry(guerry[c("Literacy", "Commerce")])
+	GGally::ggpairs(dt, axisLabels = "none")
+})
+```
+
+-   The code to create a plot in a Shiny app is quite simple so far, but has not many advantages over plain plotting in the R console
+
+-   To really make it shine, we need three features:
+
+    -   Reactivity
+
+    -   Interactivity
+
+    -   Comparability
+
+## Reactivity
+
+-   Reactivity means adding reactive dependencies
+
+-   Currently, we hardcode the variables, but we can also make the user decide on them
+
+-   Here, we add three user inputs
+
+    -   `selectInput()` to select a single x variable (defaults to Literacy)
+
+    -   `selectInput()` to select multiple y variables (defaults to Commerce)
+
+    -   `checkboxInput()` to determine whether to standardize or not
+
+-   Note: To avoid overreactivity, we add an `actionButton()` which needs to be pressed for the user input to take effect.
+
+```{r eval=F}
+model <- tabItem(
+	"model",
+	fluidRow(
+		column(
+			width = 6,
+			#### Box: Select variables ----
+      box(
+				width = 12,
+				title = "Select variables",
+				status = "primary",
+				selectInput(
+					"model_x",
+					label = "Select a dependent variable",
+					choices = setNames(variables, sapply(txts, "[[", "title")),
+					selected = "Literacy"
+				),
+				selectInput(
+					"model_y",
+					label = "Select independent variables",
+					choices = setNames(variables, sapply(txts, "[[", "title")),
+					options = shinyWidgets::pickerOptions(
+						actionsBox = TRUE,
+						liveSearch = TRUE,
+						selectedTextFormat = "count",
+						countSelectedText = "{0} variables selected",
+						noneSelectedText = "No variables selected"
+					),
+					multiple = TRUE,
+					selected = "Commerce"
+				),
+				checkboxInput(
+					"model_std",
+					label = "Standardize variables?",
+					value = FALSE
+				),
+				hr(),
+				actionButton(
+					"refresh",
+					label = "Apply changes",
+					icon = icon("refresh"),
+					flat = TRUE
+				)
+			)
+		),
+		#### Box: Pair diagramm ----
+		column(
+			width = 6,
+	    box(
+				width = 12,
+				title = "Pair diagram",
+				status = "primary",
+				plotOutput("pairplot")
+			)
+		)
+	)
+)
+```
+
+-   On the server side, we need to deal with the new inputs
+
+-   We add a new reactive that cleans the data
+
+-   Note: `bindEvent` ensures that the user input is only applied when the `actionButton()` is pressed! You can try to remove this safety measure and observe how the plot struggles to keep up when selecting multiple variables.
+
+```{r eval=F}
+dt <- reactive({
+	x <- input$model_x
+	y <- input$model_y
+	dt <- sf::st_drop_geometry(guerry)[c(x, y)]
+	if (input$model_std) dt <- datawizard::standardise(dt)
+	dt
+}) %>%
+	bindEvent(input$refresh, ignoreNULL = FALSE)
+
+output$pairplot <- renderPlot({
+	GGally::ggpairs(dt(), axisLabels = "none")
+})
+```
+
+-   The plot now reacts to user input and updates its appearance when the user selection changes!
+
+## Interactivity
+
+-   Currently, our plot is a static image
+
+-   Static images are fine for reports or print articles, but Shiny features much more than that
+
+-   Base Shiny features interactive components like click, double click, hover or brush events (see [Chapter 7](https://mastering-shiny.org/action-graphics.html#dynamic-height-and-width) in Mastering Shiny)
+
+-   Here, we'd like to go a bit further and implement Plotly plots
+
+-   [Plotly](https://plotly.com/) is an open-source library to create charts that can be interacted with in various ways
+
+-   It supports several programming languages including R and works seamlessly with Shiny
+
+-   Plotly requires similar components like plain plotting:
+
+    -   `plotlyOutput()` creates the UI component
+
+    -   `renderPlotly()` does the plotting and updates the UI component
+
+```{r eval=F}
+model <- tabItem(
+	"model",
+	fluidRow(
+		column(
+			width = 6,
+			#### Box: Select variables ----
+      box(
+				width = 12,
+				title = "Select variables",
+				status = "primary",
+				selectInput(
+					"model_x",
+					label = "Select a dependent variable",
+					choices = setNames(variables, sapply(txts, "[[", "title")),
+					selected = "Literacy"
+				),
+				selectInput(
+					"model_y",
+					label = "Select independent variables",
+					choices = setNames(variables, sapply(txts, "[[", "title")),
+					options = shinyWidgets::pickerOptions(
+						actionsBox = TRUE,
+						liveSearch = TRUE,
+						selectedTextFormat = "count",
+						countSelectedText = "{0} variables selected",
+						noneSelectedText = "No variables selected"
+					),
+					multiple = TRUE,
+					selected = "Commerce"
+				),
+				checkboxInput(
+					"model_std",
+					label = "Standardize variables?",
+					value = TRUE
+				),
+				hr(),
+				actionButton(
+					"refresh",
+					label = "Apply changes",
+					icon = icon("refresh"),
+					flat = TRUE
+				)
+			)
+		),
+		#### Box: Pair diagramm ----
+		column(
+			width = 6,
+	    box(
+				width = 12,
+				title = "Pair diagram",
+				status = "primary",
+				plotly::plotlyOutput("pairplot")
+			)
+		)
+	)
+)
+```
+
+-   On the server side, all we have to do is `ggplotly()` our ggplot object!
+
+-   Optionally, you can add configurations to the plotly object. Here, I removed some of the default buttons
+
+    -   A list of options is given [here](https://github.com/plotly/plotly.js/blob/master/src/plot_api/plot_config.js)
+
+```{r eval=F}
+dt <- reactive({
+	x <- input$model_x
+	y <- input$model_y
+	dt <- sf::st_drop_geometry(guerry)[c(x, y)]
+	if (input$model_std) dt <- datawizard::standardise(dt)
+	dt
+}) %>%
+	bindEvent(input$refresh, ignoreNULL = FALSE)
+
+output$pairplot <- plotly::renderPlotly({
+	p <- GGally::ggpairs(dt(), axisLabels = "none")
+	plotly::ggplotly(p) %>%
+		config(
+			modeBarButtonsToRemove = c(
+				"sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
+				"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
+			),
+			dispaylogo = FALSE
+		)
+})
+```
+
+## Comparability
+
+-   By comparability, we loosely understand how we perceive charts in context
+
+-   Just showing a simple graph can be more than enough to convey a message
+
+-   In many cases though, we need more than one figure to lead an argument
+
+-   A lot of the times it helps to see figures side-by-side
+
+-   With a little bit of creativity, Shiny can be a very competent story teller (for an impressive example, take a look at John Coene's [Freedom of Press Shiny app](https://johncoene.shinyapps.io/fopi-contest/))
+
+-   Here, we will extend our lonely plot with a regression analysis to tell the full story of the associations of the Guerry indicators
+
+-   We add three types of visualization: a coefficient plot, a scatter plot and a regression table
+
+-   Thee three plots are tucked in a `tabBox`, a `bs4Dash::box` that supports tab panels
+
+```{r eval=F}
+model <- tabItem(
+	"model",
+	fluidRow(
+		column(
+			width = 6,
+			#### Box: Select variables ----
+      box(
+				width = 12,
+				title = "Select variables",
+				status = "primary",
+				selectInput(
+					"model_x",
+					label = "Select a dependent variable",
+					choices = setNames(variables, sapply(txts, "[[", "title")),
+					selected = "Literacy"
+				),
+				selectInput(
+					"model_y",
+					label = "Select independent variables",
+					choices = setNames(variables, sapply(txts, "[[", "title")),
+					options = shinyWidgets::pickerOptions(
+						actionsBox = TRUE,
+						liveSearch = TRUE,
+						selectedTextFormat = "count",
+						countSelectedText = "{0} variables selected",
+						noneSelectedText = "No variables selected"
+					),
+					multiple = TRUE,
+					selected = "Commerce"
+				),
+				checkboxInput(
+					"model_std",
+					label = "Standardize variables?",
+					value = FALSE
+				),
+				hr(),
+				actionButton(
+					"refresh",
+					label = "Apply changes",
+					icon = icon("refresh"),
+					flat = TRUE
+				)
+			),
+      #### Box: Coefficient/Scatterplot ----
+			tabBox(
+			  status = "primary",
+			  type = "tabs",
+			  width = 12,
+			  ##### Tab: Coefficient plot ----
+			  tabPanel(
+			    title = "Plot: Coefficients",
+			    plotly::plotlyOutput("coefficientplot")
+			  ),
+			  ##### Tab: Scatterplot ----
+			  tabPanel(
+			    title = "Plot: Scatterplot",
+			    plotly::plotlyOutput("scatterplot")
+			  ),
+			  ##### Tab: Table: Regression ----
+			  tabPanel(
+			    title = "Table: Model",
+			    htmlOutput("tableregression")
+			  )
+			)
+		),
+		#### Box: Pair diagramm ----
+		column(
+			width = 6,
+	    box(
+				width = 12,
+				title = "Pair diagram",
+				status = "primary",
+				plotly::plotlyOutput("pairplot")
+			)
+		)
+	)
+)
+```
+
+-   **Question:** What did we add here? Which outputs need to be filled with content?
+
+-   On the server side, we extend our reactive object with a linear regression model
+
+```{r eval=F}
+mparams <- reactive({
+	x <- input$model_x
+	y <- input$model_y
+	dt <- sf::st_drop_geometry(guerry)[c(x, y)]
+	if (input$model_std) dt <- datawizard::standardise(dt)
+	form <- as.formula(paste(x, "~", paste(y, collapse = " + ")))
+	mod <- lm(form, data = dt)
+
+	list(x = x,	y = y, data = dt,	model = mod)
+}) %>%
+	bindEvent(input$refresh, ignoreNULL = FALSE)
+```
+
+-   From this point, we can chuck the `mparams` reactive object into all the rendering functions
+
+```{r eval=F}
+### Pair diagram ----
+output$pairplot <- renderPlotly({
+	p <- GGally::ggpairs(mparams()$data, axisLabels = "none")
+	ggplotly(p) %>%
+		config(
+			modeBarButtonsToRemove = c(
+				"sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
+				"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
+			),
+			dispaylogo = FALSE
+		)
+})
+
+### Plot: Coefficientplot ----
+output$coefficientplot <- renderPlotly({
+	params <- mparams()
+	dt <- params$data
+	x <- params$x
+	y <- params$y
+
+	p <- plot(parameters::model_parameters(params$model))
+
+	ggplotly(p) %>%
+		config(
+			modeBarButtonsToRemove = c(
+				"sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
+				"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
+			),
+			dispaylogo = FALSE
+		)
+})
+
+### Plot: Scatterplot ----
+output$scatterplot <- renderPlotly({
+	params <- mparams()
+	dt <- params$data
+	dt_labels <- params$data_labels
+	x <- params$x 
+	y <- params$y
+
+
+	if (length(y) == 1) {
+	  p <- ggplot(params$data, 
+	              aes(x = .data[[params$x]], 
+	                  y = .data[[params$y]])) +
+	    geom_point() +
+	    geom_smooth() + 
+	    theme_light()
+	} else {
+	  p <- ggplot() +
+	    theme_void() +
+	    annotate("text", 
+	             label = "Cannot create scatterplot.\nMore than two variables selected.", 
+	             x = 0, y = 0, 
+	             size = 5, 
+	             colour = "red",
+	             hjust = 0.5,
+	             vjust = 0.5) +
+	  xlab(NULL)
+	  
+	}
+
+	ggplotly(p) %>%
+	  config(modeBarButtonsToRemove = plotly_buttons,
+	         displaylogo = FALSE)
+})
+
+### Table: Regression ----
+output$tableregression <- renderUI({
+	params <- mparams()
+	HTML(modelsummary(
+		dvnames(list(params$model)),
+	  gof_omit = "AIC|BIC|Log|Adj|RMSE"
+	))
+})
+```
+
+**Exercise 1:** Thinking back to our initial visualization structure (data selection, data exploration, data modelling, ???), what could be a good last step? What type of visualization can enhance our understanding of the relationship among the Guerry variables? Write down your ideas along with possible types of visualizations.
+
+**Exercise 2:** Implement your additional visualization from exercise 1 to the modelling tab. Add a fourth box to the dashboard panel, add a UI output and render your chart in the server function.
