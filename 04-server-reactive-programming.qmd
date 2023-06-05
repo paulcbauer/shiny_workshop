@@ -1,0 +1,20 @@
+--- 
+title: "Server & reactive programming"
+---
+
+* Learning outcomes (first intuitions): Learn...
+    + ...
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+# install.packages("pacman)
+pacman::p_load(knitr, quarto)
+```
+
+
+## Server & reactive programming
+
+### Data preparation
+
+* See preparation in design
+* Explain again when it makes sense to load things (for this conrete app)
