@@ -1,0 +1,375 @@
+--- 
+title: "User Interface (UI): Designing the front end"
+---
+
+* Learning outcomes (first intuitions): Learn...
+    + ...
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+# install.packages("pacman)
+pacman::p_load(knitr, quarto)
+```
+
+
+## The front end: Designing the User Interface
+* UI Components
+* Layout: https://mastering-shiny.org/action-layout.html#action-layout
+* Dynamic UI: https://mastering-shiny.org/action-dynamic.html#action-dynamic
+
+## UI: Layout
+* Apps consist of ```ui```, ```server``` and ```shinyApp(ui=ui, server = server)```
+* ```fluidPage()```: Creates a display that automatically adjusts to the dimensions of a user's browser window (smartphone!)
+    + Lay out your app by placing elements in the fluidpage function
+* Below a user interface with a title panel and a sidebar panel
+    + ```titlePanel``` and ```sidebarLayout``` create a basic Shiny app/layout with a sidebar
+    + ```sidebarLayout``` takes two functions
+        + ```sidebarPanel```: Includes content displayed in the sidebar
+        + ```mainPanel```: Includes content displayed in the main panel
+* **Try the code below** by pasting it into your console and running it. It will only create a user interface.
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage(
+  titlePanel("This is the title panel"),
+
+  sidebarLayout(
+    sidebarPanel( "Ths is the sidebar panel"),
+    mainPanel("And this is the main panel...")
+  )
+)
+
+server <- function(input, output) {}
+
+shinyApp(ui=ui, server = server)
+
+```
+
+* Change ```sidebarLayout(...``` to ```sidebarLayout(position = "right",...```
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+# ui.R
+ui <- fluidPage(
+  titlePanel("title panel"),
+
+  sidebarLayout(position = "right",
+    sidebarPanel( "sidebar panel"),
+    mainPanel("main panel")
+  )
+)
+
+server <- function(input, output) {}
+
+shinyApp(ui=ui, server = server)
+```    
+
+
+
+## UI: Layout advanced
+
+### tabsetPanel and tabPanel
+
+* ```tabsetPanel()``` + ```tabPanel()```
+    + Allows for using sidebar layout but dividing main panel into tabs
+    + Users can switch between tabs
+    + Tabs can be used to display various outputs simultanously (rather than putting them all on one page)
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+# ui.R
+ui <- fluidPage(
+
+  # Application title
+  titlePanel("User interface with several tabs in the main panel"),
+
+  sidebarLayout(
+    sidebarPanel(
+
+      selectInput("var1", label = "Y-Variable:",
+                  choices = c("trust.2003.2004","trust.2004.2005"),
+                  selected = "trust.2003.2004"),
+      #
+      selectInput("var2", label = "X-Variable:",
+                  choices = c("threat.2004", "threat.2005"),
+                  selected = "threat.2004"),
+      #
+      sliderInput("trustrange", 
+                  label = "Range of initial trust level:", 
+                  min = 0, max = 10, value = c(0, 10))
+    ),
+
+    mainPanel(
+      tabsetPanel(type = "tabs",
+                  tabPanel("3d Frequency Plot", "plot here"),
+                  tabPanel("Histogram", "another plot here"),
+                  tabPanel("Model Summary", h4("estimation results here")),
+                  tabPanel("Data Summary", h4("Variable summaries (1)")),
+                  tabPanel("Explanation", p("This ShinyApp represents a quick example to illustrate the usefulness of Shiny for robustness analysis. The outcome variable is the change in trust between two panel waves (e.g. 2003 and 2004). The treatment variable is a victimization experience (threat or insult) that happened during that time period. The model is a simple bivariate OLS model (Y = trust change; X = victimization experience). There are no control variables."))
+
+))))
+
+server <- function(input, output) {}
+
+shinyApp(ui=ui, server = server)
+
+``` 
+
+* ```navbarPage()```: Create a [multi-page user-interface](http://shiny.rstudio.com/gallery/navbar-example.html) that includes a navigation bar
+* ```fluidRow()``` and ```column()```: Build layout up from grid system
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### HTML tag functions
+* Shiny's **HTML tag functions** translate input into html code
+    + Paste ```h2("A NEW HOPE", align = "center")``` into your console
+* Here we just do a quick example but in [this tutorial you find more information](https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/)
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage(
+  titlePanel("My Shiny App"),
+  sidebarLayout(
+    sidebarPanel("blablblab"),
+    mainPanel(
+      h2("A NEW HOPE", align = "center"),
+              h5("It is a period of civil war.", align = "center"),
+      p("p creates a paragraph of text."),
+      p("A new p() command starts a new paragraph. Supply a style attribute to change the format of the entire paragraph.", style = "font-family: 'times'; font-si16pt"),
+      strong("strong() makes bold text."),
+      em("em() creates italicized (i.e, emphasized) text."),
+      br(),
+      code("code displays your text similar to computer code"),
+      div("div creates segments of text with a similar style. This division of text is all blue because I passed the argument 'style = color:blue' to div", style = "color:blue"),
+      br(),
+      p("span does the same thing as div, but it works with",
+        span("groups of words", style = "color:blue"),
+        "that appear inside a paragraph.")
+    )
+  )
+)
+
+server <- function(input, output) {}
+
+shinyApp(ui=ui, server = server)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Images
+* ```img()``` function places an image
+* Store image locally
+    + Store in extra folder ```www```
+    + ```www``` folder stores all sorts of additional files(images, data etc.)
+    + If working directory  = app directory create with: ```dir.create("www")```
+
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage(
+  titlePanel("My Shiny App"),
+  sidebarLayout(
+    sidebarPanel(),
+    mainPanel(
+      img(src="http://assets.schwarzenegger.com/images/img-2.jpg", height = 174, width = 300)
+    )
+  )
+)
+
+server <- function(input, output) {}
+
+shinyApp(ui=ui, server = server)
+```
+
+
+
+
+#### Exercise: UI + Images
+1. Create a new app (using the example codes)
+2. The title (title panel) is "A big name in the social sciences"
+2. Download an image of Max Weber from the web, e.g., [here](https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Max_Weber%2C_1918.jpg/220px-Max_Weber%2C_1918.jpg).
+3. Store the image in the ```www``` folder or use the URL in your code.
+4. Build a UI that contains the image (stored in the ```www``` folder or taken from the website) in the main panel.
+3. Add the caption "Weber" in bold and blue.
+```{r exercise-3, echo=FALSE, eval=FALSE, include=FALSE}
+ui <- fluidPage(
+  titlePanel("Two big names in the social sciences"),
+  sidebarLayout(
+    sidebarPanel(),
+    mainPanel(
+      img(src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Max_Weber%2C_1918.jpg/220px-Max_Weber%2C_1918.jpg'), strong(div("Weber", style = "color:blue"))
+)))
+
+server <- function(input, output) {}
+shinyApp(ui=ui, server = server)
+
+# WHAT COULD BE THE PROBLEM HERE?
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+## UI: Control widgets/inputs (1)
+* More lengthy explanation in the [shiny tutorial](http://shiny.rstudio.com/tutorial/lesson3/)
+* Widget = Web element the user can interact with ([Shiny widget gallery](http://shiny.rstudio.com/gallery/widget-gallery.html))
+    + Users can send messages to the SERVER/Computer (e.g. "I want to choose this variable") 
+* Widgets can be added everywhere
+    + Example for a widget below... ```selectinput()``` widget
+
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage(
+  selectInput("select", label = h3("Select box"),
+              choices = list("Choice 1" = 1, "Choice 2" = 2, "Choice 3" = 3),
+              selected = 1),
+  hr(),
+  fluidRow(column(3, verbatimTextOutput("value")))
+  # fluidRow() creates a row, colum() divides row into columns
+)
+
+server <- function(input, output) {
+    # You can access the value of the widget with input$select, e.g.
+  output$value <- renderPrint({ input$select })
+}
+shinyApp(ui=ui, server = server)
+
+```
+
+
+* Widget functions requires arguments
+    + ```selectInput("select", label = h3("Select box"), 
+    choices = list("Choice 1" = 1, "Choice 2" = 2), 
+    selected = 1)```
+* Underlying logic is the same for all widgets
+    + User uses widget to give input
+    + Input is inserted into the functions in the SERVER: ```server <- function(input, output) {}```
+
+
+
+
+
+## UI: Control widgets/inputs Exercise (2)
+1. Read the code below and try to understand the different elements. Explain them to the others in the workshop.
+    + Tipp: Widgets have to be separated by commas.
+
+![](www/widgetsexercise.jpg)
+
+```{r exercise-4, echo=TRUE, eval=FALSE, include=TRUE}
+#ui.R
+ui <- fluidPage(
+  titlePanel("Widgets in the sidebar"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("select", label = h3("Select box"),
+                  choices = list("Choice 1" = 1, "Choice 2" = 2,
+                                 "Choice 3" = 3), selected = 1),
+
+
+
+      sliderInput("slider", label = h3("Range (Slider)"),
+                  min = 0, max = 100, value = c(25, 75))
+    ),
+    mainPanel("In the sidebar on the left we find two widgets that can be used to send messages to the app by the user.")
+  )
+)
+
+server <- function(input, output) {}
+shinyApp(ui=ui, server = server)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+## UI: Outputs (reactivity)
+
+
+* Shiny provides a family of functions that turn R objects into output for your user-interface
+* Output functions
+    + ```htmlOutput()```... creates raw HTML
+    + ```imageOutput()```... creates image
+    + ```plotOutput()```... creates plot
+    + ```tableOutput()```... creates table
+    + ```textOutput()```... creates text
+    + ```uiOutput()```... creates raw HTML
+    + ```verbatimTextOutput()```... creates text
+    + ```dataTableOutput()```... creates a data table (interactiv)
+* A closer look at the example from the beginning... (run the code if you want!)
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage( 
+titlePanel("Displaying reactive output"),
+sidebarLayout( 
+    sidebarPanel( 
+      selectInput("selection", label = h3("Select box"), 
+        choices = list("Fertility" = "Fertility", 
+                       "Agriculture" = "Agriculture", 
+                       "Examination" = "Examination", 
+                       "Education" = "Education", 
+                       "Catholic" = "Catholic", 
+                       "Infant.Mortality" = "Infant.Mortality"),
+        selected = 1) # Selection is a variablename!
+      ),
+    mainPanel( # Draw main panel
+      plotOutput("distPlot") # Put the output - a plot - into the main panel
+    )
+  ) 
+)
+
+
+server <- function(input, output) {
+  output$distPlot <- renderPlot({
+      x    <-   swiss[, input$selection]
+      hist(x, col = 'darkgray', border = 'white',
+           xlab=input$selection, 
+           main="Swiss French Provinces Fertility and Socioeconomic Indicators (1888) Data")
+  })
+}
+
+shinyApp(ui=ui, server = server)
+
+```
+
+
+
+

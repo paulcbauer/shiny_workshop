@@ -17,6 +17,20 @@ pacman::p_load(knitr, quarto)
 - Audiences.. 
 
 
+## What is Shiny?
+
+A web application framework for R to turn analyses into interactive web applications. What does that mean?
+
+* The userinterface is a **webpage**
+* On this webpage you can manipulate things
+* Behind the webpage there is a computer (your computer or a **server**)
+* That computer/server runs R and your r-script
+* When you change something on the webpage, the information is send to the computer
+* Computer runs the script with the new **inputs** (**input functions**)
+* Computer sends back **outputs** to the webpage  (**output functions**)
+
+
+
 
 ## Why Shiny?
 
@@ -33,3 +47,59 @@ pacman::p_load(knitr, quarto)
 
 
 ### Short history of Shiny
+
+
+## Components of a Shiny app
+
+
+## Our app
+* Exercise where people explore the app (the final endproduct) and discuss what is shown
+* Introduce idea of minimum viable product
+
+## Your (first) Shiny app
+* https://mastering-shiny.org/basic-app.html#basic-app
+* Use the simplest version of our app!
+* Publishing comes at then end of the workshop!
+
+
+## Basic UI
+
+## Basic reactivity
+
+
+
+## Workflow
+
+https://mastering-shiny.org/action-workflow.html#action-workflow
+https://mastering-shiny.org/scaling-packaging.html#workflow
+
+
+## Loading things
+* Theoretical introduction to loading things
+
+## LOADING THINGS (1)
+* When is code in a shiny app run?
+
+![alt text](ressources/run-once.png)
+![alt text](ressources/run-once-per-user.png)
+![alt text](ressources/run-many-times.png)
+
+* *So where shall we put the function to load the dataset?*
+
+
+
+
+## LOADING THINGS (2)
+* Code outside ```server <- function(input, output) {}``` is run once, when you launch your app
+* Code inside ```server <- function(input, output) {}``` is run once each time a user visits your app
+* Code inside ```render*``` functions is rerun constantly (not only when user changes widget value, see [reactivity(http://shiny.rstudio.com/articles/understanding-reactivity.html)]) 
+* That means...
+    + Load **Source scripts, libraries, and data** outside of ```server``` function (at the beginning)
+        + Store data in ```www/``` folder in your app directory
+        + Access with ```read.table("www/swiss.csv", sep=",")```
+        + Access online data by inserting the url into the ```read*``` function (e.g. ```read.table()```)
+    + **User specific objects** (e.g. object that records user's session information) are defined inside shinyServer’s unnamed function, but outside of any render* calls
+        + e.g. user registers himself, user data as input data (compare income)
+    + **Code/objects that are affected by choices in widgets** must be placed witin the a ```render*``` function
+        + Shiny reruns code in a ```render*``` chunk each time a user changes a widget mentioned in the chunk
+* **Avoid** placing code within render function that does not need to be there... for performance reasons!
