@@ -28,19 +28,18 @@ website:
       - section: "4 Server & reactive programming"
         contents:
           - 04-server-reactive-programming.qmd
-      - section: "6 Refining your app & adding components"          
-      - section: "5 Building from scratch: Design"
+      - section: "5 Visualizing data in Shiny"
         contents:
-          - 05-design.qmd
-      - section: "6 Building from scratch: Prototype"
+          - 05-visualization.qmd
+      - section: "6 Embedding maps in Shiny"
         contents:
-          - 06-prototype.qmd
-      - section: "7 Building from scratch: Build"
+          - 06-mapping.qmd
+      - section: "7 Theming"
         contents:
-          - 07-build.qmd
-      - section: "8 Building from scratch: Strengthen & Deploy"
+          - 07-theming.qmd
+      - section: "8 A few closing notes on deployment"
         contents:
-          - 08-strengthen-deploy.qmd
+          - 08-deployment.qmd
 
 
 

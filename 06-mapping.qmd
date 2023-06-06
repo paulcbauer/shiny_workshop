@@ -55,779 +55,87 @@ guerry_region <- guerry %>%
 txts <- read_json("shinyapps/guerry/app_labels.json", simplifyVector = TRUE)
 ```
 
-## Planning and building a prototype
+## Learning outcomes
 
-Learning outcomes/objectives: Learn...
+You will learn how to:
 
--   How to come up with the user interface of a prototype dashboard
+-   Work with spatial data
 
--   How to pep up user interfaces with custom theming
+-   Create interactive maps in Shiny using Leaflet
 
-## Basic dashboard structure
+-   Use Shiny events and proxies
 
--   In the last section, we explored ways to come up with a basic Shiny app design
--   Here, I prototype my Guerry dashboard using the `bs4Dash` R package
--   We can run a minimal example of a Shiny dashboard:
+## Interactive maps
 
-```{r eval=FALSE}
-ui <- dashboardPage(
-	header = dashboardHeader(),
-	sidebar = dashboardSidebar(),
-	body = dashboardBody(),
-	controlbar = dashboardControlbar(),
-	footer = dashboardFooter(),
-	title = "Guerry Dashboard"
-)
+-   Mapping is a type of data visualization based on *spatial data*
 
-server <- function(input, output, session) {
-	
-}
+-   Classic cartography relies on generalization and interpretation
 
-shinyApp(ui, server)
-```
+-   Interactive cartography removes many limitations such as generalization and map boundaries
 
-![Dashboard structure](resources/dashboard-structure.png)
+![Generalization in OpenStreetMap at different scales](resources/generalization.gif)
 
--   Each argument passed to `dashboardPage` corresponds to one element on the figure above
+-   Further resources:
 
--   Accordingly, we can focus on one element at a time
+    -   [Chapter 8](https://bookdown.org/robinlovelace/geocompr/adv-map.html) of Robin Lovelace's "Geocomputation with R"
 
--   Don't forget you can consult the documentation to get the hang of what to do with each dashboard element:
+    -   The documentation of [Leaflet for R](https://rstudio.github.io/leaflet/)
 
-    ```{r eval=FALSE}
-    ?dashboardPage
-    ```
+## The basics
 
-### Header
+-   Spatial data is the foundation of mapping, but what is it?
 
--   The dashboard header is visible at all times
--   It usually contains elements that are important to the entire app, such as global settings, important links or affiliations
--   By default it already contains a switch to control the dark mode (try it out, it works out of the box!)
--   In the Guerry case, we can keep it simple: a workshop title + logo and a GESIS logo that leads to the GESIS homepage
+-   Spatial data is all data that can be explicitly linked to a spatial reference
+
+-   Geography can describe the world in two ways:
+
+    -   As spatially continuous processes (or as *raster data*)
+
+    -   As an ensemble of individual elements (or as *vector data*)
+
+-   Vector data is also called spatial geometries and can be divided into
+
+    -   Points (e.g., individual events or places)
+
+    -   Lines (e.g., streets, rivers)
+
+    -   Polygons (e.g., buildings, districts)
+
+![The real world described by layers of raster and vector data ([Source](https://saylordotorg.github.io/text_essentials-of-geographic-information-systems/s11-02-multiple-layer-analysis.html#campbell_1.0-ch07_s02_f01))](https://saylordotorg.github.io/text_essentials-of-geographic-information-systems/section_11/ca6ce94cdd2e09a1da8aa6ec22336835.jpg){width="440"}
 
 ```{r}
-header <- dashboardHeader(
-  span(style = "display: inline-block; width: 100%;"),
-  a(
-    class = "logo",
-    href = "https://gesis.org/",
-    img(src = "gesis-logo.png", style = "height: 1.8em;")
-  ),
-  title = tagList(
-    img(src = "workshop-logo.png", width = 35, height = 35),
-    span("Guerry Dashboard")
-  ),
-  skin = "light"
-)
-```
+world <- ggplot2::map_data("world") %>%
+    st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
+    group_by(group) %>%
+    summarise(geometry = st_combine(geometry)) %>%
+    st_cast("LINESTRING") %>%
+    st_as_sfc()
 
-### Sidebar
-
--   The sidebar is the main element to navigate a dashboard
--   It contains the names of all subsections of a dashboard
--   It can be expanded or collapsed, or it can idle in a 'minified' state
--   A sidebar consists of a `sidebarMenu` which in turn consists of multiple `menuItem`s
-
-```{r}
-sidebar <- dashboardSidebar(
-    id = "sidebar",
-    sidebarMenu(
-      id = "sidebarMenu",
-      menuItem(tabName = "intro", text = "Introduction", icon = icon("home")),
-      menuItem(tabName = "exp", text = "Explore data", icon = icon("map")),
-      menuItem(tabName = "insp", text = "Inspect data", icon = icon("table")),
-      menuItem(tabName = "model", text = "Model data", icon = icon("chart-line")),
-      flat = TRUE
-    ),
-    minified = TRUE,
-    collapsed = TRUE,
-    fixed = FALSE,
-    skin = "light"
-)
-```
-
-### Controlbar
-
--   The controlbar is an optional secondary sidebar which is mostly used for global options or theming
--   It can be toggled using the 'grid' symbol on the top right
--   It can take any type of UI element, it's basically just an additional space for anything concerning the entire app
-
-```{r}
-controlbar <- dashboardControlbar(div(class = "p-3", skinSelector()), skin = "light")
-```
-
-### Footer
-
--   The footer typically contains the app's colophon, e.g., for mentioning authors, sharing links or funding information
--   Like the controlbar, the footer is an optional element that can also be left empty
--   In this case, I added a few infos about myself here:
-
-```{r}
-footer <- dashboardFooter(
-	left = span(
-		"This dashboard was created by Jonas Lieth and Paul Bauer. Find the source code",
-		a("here.", href = "https://github.com/paulcbauer/shiny_workshop/tree/main/shinyapps/guerry"),
-		"It is based on data from the",
-		a("Guerry R package.", href = "https://cran.r-project.org/web/packages/Guerry/index.html")
+world1 <- st_transform(world, "ESRI:54030") %>%
+	ggplot() + geom_sf(fill = NA) + theme_void() + theme(
+		strip.background = element_rect(fill = NA)
 	)
-)
-```
-
-### Body
-
--   The body contains the main contents of the dashboard
-
--   The visible part of the body changes when a sidebar tab is clicked
-
--   The body consists of a call to `tabItems()` which in turn consists of multiple `tabItem()`s
-
-```{r}
-body <- dashboardBody(
-	tabItems(
-		# tab contents go here: tabItem(...)
+world2 <- st_transform(world, 9753) %>%
+	ggplot() + geom_sf(fill = NA) + theme_void() + theme(
+		strip.background = element_rect(fill = NA)
 	)
+
+GGally::ggmatrix(
+	list(world1, world2),
+	nrow = 1,
+	ncol = 3,
+	xAxisLabels = c("Projected", "Geographic")
 )
 ```
 
--   Don't forget you can always run the application to see how changes affect the app:
-
-```{r eval=FALSE}
-ui <- bs4Dash::dashboardPage(
-	header = header,
-	sidebar = sidebar,
-	body = body,
-	controlbar = controlbar,
-	footer = footer,
-	title = "Guerry Dashboard"
-)
-
-server <- function(input, output, session) {
-	
-}
-
-shiny::shinyApp(ui, server)
-```
-
-**Exercise:** Consult the `bs4Dash` documentation and change the following aspects of the dashboard:
-
-1.  Remove the dark/light mode toggle
-
-2.  Add text or other UI elements below the sidebar items
-
-3.  Replace the controlbar toggle icon with an icon showing gears
-
-4.  Add an element that you think might be a nice addition to the dashboard layout
-
-## Building a prototype
-
--   Here, we fill the empty canvases inside the dashboard body
--   During prototyping, only the UI is assembled
--   Functionality (i.e. the server function) is then added later
--   Essential functions to structure Shiny bodies:
-    -   `bs4Dash::box()`: boxes hold UI elements like texts or plots
-    -   `fluidRow()`: align items (e.g. boxes) in a row
-    -   `column()`: divide fluid rows into multiple columns
-    -   `hr()`: seperate elements using a horizontal line
--   A box can look like this:
-
-```{r eval=F}
-tabBox(
-	title = "Box title",
-	type = "tabs",
-	footer = "Box footer",
-	status = "primary",
-	closable = TRUE,
-	maximizable = TRUE,
-	icon = icon("box"),
-	elevation = 4,
-	boxToolSize = "lg",
-	label = boxLabel("label", "primary"),
-	dropdownMenu = boxDropdown(
-		boxDropdown("Chicken", icon = icon("drumstick-bite"), id = "chicken"),
-		boxDropdown("Cookie", icon = icon("cookie-bite"), id = "cookie"),
-		boxDropdown("Bacon", icon = icon("bacon"), id = "bacon"),
-		boxDropdown("Carrot", icon = icon("carrot", id = "carrot"))
-	),
-	sidebar = boxSidebar("sidebar"),
-	tabPanel(
-		title = "Tab 1",
-		"This is the box content. A plot, a text, a table, or a figure could go here."
-	),
-	tabPanel(
-		title = "Tab 2",
-		"This is the second tab of this box."
-	)
-)
-```
-
-![A fully customized box](resources/box.png)
-
-### Landing page
-
--   A [landing page](https://en.wikipedia.org/wiki/Landing_page) is the page a user lands on
-
--   Supposed to be: an attention catcher, a guide, and an introduction
-
--   Useful for Dashboards, but probably over the top for more concise Shiny apps
-
--   `bs4Dash` supports some cool utilities for landing pages; `shinyLP` is another cool package to design landing pages
-
-    -   Here, we use a [Jumbotron](https://getbootstrap.com/docs/4.0/components/jumbotron/) and an [Accordion](https://getbootstrap.com/docs/4.0/components/collapse/#accordion-example)
-
-    -   We use `column` and `fluidRow` to align and scale the contents
-
--   Note: The `tabName` argument of the `tabItem` must be the same as the `tabName` argument of the `menuItem` in the sidebar
-
-```{r}
-intro <- tabItem(
-  tabName = "intro",
-  jumbotron(
-  	title = "The Guerry Dashboard",
-  	lead = "A Shiny app to explore the classic Guerry dataset.",
-  	status = "info",
-  	btnName = NULL
-  ),
-  fluidRow(
-  	column(width = 1),
-    column(
-      width = 6,
-      box(
-        title = "About",
-        status = "primary",
-        width = 12,
-        blockQuote(HTML("André-Michel Guerry was a French lawyer and
-                    amateur statistician. Together with Adolphe
-                    Quetelet he may be regarded as the founder of
-                    moral statistics which led to the development
-                    of criminology, sociology and ultimately,
-                    modern social science. - Wikipedia: <a href='https://en.wikipedia.org/wiki/Andr%C3%A9-Michel_Guerry'>André-Michel Guerry</a>"),
-        					 color = "primary"),
-        p(HTML("Andre-Michel Guerry (1833) was the first to 
-						    systematically collect and analyze social data 
-						    on such things as crime, literacy and suicide 
-						    with the view to determining social laws and the 
-						    relations among these variables. The Guerry data 
-						    frame comprises a collection of 'moral variables' 
-						    (cf. <i><a href='https://en.wikipedia.org/wiki/Moral_statistics'>moral statistics</a></i>) 
-						    on the 86 departments of France around 1830. 
-						    A few additional variables have been added 
-						    from other sources. In total the data frame has 
-						    86 observations (the departments of France) on 23
-						    variables <i>(Source: <code>?Guerry</code>)</i>. 
-						    In this app, we aim to explore Guerry’s data
-						    using spatial exploration and regression modelling.")),
-        hr(),
-        accordion(
-        	id = "accord",
-        	accordionItem(
-        		title = "References",
-        		status = "primary",
-        		solidHeader = FALSE,
-        		"The following sources are referenced in this app:",
-        		tags$ul(
-        			class = "list-style: none",
-        			style = "margin-left: -30px;",
-        			p("Angeville, A. (1836). Essai sur la Statistique de la Population française Paris: F. Doufour."),
-        			p("Guerry, A.-M. (1833). Essai sur la statistique morale de la France Paris: Crochard. English translation: Hugh P. Whitt and Victor W. Reinking, Lewiston, N.Y. : Edwin Mellen Press, 2002."),
-        			p("Parent-Duchatelet, A. (1836). De la prostitution dans la ville de Paris, 3rd ed, 1857, p. 32, 36"),
-        			p("Palsky, G. (2008). Connections and exchanges in European thematic cartography. The case of 19th century choropleth maps. Belgeo 3-4, 413-426.")
-        		)
-        	),
-        	accordionItem(
-        		title = "Details",
-        		status = "primary",
-        		solidHeader = FALSE,
-        		p("This app was created as part of a Shiny workshop held in July 2023"),
-        		p("Last update: June 2023"),
-        		p("Further information about the data can be found",
-        			a("here.", href = "https://www.datavis.ca/gallery/guerry/guerrydat.html"))
-        	)
-        )
-      )
-    ),
-    column(
-      width = 4,
-      box(
-        title = "André Michel Guerry",
-        status = "primary",
-        width = 12,
-        tags$img(src = "guerry.jpg", width = "100%"),
-        p("Source: Palsky (2008)")
-      )
-    )
-  )
-)
-```
-
-![Final landing page UI](resources/landing-page.png){alt="Final landing page UI"}
-
-### Data explorer
-
--   Supposed to enable exploration of the spatial structure of the Guerry dataset
-
--   Objectives:
-
-    -   Focus on mapping
-
-    -   No more words than necessary
-
-    -   Embrace interactivity
-
--   We use UI inputs from the `shinyWidgets` package
-
-    -   consult `?pickerInput` and `?radioGroupButtons` to get to know all the options of these extended widgets
-
--   To improve explorability, we insert a Leaflet map
-
--   We maximize the mapping area and minimize everything else
-
--   **Question:** Which inputs and outputs are created in the code below and what is their purpose?
-
-```{r eval=F}
-exp <- tabItem(
-  tabName = "exp", # must correspond to related menuItem name
-  fluidRow(
-    column(
-      width = 4, # must be between 1 and 12
-      box(
-        title = "Data selection",
-        status = "primary",
-        width = 12,
-        shinyWidgets::pickerInput(
-          "exp_select",
-          label = "Select a variable",
-          choices = setNames(variables, sapply(txts, "[[", "title")),
-          options = shinyWidgets::pickerOptions(liveSearch = TRUE)
-        ),
-        uiOutput("exp_desc")
-      ),
-      box(
-        title = "Map configuration",
-        status = "primary",
-        width = 12,
-        shinyWidgets::radioGroupButtons(
-          "exp_aggr",
-          label = "Aggregation level",
-          choices = c("Departments", "Regions"),
-          selected = "Departments",
-          individual = TRUE,
-          checkIcon = list(
-            yes = tags$i(class = "fa fa-circle", style = "color: #FED22B;"),
-            no = tags$i(class = "fa fa-circle-o", style = "color: #FED22B;")
-          )
-        ),
-        shinyWidgets::pickerInput(
-          "exp_pal",
-          label = "Color palette",
-          choices = pals,
-          selected = "Plasma"
-        ) # end input
-      ) # end box
-    ), # end column
-    column(
-      width = 8,
-      box(
-        id = "exp_box",
-        status = "primary",
-        headerBorder = FALSE,
-        collapsible = FALSE,
-        width = 12,
-        leaflet::leafletOutput("exp_map", height = "800px", width = "100%")
-      ) # end box
-    ) # end column
-  ) # end fluidRow
-) # end tabItem
-```
-
-### Data inspector
-
--   Many Shiny apps include their raw datasets to inspect and filter the data more liberally
-
--   The `DT` package is a widespread extension for advanced table UI's
-
--   Additionally, we provide inputs to filter variables and change the aggregation level
-
-```{r eval=F}
-insp <- tabItem(
-  tabName = "insp",
-  fluidRow(
-    shinyWidgets::pickerInput(
-      "insp_select",
-      label = "Filter variables",
-      choices = setNames(variables, sapply(txts, "[[", "title")),
-      options = shinyWidgets::pickerOptions(
-        actionsBox = TRUE,
-        windowPadding = c(30, 0, 0, 0),
-        liveSearch = TRUE,
-        selectedTextFormat = "count",
-        countSelectedText = "{0} variables selected",
-        noneSelectedText = "No filters applied"
-      ),
-      inline = TRUE,
-      multiple = TRUE
-    ),
-    div(style = "width: 20px;"),
-    shinyWidgets::radioGroupButtons(
-      "insp_aggr",
-      label = "Aggregation level",
-      choices = c("Departments", "Regions"),
-      selected = "Departments",
-      individual = TRUE,
-      checkIcon = list(
-        yes = tags$i(class = "fa fa-circle", style = "color: #FED22B;"),
-        no = tags$i(class = "fa fa-circle-o", style = "color: #FED22B;")
-      )
-    )
-  ),
-  hr(),
-  DT::dataTableOutput("insp_table")
-)
-```
-
-### Data modeller
-
--   Modelling data is arguably a very different task than exploring when designing a dashboard
-
--   Objectives:
-
-    -   Focus on information density
-
-    -   Avoid overspecific technical jargon
-
-    -   Avoid ["reactive infernos"](https://engineering-shiny.org/common-app-caveats.html#reactivity-is-awesome-until-it-is-not)
-
--   In other words: We want to build a Shiny app that's concise, but doesn't flood you with choices, dependencies and things you don't understand
-
--   We designed this tab to be organized in four quadrants:
-
-    1.  Data selection
-
-    2.  Statistical distributions
-
-    3.  Regression modelling
-
-    4.  Model diagnostics
-
--   The first quadrant, **data selection**, allows you to select one dependent variable and several independent variables
-
--   You can also standardize the variables if needed (makes sense for some variables)
-
--   There probably are thousands of more potential options, but most of them are likely too much for a single app
-
--   Note: Options are only applied after clicking on an "Apply" button. This can be a good idea to prevent a "reactive inferno" when adding the server function.
-
-```{r}
-quad1 <- box(
-	width = 12,
-	title = "Select variables",
-	status = "primary",
-	shinyWidgets::pickerInput(
-		"model_x",
-		label = "Select a dependent variable",
-		choices = setNames(variables, sapply(txts, "[[", "title")),
-		options = shinyWidgets::pickerOptions(liveSearch = TRUE),
-		selected = "Literacy"
-	),
-	shinyWidgets::pickerInput(
-		"model_y",
-		label = "Select independent variables",
-		choices = setNames(variables, sapply(txts, "[[", "title")),
-		options = shinyWidgets::pickerOptions(
-			actionsBox = TRUE,
-			liveSearch = TRUE,
-			selectedTextFormat = "count",
-			countSelectedText = "{0} variables selected",
-			noneSelectedText = "No variables selected"
-		),
-		multiple = TRUE,
-		selected = "Commerce"
-	),
-	shinyWidgets::prettyCheckbox(
-		"model_std",
-		label = "Standardize variables?",
-		value = FALSE,
-		status = "primary",
-		shape = "curve"
-	),
-	hr(),
-	actionButton(
-		"refresh",
-		label = "Apply changes",
-		icon = icon("refresh"),
-		flat = TRUE
-	)
-)
-```
-
--   In the second quadrant, **statistical distributions**, we decide to insert a pair plot (see the `GGally` package)
-
--   We keep the plot interactive using the `plotly` package
-
-```{r}
-quad2 <- box(
-	width = 12,
-	title = "Pair diagram",
-	status = "primary",
-	plotly::plotlyOutput("pairplot")
-)
-```
-
--   In the third quadrant, **regression modelling**, we introduce a new concept: tab boxes
-
--   Regression can be hard to visualize concisely
-
--   Tab boxes help to use space efficiently
-
--   Each tab is denoted using the `tabPanel()` function
-
-```{r}
-quad3 <- tabBox(
-  status = "primary",
-  type = "tabs",
-  width = 12,
-  tabPanel(
-    title = "Plot: Coefficients",
-    plotly::plotlyOutput("coefficientplot")
-  ),
-  tabPanel(
-    title = "Plot: Scatterplot",
-    plotly::plotlyOutput("scatterplot")
-  ),
-  tabPanel(
-    title = "Table: Model",
-    htmlOutput("tableregression")
-  )
-)
-```
-
--   Finally, for the studied user, we insert a fourth quadrant: **Model diagnostics**
-
--   
-
-## Theming
-
--   Shiny apps look a bit lackluster by default
-
--   Especially in case of corporate designs, theming is an important issue
-
--   Shiny has some really cool extensions for amping up your UI, e.g.: `bslib`, `fresh`, `waiter`, `shinyWidgets`, `shinyjs`, ...
-
-### Global themes
-
--   `bs4Dash` can easily be themed using the `fresh` package
-
--   Workflow:
-
-    -   Create a theme using `fresh::create_theme`
-
-    -   Add theming elements, such as layout, colors, fonts
-
-    -   Pass the theme object as an argument to `dashboardPage`
-
--   Tip: Type in `fresh::bs4dash_` in the RStudio console and explore fresh's theming elements
-
-```{r}
-dash_theme <- create_theme(
-  bs4dash_status(
-    primary = "#58748f",
-    secondary = "#666666",
-    info = "#E6EAEE",
-    danger = "#BF616A",
-    warning = "#F06400",
-    light = "#F4F4F2",
-    dark = "#2c2c25"
-  ),
-  bs4dash_layout(
-    font_size_root = "5rem",
-    main_bg = "#FDFDFD",
-    sidebar_width = "350px"
-  ),
-  bs4dash_sidebar_light(bg = "#F4F4F2", color = "#000"),
-  bs4dash_sidebar_dark(bg = "#2c2c25", color = "#FFF"),
-  bs4dash_color(
-  	orange = "#F06400",
-    white = "#E6EAEE",
-    black = "#000",
-    gray_600 = "#666",
-    gray_800 = "#333",
-    gray_900 = "#000",
-    blue = "#58748f"
-  ),
-  bs4dash_font(
-    family_sans_serif = "Verdana",
-    family_base = "Georgia",
-    family_monospace = "Courier New"
-  )
-)
-```
-
-### Spinners
-
--   A lack of feedback in graphical user interfaces can lead to frustration
-
--   In such cases, spinners can be an elegant solution
-
--   There are many Shiny extensions that support spinners: shinycssloaders, shinybusy, waiter
-
--   `bs4Dash` and `waiter` work particularly well together:
-
-    -   Call `tags$head(use_waiter())` at the beginning of `dashboardBody`
-
-    -   Assemble a preloader and pass it as an argument to the `dashboardPage`
-
-```{r eval = FALSE}
-preloader <- list(
-  html = tagList(spin_wave(), "Loading ..."),
-  color = "#B3DDFE"
-)
-
-ui <- dashboardPage(
-	...,
-	body = dashboardBody(
-		tags$head(use_waiter()),
-		...
-	),
-	preloader = preloader
-)
-```
-
--   Tip: You can preview what spinners look like through the `preview_spinner()` function or by visiting <https://jslth.shinyapps.io/waiter-gallery/>
-
-### Custom styling
-
--   Shiny apps can look good without a single line of non-R code
-
--   However, to give an app the final touch, it's hard to get around CSS
-
--   Not least, Shiny apps are built using HTML, CSS and JavaScript, so it's naturally a good idea to know the essentials
-
--   The `bs4Dash::box()` applies a lot of styling behind the scenes and we can inspect what exactly is happening by printing its returned object:
-
-```{r}
-bs4Dash::box()
-```
-
--   [CSS](https://en.wikipedia.org/wiki/CSS) (Cascading Style Sheets) is a computer language that is used to style HTML documents
-
--   HTML provides the containers, CSS styles them
-
--   We can write HTML and CSS easily from within R using the `htmltools` package (see `?builder` and `?browsable`)
-
-```{r}
-browsable(div(
-	div(
-		"This is an HTML container without styling"
-	),
-	div(
-		"This is an HTML container with CSS styling",
-		style = "
-			background-color: green;
-			color: white;
-			border-radius: 10px;
-			display: inline-block;
-			padding: 5px;
-			transform: rotate(5deg);
-			margin-top: 15px;
-			font-family: Verdana;
-		"
-	)
-))
-```
-
--   CSS is usually defined using classes or IDs
-    -   IDs are unique identifiers for a single UI elements and are specified using a hashtag `#`
-    -   Classes can be given to multiple UI elements and are specified using a dot `.`
-
-```{r}
-browsable(div(
-	tags$style(
-		"
-		#id {
-			color: red;
-		}
-		
-		.cls {
-			color: green;
-		}
-		"
-	),
-	div("This div has an id", id = "id"),
-	div("This div has a class", class = "cls")
-))
-```
-
--   A complete reference of CSS can be found in the [Mozilla developer docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
-
--   CSS can either be defined using inline CSS (`tags$style`) or an external CSS file
-
--   In the Guerry app, we include a CSS file which takes care of some styling:
-
-    -   Add a folder called "www" in your app directory
-
-    -   Add a file called "styles.css" to that folder
-
-    -   Paste the CSS code below
-
-    -   In R, add: `tags$head(includeCSS("www/styles.css"))` to the `dashboardBody`
-
-```{r eval=FALSE}
-/* remove white space around maps in boxes */
-#exp_box .card-header, #exp_box .card-body {
-  padding: 0em;
-}
-
-/* create a nicely aligned hover effect for logos */
-a.logo {
-  text-decoration: none;
-  background-color: transparent;
-  display: inline-flex;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-}
-
-a.logo:hover {
-  background-color: #DEDED8;
-}
-
-/* text formatting */
-p.par {
-  text-indent: 10px; /* indent first line of paragraph */
-  text-align: justify; /* justify text alignment */
-  text-justify: inter-word;
-}
-
-a.par {
-  border-bottom: 1px solid black; /* underline links */
-}
-
-a.par:hover {
-  text-shadow: 0 0 0.01px black; /* highlight links on hover */
-  border-bottom: 2px solid black;
-}
-```
-
--   Tip: Use the "Inspect" tool in Firefox / Chrome
-
-    -   Interactive visualization of a websites source code
-
-    -   Lets you manipulate single UI elements in real time
-
-    -   Makes you somewhat understand HTML and CSS more in-depth
-
-![The Inspect tool in Firefox](resources/inspect.png)
-
-**Exercise:** What changes after we include the external CSS file? Pinpoint the UI elements that are amended by the CSS file using the Inspect tool
-
-**Exercise:** Using the tools above, change one of the sidebar tabs that we introduced.
-
--   Add better theming (colors, fonts, text styling, ...)
-
--   Add UI elements (e.g. using the `shinyWidgets`, `bs4Dash` or `shinyBS` packages)
-
--   Change the scale and configuration of UI elements
-
--   Look around the [![](resources/awesome-logo.svg)](https://github.com/nanxstats/awesome-shiny-extensions#ui-components) list of Shiny extensions and experiment with different UI components
+| Packages    | Interactive | High-end map design |
+|-------------|-------------|---------------------|
+| ggplot2     |             | (✓)                 |
+| plotly      | ✓           |                     |
+| leaflet     | ✓           | ✓                   |
+| rbokeh      | ✓           |                     |
+| tmap        | ✓           | ✓                   |
+| cartography |             | ✓                   |
+| mapsf       |             | ✓                   |
+| sf          |             |                     |
+| terra       |             |                     |

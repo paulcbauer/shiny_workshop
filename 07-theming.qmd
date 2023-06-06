@@ -2,3 +2,230 @@
 title: "Build"
 ---
 
+## Theming
+
+-   Shiny apps look a bit lackluster by default
+
+-   Especially in case of corporate designs, theming is an important issue
+
+-   Shiny has some really cool extensions for amping up your UI, e.g.: `bslib`, `fresh`, `waiter`, `shinyWidgets`, `shinyjs`, ...
+
+### Global themes
+
+-   `bs4Dash` can easily be themed using the `fresh` package
+
+-   Workflow:
+
+    -   Create a theme using `fresh::create_theme`
+
+    -   Add theming elements, such as layout, colors, fonts
+
+    -   Pass the theme object as an argument to `dashboardPage`
+
+-   Tip: Type in `fresh::bs4dash_` in the RStudio console and explore fresh's theming elements
+
+```{r}
+dash_theme <- create_theme(
+  bs4dash_status(
+    primary = "#58748f",
+    secondary = "#666666",
+    info = "#E6EAEE",
+    danger = "#BF616A",
+    warning = "#F06400",
+    light = "#F4F4F2",
+    dark = "#2c2c25"
+  ),
+  bs4dash_layout(
+    font_size_root = "5rem",
+    main_bg = "#FDFDFD",
+    sidebar_width = "350px"
+  ),
+  bs4dash_sidebar_light(bg = "#F4F4F2", color = "#000"),
+  bs4dash_sidebar_dark(bg = "#2c2c25", color = "#FFF"),
+  bs4dash_color(
+  	orange = "#F06400",
+    white = "#E6EAEE",
+    black = "#000",
+    gray_600 = "#666",
+    gray_800 = "#333",
+    gray_900 = "#000",
+    blue = "#58748f"
+  ),
+  bs4dash_font(
+    family_sans_serif = "Verdana",
+    family_base = "Georgia",
+    family_monospace = "Courier New"
+  )
+)
+```
+
+### Spinners
+
+-   A lack of feedback in graphical user interfaces can lead to frustration
+
+-   In such cases, spinners can be an elegant solution
+
+-   There are many Shiny extensions that support spinners: shinycssloaders, shinybusy, waiter
+
+-   `bs4Dash` and `waiter` work particularly well together:
+
+    -   Call `tags$head(use_waiter())` at the beginning of `dashboardBody`
+
+    -   Assemble a preloader and pass it as an argument to the `dashboardPage`
+
+```{r eval = FALSE}
+preloader <- list(
+  html = tagList(spin_wave(), "Loading ..."),
+  color = "#B3DDFE"
+)
+
+ui <- dashboardPage(
+	...,
+	body = dashboardBody(
+		tags$head(use_waiter()),
+		...
+	),
+	preloader = preloader
+)
+```
+
+-   Tip: You can preview what spinners look like through the `preview_spinner()` function or by visiting <https://jslth.shinyapps.io/waiter-gallery/>
+
+### Custom styling
+
+-   Shiny apps can look good without a single line of non-R code
+
+-   However, to give an app the final touch, it's hard to get around CSS
+
+-   Not least, Shiny apps are built using HTML, CSS and JavaScript, so it's naturally a good idea to know the essentials
+
+-   The `bs4Dash::box()` applies a lot of styling behind the scenes and we can inspect what exactly is happening by printing its returned object:
+
+```{r}
+bs4Dash::box()
+```
+
+-   [CSS](https://en.wikipedia.org/wiki/CSS) (Cascading Style Sheets) is a computer language that is used to style HTML documents
+
+-   HTML provides the containers, CSS styles them
+
+-   We can write HTML and CSS easily from within R using the `htmltools` package (see `?builder` and `?browsable`)
+
+```{r}
+browsable(div(
+	div(
+		"This is an HTML container without styling"
+	),
+	div(
+		"This is an HTML container with CSS styling",
+		style = "
+			background-color: green;
+			color: white;
+			border-radius: 10px;
+			display: inline-block;
+			padding: 5px;
+			transform: rotate(5deg);
+			margin-top: 15px;
+			font-family: Verdana;
+		"
+	)
+))
+```
+
+-   CSS is usually defined using classes or IDs
+    -   IDs are unique identifiers for a single UI elements and are specified using a hashtag `#`
+    -   Classes can be given to multiple UI elements and are specified using a dot `.`
+
+```{r}
+browsable(div(
+	tags$style(
+		"
+		#id {
+			color: red;
+		}
+		
+		.cls {
+			color: green;
+		}
+		"
+	),
+	div("This div has an id", id = "id"),
+	div("This div has a class", class = "cls")
+))
+```
+
+-   A complete reference of CSS can be found in the [Mozilla developer docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
+
+-   CSS can either be defined using inline CSS (`tags$style`) or an external CSS file
+
+-   In the Guerry app, we include a CSS file which takes care of some styling:
+
+    -   Add a folder called "www" in your app directory
+
+    -   Add a file called "styles.css" to that folder
+
+    -   Paste the CSS code below
+
+    -   In R, add: `tags$head(includeCSS("www/styles.css"))` to the `dashboardBody`
+
+```{r eval=FALSE}
+/* remove white space around maps in boxes */
+#exp_box .card-header, #exp_box .card-body {
+  padding: 0em;
+}
+
+/* create a nicely aligned hover effect for logos */
+a.logo {
+  text-decoration: none;
+  background-color: transparent;
+  display: inline-flex;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+a.logo:hover {
+  background-color: #DEDED8;
+}
+
+/* text formatting */
+p.par {
+  text-indent: 10px; /* indent first line of paragraph */
+  text-align: justify; /* justify text alignment */
+  text-justify: inter-word;
+}
+
+a.par {
+  border-bottom: 1px solid black; /* underline links */
+}
+
+a.par:hover {
+  text-shadow: 0 0 0.01px black; /* highlight links on hover */
+  border-bottom: 2px solid black;
+}
+```
+
+-   Tip: Use the "Inspect" tool in Firefox / Chrome
+
+    -   Interactive visualization of a websites source code
+
+    -   Lets you manipulate single UI elements in real time
+
+    -   Makes you somewhat understand HTML and CSS more in-depth
+
+![The Inspect tool in Firefox](resources/inspect.png)
+
+**Exercise:** What changes after we include the external CSS file? Pinpoint the UI elements that are amended by the CSS file using the Inspect tool
+
+**Exercise:** Using the tools above, change one of the sidebar tabs that we introduced.
+
+-   Add better theming (colors, fonts, text styling, ...)
+
+-   Add UI elements (e.g. using the `shinyWidgets`, `bs4Dash` or `shinyBS` packages)
+
+-   Change the scale and configuration of UI elements
+
+-   Look around the [![](resources/awesome-logo.svg)](https://github.com/nanxstats/awesome-shiny-extensions#ui-components) list of Shiny extensions and experiment with different UI components
