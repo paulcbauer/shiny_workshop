@@ -2,6 +2,27 @@
 title: "Build"
 ---
 
+```{r include=FALSE}
+pacman::p_load(
+	shiny,
+	htmltools,
+	bs4Dash,
+	fresh,
+	waiter,
+	shinyWidgets,
+	Guerry,
+	sf,
+	tidyr,
+	dplyr,
+	RColorBrewer,
+	viridis,
+	leaflet,
+	plotly,
+	jsonlite
+)
+```
+
+
 ## Theming
 
 -   Shiny apps look a bit lackluster by default
