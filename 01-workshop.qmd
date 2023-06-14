@@ -101,8 +101,8 @@ workshop?
 	- have learned about different ways to launch their Shiny application
 
 
-## Workshop: Structure
-
+## Workshop: Structure & stategy
+* See toc on the left
 * Strategy: From the simple to the complex
 	- Slowly building up a complex Shiny app that includes various aspects (data, descriptive statistics, modelling, map)
 * Let's have a [look at the app]!
