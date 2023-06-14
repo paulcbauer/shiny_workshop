@@ -779,6 +779,7 @@ server <- function(input, output, session) {
                                      dt_labels[["Region"]])),
                    color = "black") +
         geom_smooth() + 
+      	geom_smooth(method='lm') +
         theme_light()
     } else {
       p <- ggplot() +
