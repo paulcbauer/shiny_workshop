@@ -1,5 +1,5 @@
 --- 
-title: "Introduction: why Shiny?"
+title: "Introduction"
 ---
 
 * Learning outcomes (first intuitions): Learn...
@@ -8,7 +8,7 @@ title: "Introduction: why Shiny?"
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 # install.packages("pacman)
-pacman::p_load(knitr, quarto)
+pacman::p_load(knitr, quarto, tidyverse, gganimate, kableExtra)
 ```
 
 Sources: [@Bertini2017-jq]
@@ -54,6 +54,143 @@ data transformation process, the modeling, the visual representation. This is an
 
 ### Suggestions
 * Bertini 2017
+
+
+### Why visualize?
+ 
+
+#### Anscombes's quartet (1)
+
+* @tbl-anscombe displays Anscombe's quartet [@Anscombe1973-xv], a dataset (or 4 little datasets) often used to illustrate the usefulness of visualization
+	- Q: What does the table reveal about the data? Is it easy to read?
+```{r tbl-anscombe, echo=FALSE, echo=FALSE, out.width = '100%'}
+#| label: tbl-anscombe
+#| tbl-cap: "Anscombe's quartett: Visualization"
+anscombe_table <- anscombe %>% dplyr::select(x1, y1, x2, y2, x3, y3, x4, y4)
+kable(anscombe_table, format = "html", table.attr = "style='width:95%;margin: auto;'",
+      caption = "Anscombe's quartet data") %>%
+  kable_styling(full_width = F) %>%
+  column_spec(1, color = "red") %>%
+  column_spec(2, color = "red") %>%
+  column_spec(3, color = "blue") %>%
+  column_spec(4, color = "blue") %>%
+  column_spec(5, color = "darkgreen") %>%
+  column_spec(6, color = "darkgreen") %>%
+  column_spec(7, color = "orange") %>%
+  column_spec(8, color = "orange")
+```
+
+
+
+ 
+
+#### Anscombes's quartet (2)
+
+* @tbl-regression-anscombe shows results from a linear regression based on Anscombe's quartet [@Anscombe1973-xv]
+	- Q: What do we see now?
+```{r tbl-regression-anscombe, echo=FALSE, echo=FALSE, results = "asis"}
+#| label: tbl-regression-anscombe
+#| tbl-cap: "Linear models based on sets of Anscombe's quartet"
+
+fit1 <- lm(y1 ~ x1, data = anscombe)
+fit2 <- lm(y2 ~ x2, data = anscombe)
+fit3 <- lm(y3 ~ x3, data = anscombe)
+fit4 <- lm(y4 ~ x4, data = anscombe)
+
+
+models <- list("y1 (Set 1)" = fit1, 
+							 "y2 (Set 2)" = fit2, 
+							 "y3 (Set 3)" = fit3, 
+							 "y4 (Set 4)" = fit4)
+library(gt)
+library(gtsummary)
+library(modelsummary)
+# additionally we want to change the font, font size and spacing
+modelsummary(models,
+output = 'gt',
+notes = "Notes: some notes...",
+gof_map = NA)
+```
+
+
+
+
+
+
+ 
+
+#### Anscombes's quartet (3)
+
+* @fig-anscombe finally visualizes the data underlying those data
+    + Q: *What do we see here? What is the insight?*
+```{r fig-anscombe, echo=FALSE, echo=FALSE, out.width = '100%'}
+#| label: fig-anscombe
+#| fig-cap: "Anscombe's quartet: Visualization"
+
+anscombe_m <- data.frame()
+
+for(i in 1:4)
+  anscombe_m <- rbind(anscombe_m, data.frame(set=i, x=anscombe[,i], y=anscombe[,i+4]))
+
+ggplot(anscombe_m, aes(x, y)) + 
+    geom_point(size=3, color="black", fill="black", shape=21) + 
+    geom_smooth(method="lm", fill=NA, fullrange=TRUE) + 
+    facet_wrap(~set, ncol=2) +
+    theme_light()
+```
+
+
+
+
+ 
+
+#### The Datasaurus Dozen
+
+* @fig-datasaurus-own displays the datasaurus dozen as animated by [Tom Westlake](https://github.com/thomasp85/gganimate/wiki/The-Datasaurus-Dozen) (see [here](https://github.com/thomasp85/gganimate/wiki/The-Datasaurus-Dozen), original by [Alberto Cairo](http://www.thefunctionalart.com/2016/08/download-datasaurus-never-trust-summary.html))
+    + Q: *What do we see here? What is the insight?*
+
+```{r fig-datasaurus, eval=FALSE, fig.cap="The Datasaurus Dozen animated by Tom Westlake", include=FALSE, out.width="100%"}
+#| label: fig-datasaurus
+#| fig-cap: "The Datasaurus Dozen animated by Tom Westlake"
+knitr::include_graphics("data/Datasaurus.gif")
+```
+
+```{r fig-datasaurus-own, echo=FALSE, warning=TRUE, out.width="100%"}
+#| label: fig-datasaurus-own
+#| fig-cap: "The Datasaurus Dozen animated by Tom Westlake"
+library(gifski)
+library(png)
+library(datasauRus)
+library(ggplot2)
+library(gganimate)
+library(dplyr)
+
+datasaurus_dozen <- datasaurus_dozen %>% 
+  group_by(dataset) %>%           
+  mutate(mean.x = round(mean(x), 3),
+         mean.y = round(mean(y),3),
+         sd.x = round(sd(x), 3),
+         sd.y = round(sd(y),3),
+         cor.xy = round(cor(x,y),3)) %>%
+  mutate(label = paste("Dataset: ", dataset, "\n",
+                       "mean(x): ", mean.x, "\n",
+                       "mean(y): ", mean.y, "\n",
+                       "sd(y): ", sd.y, "\n",
+                       "sd(x): ", sd.x, "\n",
+                       "cor(x,y): ", cor.xy, sep=""))
+           
+
+
+ggplot(datasaurus_dozen, aes(x=x, y=y))+
+  geom_point()+
+  theme_minimal() +
+  geom_text(x = 90, y = 85, aes(label = label)) +
+  #geom_text(x = 80, y = 95, label=as.character(round(mean(~x),2))) +
+  transition_states(dataset, 3, 1) + 
+  ease_aes('cubic-in-out')
+```
+
+
 
 ### Interactivity for data visualization: Theory & Concepts
 

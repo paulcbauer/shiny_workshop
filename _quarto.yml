@@ -19,7 +19,7 @@ website:
       - section: "1 The workshop"
         contents:
           - 01-workshop.qmd
-      - section: "2 Introduction: why Shiny?"
+      - section: "2 Introduction"
         contents:
           - 02-introduction.qmd
       - section: "3 User interface (UI)"
