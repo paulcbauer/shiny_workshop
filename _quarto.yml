@@ -16,30 +16,15 @@ website:
     collapse-level: 2
     collapse-section: 2
     contents:
-      - section: "1 The workshop"
-        contents:
-          - 01-workshop.qmd
-      - section: "2 Introduction: why Shiny?"
-        contents:
-          - 02-introduction.qmd
-      - section: "3 User interface (UI) & front end"
-        contents:
-          - 03-user-interface.qmd
-      - section: "4 Server & reactive programming"
-        contents:
-          - 04-server-reactive-programming.qmd
-      - section: "5 Visualizing data in Shiny"
-        contents:
-          - 05-visualization.qmd
-      - section: "6 Embedding maps in Shiny"
-        contents:
-          - 06-mapping.qmd
-      - section: "7 Theming"
-        contents:
-          - 07-theming.qmd
-      - section: "8 A few closing notes on deployment"
-        contents:
-          - 08-deployment.qmd
+      - index.qmd
+      - 01-workshop.qmd
+      - 02-introduction.qmd
+      - 03-user-interface.qmd
+      - 04-server-reactive-programming.qmd
+      - 05-visualization.qmd
+      - 06-mapping.qmd
+      - 07-theming.qmd
+      - 08-deployment.qmd
 
 
 
