@@ -109,10 +109,10 @@ ui <- dashboardPage(
 		a(
 			class = "logo",
 			href = "https://gesis.org/",
-			img(src = "../www/gesis-logo.png", style = "height: 1.8em;")
+			img(src = "www/gesis-logo.png", style = "height: 1.8em;")
 		),
 		title = tagList(
-			img(src = "../www/workshop-logo.png", width = 35, height = 35),
+			img(src = "www/workshop-logo.png", width = 35, height = 35),
 			span("The Guerry Dashboard", class = "brand-text")
 		),
 		skin = "light",

@@ -885,7 +885,7 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
-## Exercise
+## Exercises
 
 ::: callout-note
 ## Exercise 1
@@ -910,18 +910,54 @@ Don't forget about the use of `fluidRow()` and `column()`! The new quadrant goes
 fluidRow(
 	column(
 		width = 6,
-		box(width = 12), # quadrant 1: data selection
-		box(width = 12) # quadrant 3: regression
+		box(width = 12), # quadrant 1
+		box(width = 12) # quadrant 3
 	),
 	column(
 		width = 6,
-		box(width = 12), # quadrant 2: pair plot
-		box(width = 12) # quadrant 4: ???
+		box(width = 12), # quadrant 2
+		box(width = 12) # quadrant 4
 	)
 )
 ```
 :::
 
-**Exercise 1:** Thinking back to our initial visualization structure (data selection, data exploration, data modelling, ???), what could be a good last step? What type of visualization can enhance our understanding of the relationship among the Guerry variables? Write down your ideas along with possible types of visualizations.
+::: callout-note
+## Exercise 3
 
-**Exercise 2:** Implement your additional visualization from exercise 1 in the modelling tab. Add a fourth box to the dashboard panel, add a UI output and render your chart in the server function.
+Add a UI output and an empty rendering function
+:::
+
+::: {.callout-tip collapse="true"}
+The respective plotly functions are `plotly::plotlyOutput()` and `plotly::renderPlotly()`
+:::
+
+::: callout-note
+## Exercise 4
+
+Implement the visualization from exercise 1 within the new box from exercise 2. Create your plot using ggplot2 and convert it to a plotly chart using `ggplotly()`
+:::
+
+::: callout-note
+## Exercise 5
+
+Remove all mode bar buttons except "Zoom in" and "Zoom out" from the new visualization of exercise 4
+:::
+
+::: {.callout-tip collapse="true"}
+The relevant function is `plotly::config()`
+
+Call `schema()` and explore `object -> config` to find out about ways to remove mode bar buttons
+:::
+
+::: callout-note
+## Exercise 6
+
+Change the axis width of the new graph from exercise 4 to 5 pixels and color to #000
+:::
+
+::: {.callout-note collapse="true"}
+The relevant function is `plotly::layout()`
+
+Call `schema()` and explore `object -> layout -> layoutAttributes` to find out about ways to change the axis layout
+:::

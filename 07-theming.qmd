@@ -1,5 +1,5 @@
 ---
-title: "Build"
+title: "Theming"
 ---
 
 ```{r include=FALSE}
@@ -22,30 +22,183 @@ pacman::p_load(
 )
 ```
 
+## Theming in Shiny
 
-## Theming
+-   Shiny apps look a bit lackluster by default - but why is that?
 
--   Shiny apps look a bit lackluster by default
+-   Shiny is based on a raw form of Bootstrap by default
 
--   Especially in case of corporate designs, theming is an important issue
+### Bootstrap
 
--   Shiny has some really cool extensions for amping up your UI, e.g.: `bslib`, `fresh`, `waiter`, `shinyWidgets`, `shinyjs`, ...
+-   [Bootstrap](https://en.wikipedia.org/wiki/Bootstrap_(front-end_framework)) is a framework containing design templates that are based on CSS, HTML and JavaScript
 
-### Global themes
+    -   Used by around 20% of websites
+
+    -   One of the most popular GitHub projects
+
+    -   Possibly a bit boring due to its popularity
+
+-   Classic Shiny uses Bootstrap 3
+
+-   `bs4Dash`, the package we use for the Guerry dashboard, uses Bootstrap 4 (more precisely AdminLTE 3)
+
+### Shiny extensions for theming
+
+-   Shiny has some really cool extensions for amping up your UI, each of which we will address:
+
+    -   [`bslib`](https://rstudio.github.io/bslib/) - customize bootstrap themes
+
+    -   [`fresh`](https://dreamrs.github.io/fresh/reference/fresh.html) - customize dashboard themes
+
+    -   [`waiter`](https://shiny.john-coene.com/waiter/) - create pretty spinners
+
+    -   [`shinyWidgets`](https://cran.r-project.org/web/packages/shinyWidgets/index.html) - beautify input widgets
+
+    -   [`shinyjs`](https://cran.r-project.org/web/packages/shinyjs/index.html) - do JavaScript magic without knowing JavaScript
+
+### Further reading
+
+-   [Chapter 6](https://mastering-shiny.org/action-layout.html) of Hadley Wickham's "Mastering Shiny"
+
+-   [Chapter 6 to 9](https://unleash-shiny.rinterface.com/beautify-css.html) of David Granjon's "Outstanding User Interfaces with Shiny"
+
+## Inspect tool
+
+-   Most major browsers offer an "Inspect" tool for websites
+
+    -   Lets you manipulate single HTML elements in real time (**HTML pane**)
+
+    -   Lets you change the CSS styling of a website in real time (**CSS pane**)
+
+    -   Lets you change the layout of a website in real time (**Layout pane**)
+
+    -   Provides an interface to visualize where HTML elements are located on a website (**"Pick an element"**)
+
+    -   Lets you extract colors directly from a website (**"Grab a color"**)
+
+### How to open the inspector
+
+1.  Visit a website (e.g. your Shiny app in a browser)
+
+2.  Right click somewhere (e.g. an element you want to inspect)
+
+3.  Select "Inspect"
+
+-   A window will open that looks just like the one below
+
+::: callout-tip
+Also works in RStudio! Right click somewhere, then "Inspect Element"
+:::
+
+![The Inspect tool in Firefox](resources/inspect.png){alt="The Inspect tool in Firefox"}
+
+### Exploring the inspector
+
+-   **Question:** From the list above, can you make out which part of the inspector does what?
+
+    -   HTML pane
+
+    -   CSS pane
+
+    -   Layout pane
+
+    -   Pick an element
+
+    -   Grab a color
+
+-   Despite the complicated look, the Inspect tool can be useful for all kinds of theming endeavours
+
+## Theming with `bslib`
+
+-   The `bslib` package can be used to control the bootstrap theme configuration
+
+-   Bootstrap themes can be specified using the [`bs_theme()`](https://rstudio.github.io/bslib/reference/bs_theme.html) function
+
+-   In Shiny, we can plug `bs_theme`s in page layout such as [`fillPage()`](https://shiny.posit.co/r/reference/shiny/1.4.0/fillpage) or [`fluidPage()`](https://shiny.posit.co/r/reference/shiny/1.4.0/fluidpage)
+
+### Bootstrap versions with `bslib`
+
+-   In the following code chunk, we create a bootstrap theme that applies the theming of the most recent Bootstrap 5 version:
+
+```{r eval=FALSE}
+ui <- fluidPage(
+	h1("Heading 1"), 
+	h2("Heading 2"), 
+	p("Paragraph"), 
+	selectInput("select", "Select Input", unique(iris$Species)),
+	sliderInput("slider", label = "Slider", 1, 5, 3),
+	checkboxInput("check", "Checkbox"),
+	theme = bs_theme(version = 5)
+)
+
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+```
+
+-   The differences to the classic bootstrap 3 are small but noticeable!
+
+![](resources/bs3_bs5.png)
+
+### Bootswatch
+
+-   Other than the version, there's a lot to change in `bs_theme()`
+
+-   For example, we can apply one of the pre-made Bootswatch themes:
+
+```{r eval=FALSE}
+ui <- fluidPage(
+	h1("Heading 1"), 
+	h2("Heading 2"), 
+	p("Paragraph"), 
+	selectInput("select", "Select Input", unique(iris$Species)),
+	sliderInput("slider", label = "Slider", 1, 5, 3),
+	checkboxInput("check", "Checkbox"),
+	theme = bs_theme(version = 5, bootswatch = "sketchy")
+)
+
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+```
+
+### Exploring theming options
+
+-   You can try out all theming options in real time by running [`bs_theme_preview()`](https://rstudio.github.io/bslib/reference/bs_theme_preview.html)
+
+::: callout-note
+### Exercise
+
+Experiment with `bs_theme_preview()` to learn about the different arguments to `bs_theme()`. When you find a pretty theme, re-create the the theme programmatically using `bs_theme()`
+:::
+
+::: {.callout-tip collapse="true"}
+The code to update the theme including all arguments is printed to the console!
+:::
+
+## Theming with `fresh`
+
+-   `fresh` is an R package that can be used to theme, besides classic Shiny, dashboards like [`shinydashboard`](https://rstudio.github.io/shinydashboard/) and [`bs4Dash`](https://rinterface.github.io/bs4Dash/)
 
 -   `bs4Dash` can easily be themed using the `fresh` package
 
+### Adding a GESIS-like theme
+
 -   Workflow:
 
-    -   Create a theme using `fresh::create_theme`
+    -   Create a theme using [`fresh::create_theme()`](https://dreamrs.github.io/fresh/reference/create_theme.html)
 
     -   Add theming elements, such as layout, colors, fonts
 
-    -   Pass the theme object as an argument to `dashboardPage`
+    -   Pass the theme object as an argument to [`dashboardPage()`](https://rinterface.github.io/bs4Dash/reference/dashboardPage.html)
 
--   Tip: Type in `fresh::bs4dash_` in the RStudio console and explore fresh's theming elements
+-   In the following code chunk, we add a theme that roughly resembles the GESIS web style
 
-```{r}
+::: callout-tip
+Type [`fresh::bs4dash_`](https://dreamrs.github.io/fresh/reference/) in the RStudio console and explore fresh's theming elements
+:::
+
+```{r eval=FALSE}
 dash_theme <- create_theme(
   bs4dash_status(
     primary = "#58748f",
@@ -80,19 +233,31 @@ dash_theme <- create_theme(
 )
 ```
 
-### Spinners
+::: callout-note
+### Exercise
+
+Using the pipette tool from the Inspector, extract the color scheme from a website of your choice. Create a theme using the respective colors (and other theming elements) and pass it to your Shiny dashboard.
+:::
+
+## Spinners
 
 -   A lack of feedback in graphical user interfaces can lead to frustration
 
 -   In such cases, spinners can be an elegant solution
 
--   There are many Shiny extensions that support spinners: shinycssloaders, shinybusy, waiter
+-   There are many Shiny extensions that support spinners: [`shinycssloaders`](https://cran.r-project.org/web/packages/shinycssloaders/), [`shinybusy`](https://cran.r-project.org/web/packages/shinybusy/), [`waiter`](https://cran.r-project.org/web/packages/waiter/)
+
+### Startup spinners with `waiter`
 
 -   `bs4Dash` and `waiter` work particularly well together:
 
     -   Call `tags$head(use_waiter())` at the beginning of `dashboardBody`
 
     -   Assemble a preloader and pass it as an argument to the `dashboardPage`
+
+::: callout-tip
+You can preview what spinners look like through the [`preview_spinner()`](https://rdrr.io/github/JohnCoene/waiter/man/preview_spinner.html) function or by visiting <https://jslth.shinyapps.io/waiter-gallery/>
+:::
 
 ```{r eval = FALSE}
 preloader <- list(
@@ -110,9 +275,7 @@ ui <- dashboardPage(
 )
 ```
 
--   Tip: You can preview what spinners look like through the `preview_spinner()` function or by visiting <https://jslth.shinyapps.io/waiter-gallery/>
-
-### Custom styling
+## Custom styling
 
 -   Shiny apps can look good without a single line of non-R code
 
@@ -125,6 +288,8 @@ ui <- dashboardPage(
 ```{r}
 bs4Dash::box()
 ```
+
+### CSS
 
 -   [CSS](https://en.wikipedia.org/wiki/CSS) (Cascading Style Sheets) is a computer language that is used to style HTML documents
 
@@ -153,6 +318,8 @@ browsable(div(
 ))
 ```
 
+### Classes and IDs
+
 -   CSS is usually defined using classes or IDs
     -   IDs are unique identifiers for a single UI elements and are specified using a hashtag `#`
     -   Classes can be given to multiple UI elements and are specified using a dot `.`
@@ -175,7 +342,35 @@ browsable(div(
 ))
 ```
 
+### CSS properties
+
+-   CSS is build entirely upon so-called properties
+
 -   A complete reference of CSS can be found in the [Mozilla developer docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
+
+| Proprerty          | Description                                      | Example values                |
+|--------------------|--------------------------------------------------|-------------------------------|
+| `color`            | Sets the color of an element                     | #000, black                   |
+| `background-color` | Sets the color of the element background         | #000, black                   |
+| `display`          | Determines how the element is displayed          | inline, block, flex, grid     |
+| `width`            | Sets the width of an element                     | 10px, 100%, 2em, 1vh          |
+| `height`           | Sets the height of an element                    | 10px, 100%, 2em, 1vh          |
+| `margin`           | Margin between element and parent                | 10px, 100%, 2em, 1vh          |
+| `padding`          | Margin within element                            | 10px, 100%, 2em, 1vh          |
+| `border-color`     | Sets the color of an element border              | #000, black                   |
+| `border-width`     | Sets the width of an element border              | 10px, 100%, 2em, 1vh          |
+| `border-style`     | Sets the style of an element border              | dotted, dashed, solid, double |
+| `border-radius`    | Sets smooth corners                              | 10px, 100%, 2em, 1vh          |
+| `font-family`      | Sets the font family                             | Arial, Verdana                |
+| `font-style`       | Sets the font style                              | Normal, italic, oblique       |
+| `font-weight`      | Sets the font boldness                           | normal, bold, 700             |
+| `font-size`        | Sets the font size                               | 10px, 100%, 2em, 1vh          |
+| `position`         | Determines the general positioning of an element | Absolute, relative, fixed     |
+| `z-index`          | Sets the overlapping order                       | Ranking, e.g., -1, 0, 1, 1000 |
+
+: An incomplete list of common CSS properties
+
+### Including CSS in R
 
 -   CSS can either be defined using inline CSS (`tags$style`) or an external CSS file
 
@@ -228,16 +423,6 @@ a.par:hover {
   border-bottom: 2px solid black;
 }
 ```
-
--   Tip: Use the "Inspect" tool in Firefox / Chrome
-
-    -   Interactive visualization of a websites source code
-
-    -   Lets you manipulate single UI elements in real time
-
-    -   Makes you somewhat understand HTML and CSS more in-depth
-
-![The Inspect tool in Firefox](resources/inspect.png)
 
 **Exercise:** What changes after we include the external CSS file? Pinpoint the UI elements that are amended by the CSS file using the Inspect tool
 

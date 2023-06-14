@@ -1,5 +1,5 @@
 ---
-title: "Prototyping"
+title: "Mapping and advanced visualization"
 ---
 
 ```{r include=FALSE}
@@ -87,17 +87,13 @@ You will learn how to:
 
 -   Spatial data is all data that can be explicitly linked to a spatial reference (longitude/latitude)
 
+### Types of spatial data
+
 -   Geography can describe the world in two ways:
 
     -   As spatially continuous processes (or as *raster data*)
 
     -   As an ensemble of individual elements (or as *vector data*)
-
--   In R, spatial data can be handled using various packages:
-
-    -   `sp` (vector data) and `raster` (raster data) used to be the common packages for spatial analysis
-
-    -   `sf` (vector data) and `terra` (raster data) are their more timely successors
 
 -   Vector data is also called spatial geometries and can be divided into
 
@@ -109,15 +105,72 @@ You will learn how to:
 
 ![The real world described by layers of raster and vector data ([Source](https://saylordotorg.github.io/text_essentials-of-geographic-information-systems/s11-02-multiple-layer-analysis.html#campbell_1.0-ch07_s02_f01))](https://saylordotorg.github.io/text_essentials-of-geographic-information-systems/section_11/ca6ce94cdd2e09a1da8aa6ec22336835.jpg){width="440"}
 
--   All spatial data need to have a coordinate reference system (CRS) that locates the coordinates on the planet
+### Spatial data in R
+
+-   In R, spatial data can be handled using various packages:
+
+    -   `sp` (vector data) and `raster` (raster data) used to be the common packages for spatial analysis
+
+    -   `sf` (vector data) and `terra` (raster data) are their more timely successors
+
+-   By default, `guerry` is an sp object, but we converted it to an sf dataframe
+
+-   `sf` dataframes consist of a geometry column (class `sfc`) and multiple features (i.e. non-spatial columns)
+
+-   `sfc` geometries are list-like objects that consist of individual geometries (class `sfg`) and spatial metadata (e.g. type or dimension)
+
+-   `sfg` objects are matrices consisting purely of coordinates
+
+```{r}
+st_sf( # create an sf dataframe
+	feature = c(1, 2), # feature column
+	geometry = # geometry column
+		st_sfc( # sfc object = geometry + spatial metadata
+			st_point(c(1, 1)), # sfg object = raw geometry
+			st_point(c(1, 2)), 
+		  st_point(c(2, 2)),
+			st_point(c(2, 1))
+		)
+)
+```
+
+### Coordinate reference systems
+
+-   All spatial data need to have a **coordinate reference system** (CRS) that locates the coordinates on the planet
 
 -   The geodetic specifics are mostly not necessary, but it's always good to know a basic distinction
 
-    -   **Geodetic CRS** use angular units (degrees) because they are based on a spheroid - good for visualization and quick overviews -- usually good for global or national scale visualizations
+    -   **Geodetic CRS** use angular units (degrees) because they are based on a spheroid -- usually good for global or national scale visualizations
 
     -   **Projected CRS** use metric units (meters) because they are based on a projected model of the earth -- usually good for local or regional high-precision spatial analysis and visualization
 
-![UTM (Universal Transversal Mercator) zones. Each zone is a CRS.](https://upload.wikimedia.org/wikipedia/commons/e/ed/Utm-zones.jpg)
+![UTM (Universal Transversal Mercator) - a projected coordinate system. Each zone is a CRS.](https://upload.wikimedia.org/wikipedia/commons/e/ed/Utm-zones.jpg)
+
+### EPSG codes
+
+-   CRS can be referenced using numeric identifiers called EPSG codes
+
+    -   EPSG database: <https://epsg.io/>, e.g. EPSG code 4326: <https://epsg.io/4326>
+
+| Name                               | EPSG code | Area    | Geodetic? |
+|------------------------------------|-----------|---------|-----------|
+| World Geodetic System 1984 (WGS84) | 4326      | World   | Yes       |
+| UTM zone 32N                       | 25832     | Germany | No        |
+| LAEA Europe                        | 3035      | Europe  | No        |
+
+: Some common CRS
+
+### CRS in R
+
+-   How do we work with CRS in R?
+
+    -   Convert to an sf dataframe: [`st_as_sf`](https://r-spatial.github.io/sf/reference/st_as_sf.html)`(..., crs = 4326)`
+
+    -   Assign a CRS to an existing sf dataframe: [`st_crs`](https://r-spatial.github.io/sf/reference/st_crs.html)`(...) <- 4326` or `st_set_crs(…, 4326)`
+
+    -   Transform an existing CRS to a new CRS: [`st_transform`](https://r-spatial.github.io/sf/reference/st_transform.html)`(..., 4326)`
+
+<!-- -->
 
 -   **Question:** What can we say about the Guerry dataset in terms of spatial information?
 
@@ -136,6 +189,8 @@ guerry["Literacy"]
     -   [`cartography`](https://cran.r-project.org/web/packages/cartography/index.html) and [`mapsf`](https://cran.r-project.org/web/packages/mapsf/index.html) incorporate cartography principles to move R closer to dedicated mapping software
 
     -   [`leaflet`](https://cran.r-project.org/web/packages/leaflet/) interfaces the Leaflet JavaScript library to create interactive map visualizations
+
+### Integrate Leaflet in Shiny
 
 -   Leaflet in Shiny works just like any other type of visualization, we need:
 
@@ -163,6 +218,8 @@ tabItem(
   ) # end fluidRow
 ) # end tabItem
 ```
+
+### Leaflet workhorse
 
 -   The leaflet package is centered around the workhorse [`leaflet()`](https://rdrr.io/cran/leaflet/man/leaflet.html) which creates an empty map canvas
 
@@ -205,7 +262,11 @@ output$exp_map <- leaflet::renderLeaflet({
 
     -   [`addLegend()`](https://rdrr.io/cran/leaflet/man/addLegend.html) adds a legend
 
+### Specifics of Leaflet mapping
+
 -   Variables are passed using formulas (i.e. instead of `guerry$Literacy`, we write `~Literacy`)
+
+-   Leaflet by default only supports WGS84 (EPSG:4326) as CRS
 
 -   Palettes are applied using custom functions that are generated in function factories:
 
@@ -235,7 +296,7 @@ output$exp_map <- leaflet::renderLeaflet({
 	# Isolate call to params() to prevent render function to be executed
 	# every time params() is invalidated. No dependency is made.
 	params <- params()
-	leaflet(data = params$poly) %>%
+	leaflet(data = st_transform(guerry, 4326)) %>%
 		addProviderTiles("OpenStreetMap.France") %>%
 		setView(lng = 3, lat = 47, zoom = 5) %>%
 		addPolygons(
@@ -271,6 +332,8 @@ output$exp_map <- leaflet::renderLeaflet({
 -   Similar to chapter 5 on visualization, reactivity is the key to making maps in Shiny
 
 -   Similar to chapter 5, reactivity is arguably the most complex part of app development!
+
+### Reactive UI
 
 -   In our app, we add three reactive components:
 
@@ -344,6 +407,8 @@ tabItem(
 ) # end tabItem
 ```
 
+### Spatial operations
+
 -   To change the aggregation level, we need the Guerry dataset at different levels
 
 -   The Guerry dataset contains two group variables: Department (smaller) and Region (larger)
@@ -372,16 +437,7 @@ guerry_region <- guerry %>%
 	))
 ```
 
--   We also unpack the text data that we stored in the working directory before
-
--   The JSON contains metadata to each Guerry variable, including titles, descriptions, legend titles and units
-
-```{r}
-# We also use the text data that we created before
-txts <- read_json("shinyapps/guerry/app_labels.json", simplifyVector = TRUE)
-
-str(txts)
-```
+### Server side
 
 -   In the server function, we have a lot to do (annotated with their respective letters in the code below):
 
@@ -486,6 +542,8 @@ str(txts)
 
     -   Good news: You have more freedom in designing hover labels :)
 
+### How to add labels
+
 -   Adding labels is itself not a difficult task: You can just provide the values vector we use as data input:
 
 ```{r eval=FALSE}
@@ -495,6 +553,8 @@ leaflet() %>%
 		label = ~values
 	)
 ```
+
+### Advanced label layout using HTML
 
 -   This is *enough*, but not very pretty and it doesn't provide potentially important metadata like region names
 
@@ -639,9 +699,13 @@ params <- reactive({
 
 ![](resources/06_05.gif)
 
+### What are proxies?
+
 -   Solution: Proxies
 
--   Proxy objects are representations of existing widgets that can manipulate existing widgets in place
+-   Proxy objects are representations of existing widgets that can manipulate widgets in place
+
+### Proxies in Shiny extensions
 
 -   Many Shiny extensions provide proxy functions:
 
@@ -651,15 +715,19 @@ params <- reactive({
 
     -   [`leaflet::leafletProxy()`](https://rdrr.io/cran/leaflet/man/leafletProxy.html)
 
--   Proxy workflow:
+### Proxy workflow
 
-    1.  Initialize an isolated output widget (i.e., no dependencies)
+1.  Initialize an isolated output widget (i.e., no dependencies)
 
-    2.  Create an observer that updates input dependencies
+2.  Create an observer that updates input dependencies
 
-    3.  Invalidate an input
+3.  Invalidate an input
 
-    4.  Remove existing features and add new ones
+4.  Remove existing features and add new ones
+
+![Reactive graph for proxies](resources/proxies.svg)
+
+### Isolate reactive objects
 
 -   To create an isolated output widget, we use the `isolate()` function from Shiny
 
@@ -706,6 +774,8 @@ params <- reactive({
   })
 ```
 
+### Implement proxies
+
 -   Instead, we create an observer that updates the map layers *in place*
 
 -   First, all existing features that are to be changed are cleared
@@ -750,64 +820,433 @@ params <- reactive({
   })
 ```
 
+### What changed?
+
+-   The output now:
+
+    -   Does not re-render from scratch - saving time and resources
+
+    -   Does not reset the map - making exploration more seamless
+
+![](resources/06_06.gif)
+
+## Add interactive events
+
+-   Currently the user can interact with the Leaflet map in various ways: zoom, pan, hover, ...
+
+-   The Shiny programmer has no way of accessing what happens on the map after it is rendered
+
+-   Solution: reactive events!
+
+-   Many Shiny extensions like Leaflet allow you to observe events that happen on the map
+
+### Leaflet events
+
+-   Leaflet events are accessed like so:
+
+::: {style="font-size: 20px;"}
+`input$<Map ID>`{style="color: red;"}`_<Object type>`{style="color: green;"}`_<Event type>`{style="color: blue;"}
+:::
+
+-   Map ID refers to the ID given to the Leaflet widget, in our case this is `map_exp`
+
+### Leaflet object types
+
+-   Object type refers to a geometry type, can be one of:
+
+    -   `marker` for points
+
+    -   `shape` for polygons and lines
+
+    -   `geojson` and `topojson` for data that was passed in GeoJSON or TopoJSON format
+
+### Leaflet event types
+
+-   Event type refers to the action that is performed on the geometry, one of:
+
+    -   `click`
+
+    -   `mouseover`
+
+    -   `mouseout`
+
+### Other events
+
+-   Additionally, Leaflet has some more general events:
+
+    -   `input$<Map ID>_click` triggers when the background of the map is clicked
+
+    -   `input$<Map ID>_bounds` provides the bounding box of the current view
+
+    -   `input$<Map ID>_zoom` provides the current zoom level
+
+    -   `input$<Map ID>_center` provides the center point of the current view
+
+-   **Question:** When does `input$map_exp_marker_click` trigger?
+
+### Events in practice
+
+-   The output of these Leaflet events usually contain an ID, Latitude and Longitude:
+
+```{r include=FALSE}
+input <- list()
+input$map_exp_shape_click <- list(id = NULL, .nonce = 0.0504539489632481, lat = 49.003195289566, lng = -1.14056772662844)
+```
+
+```{r}
+input$map_exp_shape_click
+```
+
+### Clear objects
+
+-   In the following code chunk, we add a marker whenever we click on a polygon on the Leaflet map
+
+    1.  Capture the click input
+
+    2.  Remove previous markers
+
+    3.  Add a new marker using the click coordinates
+
+```{r eval=FALSE}
+observe({
+	click <- input$exp_map_shape_click
+	req(click) # Cancel execution if click is not "truthy"
+	leafletProxy("map_exp") %>% # Create proxy object
+		clearMarkers() %>% # Remove ALL markers
+		addMarkers(lng = click$lng, lat = click$lat) # add a new marker
+})
+```
+
+![](resources/06_07.gif)
+
+-   
+
+-   Here, we remove all markers in order to add a new one, but we can also be more careful in deleting elements
+
+    -   `leaflet::clear` functions remove all elements of a geometry type
+
+    -   `leaflet::remove` functions remove one element by layer ID
+
+::: callout-note
+`leaflet::remove` functions need a layer ID to work! You can set them using the `layerId` argument in `leaflet::add` functions, e.g. `leaflet::addMarkers(..., layerId = "marker1")`
+:::
+
+```{r eval=FALSE}
+# Add a new marker
+observe({
+	click <- input$exp_map_shape_click
+	req(click)
+	id <- paste0(click$lng, click$lat) # Generate an ID from long and lat values
+	leafletProxy("exp_map") %>%
+		addMarkers(lng = click$lng, lat = click$lat, layerId = id) # Create a marker with unique ID
+})
+
+# Delete an existing marker
+observe({
+	click <- input$exp_map_marker_click
+	req(click)
+	leafletProxy("exp_map") %>%
+		removeMarker(click$id) # Remove a marker with when marker ID and click ID align
+})
+```
+
+![](resources/06_08.gif)
+
+::: {.callout-note collapse="true"}
+## Bonus for the daring
+
+-   You can create your own input events with a little bit of JavaScript!
+
+-   In the code chunk below, we add a "mousemove" event, that triggers every time the mouse is moved on the Leaflet map
+
+-   Note the use of `htmlwidgets::onRender()` to execute a piece of JavaScript when the Leaflet widget renders
+
+-   Note the use of `Shiny.onInputChange` to create input events
+
+-   Further reading: [Joe Cheng - "Communicating with Shiny via JavaScript"](https://shiny.posit.co/r/articles/build/communicating-with-js/)
+
+```{r eval=FALSE}
+output$exp_map <- renderLeaflet({
+	leaflet() %>%
+		htmlwidgets::onRender("function(el, x) {
+      this.on('mousemove', function(e) {
+        var lng = e.latlng.lng;
+        var lat = e.latlng.lat;
+        var coord = [lng, lat];            // capture long and lat
+        Shiny.onInputChange('exp_map', coord)   // send coordinates to Shiny
+      });
+      this.on('mouseout', function(e) {
+        Shiny.onInputChange('exp_map', null)    // reset coordinates when mouse leaves map
+      })
+    }")
+})
+```
+:::
+
 ## Exercises
 
 ::: callout-note
-## Exercise 1
+### Exercise 1
 
-Extract the raw geometries of the `Guerry` dataset.
+Extract the `sfc` object from the `Guerry` dataset. What is the difference between `sf` and `sfc`?
 :::
 
 ::: {.callout-tip collapse="true"}
 Consult the documentation of `st_geometry()`
 :::
 
-::: callout-note
-## Exercise 2
+::: {.callout-warning collapse="true"}
+### Solution
 
-Extract the first of the geometries from exercise 1.
+```{r eval=FALSE}
+st_geometry(guerry)
+```
+
+`sf` objects are dataframes containing of one or more non-spatial feature columns and a geometry column containing an `sfc` object
+
+`sfc` objects are representations of geospatial geometries. They contain all relevant spatial metadata but no contextual feature data
+:::
+
+### Exercise 2
+
+::: callout-note
+Extract the fifth `sfg` object of the `sfc` object from exercise 1. What is the difference between the two?
 :::
 
 ::: {.callout-tip collapse="true"}
 Objects of class `sfc` behave like lists and can be subset in the same fashion
 :::
 
-::: callout-note
-## Exercise 3
+::: {.callout-warning collapse="true"}
+### Solution
 
-What is the differences between the `Guerry` dataset and the outputs of exercise 1 and 2?
+```{r eval=FALSE}
+geom <- st_geometry(guerry)
+geom[[1]]
+```
+
+`sfg` objects contain raw geometries consisting only of coordinates and a geometric topology (i.e. how to connect coordinates to make a polygon)
+
+`sfc` objects have spatial metadata including the CRS which makes it possible to where the coordinates are located on the planet
+:::
+
+::: callout-note
+### Exercise 3
+
+`guerry` currently consists of multi polygons. How can we convert these polygons to point geometries? Explore the function reference of the sf package and find functions (multiple answers possible) that can convert polygons to points in some way.
 :::
 
 ::: {.callout-tip collapse="true"}
-Check the `class` of each of the objects. Also check the printed information of each object.
+A search for "point" can give you the most obvious functions to fulfill the task, but there's more!
+:::
+
+::: {.callout-warning collapse="true"}
+### Solution
+
+`st_point_on_surface(guerry)` returns a point that is guaranteed to be on the polygon
+
+`st_centroid(guerry)` returns the geometrical center of the polygon
+
+`st_cast(guerry, "POINT")` or `st_cast(guerry, "MULTIPOINT")`
+
+All of them return a warning! [Why might that be?](https://r-spatial.github.io/sf/articles/sf1.html#how-attributes-relate-to-geometries)
+
+`st_sample(guerry, size = rep(1, nrow(guerry)))`
+
+Doesn't return a warning, but is random and drops all features
 :::
 
 ::: callout-note
-## Exercise 4
+### Exercise 4
 
-Add a marker of Paris to the Leaflet map.
+Currently, the `Guerry` dataframe has the CRS "NTF (Paris) / Lambert zone II", which is already a good choice. What other CRS could be a good choice for accurate mapping in France? What is the respective EPSG code?
 :::
 
 ::: {.callout-tip collapse="true"}
-The coordinates of France are long = 2.351667, lat = 48.856667
+Remember the UTM coordinate system! Scroll back up to see the UTM zones. EPSG codes can be looked up using <https://epsg.io/>
+:::
+
+::: {.callout-warning collapse="true"}
+### Solution
+
+While there are many CRS that might be a good choice, one solution that we addressed in this workshop are UTM zones! Taking a look at the figure of UTM zones we can see that UTM zone 31N almost entirely covers the area of France.
 :::
 
 ::: callout-note
-## Exercise 5
+### Exercise 5
 
-Add a popup that adds additional information about the capital of France
+Transform the `Guerry` dataframe to your new CRS from exercise 4.
 :::
 
 ::: {.callout-tip collapse="true"}
-`popup` and `popupOptions` are arguments of `addMarkers()`
+Remember you can visit <https://epsg.io/> to look up EPSG codes.
+:::
+
+::: {.callout-warning collapse="true"}
+### Solution
+
+Using the search function on [epsg.io](https://epsg.io/) we can determine that the EPSG code to transform the Guerry dataset from Lambert zone II to UTM zone 31N is one of 23031, 25831 or 32631.
+
+```{r eval=FALSE}
+st_transform(guerry, 23031)
+```
 :::
 
 ::: callout-note
-## Exercise 6
+### Exercise 6
+
+Add a marker of Paris to the Leaflet map. Add a popup that adds additional trivia information about the capital of France.
+:::
+
+::: {.callout-tip collapse="true"}
+The coordinates of France are long = 2.351667, lat = 48.856667.
+:::
+
+::: {.callout-warning collapse="true"}
+### Solution
+
+Add a marker of Paris:
+
+```{r eval=FALSE}
+leaflet(data = params$poly) %>%
+  addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
+  addProviderTiles("OpenTopoMap", group = "OTM") %>%
+  addProviderTiles("Stamen.TonerLite", group = "Stamen Toner") %>%
+  addProviderTiles("GeoportailFrance.orthos", group = "Orthophotos") %>%
+  addLayersControl(baseGroups = c("OSM", "OTM",
+                                  "Stamen Toner", "Orthophotos")) %>%
+  setView(lng = 3, lat = 47, zoom = 5) %>%
+  addPolygons(
+    fillColor = as.formula(paste0("~params$pal(", params$var, ")")),
+    fillOpacity = 0.7,
+    weight = 1,
+    color = "black",
+    opacity = 0.5,
+    label = params$labels,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "black",
+      opacity = 0.5,
+      fillOpacity = 1,
+      bringToFront = TRUE,
+      sendToBack = TRUE
+    )
+  ) %>%
+  addLegend(
+    position = "bottomright",
+    pal = params$pal,
+    values = params$values,
+    opacity = 0.9,
+    title = txts[[params$var]]$lgd,
+    labFormat = labelFormat(suffix = txts[[params$var]]$unit)
+  ) %>%
+	addMarkers(
+		lng = 2.351,
+		lat = 48.856,
+		popup = "When the Guerry dataset was published, around 800.000 people lived in the city of Paris"
+	)
+```
+:::
+
+::: callout-note
+### Exercise 7
+
+Change the icon of the marker from exercise 6 to an icon of a city and the color to red.
+:::
+
+::: {.callout-tip collapse="true"}
+To figure out how to change marker options, refer to `?makeIcon` and `?makeAwesomeIcon`.
+
+For icons, take a look at the `library` argument and the website \[https://fontawesome.com/\]
+:::
+
+::: {.callout-warning collapse="true"}
+### Solution
+
+To change the color and the icon, we need to work with "awesome markers". Icons can be made with the function `makeAwesomeIcon()` or `makeIcon()`. These functions support Icons from Glyphicon, Fontawesome and Ionicon.
+
+```{r eval=FALSE}
+... %>%
+  addAwesomeMarkers(
+      lng = 2.351,
+      lat = 48.856,
+      popup = "When the Guerry dataset was published, around 800.000 people lived in the city of Paris",
+      icon = makeAwesomeIcon(icon = "city", library = "fa", markerColor = "red")
+  )
+```
+:::
+
+::: callout-note
+### Exercise 8
 
 Set the default plotting variable to "Distance to Paris"
 :::
 
 ::: {.callout-tip collapse="true"}
 Remember the `selected` argument in input UI components
+:::
+
+::: {.callout-warning collapse="true"}
+### Solution
+
+To change the default values of a reactive Shiny plot, you need to change the `selected` argument of the UI input `selectInput`
+
+```{r eval=FALSE}
+selectInput(
+  "exp_select",
+  label = "Select a variable",
+  choices = setNames(variables, sapply(txts, "[[", "title"))
+)
+```
+:::
+
+::: callout-note
+### Exercise 9
+
+When does the event `input$map_exp_shape_mouseout` send information to the server?
+:::
+
+::: {.callout-tip collapse="true"}
+A Leaflet input event is structured as follows: `input$<mapid>_<geometry type>_<event type>`.
+:::
+
+::: {.callout-warning collapse="true"}
+### Solution
+
+`map_exp` refers to the target leaflet map
+
+`shape` refers to the target map object (in this case a polygon or a line)
+
+`mouseout` refers to the event type
+
+`input$map_exp_shape_mouseout` triggers whenever we move out of the boundaries of a polygon on the Leaflet map with the ID `map_exp`
+:::
+
+::: callout-note
+### Exercise 10
+
+Print the current mouse coordinates to the console every time a polygon on the map is clicked.
+:::
+
+::: {.callout-tip collapse="true"}
+You can access click coordinates using the map event `input$map_exp_shape_click`
+:::
+
+::: {.callout-warning collapse="true"}
+### Solution
+
+To capture the the mouse coordinates we need to access the Leaflet event `input$exp_map_shape_click`. Printing to the console is done in an observer as it triggers side effects and does not create a reactive object.
+
+```{r eval=FALSE}
+observe({
+	click <- input$exp_map_shape_click
+	cat(paste(
+		"Click on exp_map detected",
+		paste("Lon:", click$lng),
+		paste("Lat:", click$lat),
+		"\n",
+		sep = "\n"
+	))
+})
+```
 :::
