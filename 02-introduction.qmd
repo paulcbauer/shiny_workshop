@@ -1,5 +1,5 @@
 --- 
-title: "Introduction: why Shiny?"
+title: "Introduction"
 ---
 
 * Learning outcomes (first intuitions): Learn...
@@ -8,16 +8,213 @@ title: "Introduction: why Shiny?"
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 # install.packages("pacman)
-pacman::p_load(knitr, quarto)
+pacman::p_load(knitr, quarto, tidyverse, gganimate, kableExtra)
 ```
 
+Sources: [@Bertini2017-jq]
 
-## Why interactive data visualization?
+## Interactive data analysis 
+### Why?
+* "From Data Visualization to Interactive Data Analysis" [@Bertini2017-jq]
+
 - Aims
 - Audiences.. 
 
 
-## What is Shiny?
+![Source: Bertini, Enrico. 2017. From Data Visualization to Interactive Data Analysis. Medium. November 28, 2017.](02-bertinin-1.webp)
+
+### How Does Interactive Data Analysis Work?
+
+![Source: Bertini, Enrico. 2017. From Data Visualization to Interactive Data Analysis. Medium. November 28, 2017.](02-bertinin-2.webp)
+
+### Steps of interactive data analysis 
+1. **Defining the problem** (Bertini 2017)
+    + What problem are you trying to solve? What is your ultimate goal? How is increased understanding derived from data analysis going to bring you closer to your goal?
+2. **Generating questions**
+    + A problem specification is typically too high-level and loosely specified to translate directly into some data analysis actions (a problem that is often overlooked and not well understood). Typically, the problem needs to be translated (implicitly or, better, explicitly) into a number of data analysis questions.
+3. **Gathering, transforming and familiarizing with the data**
+    + Some projects have data available, whereas some others require some degree of data search or generation. In any case, all projects require the analyst to familiarize with the content and its meaning and perform multiple transformations, both to familiarize with the data (e.g., often slicing, dicing and aggregating the data) and to prepare it for the analysis one is planning to perform.
+4. **Creating models out of data**
+    + Not all projects require this steps, but some do. Using statistical modeling and machine learning methods can be useful when the question asked can be answered more easily by building a model. While most of what modeling people talk about is prediction, models can be extremely powerful tools for exploration and hypothesis generation. Examples of methods that can be used for this step are clustering, dimensionality reduction, simple
+regressions and various NLP (natural language processing) methods to convert text into meaningful numbers.
+5. **Visualizing data and models**
+    + This is where data is observed through your eyes. Now, most people think fancy charts when thinking about this stage, but simple representations like tables and lists are perfectly reasonable visualization for many problems. This is where the results obtained from data transformation and querying (or from some model) are turned into something our eyes can digest and hopefully understand. This is the step we all, data visualizers, love and live by.
+6. **Interpreting the results**
+    + Once the results have been generated and represented in some visual format, they need to be interpreted by someone. This is a crucial step and an often overlooked one. Behind the screen there is a human who needs to understand what all those colored dots and numbers mean. This is a complex activity which includes steps such as: understanding how to read the graph, understanding what the graph communicates about the phenomenon of interest, linking the results to questions and pre-existing knowledge of the problem. Note that interpretation here is heavily influenced by pre-existing knowledge. This includes at least knowledge about the domain problem, the
+data transformation process, the modeling, the visual representation. This is another aspect of visualization and analysis that is often overlooked.
+7. **Generating inferences and more questions**
+    + All of these steps ultimately lead to creating some new knowledge and, most of the time, generating additional questions or hypotheses. This is an interesting property of data analysis: its outcome is not only answers but also questions; hopefully better and more refined ones. One important aspect of this step is that one may generate incorrect inferences here, so not all processes necessarily lead to positive outcomes and not all analyses are equally effective.
+
+
+### Important aspects of data analysis & Quo vadis interaction?
+* Bertinin 2017
+
+### Challenges of Interactive Visual Data Analysis
+* Bertini 2017
+
+### Suggestions
+* Bertini 2017
+
+
+### Why visualize?
+ 
+
+#### Anscombes's quartet (1)
+
+* @tbl-anscombe displays Anscombe's quartet [@Anscombe1973-xv], a dataset (or 4 little datasets) often used to illustrate the usefulness of visualization
+	- Q: What does the table reveal about the data? Is it easy to read?
+```{r tbl-anscombe, echo=FALSE, echo=FALSE, out.width = '100%'}
+#| label: tbl-anscombe
+#| tbl-cap: "Anscombe's quartett: Visualization"
+anscombe_table <- anscombe %>% dplyr::select(x1, y1, x2, y2, x3, y3, x4, y4)
+kable(anscombe_table, format = "html", table.attr = "style='width:95%;margin: auto;'",
+      caption = "Anscombe's quartet data") %>%
+  kable_styling(full_width = F) %>%
+  column_spec(1, color = "red") %>%
+  column_spec(2, color = "red") %>%
+  column_spec(3, color = "blue") %>%
+  column_spec(4, color = "blue") %>%
+  column_spec(5, color = "darkgreen") %>%
+  column_spec(6, color = "darkgreen") %>%
+  column_spec(7, color = "orange") %>%
+  column_spec(8, color = "orange")
+```
+
+
+
+ 
+
+#### Anscombes's quartet (2)
+
+* @tbl-regression-anscombe shows results from a linear regression based on Anscombe's quartet [@Anscombe1973-xv]
+	- Q: What do we see now?
+```{r tbl-regression-anscombe, echo=FALSE, echo=FALSE, results = "asis"}
+#| label: tbl-regression-anscombe
+#| tbl-cap: "Linear models based on sets of Anscombe's quartet"
+
+fit1 <- lm(y1 ~ x1, data = anscombe)
+fit2 <- lm(y2 ~ x2, data = anscombe)
+fit3 <- lm(y3 ~ x3, data = anscombe)
+fit4 <- lm(y4 ~ x4, data = anscombe)
+
+
+models <- list("y1 (Set 1)" = fit1, 
+							 "y2 (Set 2)" = fit2, 
+							 "y3 (Set 3)" = fit3, 
+							 "y4 (Set 4)" = fit4)
+library(gt)
+library(gtsummary)
+library(modelsummary)
+# additionally we want to change the font, font size and spacing
+modelsummary(models,
+output = 'gt',
+notes = "Notes: some notes...",
+gof_map = NA)
+```
+
+
+
+
+
+
+ 
+
+#### Anscombes's quartet (3)
+
+* @fig-anscombe finally visualizes the data underlying those data
+    + Q: *What do we see here? What is the insight?*
+```{r fig-anscombe, echo=FALSE, echo=FALSE, out.width = '100%'}
+#| label: fig-anscombe
+#| fig-cap: "Anscombe's quartet: Visualization"
+
+anscombe_m <- data.frame()
+
+for(i in 1:4)
+  anscombe_m <- rbind(anscombe_m, data.frame(set=i, x=anscombe[,i], y=anscombe[,i+4]))
+
+ggplot(anscombe_m, aes(x, y)) + 
+    geom_point(size=3, color="black", fill="black", shape=21) + 
+    geom_smooth(method="lm", fill=NA, fullrange=TRUE) + 
+    facet_wrap(~set, ncol=2) +
+    theme_light()
+```
+
+
+
+
+ 
+
+#### The Datasaurus Dozen
+
+* @fig-datasaurus-own displays the datasaurus dozen as animated by [Tom Westlake](https://github.com/thomasp85/gganimate/wiki/The-Datasaurus-Dozen) (see [here](https://github.com/thomasp85/gganimate/wiki/The-Datasaurus-Dozen), original by [Alberto Cairo](http://www.thefunctionalart.com/2016/08/download-datasaurus-never-trust-summary.html))
+    + Q: *What do we see here? What is the insight?*
+
+```{r fig-datasaurus, eval=FALSE, fig.cap="The Datasaurus Dozen animated by Tom Westlake", include=FALSE, out.width="100%"}
+#| label: fig-datasaurus
+#| fig-cap: "The Datasaurus Dozen animated by Tom Westlake"
+knitr::include_graphics("data/Datasaurus.gif")
+```
+
+```{r fig-datasaurus-own, echo=FALSE, warning=TRUE, out.width="100%"}
+#| label: fig-datasaurus-own
+#| fig-cap: "The Datasaurus Dozen animated by Tom Westlake"
+library(gifski)
+library(png)
+library(datasauRus)
+library(ggplot2)
+library(gganimate)
+library(dplyr)
+
+datasaurus_dozen <- datasaurus_dozen %>% 
+  group_by(dataset) %>%           
+  mutate(mean.x = round(mean(x), 3),
+         mean.y = round(mean(y),3),
+         sd.x = round(sd(x), 3),
+         sd.y = round(sd(y),3),
+         cor.xy = round(cor(x,y),3)) %>%
+  mutate(label = paste("Dataset: ", dataset, "\n",
+                       "mean(x): ", mean.x, "\n",
+                       "mean(y): ", mean.y, "\n",
+                       "sd(y): ", sd.y, "\n",
+                       "sd(x): ", sd.x, "\n",
+                       "cor(x,y): ", cor.xy, sep=""))
+           
+
+
+ggplot(datasaurus_dozen, aes(x=x, y=y))+
+  geom_point()+
+  theme_minimal() +
+  geom_text(x = 90, y = 85, aes(label = label)) +
+  #geom_text(x = 80, y = 95, label=as.character(round(mean(~x),2))) +
+  transition_states(dataset, 3, 1) + 
+  ease_aes('cubic-in-out')
+```
+
+
+
+### Interactivity for data visualization: Theory & Concepts
+
+* "**interactive** data visualization enables direct actions on a plot to change elements and link between multiple plots" [@Swayne1999-wf] ([Wikipedia](https://en.wikipedia.org/wiki/Interactive_data_visualization))
+* Interactivity revolutionizes the way we work with data
+* Revolutionizes perception of data [cf. @Cleveland1984-fy]
+* Started ~last quarter of the 20th century, PRIM-9 (1974) [@Friendly2006-aq, 23, see also Cleveland and McGill,
+1988, Young et al. 2006]
+* We have come a long way... ["evolution of animals"](http://stat-graphics.org/movies/prim9.html) (2:20, 3:20, Tukey inventor of boxplot)
+* [More history](http://stat-graphics.org/movies/)
+* Interactivity allows for...
+    + ...making sense of big data (more dimensions)
+    + ...exploring data
+    + ...making data accessible to those without background
+    + Online publishing, Interactive analysis/reading
+    + Current projects: [www.digitalpolitics.info](https://paulcbauer.github.io/digitalpolitics/) ([older example](https://paulcbauer.shinyapps.io/transformations_of_variables/))
+* Example: Check out the datablogs of various newspapers... [data journalism](http://www.theguardian.com/data)!
+
+
+
+
+## Shiny
+
+### What is Shiny?
 
 A web application framework for R to turn analyses into interactive web applications. What does that mean?
 
@@ -28,68 +225,97 @@ A web application framework for R to turn analyses into interactive web applicat
 * When you change something on the webpage, the information is send to the computer
 * Computer runs the script with the new **inputs** (**input functions**)
 * Computer sends back **outputs** to the webpage  (**output functions**)
+* Short history of Shiny
 
 
 
 
-## Why Shiny?
-
-### Arguments for Shiny
-- choosing the right software
-- open-source
-- long-term prospects
-- adaptiblity
-- costs
 
 
-### Arguments against Shiny
+### Pro & contra Shiny
+- Pro
+    - choosing the right software
+    - open-source
+    - long-term prospects
+    - adaptiblity
+    - costs
+- Contra
+    - ...
 
 
 
-### Short history of Shiny
+
+
+
+
+## The Guerry Dashboard: The app we will built
+* In the workshop we will built Shiny app together. Please explore this app here (5-10 minutes) and try to find out how this app may help us to understand and analyze the underlying data. Subsequently, we will discuss what interactive elements you identified and how one can use this app to analyze data.
+
+
+
+
+
+
 
 
 ## Components of a Shiny app
+* Two components: user interface (UI) object and a server function, that are passed as arguments to the shinyApp function that creates a Shiny app object from this UI/server pair. The source code for both of these components is listed below.
+
+![Source: https://hosting.analythium.io/the-anatomy-of-a-shiny-application/ (c) Analythium](02-compontents-shiny-app.png)
 
 
-## Our app
-* Exercise where people explore the app (the final endproduct) and discuss what is shown
-* Introduce idea of minimum viable product
+
 
 ## Your (first) Shiny app
 * https://mastering-shiny.org/basic-app.html#basic-app
-* Use the simplest version of our app!
+* Use the simplest version of our app - only with data table! and reduced data
 * Publishing comes at then end of the workshop!
 
 
-## Basic UI
+
+
+## Basic user interface (UI)
+
+* Discuss UI component (teaser)
+
+
 
 ## Basic reactivity
 
+* Discuss reactivy component (teaser)
 
 
-## Workflow
 
-https://mastering-shiny.org/action-workflow.html#action-workflow
-https://mastering-shiny.org/scaling-packaging.html#workflow
+## Minimum viable product & workflow
+
+### MVP
+* "is a version of a product with just enough features to be usable by early customers who can then provide feedback for future product development." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
+* "has just enough core features to effectively deploy the product, and no more. Developers typically deploy the product to a subset of possible customers, such as early adopters who are thought to be more forgiving, more likely to give feedback, and able to grasp a product vision from an early prototype or marketing information. This strategy targets avoiding building products that customers do not want and seek to maximize information about the customer with the least money spent. The technique falls under the Lean Startup methodology as MVPs aim to test business hypotheses and validated learning is one of the five principles of the Lean Startup method." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
+* ..we follow the same strategy, slowly building out our shiny app and adding features & complexity
 
 
-## Loading things
+### Workflow: Development, debugging and getting help
+* See discussions of workflow in @wickham2021mastering [Ch. 5, 20.2.1]
+
+
+
+
+## Loading things in Shiny apps
 * Theoretical introduction to loading things
 
-## LOADING THINGS (1)
+### When is code run?
 * When is code in a shiny app run?
 
-![alt text](ressources/run-once.png)
-![alt text](ressources/run-once-per-user.png)
-![alt text](ressources/run-many-times.png)
+![alt text](resources/run-once.png)
+![alt text](resources/run-once-per-user.png)
+![alt text](resources/run-many-times.png)
 
 * *So where shall we put the function to load the dataset?*
 
 
 
 
-## LOADING THINGS (2)
+### Where to load things
 * Code outside ```server <- function(input, output) {}``` is run once, when you launch your app
 * Code inside ```server <- function(input, output) {}``` is run once each time a user visits your app
 * Code inside ```render*``` functions is rerun constantly (not only when user changes widget value, see [reactivity(http://shiny.rstudio.com/articles/understanding-reactivity.html)]) 
