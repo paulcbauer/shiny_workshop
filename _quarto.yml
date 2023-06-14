@@ -22,10 +22,10 @@ website:
       - section: "2 Introduction: why Shiny?"
         contents:
           - 02-introduction.qmd
-      - section: "3 User interface (UI) & front end"
+      - section: "3 User interface (UI)"
         contents:
           - 03-user-interface.qmd
-      - section: "4 Server & reactive programming"
+      - section: "4 Server and reactive programming"
         contents:
           - 04-server-reactive-programming.qmd
       - section: "5 Visualizing data in Shiny"

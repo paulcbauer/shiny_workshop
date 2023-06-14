@@ -1,4 +1,4 @@
---- 
+---
 title: "About this workshop"
 ---
 
@@ -37,7 +37,7 @@ title: "About this workshop"
 	- Previously... University of Bern (PhD, 2015), European University Institute (Postdoc, 15'-17')
 	- My research interests: political sociology & methodology [see [Google Scholar](https://scholar.google.com/citations?user=hw-b-MkAAAAJ&hl=en&oi=ao))
 	- Started R around 2009, first shiny apps ~2015 for teaching purposes
-	- Contact: `mail@paulcbauer.de`; Website: `www.paulcbauer.de`; Twitter: [p_c_bauer](https://twitter.com/p_c_bauer)
+	- Contact: `mail@paulcbauer.de`; [www.paulcbauer.de](https://sites.google.com/paulcbauer.de/web/); [Twitter](https://twitter.com/p_c_bauer); [Github](https://github.com/paulcbauer)
 - Jonas
 	- Currently a research fellow at GESIS' survey data curation (SDC) department
 	- Constantly learning about R and Shiny since 2020
@@ -79,7 +79,7 @@ workshop?
 * **Literature**: See syllabus.
 * **Website/script**: https://bookdown.org/paul/shiny_workshop/
 	- Find it: Google "shiny paul jonas"
-	- Document = slides  + script (Zoom in/out with ```STRG + mousewheel```)
+	- Document = slides  + script (Zoom in/out with `STRG + mousewheel`)
 	- **Code**: can all be found in the script
 	- **Data**: can usually be downloaded over links in the script
 	- Full screen: F11
@@ -147,9 +147,6 @@ workshop?
 
 
 
-    
-
-
 
 
 
@@ -189,7 +186,4 @@ cat(packages)
 
 1. Shiny user showcase: https://shiny.posit.co/r/gallery/#user-showcase
 2. Shiny feature demos: https://shiny.posit.co/r/gallery/#feature-demos
-3. ...
-
-
 

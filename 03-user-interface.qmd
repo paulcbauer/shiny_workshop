@@ -2,8 +2,12 @@
 title: "User Interface (UI): Designing the front end"
 ---
 
+* https://mastering-shiny.org/basic-ui.html
+* Integrate Jonas exercises
 * Learning outcomes (first intuitions): Learn...
     + ...
+
+Sources: [@wickham2021mastering, Ch. 2]
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}

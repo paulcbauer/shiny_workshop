@@ -13,7 +13,8 @@ pacman::p_load(knitr, quarto)
 
 Sources: [@Bertini2017-jq]
 
-## Why interactive data analysis & visualization?
+## Interactive data analysis 
+### Why?
 * "From Data Visualization to Interactive Data Analysis" [@Bertini2017-jq]
 
 - Aims
@@ -26,7 +27,7 @@ Sources: [@Bertini2017-jq]
 
 ![Source: Bertini, Enrico. 2017. From Data Visualization to Interactive Data Analysis. Medium. November 28, 2017.](02-bertinin-2.webp)
 
-## Steps of interactive data analysis 
+### Steps of interactive data analysis 
 1. **Defining the problem** (Bertini 2017)
     + What problem are you trying to solve? What is your ultimate goal? How is increased understanding derived from data analysis going to bring you closer to your goal?
 2. **Generating questions**
@@ -74,9 +75,9 @@ data transformation process, the modeling, the visual representation. This is an
 
 
 
+## Shiny
 
-
-## What is Shiny?
+### What is Shiny?
 
 A web application framework for R to turn analyses into interactive web applications. What does that mean?
 
@@ -87,27 +88,22 @@ A web application framework for R to turn analyses into interactive web applicat
 * When you change something on the webpage, the information is send to the computer
 * Computer runs the script with the new **inputs** (**input functions**)
 * Computer sends back **outputs** to the webpage  (**output functions**)
-
-
-### Short history of Shiny
-
+* Short history of Shiny
 
 
 
 
 
 
-## Why Shiny?
-
-### Arguments for Shiny
-- choosing the right software
-- open-source
-- long-term prospects
-- adaptiblity
-- costs
-
-
-### Arguments against Shiny
+### Pro & contra Shiny
+- Pro
+    - choosing the right software
+    - open-source
+    - long-term prospects
+    - adaptiblity
+    - costs
+- Contra
+    - ...
 
 
 
@@ -121,23 +117,21 @@ A web application framework for R to turn analyses into interactive web applicat
 
 
 
-## Minimum viable product
-* "is a version of a product with just enough features to be usable by early customers who can then provide feedback for future product development." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
-* "has just enough core features to effectively deploy the product, and no more. Developers typically deploy the product to a subset of possible customers, such as early adopters who are thought to be more forgiving, more likely to give feedback, and able to grasp a product vision from an early prototype or marketing information. This strategy targets avoiding building products that customers do not want and seek to maximize information about the customer with the least money spent. The technique falls under the Lean Startup methodology as MVPs aim to test business hypotheses and validated learning is one of the five principles of the Lean Startup method." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
-* ..we follow the same strategy, slowly building out our shiny app and adding features & complexity
 
 
 
 
 ## Components of a Shiny app
-* Shiny applications have two components, a user interface object and a server function, that are passed as arguments to the shinyApp function that creates a Shiny app object from this UI/server pair. The source code for both of these components is listed below.
+* Two components: user interface (UI) object and a server function, that are passed as arguments to the shinyApp function that creates a Shiny app object from this UI/server pair. The source code for both of these components is listed below.
+
+![Source: https://hosting.analythium.io/the-anatomy-of-a-shiny-application/ (c) Analythium](02-compontents-shiny-app.png)
 
 
 
 
 ## Your (first) Shiny app
 * https://mastering-shiny.org/basic-app.html#basic-app
-* Use the simplest version of our app - only with data table!
+* Use the simplest version of our app - only with data table! and reduced data
 * Publishing comes at then end of the workshop!
 
 
@@ -145,35 +139,46 @@ A web application framework for R to turn analyses into interactive web applicat
 
 ## Basic user interface (UI)
 
+* Discuss UI component (teaser)
 
 
 
 ## Basic reactivity
 
+* Discuss reactivy component (teaser)
 
 
-## Workflow for building shiny apps
 
-https://mastering-shiny.org/action-workflow.html#action-workflow
-https://mastering-shiny.org/scaling-packaging.html#workflow
+## Minimum viable product & workflow
+
+### MVP
+* "is a version of a product with just enough features to be usable by early customers who can then provide feedback for future product development." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
+* "has just enough core features to effectively deploy the product, and no more. Developers typically deploy the product to a subset of possible customers, such as early adopters who are thought to be more forgiving, more likely to give feedback, and able to grasp a product vision from an early prototype or marketing information. This strategy targets avoiding building products that customers do not want and seek to maximize information about the customer with the least money spent. The technique falls under the Lean Startup methodology as MVPs aim to test business hypotheses and validated learning is one of the five principles of the Lean Startup method." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
+* ..we follow the same strategy, slowly building out our shiny app and adding features & complexity
+
+
+### Workflow: Development, debugging and getting help
+* See discussions of workflow in @wickham2021mastering [Ch. 5, 20.2.1]
+
+
 
 
 ## Loading things in Shiny apps
 * Theoretical introduction to loading things
 
-## LOADING THINGS (1)
+### When is code run?
 * When is code in a shiny app run?
 
-![alt text](ressources/run-once.png)
-![alt text](ressources/run-once-per-user.png)
-![alt text](ressources/run-many-times.png)
+![alt text](resources/run-once.png)
+![alt text](resources/run-once-per-user.png)
+![alt text](resources/run-many-times.png)
 
 * *So where shall we put the function to load the dataset?*
 
 
 
 
-## LOADING THINGS (2)
+### Where to load things
 * Code outside ```server <- function(input, output) {}``` is run once, when you launch your app
 * Code inside ```server <- function(input, output) {}``` is run once each time a user visits your app
 * Code inside ```render*``` functions is rerun constantly (not only when user changes widget value, see [reactivity(http://shiny.rstudio.com/articles/understanding-reactivity.html)]) 
