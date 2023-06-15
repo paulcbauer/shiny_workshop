@@ -7,7 +7,7 @@ website:
   google-analytics: "G-BVZNWTMFX1"
   twitter-card: true
   site-url: https://bookdown.org/paul/shiny_workshop/
-  repo-url: https://github.com/paulcbauer/shin_-workshop
+  repo-url: https://github.com/paulcbauer/shin_workshop
   repo-actions: [edit, issue]
   sidebar:
     title: "Interactive Data Analysis with Shiny"
