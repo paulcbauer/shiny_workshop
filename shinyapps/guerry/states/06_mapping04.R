@@ -137,8 +137,7 @@ ui <- dashboardPage(
 	## Body ----
 	body = dashboardBody(
 		tags$head(
-			waiter::use_waiter(),
-			includeCSS("../www/styles.css")
+			waiter::use_waiter()
 		),
 		tabItems(
 			### Home tab ----

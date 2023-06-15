@@ -90,7 +90,7 @@ pacman::p_load(
 Also works in RStudio! Right click somewhere, then "Inspect Element"
 :::
 
-![The Inspect tool in Firefox](resources/inspect.png){alt="The Inspect tool in Firefox"}
+![The Inspect tool in Firefox](resources/inspect.png)
 
 ### Exploring the inspector
 
@@ -142,7 +142,7 @@ shinyApp(ui, server)
 
 ### Bootswatch
 
--   Other than the version, there's a lot to change in `bs_theme()`
+-   Other than the version, there's a lot to change in [`bs_theme()`](https://rstudio.github.io/bslib/reference/bs_theme.html)
 
 -   For example, we can apply one of the pre-made Bootswatch themes:
 
@@ -178,9 +178,9 @@ The code to update the theme including all arguments is printed to the console!
 
 ## Theming with `fresh`
 
--   `fresh` is an R package that can be used to theme, besides classic Shiny, dashboards like [`shinydashboard`](https://rstudio.github.io/shinydashboard/) and [`bs4Dash`](https://rinterface.github.io/bs4Dash/)
+-   [`fresh`](https://cran.r-project.org/web/packages/fresh/) is an R package that can be used to theme, besides classic Shiny, dashboards like [`shinydashboard`](https://rstudio.github.io/shinydashboard/) and [`bs4Dash`](https://rinterface.github.io/bs4Dash/)
 
--   `bs4Dash` can easily be themed using the `fresh` package
+-   [`bs4Dash`](https://cran.r-project.org/web/packages/bs4Dash/) can easily be themed using the [`fresh`](https://cran.r-project.org/web/packages/fresh/) package
 
 ### Adding a GESIS-like theme
 
@@ -286,7 +286,7 @@ ui <- dashboardPage(
 -   The `bs4Dash::box()` applies a lot of styling behind the scenes and we can inspect what exactly is happening by printing its returned object:
 
 ```{r}
-bs4Dash::box()
+print(bs4Dash::box())
 ```
 
 ### CSS
@@ -342,31 +342,60 @@ browsable(div(
 ))
 ```
 
+### HTML elements and CSS
+
+-   You can change CSS properties of entire HTML elements as well:
+
+```{r}
+browsable(div(
+	tags$style(
+		"
+		p.cls {
+			color: blue;
+		}
+		"
+	),
+	p("Blue his house", class = "cls"),
+	p("With a blue little window", class = "cls"),
+	p("And a blue corvette", class = "cls"),
+	div("Green??", class = "cls"),
+	style = "border-style: dotted; display: inline-block;"
+))
+```
+
+-   **Question:** Why is `div.cls` green and not blue or black?
+
+-   Combining the knowledge from above:
+
+    -   `p.cls` changes the properties of all `p` tags with class `cls`
+
+    -   `#id .cls` changes the properties of all elements with class `cls` within an element of ID `id`
+
 ### CSS properties
 
 -   CSS is build entirely upon so-called properties
 
 -   A complete reference of CSS can be found in the [Mozilla developer docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
 
-| Proprerty          | Description                                      | Example values                |
-|--------------------|--------------------------------------------------|-------------------------------|
-| `color`            | Sets the color of an element                     | #000, black                   |
-| `background-color` | Sets the color of the element background         | #000, black                   |
-| `display`          | Determines how the element is displayed          | inline, block, flex, grid     |
-| `width`            | Sets the width of an element                     | 10px, 100%, 2em, 1vh          |
-| `height`           | Sets the height of an element                    | 10px, 100%, 2em, 1vh          |
-| `margin`           | Margin between element and parent                | 10px, 100%, 2em, 1vh          |
-| `padding`          | Margin within element                            | 10px, 100%, 2em, 1vh          |
-| `border-color`     | Sets the color of an element border              | #000, black                   |
-| `border-width`     | Sets the width of an element border              | 10px, 100%, 2em, 1vh          |
-| `border-style`     | Sets the style of an element border              | dotted, dashed, solid, double |
-| `border-radius`    | Sets smooth corners                              | 10px, 100%, 2em, 1vh          |
-| `font-family`      | Sets the font family                             | Arial, Verdana                |
-| `font-style`       | Sets the font style                              | Normal, italic, oblique       |
-| `font-weight`      | Sets the font boldness                           | normal, bold, 700             |
-| `font-size`        | Sets the font size                               | 10px, 100%, 2em, 1vh          |
-| `position`         | Determines the general positioning of an element | Absolute, relative, fixed     |
-| `z-index`          | Sets the overlapping order                       | Ranking, e.g., -1, 0, 1, 1000 |
+| Property           | Description                                      | Example values                     |
+|------------------|---------------------------------|---------------------|
+| `color`            | Sets the color of an element                     | #000, black                        |
+| `background-color` | Sets the color of the element background         | #000, black                        |
+| `display`          | Determines how the element is displayed          | inline, block, flex, grid          |
+| `width`            | Sets the width of an element                     | 10px, 100%, 2em, 1vh               |
+| `height`           | Sets the height of an element                    | 10px, 100%, 2em, 1vh               |
+| `margin`           | Margin between element and parent                | 10px, 100%, 2em, 1vh               |
+| `padding`          | Margin within element                            | 10px, 100%, 2em, 1vh               |
+| `border-color`     | Sets the color of an element border              | #000, black                        |
+| `border-width`     | Sets the width of an element border              | 10px, 100%, 2em, 1vh               |
+| `border-style`     | Sets the style of an element border              | dotted, dashed, solid, double      |
+| `border-radius`    | Sets smooth corners                              | 10px, 100%, 2em, 1vh               |
+| `font-family`      | Sets the font family                             | Arial, Verdana                     |
+| `font-style`       | Sets the font style                              | Normal, italic, oblique            |
+| `font-weight`      | Sets the font boldness                           | normal, bold, 700                  |
+| `font-size`        | Sets the font size                               | 10px, 100%, 2em, 1vh               |
+| `position`         | Determines the general positioning of an element | Absolute, relative, fixed          |
+| `z-index`          | Sets the overlapping order                       | Ranking, i.e. 1000 \> 1 \> 0 \> -1 |
 
 : An incomplete list of common CSS properties
 
@@ -380,58 +409,102 @@ browsable(div(
 
     -   Add a file called "styles.css" to that folder
 
-    -   Paste the CSS code below
-
     -   In R, add: `tags$head(includeCSS("www/styles.css"))` to the `dashboardBody`
 
-```{r eval=FALSE}
+### Example: Removing white space
+
+-   During session 6: mapping, you might have noticed a large amount of white space when making the Leaflet map
+
+-   Not a tragedy, but we lose quite a lot of functional space
+
+![](resources/white_space.png)
+
+#### Diagnosis
+
+-   Cause: `bs4Dash::box()` reserves some space in its header and body for some reason
+
+-   How do we know?
+
+    1.  Right click on the white space
+
+    2.  Open the inspector
+
+    3.  Look out for the properties "padding" or "margin", usually the culprits in terms of white space
+
+    4.  Disable them to see what changes
+
+![](resources/07_01.gif)
+
+#### Fix
+
+-   Bad news: We can't fix this using R alone as the values are given by AdminLTE, `bs4Dash`'s CSS framework
+
+-   Good news: This is a really nice use case for custom CSS styling
+
+-   Using the Inspect tool, we add `padding: 0px;` to both the box header and body directly
+
+![](resources/07_02.gif)
+
+#### Permanent fix
+
+-   Our fix with the Inspect tool is lost as soon as we close or reload the tab
+
+-   To fix the padding permanently, we need to make changes to the HTML class
+
+-   **Question:** What HTML class do we need to amend? Which HTML element is responsible for the faulty white space?
+
+::: callout-tip
+If you are not sure what element does what, try to hover over the element in the HTML pane. The respective space is then highlighted directly on the website!
+:::
+
+![](resources/white_space_html.png)
+
+#### Embedding CSS
+
+-   Now that we know what properties to change and where, we can start writing CSS
+
+-   Either in a dedicated `styles.css` file or using `tags$style` inside the UI code, we put the following CSS lines:
+
+``` {.CSS filename="styles.css"}
 /* remove white space around maps in boxes */
 #exp_box .card-header, #exp_box .card-body {
   padding: 0em;
 }
+```
 
-/* create a nicely aligned hover effect for logos */
-a.logo {
-  text-decoration: none;
-  background-color: transparent;
-  display: inline-flex;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-}
+-   In other words: For the class `card-header` and `card-body` inside the object with ID `exp_box`, set the padding to 0 pixels
 
-a.logo:hover {
-  background-color: #DEDED8;
-}
+::: callout-note
+### Exercise
 
+Change the CSS styling of the text paragraphs in the Home tab. Create a CSS class called `par` and change font family, size, weight, type, alignment and justification
+:::
+
+::: {.callout-tip collapse="true"}
+Some of the CSS properties were introduced in subsection "CSS properties", but others are new. In any case, there are a lot of good resources just one Google search away.
+:::
+
+::: {.callout-warning collapse="true"}
+### Solution
+
+Either in `styles.css` or inline, add the following CSS code:
+
+``` css
 /* text formatting */
 p.par {
-  text-indent: 10px; /* indent first line of paragraph */
-  text-align: justify; /* justify text alignment */
+  font-family: Arial;
+  font-weight: 500;
+  font-size: 12px;
+  font-type: italic;
+  text-indent: 10px;
+  text-align: justify;
   text-justify: inter-word;
-}
-
-a.par {
-  border-bottom: 1px solid black; /* underline links */
-}
-
-a.par:hover {
-  text-shadow: 0 0 0.01px black; /* highlight links on hover */
-  border-bottom: 2px solid black;
 }
 ```
 
-**Exercise:** What changes after we include the external CSS file? Pinpoint the UI elements that are amended by the CSS file using the Inspect tool
+In R, you need to add the class `par` to all paragraphs in the UI tab:
 
-**Exercise:** Using the tools above, change one of the sidebar tabs that we introduced.
-
--   Add better theming (colors, fonts, text styling, ...)
-
--   Add UI elements (e.g. using the `shinyWidgets`, `bs4Dash` or `shinyBS` packages)
-
--   Change the scale and configuration of UI elements
-
--   Look around the [![](resources/awesome-logo.svg)](https://github.com/nanxstats/awesome-shiny-extensions#ui-components) list of Shiny extensions and experiment with different UI components
+```{r eval=FALSE}
+p("text", class = "par")
+```
+:::
