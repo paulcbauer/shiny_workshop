@@ -1,5 +1,5 @@
 ---
-title: "Theming"
+title: "Theming and styling"
 ---
 
 ```{r include=FALSE}
@@ -22,6 +22,18 @@ pacman::p_load(
 )
 ```
 
+## Learning outcomes
+
+You will learn how to:
+
+-   Apply global themes to your Shiny app
+
+-   Use the "Inspect" tool to your advantage
+
+-   Add visual feedback during loading times
+
+-   Supplement basic CSS to do what R cannot
+
 ## Theming in Shiny
 
 -   Shiny apps look a bit lackluster by default - but why is that?
@@ -40,11 +52,11 @@ pacman::p_load(
 
 -   Classic Shiny uses Bootstrap 3
 
--   `bs4Dash`, the package we use for the Guerry dashboard, uses Bootstrap 4 (more precisely AdminLTE 3)
+-   `bs4Dash`, the package we use for the Guerry dashboard, uses Bootstrap 4 (more precisely [AdminLTE 3](https://adminlte.io/))
 
-### Shiny extensions for theming
+### Shiny extensions for styling
 
--   Shiny has some really cool extensions for amping up your UI, each of which we will address:
+-   Shiny has some really cool extensions for amping up your UI, some of which we will address:
 
     -   [`bslib`](https://rstudio.github.io/bslib/) - customize bootstrap themes
 
@@ -162,6 +174,8 @@ server <- function(input, output, session) {}
 shinyApp(ui, server)
 ```
 
+![](resources/bootswatch.png)
+
 ### Exploring theming options
 
 -   You can try out all theming options in real time by running [`bs_theme_preview()`](https://rstudio.github.io/bslib/reference/bs_theme_preview.html)
@@ -169,7 +183,7 @@ shinyApp(ui, server)
 ::: callout-note
 ### Exercise
 
-Experiment with `bs_theme_preview()` to learn about the different arguments to `bs_theme()`. When you find a pretty theme, re-create the the theme programmatically using `bs_theme()`
+Experiment with `bs_theme_preview()` to learn about the different arguments to `bs_theme()`. When you find a pretty theme, re-create the theme programmatically using `bs_theme()`
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -178,9 +192,9 @@ The code to update the theme including all arguments is printed to the console!
 
 ## Theming with `fresh`
 
--   [`fresh`](https://cran.r-project.org/web/packages/fresh/) is an R package that can be used to theme, besides classic Shiny, dashboards like [`shinydashboard`](https://rstudio.github.io/shinydashboard/) and [`bs4Dash`](https://rinterface.github.io/bs4Dash/)
+-   [`fresh`](https://dreamrs.github.io/fresh/reference/fresh.html) is an R package that can be used to theme, besides classic Shiny, dashboards like [`shinydashboard`](https://rstudio.github.io/shinydashboard/) and [`bs4Dash`](https://rinterface.github.io/bs4Dash/)
 
--   [`bs4Dash`](https://cran.r-project.org/web/packages/bs4Dash/) can easily be themed using the [`fresh`](https://cran.r-project.org/web/packages/fresh/) package
+-   [`bs4Dash`](https://rinterface.github.io/bs4Dash/) can easily be themed using the [`fresh`](https://dreamrs.github.io/fresh/reference/fresh.html) package
 
 ### Adding a GESIS-like theme
 
@@ -378,7 +392,7 @@ browsable(div(
 -   A complete reference of CSS can be found in the [Mozilla developer docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
 
 | Property           | Description                                      | Example values                     |
-|------------------|---------------------------------|---------------------|
+|--------------------|--------------------------------------------------|------------------------------------|
 | `color`            | Sets the color of an element                     | #000, black                        |
 | `background-color` | Sets the color of the element background         | #000, black                        |
 | `display`          | Determines how the element is displayed          | inline, block, flex, grid          |

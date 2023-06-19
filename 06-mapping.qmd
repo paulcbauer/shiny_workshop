@@ -140,9 +140,21 @@ st_sf( # create an sf dataframe
 
 -   The geodetic specifics are mostly not necessary, but it's always good to know a basic distinction
 
-    -   **Geodetic CRS** use angular units (degrees) because they are based on a spheroid -- usually good for global or national scale visualizations
+    -   **Geodetic CRS**
 
-    -   **Projected CRS** use metric units (meters) because they are based on a projected model of the earth -- usually good for local or regional high-precision spatial analysis and visualization
+        -   Uses angular units (degrees) because they are based on a spheroid
+
+        -   Usually good for global or national scale visualizations
+
+        -   Example: WGS84 (World Geodetic System)
+
+    -   **Projected CRS**
+
+        -   Uses metric units (meters) because they are based on a projected model of the earth
+
+        -   Usually good for local or regional high-precision spatial analysis and visualization
+
+        -   Example: UTM (Universal Transversal Mercator)
 
 ![UTM (Universal Transversal Mercator) - a projected coordinate system. Each zone is a CRS.](https://upload.wikimedia.org/wikipedia/commons/e/ed/Utm-zones.jpg)
 
@@ -152,11 +164,12 @@ st_sf( # create an sf dataframe
 
     -   EPSG database: <https://epsg.io/>, e.g. EPSG code 4326: <https://epsg.io/4326>
 
-| Name                               | EPSG code | Area    | Geodetic? |
-|------------------------------------|-----------|---------|-----------|
-| World Geodetic System 1984 (WGS84) | 4326      | World   | Yes       |
-| UTM zone 32N                       | 25832     | Germany | No        |
-| LAEA Europe                        | 3035      | Europe  | No        |
+| Name                                                                                      | EPSG code | Area           | Geodetic? | Use                                                       |
+|-------------------------------------------------------------------------------------------|-----------|----------------|-----------|-----------------------------------------------------------|
+| [World Geodetic System 1984 (WGS84)](https://en.wikipedia.org/wiki/World_Geodetic_System) | 4326      | World          | Yes       | Basic geographic coordinates, common usage in GPS systems |
+| [WGS 84 / Pseudo-Mercator](https://en.wikipedia.org/wiki/Web_Mercator_projection)         | 3857      | World          | No        | Google Maps, OpenStreetMap, general web mapping           |
+| [UTM zone 32N](https://de.wikipedia.org/wiki/UTM-Koordinatensystem)                       | 25832     | Central Europe | No        | Spatial analysis and measuring in Central Europe          |
+| [LAEA Europe](https://en.wikipedia.org/wiki/European_grid)                                | 3035      | Europe         | No        | Multi-purpose CRS developed by the EU                     |
 
 : Some common CRS
 
@@ -1007,9 +1020,11 @@ st_geometry(guerry)
 `sfc` objects are representations of geospatial geometries. They contain all relevant spatial metadata but no contextual feature data
 :::
 
-### Exercise 2
+### 
 
 ::: callout-note
+### Exercise 2
+
 Extract the fifth `sfg` object of the `sfc` object from exercise 1. What is the difference between the two?
 :::
 
@@ -1033,7 +1048,7 @@ geom[[1]]
 ::: callout-note
 ### Exercise 3
 
-`guerry` currently consists of multi polygons. How can we convert these polygons to point geometries? Explore the function reference of the sf package and find functions (multiple answers possible) that can convert polygons to points in some way.
+`guerry` currently consists of multi polygons. How can we convert these polygons to point geometries? Explore the [function reference](https://r-spatial.github.io/sf/reference/index.html) of the sf package and find functions (multiple answers possible) that can convert polygons to points in some way.
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -1070,6 +1085,8 @@ Remember the UTM coordinate system! Scroll back up to see the UTM zones. EPSG co
 ### Solution
 
 While there are many CRS that might be a good choice, one solution that we addressed in this workshop are UTM zones! Taking a look at the figure of UTM zones we can see that UTM zone 31N almost entirely covers the area of France.
+
+![](https://upload.wikimedia.org/wikipedia/commons/6/61/Modified_UTM_Zones.png)
 :::
 
 ::: callout-note
