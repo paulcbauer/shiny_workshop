@@ -41,5 +41,5 @@ execute:
   cache: true
   warning: false
 bibliography: [references.bib, packages.bib]
-tbl-cap-location: top
-fig-cap-location: top
+tbl-cap-location: bottom
+fig-cap-location: bottom
