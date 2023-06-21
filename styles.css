@@ -1,1 +1,38 @@
+
+
 /* css styles */
+
+
+
+
+h1 {
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: solid 1px black;
+}
+
+
+h2 {
+    margin-top: 200px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: solid 1px black;
+}
+
+
+h3 {
+    margin-top: 200px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: solid 1px black;
+
+}
+
+
+h4 {
+    margin-top: 100px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: solid 1px black;
+
+}
