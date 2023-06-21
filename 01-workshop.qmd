@@ -66,7 +66,7 @@ workshop?
 
 
 
-## Workshop: Contact & Outline & Dates
+## Contact & Outline & Dates
 
 - Framework
   + GESIS – Leibniz Institute for the Social Sciences
@@ -78,7 +78,7 @@ workshop?
 
 
 
-## Workshop: Script & material {#material}
+## Script & material {#material}
 * **Literature**: See syllabus.
 * **Website/script**: https://bookdown.org/paul/shiny_workshop/
 	- Find it: Google "shiny paul jonas"
@@ -95,7 +95,7 @@ workshop?
 
 
 
-## Workshop: Goals
+## Goals
 
 - By the end of the course participants will:
 	- understand the basics of reactive programming for interactive data analysis and visualization
@@ -104,7 +104,7 @@ workshop?
 	- have learned about different ways to launch their Shiny application
 
 
-## Workshop: Structure & stategy
+## Structure & stategy
 * **Content**: See toc on the left
 * **Strategy**: From the simple to the complex
 	- Slowly building up a complex Shiny app that includes various aspects (data, descriptive statistics, modelling, map)
@@ -113,7 +113,7 @@ workshop?
 
 
 
-## Workshop: Online vs. offline
+## Online vs. offline
 
 * **Negative**
     + Screen fatigue
@@ -140,7 +140,7 @@ workshop?
 
   
     
-## Workshop: Recommended readings
+## Recommended readings
 
 - Important: The course does not require any prior reading. 
 - However, our schedule is primarily based on two textbooks which we generally recommend for further reading:
@@ -159,7 +159,7 @@ workshop?
 
 
 
-## Workshop: Software we will use
+## Software we will use
 - Open-source software! (Q: Why?)
 - R [@rcoreteam2023]^[Creators: [Core contributors](https://www.r-project.org/contributors.html)  and thousands of package authors.]
   - only viable competitor is Python
@@ -185,4 +185,5 @@ cat(packages)
 1. [Shiny user showcase](https://shiny.posit.co/r/gallery/#user-showcase) 
 2. [Shiny feature demos](https://shiny.posit.co/r/gallery/#feature-demos)
 3. [Shiny widget gallery](https://shiny.posit.co/r/gallery/widgets/widget-gallery/)
+4. [R Shiny for Enterprise Application Development: 6 Lessons for Building Shiny Apps](https://appsilon.com/why-you-should-use-r-shiny-for-enterprise-application-development/#anchor-7)
 
