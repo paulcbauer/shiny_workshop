@@ -54,11 +54,14 @@ title: "About this workshop"
 
 1. Name?
 2. Affiliation? Country?
-3. Research interests?
+3. Research interests/questions?
+
+<!--
+Below take too long for short workshop
 4. Previous experience with R?
 5. Why are you interested in this
 workshop?
-
+-->
 
 
 
@@ -68,8 +71,8 @@ workshop?
 - Framework
   + GESIS – Leibniz Institute for the Social Sciences
   + [Gesis Training Courses](https://training.gesis.org/?site=pOverview&cat=Workshop)
-- **Dates**, **Contact** and **Outline:** See syllabus (received link via email).
-  + **I hope you are fine with the schedule?**
+- **Dates**, **Contact** and **Outline:** See syllabus (received via email).
+  + Everyone fine with the schedule?
     + Whenever you need a break let us know!
 
 
@@ -81,13 +84,13 @@ workshop?
 	- Find it: Google "shiny paul jonas"
 	- Document = slides  + script (Zoom in/out with `STRG + mousewheel`)
 	- **Code**: can all be found in the script
-	- **Data**: can usually be downloaded over links in the script
+	- **Data**: can usually be downloaded over links in the script. If not we'll share the files.
 	- Full screen: F11
-	- TOCs on left and right
+	- **Navigation**: TOCs on left and right
 	- Search document (upper left)
 	- Document generated with [quarto](https://quarto.org/)
 * **Motivation**: Have a go-to script for participants (and ourselves!)
-* Mixture of theory, lab sessions, exercises and pure code examples for discussion
+* **Content**: Mixture of theory, lab sessions, exercises and pure code examples for discussion
 
 
 
@@ -102,10 +105,10 @@ workshop?
 
 
 ## Workshop: Structure & stategy
-* See toc on the left
-* Strategy: From the simple to the complex
+* **Content**: See toc on the left
+* **Strategy**: From the simple to the complex
 	- Slowly building up a complex Shiny app that includes various aspects (data, descriptive statistics, modelling, map)
-* Let's have a [look at the app]!
+* *Let's have a quick look at the app!*
 
 
 
@@ -119,9 +122,9 @@ workshop?
     + Voice
     + Screen sharing &less screen space than classroom 
 * **Positive**
-    + We see the graphs where they are mostly consumed
+    + We see the Shiny app how its mostly consumed
     ;-) (on a screen)
-        + Remember: "How is your graph consumed (smartphone)?"
+        + Remember: "How is your Shiny app consumed (smartphone)?"
     + Participation from everywhere
 * **Rule(s)**: Please keep your camera online!
   + Distracting animals/children/partners are a welcome distraction!
@@ -157,25 +160,20 @@ workshop?
 
 
 ## Workshop: Software we will use
-
-* What software will we use?
-* Open-source software!
-		+ Q: What speaks for open-source software?
-
-* R (only viable competitor is Python)^[Creators: [Core contributors](https://www.r-project.org/contributors.html) and thousands of package authors.]
-    + Install the necessary packages using the code below.
+- Open-source software! (Q: Why?)
+- R [@rcoreteam2023]^[Creators: [Core contributors](https://www.r-project.org/contributors.html)  and thousands of package authors.]
+  - only viable competitor is Python
+  - Install the necessary packages using the code below.
 
 ```{r workshop-1, echo=FALSE, comment=NA}
 options(width = 300)
 cat(packages)
 ```
 
-* Shiny
-	- ...
-	
-* Ggplot2^[Creators: https://github.com/tidyverse/ggplot2]
-* Plotly^[Creators: https://github.com/plotly/plotly.js; https://github.com/ropensci/plotly]
-* Note: Ideally cite the software you use in your research especially when it is open-source (see `citation("ggplot2")`)
+- Shiny [@chang2020; @wickham2021mastering]
+- Ggplot2^[Creators: https://github.com/tidyverse/ggplot2] [@wickham2016]
+* Plotly^[Creators: https://github.com/plotly/plotly.js; https://github.com/ropensci/plotly] [@sievert2020]
+* Note: Ideally cite the software you use in your research especially when it is open-source (e.g., run `citation("ggplot2")`)
 
 
 
@@ -184,6 +182,7 @@ cat(packages)
 
 ## Helpful resources
 
-1. Shiny user showcase: https://shiny.posit.co/r/gallery/#user-showcase
-2. Shiny feature demos: https://shiny.posit.co/r/gallery/#feature-demos
+1. [Shiny user showcase](https://shiny.posit.co/r/gallery/#user-showcase) 
+2. [Shiny feature demos](https://shiny.posit.co/r/gallery/#feature-demos)
+3. [Shiny widget gallery](https://shiny.posit.co/r/gallery/widgets/widget-gallery/)
 
