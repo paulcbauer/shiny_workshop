@@ -2,8 +2,8 @@
 title: "Introduction"
 ---
 
-* Learning outcomes (first intuitions): Learn...
-    + ...
+- Learning outcomes: 
+  - Understand idea/aims/advantages/steps of interactive data analysis
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
@@ -13,53 +13,72 @@ pacman::p_load(knitr, quarto, tidyverse, gganimate, kableExtra)
 
 Sources: [@Bertini2017-jq]
 
-## Interactive data analysis 
+## Interactive data analysis
+
+Sources: [@Bertini2017-jq]
+
 ### Why?
-* "From Data Visualization to Interactive Data Analysis" [@Bertini2017-jq]
+- "From Data Visualization to Interactive Data Analysis" [@Bertini2017-jq]
+- Main uses of data visualization: Inspirational, explanatory and analytical^[**Inspirational**. The main goal here is to inspire people. To wow them! But not just on a superficial level, but to really engage people into deeper thinking, sense of beauty and awe. **Explanatory**. The main goal here is to use graphics as a way to explain some complex idea, phenomenon or process. **Analytical**. The main goal here is to extract information out of data with the purpose of answering questions and advancing understanding of some phenomenon of interest.]
+- "data analysis [...] can help people improve their understanding of complex phenomena"
+  - *"if I understand a problem better, there are higher chances I can find a better solution for it"*
+  - **Main goal of (interactive) data analysis**: "understanding" something
+- @fig-bertini-one outlines the relationship between reality, data/statistical models, human mental models 
+  - Humans have a mental model of the reality and use data and models (= description of reality) to study it so that they can hopefully understand it better
 
-- Aims
-- Audiences.. 
 
-
-![Source: Bertini, Enrico. 2017. From Data Visualization to Interactive Data Analysis. Medium. November 28, 2017.](02-bertinin-1.webp)
+![Relationship between reality, data/statistical models, human mental models (Source: Bertini, 2017)](02-bertinin-1.webp){#fig-bertini-one}
 
 ### How Does Interactive Data Analysis Work?
+- @fig-bertini-two outlines process underlying interactive data analysis
+  - **Loop fashion**: start with loosely specified goal, translate goal into one or more questions, organize and analyze the data to answer these questions, generate new questions and start over
 
-![Source: Bertini, Enrico. 2017. From Data Visualization to Interactive Data Analysis. Medium. November 28, 2017.](02-bertinin-2.webp)
+![Process underlying interactive data analysis (Source: Bertini, 2017)](02-bertinin-2.webp){#fig-bertini-two}
 
 ### Steps of interactive data analysis 
-1. **Defining the problem** (Bertini 2017)
-    + What problem are you trying to solve? What is your ultimate goal? How is increased understanding derived from data analysis going to bring you closer to your goal?
-2. **Generating questions**
-    + A problem specification is typically too high-level and loosely specified to translate directly into some data analysis actions (a problem that is often overlooked and not well understood). Typically, the problem needs to be translated (implicitly or, better, explicitly) into a number of data analysis questions.
-3. **Gathering, transforming and familiarizing with the data**
-    + Some projects have data available, whereas some others require some degree of data search or generation. In any case, all projects require the analyst to familiarize with the content and its meaning and perform multiple transformations, both to familiarize with the data (e.g., often slicing, dicing and aggregating the data) and to prepare it for the analysis one is planning to perform.
-4. **Creating models out of data**
-    + Not all projects require this steps, but some do. Using statistical modeling and machine learning methods can be useful when the question asked can be answered more easily by building a model. While most of what modeling people talk about is prediction, models can be extremely powerful tools for exploration and hypothesis generation. Examples of methods that can be used for this step are clustering, dimensionality reduction, simple
-regressions and various NLP (natural language processing) methods to convert text into meaningful numbers.
-5. **Visualizing data and models**
-    + This is where data is observed through your eyes. Now, most people think fancy charts when thinking about this stage, but simple representations like tables and lists are perfectly reasonable visualization for many problems. This is where the results obtained from data transformation and querying (or from some model) are turned into something our eyes can digest and hopefully understand. This is the step we all, data visualizers, love and live by.
-6. **Interpreting the results**
-    + Once the results have been generated and represented in some visual format, they need to be interpreted by someone. This is a crucial step and an often overlooked one. Behind the screen there is a human who needs to understand what all those colored dots and numbers mean. This is a complex activity which includes steps such as: understanding how to read the graph, understanding what the graph communicates about the phenomenon of interest, linking the results to questions and pre-existing knowledge of the problem. Note that interpretation here is heavily influenced by pre-existing knowledge. This includes at least knowledge about the domain problem, the
-data transformation process, the modeling, the visual representation. This is another aspect of visualization and analysis that is often overlooked.
-7. **Generating inferences and more questions**
-    + All of these steps ultimately lead to creating some new knowledge and, most of the time, generating additional questions or hypotheses. This is an interesting property of data analysis: its outcome is not only answers but also questions; hopefully better and more refined ones. One important aspect of this step is that one may generate incorrect inferences here, so not all processes necessarily lead to positive outcomes and not all analyses are equally effective.
+1. **Defining the problem**: What problem are you trying to solve? What is your ultimate goal? How is increased understanding derived from data analysis going to bring you closer to your goal?
+2. **Generating questions**: Problem is typically too high-level and loosely specified to translate into data analysis. The problem needs to be translated (implicitly or, better, explicitly) into number of data analysis questions.
+3. **Gathering, transforming and familiarizing with the data**: all projects require analysts to familiarize with the content and its meaning and perform multiple transformations, both to familiarize with the data (e.g., often slicing, dicing and aggregating the data) and to prepare it for the analysis one is planning to perform.
+4. **Creating models out of data** (not always): using statistical modeling and machine learning methods can be useful when the question asked can be answered more easily by building a model, e.g., explanatory or predictive ML model such as regression, clustering, NLP
+5. **Visualizing data and models**: results obtained from data transformation and querying (or from some model) are turned into something our **eyes can digest** and hopefully understand. **Simple representations** like tables and lists rather than fancy charts are perfectly reasonable visualization for many problems. 
+6. **Interpreting the results**: once results have been generated and represented in visual format, they need to be interpreted by someone (crucial step!)
+    - complex activity including: understanding how to read the graph, understanding what graph communicates about phenomenon of interest, linking results to questions and pre-existing knowledge of problem
+    - Interpretation heavily influenced by pre-existing knowledge (about domain problem, data transformation process, modeling, visual representation)
+7. **Generating inferences and more questions**: steps above lead to creating new knowledge, additional questions or hypotheses
+    - Outcome: not only answers but also (hopefully better, more refined) questions
 
 
 ### Important aspects of data analysis & Quo vadis interaction?
-* Bertinin 2017
+- The process is not sequential and is highly iterative (jumping back/forth between steps)
+- Some activities are exclusively human, e.g., defining problems, generating questions, etc.
+- Visualization is just a small portion of the process and effectiveness depends on all steps above
+- **Interaction**: all over the place... every time you tell your computer what to do and you computer returns some information back to you
+  - Gather and transform the data
+  - Specify a model and/or a query from the data
+  - Specify how to represent the results (and the model)
+  - Browse the results
+  - Synthesize and communicate the facts gathered
+- **Direct Manipulation vs. Command-Line Interaction**: Besides [WIMP](https://en.wikipedia.org/wiki/WIMP_(computing)) interfaces, direct manipulation, clicks, mouse overs, etc., command line interface is also interactive ("modely" changes: (dis-)advantages?)
+
+
+
 
 ### Challenges of Interactive Visual Data Analysis
-* Bertini 2017
+- Specification (Mind &rarr; Data/Model): "*should we expect everyone to be a coder and learn a specification language in order to perform data analysis?*"
+- Representation (Data/Model &rarr; Eyes)
+  - "deciding **what** to visualize is often equally, if not more, important, than deciding **how** to visualize it"
+  - "how fancy does a visualization need to be in order to be useful for data analysis?"
+    - "most visualization problems can be solved with a handful of graphs"
+    - really hard to use, tweak, and combine graphs in clever/effective/innovative ways
+- Interpretation (Eyes &rarr; Mind)
+  - "what does one need to know in order to reason effectively about the results of modeling and visualization?"
+  - "Are people able to interpret and trust their models?"
+- Suggestions: Focus more on (more relevant) problems; More tools, less visualizations; Make it public
 
-### Suggestions
-* Bertini 2017
-
-
-### Why visualize?
+## Why visualize?
  
 
-#### Anscombes's quartet (1)
+### Anscombes's quartet (1)
 
 * @tbl-anscombe displays Anscombe's quartet [@Anscombe1973-xv], a dataset (or 4 little datasets) often used to illustrate the usefulness of visualization
 	- Q: What does the table reveal about the data? Is it easy to read?
@@ -84,7 +103,7 @@ kable(anscombe_table, format = "html", table.attr = "style='width:95%;margin: au
 
  
 
-#### Anscombes's quartet (2)
+### Anscombes's quartet (2)
 
 * @tbl-regression-anscombe shows results from a linear regression based on Anscombe's quartet [@Anscombe1973-xv]
 	- Q: What do we see now?
@@ -118,8 +137,7 @@ gof_map = NA)
 
 
  
-
-#### Anscombes's quartet (3)
+### Anscombes's quartet (3)
 
 * @fig-anscombe finally visualizes the data underlying those data
     + Q: *What do we see here? What is the insight?*
@@ -144,7 +162,7 @@ ggplot(anscombe_m, aes(x, y)) +
 
  
 
-#### The Datasaurus Dozen
+### The Datasaurus Dozen
 
 * @fig-datasaurus-own displays the datasaurus dozen as animated by [Tom Westlake](https://github.com/thomasp85/gganimate/wiki/The-Datasaurus-Dozen) (see [here](https://github.com/thomasp85/gganimate/wiki/The-Datasaurus-Dozen), original by [Alberto Cairo](http://www.thefunctionalart.com/2016/08/download-datasaurus-never-trust-summary.html))
     + Q: *What do we see here? What is the insight?*
@@ -192,7 +210,7 @@ ggplot(datasaurus_dozen, aes(x=x, y=y))+
 
 
 
-### Interactivity for data visualization: Theory & Concepts
+### Interactivity for data visualization
 
 * "**interactive** data visualization enables direct actions on a plot to change elements and link between multiple plots" [@Swayne1999-wf] ([Wikipedia](https://en.wikipedia.org/wiki/Interactive_data_visualization))
 * Interactivity revolutionizes the way we work with data
@@ -206,7 +224,7 @@ ggplot(datasaurus_dozen, aes(x=x, y=y))+
     + ...exploring data
     + ...making data accessible to those without background
     + Online publishing, Interactive analysis/reading
-    + Current projects: [www.digitalpolitics.info](https://paulcbauer.github.io/digitalpolitics/) ([older example](https://paulcbauer.shinyapps.io/transformations_of_variables/))
+    + My current projects: [www.digitalpolitics.info](https://paulcbauer.github.io/digitalpolitics/) ([older example](https://paulcbauer.shinyapps.io/transformations_of_variables/))
 * Example: Check out the datablogs of various newspapers... [data journalism](http://www.theguardian.com/data)!
 
 
@@ -216,16 +234,16 @@ ggplot(datasaurus_dozen, aes(x=x, y=y))+
 
 ### What is Shiny?
 
-A web application framework for R to turn analyses into interactive web applications. What does that mean?
+A **web application framework** for R to turn analyses into interactive web applications.. what does that mean?
 
 * The userinterface is a **webpage**
 * On this webpage you can manipulate things
 * Behind the webpage there is a computer (your computer or a **server**)
-* That computer/server runs R and your r-script
+* That computer/server runs R and the R script of the webapp
 * When you change something on the webpage, the information is send to the computer
 * Computer runs the script with the new **inputs** (**input functions**)
 * Computer sends back **outputs** to the webpage  (**output functions**)
-* Short history of Shiny
+* History of Shiny: [The Past and Future of Shiny](https://www.youtube.com/watch?v=HpqLXB_TnpI)
 
 
 
@@ -233,25 +251,67 @@ A web application framework for R to turn analyses into interactive web applicat
 
 
 ### Pro & contra Shiny
-- Pro
-    - choosing the right software
-    - open-source
-    - long-term prospects
-    - adaptiblity
-    - costs
-- Contra
-    - ...
+#### Pros of R Shiny:
 
+1. **Fast Prototyping**: Shiny is excellent for quickly turning ideas into applications, and is relatively easy to use even for those who aren't seasoned programmers.
 
+2. **Interactivity**: Shiny lets you build interactive web apps, enhancing user engagement and experience. It's especially beneficial for creating dashboards where data can be displayed in an interactive way.
+
+3. **Integration with R Ecosystem**: Shiny integrates seamlessly with R's vast ecosystem. This includes integrating with packages for data manipulation, statistics, machine learning, and visualization.
+
+4. **Data Entry**: Shiny is good for creating applications that require simple data entry.
+
+5. **Statistical Modeling and Visualization**: Shiny allows you to apply complex statistical modeling and visualizations within your app, leveraging R's strong capabilities in these areas.
+
+6. **Executable Creation**: With the RInno package, you can create standalone Windows executables from your Shiny apps.
+
+7. **No Need for Web Development Skills**: With Shiny, you can create web apps using R code alone. Knowledge of HTML, CSS, or JavaScript is not necessary, though it can help you to create more custom apps.
+
+8. **Reactivity**: Shiny's reactivity system is excellent. It makes it possible to create applications that automatically update outputs in response to changes in inputs.
+
+9. **Sharing and Publishing**: Shiny apps can be easily published and shared, either through RStudio's Shiny server, Shinyapps.io, or embedding in R Markdown documents or websites.
+
+#### Cons of R Shiny:
+
+1. **Performance**: Shiny apps run on top of R, an interpreted language, which can cause performance issues when handling large amounts of data or complex calculations.
+
+2. **Single-threaded**: R (and by extension Shiny) is single-threaded, which can also cause performance issues when dealing with many simultaneous users.
+
+3. **Complexity**: While Shiny's basics are easy to learn, mastering the intricacies of reactivity can be challenging.
+
+4. **Limited Mobile/Responsive Design**: Shiny does not natively support responsive design. Adding CSS and JavaScript to make apps responsive requires extra work and web development skills.
+
+5. **Limited Customization**: Shiny provides flexibility, but customization can be limited, especially when compared with building a web app from scratch with JavaScript.
+
+6. **Multi-page Apps**: Shiny isn't great for developing multi-page apps. The design can become complex and challenging.
+
+7. **Asynchronous Support**: As of my knowledge cutoff in September 2021, Shiny lacked full support for async programming, which is useful for improving performance. 
+
+8. **Data Gathering and Saving**: It can be challenging to use Shiny for gathering and saving data to the database.
+
+9. **IT Support**: Traditional IT support skills for Shiny may be limited, requiring developers to have a broader skill set.
+
+10. **Maintenance Cost**: The cost of maintaining a Shiny application over time, including server costs and personnel time, can be high.
+
+11. **Software Dependencies**: Certain Shiny applications may have many software dependencies, which can be challenging to manage and could potentially lead to issues down the line.
+
+12. **Code Structure**: When a Shiny app grows in complexity, maintaining a clean and manageable code structure can be difficult.
+
+13. **Internationalization Issues**: There can be difficulties with internationalization in Shiny apps, making it more challenging to design apps for a global audience.
+
+14. **Deployment**: Deployment of Shiny apps on a server may require
 
 
 
 
 
 ## The Guerry Dashboard: The app we will built
-* In the workshop we will built Shiny app together. Please explore this app here (5-10 minutes) and try to find out how this app may help us to understand and analyze the underlying data. Subsequently, we will discuss what interactive elements you identified and how one can use this app to analyze data.
+- In the workshop we will built the Shiny app shown in @fig-guerrydashboard together. Please [explore this app here](https://paulbauer.shinyapps.io/guerry_dashboard/) (5-10 minutes) and answer the following questions:
+  - What questions can we answer using the app?
+  - How can this help us to understand and analyze the underlying data?
+  - What interactive elements did you identify in the app?
 
-
+![(Source: Original image)](02-guerrydashboard.png){#fig-guerrydashboard}
 
 
 
@@ -259,12 +319,13 @@ A web application framework for R to turn analyses into interactive web applicat
 
 
 ## Components of a Shiny app
-* Two components: user interface (UI) object and a server function, that are passed as arguments to the shinyApp function that creates a Shiny app object from this UI/server pair. The source code for both of these components is listed below.
+* **Two components**: **user interface (UI)** and a **server**, that are passed as arguments to the `shinyApp()` function
+  - `shinyApp()` function creates a Shiny app object from this UI/server pair
 
 ![Source: https://hosting.analythium.io/the-anatomy-of-a-shiny-application/ (c) Analythium](02-compontents-shiny-app.png)
 
 
-
+- HIER WEITER
 
 ## Your (first) Shiny app
 * https://mastering-shiny.org/basic-app.html#basic-app
