@@ -1,0 +1,13 @@
+name: guerry
+title: guerry
+username:
+account: paulbauer
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9341649
+bundleId: 7369997
+url: https://paulbauer.shinyapps.io/guerry/
+when: 1687333874.65319
+lastSyncTime: 1687333874.65323
+asMultiple: FALSE
+asStatic: FALSE

@@ -1,0 +1,14 @@
+name: guerry_dashboard
+title: guerry_dashboard
+username:
+account: paulbauer
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9341664
+bundleId: 7370005
+url:
+     https://paulbauer.shinyapps.io/guerry_dashboard/
+when: 1687334133.93645
+lastSyncTime: 1687334133.9365
+asMultiple: FALSE
+asStatic: FALSE
