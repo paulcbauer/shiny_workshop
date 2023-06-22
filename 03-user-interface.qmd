@@ -17,9 +17,191 @@ pacman::p_load(knitr, quarto)
 
 
 ## The front end: Designing the User Interface
-* UI Components
-* Layout: https://mastering-shiny.org/action-layout.html#action-layout
-* Dynamic UI: https://mastering-shiny.org/action-dynamic.html#action-dynamic
+
+## Background
+- Shiny encourages separation of code that generates UI (the front end) from code that drives app's behaviour (i.e., server or the back end).
+- Here focus on front end & tour of Shiny inputs and outputs
+  - not yet out to stitch inputs and outputs together
+- focus in native Shiny components but vibrant community, e.g., `shinyWidgets`, `colorpicker`, `sortable`, etc. (see [awesome shiny extenstions](https://github.com/nanxstats/awesome-shiny-extensions))
+- Please load the shiny package: `library(shiny)`
+
+## UI Inputs
+
+### UI Inputs: common structure
+- All input functions have same first argument: `inputId`
+  - Identifier used to connect the front end with the back end, e.g., if UI has an input with ID `name`, the server function will access it with `input$name`
+  - Two constraints: **simple string** (only letters, numbers, and underscores) and **unique**
+- Most input functions have second parameter called `label`
+  - Used to create a human-readable label for the control
+- Third parameter is typically `value` that let's you set default value
+- Remaining parameters 4-x are unique to the control
+- Recommendation: Supplying `inputId` and `label` arguments by position, and all other arguments by name
+   Q: How would we read the following? `sliderInput("min", "Limit (minimum)", value = 50, min = 0, max = 100)`
+
+
+### UI Inputs: Logic
+* Widget = Web element the user can interact with ([Shiny widget gallery](https://shiny.posit.co/r/gallery/)
+    + Users can send messages to the SERVER/Computer (e.g. "I want to choose this variable") 
+* Underlying logic is the same for all widgets
+    + User uses widget to give input
+    + Input is inserted into the functions in the SERVER: ```server <- function(input, output) {}```
+    
+    
+
+
+### UI Inputs: Examples
+
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+animals <- c("dog", "cat", "mouse") # Predefining some categories
+
+ui <- fluidPage(
+  
+  # Free text
+  textInput("name", "What's your name?"),
+  passwordInput("password", "What's your password?"),
+  textAreaInput("story", "Tell me about yourself", rows = 3),
+  
+  # Numeric inputs
+  numericInput("num", "Number one", value = 0, min = 0, max = 100),
+  sliderInput("num2", "Number two", value = 50, min = 0, max = 100),
+  sliderInput("rng", "Range", value = c(10, 20), min = 0, max = 100),
+  
+  # Dates
+  dateInput("dob", "When were you born?"),
+  dateRangeInput("holiday", "When do you want to go on vacation next?"),
+  
+  # Limited choices
+  selectInput("state", "What's your favourite animal?", animals),
+              radioButtons("animal", "What's your favourite animal?", animals),
+              selectInput( "state", "What's your favourite animal?", animals, multiple = TRUE),
+              checkboxGroupInput("animal", "What animals do you like?", animals),
+              
+              # Single checkbox
+              checkboxInput("cleanup", "Clean up?", value = TRUE),
+              checkboxInput("shutdown", "Shutdown?"),
+              
+              # File uploads
+              fileInput("upload", NULL),
+              
+              # Action buttons
+              actionButton("click", "Click me!"),
+              actionButton("drink", "Drink me!", icon = icon("cocktail"))
+  )
+  
+  server <- function(input, output, session) {}
+  
+  shinyApp(ui, server)
+```
+
+
+### Exercise(s)
+https://mastering-shiny.org/basic-ui.html#exercises-1
+
+
+
+
+
+
+## UI Outputs
+- Outputs in UI create placeholders that are later filled by the server function
+- Have unique ID as first argument like inputs
+  - if your UI specification creates an output with ID `plot`, you'll access it in the server function with `output$plot`
+- Each output function on the front end is coupled with a render function in the back end (server)
+- Three main types of output: text, tables, and plots
+
+### UI Outputs: Text
+
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage(
+  textOutput("text"),
+  verbatimTextOutput("code")
+)
+server <- function(input, output, session) {
+  output$text <- renderText({ 
+    "Hello friend!" 
+  })
+  output$code <- renderPrint({ 
+    summary(1:10) 
+  })
+}
+shinyApp(ui, server)
+```
+
+
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage(
+  textOutput("text"),
+  verbatimTextOutput("print")
+)
+server <- function(input, output, session) {
+  output$text <- renderText("hello!")
+  output$print <- renderPrint("hello!")
+}
+shinyApp(ui, server)
+```
+
+
+
+### UI Outputs: Tables
+
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage(
+  tableOutput("static"),
+  dataTableOutput("dynamic")
+)
+server <- function(input, output, session) {
+  output$static <- renderTable(head(mtcars))
+  output$dynamic <- renderDataTable(mtcars, options = list(pageLength = 5))
+}
+shinyApp(ui, server)
+```
+
+
+### UI Outputs: Plots
+
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage(
+  plotOutput("plot", width = "400px")
+)
+server <- function(input, output, session) {
+  output$plot <- renderPlot(plot(1:5), res = 96)
+}
+shinyApp(ui, server)
+```
+
+
+
+
+
+### Exercise
+https://mastering-shiny.org/basic-ui.html#exercises-2
+
+
+
+
+### UI Outputs: Overview of functions
+
+* Output functions
+    + ```htmlOutput()```... creates raw HTML
+    + ```imageOutput()```... creates image
+    + ```plotOutput()```... creates plot
+    + ```tableOutput()```... creates table
+    + ```textOutput()```... creates text
+    + ```uiOutput()```... creates raw HTML
+    + ```verbatimTextOutput()```... creates text
+    + ```dataTableOutput()```... creates a data table (interactiv)
+
+
+
+
+
+
+
+## UI: Basic Layout
+- ADD DASHBOARD LAYOUT HERE - HIER WEITER
+
+
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
 
 ## UI: Layout
 * Apps consist of ```ui```, ```server``` and ```shinyApp(ui=ui, server = server)```
@@ -63,6 +245,8 @@ server <- function(input, output) {}
 
 shinyApp(ui=ui, server = server)
 ```    
+
+
 
 
 
@@ -250,131 +434,16 @@ shinyApp(ui=ui, server = server)
 
 
 
-## UI: Control widgets/inputs (1)
-* More lengthy explanation in the [shiny tutorial](http://shiny.rstudio.com/tutorial/lesson3/)
-* Widget = Web element the user can interact with ([Shiny widget gallery](http://shiny.rstudio.com/gallery/widget-gallery.html))
-    + Users can send messages to the SERVER/Computer (e.g. "I want to choose this variable") 
-* Widgets can be added everywhere
-    + Example for a widget below... ```selectinput()``` widget
-
-```{r, cache=TRUE, eval=FALSE, include=TRUE}
-ui <- fluidPage(
-  selectInput("select", label = h3("Select box"),
-              choices = list("Choice 1" = 1, "Choice 2" = 2, "Choice 3" = 3),
-              selected = 1),
-  hr(),
-  fluidRow(column(3, verbatimTextOutput("value")))
-  # fluidRow() creates a row, colum() divides row into columns
-)
-
-server <- function(input, output) {
-    # You can access the value of the widget with input$select, e.g.
-  output$value <- renderPrint({ input$select })
-}
-shinyApp(ui=ui, server = server)
-
-```
 
 
-* Widget functions requires arguments
-    + ```selectInput("select", label = h3("Select box"), 
-    choices = list("Choice 1" = 1, "Choice 2" = 2), 
-    selected = 1)```
-* Underlying logic is the same for all widgets
-    + User uses widget to give input
-    + Input is inserted into the functions in the SERVER: ```server <- function(input, output) {}```
+
+
+## UI: Dynamic Layout
 
 
 
 
 
-## UI: Control widgets/inputs Exercise (2)
-1. Read the code below and try to understand the different elements. Explain them to the others in the workshop.
-    + Tipp: Widgets have to be separated by commas.
-
-![](www/widgetsexercise.jpg)
-
-```{r exercise-4, echo=TRUE, eval=FALSE, include=TRUE}
-#ui.R
-ui <- fluidPage(
-  titlePanel("Widgets in the sidebar"),
-  sidebarLayout(
-    sidebarPanel(
-      selectInput("select", label = h3("Select box"),
-                  choices = list("Choice 1" = 1, "Choice 2" = 2,
-                                 "Choice 3" = 3), selected = 1),
-
-
-
-      sliderInput("slider", label = h3("Range (Slider)"),
-                  min = 0, max = 100, value = c(25, 75))
-    ),
-    mainPanel("In the sidebar on the left we find two widgets that can be used to send messages to the app by the user.")
-  )
-)
-
-server <- function(input, output) {}
-shinyApp(ui=ui, server = server)
-```
-
-
-
-
-
-
-
-
-
-
-
-
-## UI: Outputs (reactivity)
-
-
-* Shiny provides a family of functions that turn R objects into output for your user-interface
-* Output functions
-    + ```htmlOutput()```... creates raw HTML
-    + ```imageOutput()```... creates image
-    + ```plotOutput()```... creates plot
-    + ```tableOutput()```... creates table
-    + ```textOutput()```... creates text
-    + ```uiOutput()```... creates raw HTML
-    + ```verbatimTextOutput()```... creates text
-    + ```dataTableOutput()```... creates a data table (interactiv)
-* A closer look at the example from the beginning... (run the code if you want!)
-```{r, cache=TRUE, eval=FALSE, include=TRUE}
-ui <- fluidPage( 
-titlePanel("Displaying reactive output"),
-sidebarLayout( 
-    sidebarPanel( 
-      selectInput("selection", label = h3("Select box"), 
-        choices = list("Fertility" = "Fertility", 
-                       "Agriculture" = "Agriculture", 
-                       "Examination" = "Examination", 
-                       "Education" = "Education", 
-                       "Catholic" = "Catholic", 
-                       "Infant.Mortality" = "Infant.Mortality"),
-        selected = 1) # Selection is a variablename!
-      ),
-    mainPanel( # Draw main panel
-      plotOutput("distPlot") # Put the output - a plot - into the main panel
-    )
-  ) 
-)
-
-
-server <- function(input, output) {
-  output$distPlot <- renderPlot({
-      x    <-   swiss[, input$selection]
-      hist(x, col = 'darkgray', border = 'white',
-           xlab=input$selection, 
-           main="Swiss French Provinces Fertility and Socioeconomic Indicators (1888) Data")
-  })
-}
-
-shinyApp(ui=ui, server = server)
-
-```
 
 
 
