@@ -4,6 +4,10 @@ title: "Introduction"
 
 - Learning outcomes: 
   - Understand idea/aims/advantages/steps of interactive data analysis
+  - Understand basic structure of Shiny apps
+  - Launch first app
+  - Understand logic of reactivity/loading things in Shiny apps
+  - Discuss MVP and workflow
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
@@ -64,13 +68,13 @@ Sources: [@Bertini2017-jq]
 
 
 ### Challenges of Interactive Visual Data Analysis
-- Specification (Mind &rarr; Data/Model): "*should we expect everyone to be a coder and learn a specification language in order to perform data analysis?*"
-- Representation (Data/Model &rarr; Eyes)
+- **Specification (Mind &rarr; Data/Model)**: "*should we expect everyone to be a coder and learn a specification language in order to perform data analysis?*"
+- **Representation (Data/Model &rarr; Eyes)**
   - "deciding **what** to visualize is often equally, if not more, important, than deciding **how** to visualize it"
   - "how fancy does a visualization need to be in order to be useful for data analysis?"
     - "most visualization problems can be solved with a handful of graphs"
     - really hard to use, tweak, and combine graphs in clever/effective/innovative ways
-- Interpretation (Eyes &rarr; Mind)
+- **Interpretation (Eyes &rarr; Mind)**
   - "what does one need to know in order to reason effectively about the results of modeling and visualization?"
   - "Are people able to interpret and trust their models?"
 - Suggestions: Focus more on (more relevant) problems; More tools, less visualizations; Make it public
@@ -254,58 +258,37 @@ A **web application framework** for R to turn analyses into interactive web appl
 #### Pros of R Shiny:
 
 1. **Fast Prototyping**: Shiny is excellent for quickly turning ideas into applications, and is relatively easy to use even for those who aren't seasoned programmers.
-
 2. **Interactivity**: Shiny lets you build interactive web apps, enhancing user engagement and experience. It's especially beneficial for creating dashboards where data can be displayed in an interactive way.
-
 3. **Integration with R Ecosystem**: Shiny integrates seamlessly with R's vast ecosystem. This includes integrating with packages for data manipulation, statistics, machine learning, and visualization.
-
 4. **Data Entry**: Shiny is good for creating applications that require simple data entry.
-
 5. **Statistical Modeling and Visualization**: Shiny allows you to apply complex statistical modeling and visualizations within your app, leveraging R's strong capabilities in these areas.
-
 6. **Executable Creation**: With the RInno package, you can create standalone Windows executables from your Shiny apps.
-
 7. **No Need for Web Development Skills**: With Shiny, you can create web apps using R code alone. Knowledge of HTML, CSS, or JavaScript is not necessary, though it can help you to create more custom apps.
-
 8. **Reactivity**: Shiny's reactivity system is excellent. It makes it possible to create applications that automatically update outputs in response to changes in inputs.
-
 9. **Sharing and Publishing**: Shiny apps can be easily published and shared, either through RStudio's Shiny server, Shinyapps.io, or embedding in R Markdown documents or websites.
 
 #### Cons of R Shiny:
 
 1. **Performance**: Shiny apps run on top of R, an interpreted language, which can cause performance issues when handling large amounts of data or complex calculations.
-
 2. **Single-threaded**: R (and by extension Shiny) is single-threaded, which can also cause performance issues when dealing with many simultaneous users.
-
 3. **Complexity**: While Shiny's basics are easy to learn, mastering the intricacies of reactivity can be challenging.
-
 4. **Limited Mobile/Responsive Design**: Shiny does not natively support responsive design. Adding CSS and JavaScript to make apps responsive requires extra work and web development skills.
-
 5. **Limited Customization**: Shiny provides flexibility, but customization can be limited, especially when compared with building a web app from scratch with JavaScript.
-
 6. **Multi-page Apps**: Shiny isn't great for developing multi-page apps. The design can become complex and challenging.
-
 7. **Asynchronous Support**: As of my knowledge cutoff in September 2021, Shiny lacked full support for async programming, which is useful for improving performance. 
-
 8. **Data Gathering and Saving**: It can be challenging to use Shiny for gathering and saving data to the database.
-
 9. **IT Support**: Traditional IT support skills for Shiny may be limited, requiring developers to have a broader skill set.
-
 10. **Maintenance Cost**: The cost of maintaining a Shiny application over time, including server costs and personnel time, can be high.
-
 11. **Software Dependencies**: Certain Shiny applications may have many software dependencies, which can be challenging to manage and could potentially lead to issues down the line.
-
 12. **Code Structure**: When a Shiny app grows in complexity, maintaining a clean and manageable code structure can be difficult.
-
 13. **Internationalization Issues**: There can be difficulties with internationalization in Shiny apps, making it more challenging to design apps for a global audience.
-
 14. **Deployment**: Deployment of Shiny apps on a server may require
 
 
 
 
 
-## The Guerry Dashboard: The app we will built
+### The Guerry Dashboard: The app we will built
 - In the workshop we will built the Shiny app shown in @fig-guerrydashboard together. Please [explore this app here](https://paulbauer.shinyapps.io/guerry_dashboard/) (5-10 minutes) and answer the following questions:
   - What questions can we answer using the app?
   - How can this help us to understand and analyze the underlying data?
@@ -318,68 +301,147 @@ A **web application framework** for R to turn analyses into interactive web appl
 
 
 
-## Components of a Shiny app
-* **Two components**: **user interface (UI)** and a **server**, that are passed as arguments to the `shinyApp()` function
-  - `shinyApp()` function creates a Shiny app object from this UI/server pair
+### Components of a Shiny app
+* As depicted in @fig-shinycomponents, a Shiny app has **two components**, the **user interface (UI)** and the **server**, that are passed as arguments to the `shinyApp()` which creates a Shiny app object from this **ui/server pair**
 
-![Source: https://hosting.analythium.io/the-anatomy-of-a-shiny-application/ (c) Analythium](02-compontents-shiny-app.png)
-
-
-- HIER WEITER
-
-## Your (first) Shiny app
-* https://mastering-shiny.org/basic-app.html#basic-app
-* Use the simplest version of our app - only with data table! and reduced data
-* Publishing comes at then end of the workshop!
+![Source: https://hosting.analythium.io/the-anatomy-of-a-shiny-application/ (c) Analythium](02-compontents-shiny-app.png){#fig-shinycomponents}
 
 
 
+### Your (first) Shiny app
+* Below you will create you first app and we'll use the opportunity to discuss the basic elements of a shiny app (see [here for more](https://mastering-shiny.org/basic-app.html#basic-app)).
+* Install the relevant packages:
 
-## Basic user interface (UI)
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+install.packages("shiny")
+install.packages("tidyverse")
+# Guerry package is already installed
+```
 
-* Discuss UI component (teaser)
+* Create a directory with the name of your app "myfirstapp" in your [working directory](https://bookdown.org/ndphillips/YaRrr/the-working-directory.html).
 
+* Create an rscript file that you call `"`app.R`.
+* Copy the code below and paste it into your `app.R` script.
 
-
-## Basic reactivity
-
-* Discuss reactivy component (teaser)
-
-
-
-## Minimum viable product & workflow
-
-### MVP
-* "is a version of a product with just enough features to be usable by early customers who can then provide feedback for future product development." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
-* "has just enough core features to effectively deploy the product, and no more. Developers typically deploy the product to a subset of possible customers, such as early adopters who are thought to be more forgiving, more likely to give feedback, and able to grasp a product vision from an early prototype or marketing information. This strategy targets avoiding building products that customers do not want and seek to maximize information about the customer with the least money spent. The technique falls under the Lean Startup methodology as MVPs aim to test business hypotheses and validated learning is one of the five principles of the Lean Startup method." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
-* ..we follow the same strategy, slowly building out our shiny app and adding features & complexity
-
-
-### Workflow: Development, debugging and getting help
-* See discussions of workflow in @wickham2021mastering [Ch. 5, 20.2.1]
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+library(shiny)
+library(Guerry)
+library(tidyverse)
 
 
+## Data: Clean & prepare data ----
+guerry <- Guerry::gfrance85 %>%
+  st_as_sf() %>%
+  as_tibble() %>%
+  st_as_sf(crs = 27572) %>%
+  mutate(Region = case_match(
+    Region,
+    "C" ~ "Central",
+    "E" ~ "East",
+    "N" ~ "North",
+    "S" ~ "South",
+    "W" ~ "West"
+  )) %>%
+  select(!any_of(c("CODE_DEPT", "COUNT", "AVE_ID_GEO", "dept"))) %>%
+  st_drop_geometry() %>%
+  select(1:6)
 
 
-## Loading things in Shiny apps
-* Theoretical introduction to loading things
+# UI ----
 
-### When is code run?
-* When is code in a shiny app run?
+ui <- dashboardPage( # start UI
+  title = "The Guerry Dashboard",
+
+  ### Header ----
+  header = dashboardHeader(
+    title = tagList(
+      img(src = "workshop-logo.png", width = 35, height = 35),
+      span("The Guerry Dashboard", class = "brand-text")
+    )
+  ),
+
+  ### Sidebar ----
+  sidebar = dashboardSidebar(
+    id = "sidebar",
+    sidebarMenu(
+      id = "sidebarMenu",
+      menuItem(tabName = "insp", 
+               text = "Table data", 
+               icon = icon("table"))
+    )
+  ),
+  ### Body ----
+  body = dashboardBody(
+    tabItems( # start tabItems
+
+      tabItem(
+        tabName = "insp",
+        hr(),
+        DT::dataTableOutput("insp_table")
+      )
+      
+    ) # end tabItems
+  )
+) # End UI
+
+
+
+# Server ----
+
+server <- function(input, output, session) {
+
+  ## Create table ----
+  dt <- reactive({
+
+    DT::datatable(
+      guerry,
+      class = "hover",
+      selection = "none",
+      filter = list(position = "top", clear = FALSE),
+      rownames = FALSE
+    )
+    
+  })
+  
+  ## Render table ----
+  output$insp_table <- DT::renderDataTable(dt(), server = FALSE)
+  
+}
+
+shinyApp(ui, server)
+```
+
+* You can run and stop the app by clicking **Run App** (@fig-runappbutton) button in the document toolbar.
+
+```{r run-app, out.width = NULL, echo = FALSE}
+#| label: fig-runappbutton
+#| fig-cap: " The Run App button can be found at the top-right of the source pane."
+knitr::include_graphics("02-run-app.png")
+```
+
+
+
+
+### Loading things in Shiny apps
+
+#### When is code run?
+* When is code in a shiny app run? ([Source](https://shiny.posit.co/r/getstarted/shiny-basics/lesson5/#:~:text=Shiny%20will%20run%20code%20placed,the%20life%20of%20the%20app.))
 
 ![alt text](resources/run-once.png)
 ![alt text](resources/run-once-per-user.png)
 ![alt text](resources/run-many-times.png)
 
-* *So where shall we put the function to load the dataset?*
+* Q: So where shall we put the function to load the dataset?
+* Q: What problem might occur if we place certain code wrongly, e.g., load the data in the server or render function?
 
 
 
 
-### Where to load things
+
+#### Where to load things
 * Code outside ```server <- function(input, output) {}``` is run once, when you launch your app
 * Code inside ```server <- function(input, output) {}``` is run once each time a user visits your app
-* Code inside ```render*``` functions is rerun constantly (not only when user changes widget value, see [reactivity(http://shiny.rstudio.com/articles/understanding-reactivity.html)]) 
+* Code inside ```render*``` functions is rerun constantly (not only when user changes widget value, see [reactivity(https://shiny.posit.co/r/articles/build/understanding-reactivity/)]) 
 * That means...
     + Load **Source scripts, libraries, and data** outside of ```server``` function (at the beginning)
         + Store data in ```www/``` folder in your app directory
@@ -387,6 +449,22 @@ A **web application framework** for R to turn analyses into interactive web appl
         + Access online data by inserting the url into the ```read*``` function (e.g. ```read.table()```)
     + **User specific objects** (e.g. object that records user's session information) are defined inside shinyServer’s unnamed function, but outside of any render* calls
         + e.g. user registers himself, user data as input data (compare income)
-    + **Code/objects that are affected by choices in widgets** must be placed witin the a ```render*``` function
+    + **Code/objects that are affected by choices in widgets** must be placed within the a ```render*``` function
         + Shiny reruns code in a ```render*``` chunk each time a user changes a widget mentioned in the chunk
 * **Avoid** placing code within render function that does not need to be there... for performance reasons!
+
+
+
+
+## Minimum viable product (MVP)
+* ...useful concept when building apps!
+* "is a version of a product with just enough features to be usable by early customers who can then provide feedback for future product development." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
+* "has just enough core features to effectively deploy the product, and no more. Developers typically deploy the product to a subset of possible customers, such as early adopters who are thought to be more forgiving, more likely to give feedback, and able to grasp a product vision from an early prototype or marketing information. This strategy targets avoiding building products that customers do not want and seek to maximize information about the customer with the least money spent. The technique falls under the Lean Startup methodology as MVPs aim to test business hypotheses and validated learning is one of the five principles of the Lean Startup method." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
+* ..we follow the same strategy, slowly building out our shiny app and adding features & complexity
+
+
+## Workflow: Development, debugging and getting help
+* See discussions of workflow in @wickham2021mastering [Ch. 5, 20.2.1]
+* Hier weiter
+
+
