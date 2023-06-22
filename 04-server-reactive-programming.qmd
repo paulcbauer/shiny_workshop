@@ -2,9 +2,12 @@
 title: "Server & reactive programming"
 ---
 
+* Basic reactivity https://mastering-shiny.org/basic-reactivity.html
+
 * Learning outcomes (first intuitions): Learn...
     + ...
 
+Sources: [@wickham2021mastering, Ch. 3]
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 # install.packages("pacman)
@@ -18,3 +21,188 @@ pacman::p_load(knitr, quarto)
 
 * See preparation in design
 * Explain again when it makes sense to load things (for this conrete app)
+
+
+
+
+
+
+
+
+### Server basics
+
+* Reactive output automatically responds when users change widget input values
+* BUT we need to tell the server what to do with the input values
+* ```server <- function(input, output) {**construction of output objects in here**})``` 
+
+
+* **Describe the server how to build the object**
+    + The object will be reactive if the code that builds it calls a widget value
+    + ```output$distPlot <- renderPlot({...})``` (store in output list)
+    + render functions wrap outputs and correspond to the type or reactive output
+        + ```renderImage({...})``` creates images (saved as a link to a source file)
+        + ```renderPlot({...})``` creates plots
+        + ```renderPrint({...})``` creates any printed output
+        + ```renderTable({...})``` creates data frame, matrix, other table like structures
+        + ```renderText({...})``` creates character strings
+        + ```renderUI({...})``` creates a Shiny tag object or HTML
+
+
+
+
+
+### SERVER: Example
+* Use example from app with datatable!
+
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage( 
+titlePanel("Displaying reactive output"),
+sidebarLayout( 
+    sidebarPanel( 
+      selectInput("selection", label = h3("Select box"), 
+        choices = list("Fertility" = "Fertility", 
+                       "Agriculture" = "Agriculture", 
+                       "Examination" = "Examination", 
+                       "Education" = "Education", 
+                       "Catholic" = "Catholic", 
+                       "Infant.Mortality" = "Infant.Mortality"),
+        selected = 1) # Selection is a variablename!
+      ),
+    mainPanel( # Draw main panel
+      plotOutput("distPlot") # Put the output - a plot - into the main panel
+    )
+  ) 
+)
+
+server <- function(input, output) { 
+     
+  output$distPlot <- renderPlot({ 
+      x    <-   swiss[, input$selection] # USING WIDGET VALUE
+      hist(x, col = 'darkgray', border = 'white', 
+           xlab=input$selection, 
+           main="Swiss French Provinces Fertility and Socioeconomic Indicators (1888) Data")
+  }) 
+} 
+
+shinyApp(ui=ui, server = server)
+```
+
+
+* Launch the app
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+# ui.R
+runApp(display.mode = "showcase")
+```
+
+* Launch it on the server!
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+deployApp()
+```
+
+
+
+
+
+### Exercise: SERVER
+1. Use the code below (we saw that before). 
+2. Add another reactive output that displays the selection made in the select box as text, e.g. "Infant.mortality", below the plot in the mainpanel.
+    + Tipp: You will need the output function `textOutput(...)` to show the text in the UI. And you will need the function `renderText({...})` to build the output on the server.
+3. If you like add another another output.
+
+
+```{r exercise-5, echo=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage(
+  titlePanel("Displaying reactive output"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("selection", label = h3("Select box"),
+                  choices = list("Fertility" = "Fertility",
+                                 "Agriculture" = "Agriculture",
+                                 "Examination" = "Examination",
+                                 "Education" = "Education",
+                                 "Catholic" = "Catholic",
+                                 "Infant.Mortality" = "Infant.Mortality"), selected = 1)
+    ),
+
+    mainPanel(
+      plotOutput("distPlot")
+    )
+  )
+)
+
+server <- function(input, output) {
+  output$distPlot <- renderPlot({
+    x    <-   swiss[, input$selection]
+    hist(x, col = 'darkgray', border = 'white', xlab=input$selection, main="Swiss French Provinces Fertility and Socioeconomic Indicators (1888) Data")
+  })
+
+}
+
+shinyApp(ui=ui, server = server)
+```
+
+```{r echo=TRUE, eval=FALSE, include=FALSE}
+ui <- fluidPage(
+  titlePanel("Displaying reactive output"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("selection", label = h3("Select box"),
+                  choices = list("Fertility" = "Fertility",
+                                 "Agriculture" = "Agriculture",
+                                 "Examination" = "Examination",
+                                 "Education" = "Education",
+                                 "Catholic" = "Catholic",
+                                 "Infant.Mortality" = "Infant.Mortality"), selected = 1)
+    ),
+
+    mainPanel(
+      plotOutput("distPlot"),
+      textOutput("text1")
+    )
+  )
+)
+
+server <- function(input, output) {
+  output$distPlot <- renderPlot({
+    x    <-   swiss[, input$selection]
+    hist(x, col = 'darkgray', border = 'white', xlab=input$selection, main="Swiss French Provinces Fertility and Socioeconomic Indicators (1888) Data")
+  })
+  output$text1 <- renderText({
+    input$selection
+  })
+}
+shinyApp(ui=ui, server = server)
+```
+
+
+
+### Summary
+
+To build reactive shiny apps...
+
+* Use ```*Output``` functions to place reactive objects in the UI (webpage)
+* Use ```render*``` functions to let R build output objects (on the server)
+    + Render functions are located in ```server <- function(input, output) {...})``` 
+    + R expressions are surrounded by braces, ```{}``` in ```render*``` functions
+    + Outputs of ```render*``` are saved in the ```output``` list, with one entry for each reactive object in your app
+    + Reactivity by including an ```input``` values in a ```render*``` expression
+* Often times you will adapt/modify [examples](http://shiny.rstudio.com/gallery/) that you find online
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
