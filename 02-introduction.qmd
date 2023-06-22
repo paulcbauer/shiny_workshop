@@ -15,7 +15,7 @@ title: "Introduction"
 pacman::p_load(knitr, quarto, tidyverse, gganimate, kableExtra)
 ```
 
-Sources: [@Bertini2017-jq]
+Sources: [@Bertini2017-jq, @wickham2021mastering]
 
 ## Interactive data analysis
 
@@ -458,13 +458,49 @@ knitr::include_graphics("02-run-app.png")
 
 ## Minimum viable product (MVP)
 * ...useful concept when building apps!
-* "is a version of a product with just enough features to be usable by early customers who can then provide feedback for future product development." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
-* "has just enough core features to effectively deploy the product, and no more. Developers typically deploy the product to a subset of possible customers, such as early adopters who are thought to be more forgiving, more likely to give feedback, and able to grasp a product vision from an early prototype or marketing information. This strategy targets avoiding building products that customers do not want and seek to maximize information about the customer with the least money spent. The technique falls under the Lean Startup methodology as MVPs aim to test business hypotheses and validated learning is one of the five principles of the Lean Startup method." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
+* "**version** of a product with **just enough features to be usable** by early customers who can then provide feedback for future product development." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
+* "has **just enough core features to effectively deploy the product**, and no more. Developers typically **deploy the product to a subset of possible customers**, such as early adopters who are thought to be more forgiving, more likely to give feedback, and able to grasp a product vision from an early prototype or marketing information. This strategy targets **avoiding building products that customers do not want** and seek to **maximize information about the customer with the least money spent**. [...] falls under the Lean Startup methodology as MVPs aim to test business hypotheses [...]." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
 * ..we follow the same strategy, slowly building out our shiny app and adding features & complexity
 
 
 ## Workflow: Development, debugging and getting help
-* See discussions of workflow in @wickham2021mastering [Ch. 5, 20.2.1]
-* Hier weiter
+- See discussions of workflow in @wickham2021mastering [Ch. 5, 20.2.1]
+- Three important Shiny workflows:
+  - Basic development cycle of creating apps, making changes, and experimenting with the results.
+  - Debugging, i.e., figure out what’s gone wrong with your code/brainstorm solutions
+  - Writing reprexes, self-contained chunks of code that illustrate a problem (essential for getting others' help)
+
+
+
+### Development workflow
+1. **Creating the app**: start every app with the same six lines of R code (`Shift + Tab` or in menue `New Project -> Shiny Web Application`)
+
+```{r}
+library(shiny)
+ui <- fluidPage(
+)
+server <- function(input, output, session) {
+}
+shinyApp(ui, server)
+```
+
+2. **Seeing your changes**: you'll create a few apps a day, but you'll run apps hundreds of times, so mastering the development workflow is particularly important
+  1. Write some code.^[**Automated testing**: allows you to turn interactive experiments you're running into automated code, i.e., run tests more quickly and not forget them (because they are automated). Requires more initial investment.]
+  2. Launch the app with `Cmd/Ctrl + Shift + Enter`.
+  3. Interactively experiment with the app.
+  4. Close the app.
+  5. Go to 1.
+  
+3. **Controlling the view**: Default is a pop-out window but you can also choose `Run in Viewer Pane` and `Run External`.
+
+### Debugging workflow
+* Guaranteed that something will go wrong at the start
+* Cause is mismatch between your mental model of Shiny, and what Shiny actually does
+* We need to develop **robust workflow for identifying and fixing mistakes**
+* Three main cases of problems: **(1) Unexpected error**, **(2) No error but incorrect values**; **(3) Correct values but not updated**
+  - (1) Use traceback and interactive debugger
+  - (2) Use interactive debugger
+  - (3) Problem unique to Shiny, i.e., R skills don't help
+* See @wickham2021mastering [Ch. 5.2, [link](https://mastering-shiny.org/action-workflow.html#debugging)] for explanations and examples
 
 
