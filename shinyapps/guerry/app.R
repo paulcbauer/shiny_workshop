@@ -167,8 +167,8 @@ ui <- dashboardPage(
     sidebarMenu(
       id = "sidebarMenu",
       menuItem(tabName = "intro", text = "Introduction", icon = icon("home")),
-      menuItem(tabName = "exp", text = "Explore data", icon = icon("map")),
-      menuItem(tabName = "insp", text = "Inspect data", icon = icon("table")),
+      menuItem(tabName = "exp", text = "Map data", icon = icon("map")),
+      menuItem(tabName = "insp", text = "Table data", icon = icon("table")),
       menuItem(tabName = "model", text = "Model data", icon = icon("chart-line")),
       flat = TRUE
     ),
