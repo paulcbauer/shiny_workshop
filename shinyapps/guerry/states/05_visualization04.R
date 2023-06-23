@@ -42,15 +42,6 @@ variables <- guerry %>%
   select(where(is.numeric) & !all_of(c("COUNT", "dept", "AVE_ID_GEO"))) %>%
   names()
 
-## Pivot ----
-guerry_long <- tidyr::pivot_longer(
-  st_drop_geometry(guerry),
-  cols = all_of(variables),
-  names_to = "variable"
-) %>%
-  mutate(variable = factor(variable, levels = unique(variable))) %>%
-  arrange(variable)
-
 ## Aggregate ----
 guerry_region <- guerry %>%
   group_by(Region) %>%
@@ -65,79 +56,19 @@ guerry_region <- guerry %>%
   }
 ))
 
-guerry_region_long <- tidyr::pivot_longer(
-  st_drop_geometry(guerry_region),
-  cols = all_of(variables),
-  names_to = "variable"
-) %>%
-  mutate(variable = factor(variable, levels = unique(variable))) %>%
-  arrange(variable)
-
 ## Read text data ----
 txts <- read_json("../app_labels.json", simplifyVector = TRUE)
-
-## Prepare palettes ----
-pals <- list(
-  Sequential = RColorBrewer::brewer.pal.info %>%
-    filter(category %in% "seq") %>%
-    row.names(),
-  Viridis = c("Magma", "Inferno", "Plasma", "Viridis",
-              "Cividis", "Rocket", "Mako", "Turbo")
-)
 
 plotly_buttons <- c(
 	"sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
 	"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
 )
 
-## Create theme ----
-dash_theme <- create_theme(
-  bs4dash_status(
-    primary = "#58748f",
-    secondary = "#666666",
-    info = "#E6EAEE",
-    danger = "#BF616A",
-    warning = "#FF6100",
-    light = "#F4F4F2",
-    dark = "#2c2c25"
-  ),
-  bs4dash_layout(
-    font_size_root = "5rem",
-    main_bg = "#FDFDFD",
-    sidebar_width = "350px"
-  ),
-  bs4dash_sidebar_light(bg = "#F4F4F2", color = "#000"),
-  bs4dash_sidebar_dark(bg = "#2c2c25", color = "#FFF"),
-  bs4dash_color(
-  	orange = "#F06400",
-    white = "#FDFDFD",
-    black = "#000",
-    gray_600 = "#666",
-    gray_800 = "#333",
-    gray_900 = "#000",
-    blue = "#58748f"
-  ),
-  bs4dash_font(
-    family_sans_serif = "Verdana",
-    family_base = "Georgia",
-    family_monospace = "Courier New"
-  )
-)
-
-## Preloader ----
-preloader <- list(
-  html = tagList(spin_6(), "Loading ..."),
-  color = "#B3DDFE"
-)
-
-
 
 # UI ----
 
 ui <- dashboardPage(
   title = "The Guerry Dashboard",
-  freshTheme = dash_theme,
-  preloader = preloader,
   ## Header ----
   header = dashboardHeader(
     tags$style("
@@ -178,10 +109,6 @@ ui <- dashboardPage(
   ),
   ## Body ----
   body = dashboardBody(
-    tags$head(
-      waiter::use_waiter(),
-      includeCSS("../www/styles.css")
-    ),
     tabItems(
     	tabItem("intro"),
     	tabItem("insp"),
