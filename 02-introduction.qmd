@@ -413,42 +413,6 @@ knitr::include_graphics("02-run-app.png")
 
 
 
-### Loading things in Shiny apps
-
-#### When is code run?
-* When is code in a shiny app run? ([Source](https://shiny.posit.co/r/getstarted/shiny-basics/lesson5/#:~:text=Shiny%20will%20run%20code%20placed,the%20life%20of%20the%20app.))
-
-![alt text](resources/run-once.png)
-![alt text](resources/run-once-per-user.png)
-![alt text](resources/run-many-times.png)
-
-* Q: So where shall we put the function to load the dataset?
-* Q: What problem might occur if we place certain code wrongly, e.g., load the data in the server or render function?
-
-
-
-
-
-#### Where to load things
-* Code outside ```server <- function(input, output) {}``` is run once, when you launch your app
-* Code inside ```server <- function(input, output) {}``` is run once each time a user visits your app
-* Code inside ```render*``` functions is rerun constantly (not only when user changes widget value, see [reactivity(https://shiny.posit.co/r/articles/build/understanding-reactivity/)]) 
-* That means...
-    + Load **Source scripts, libraries, and data** outside of ```server``` function (at the beginning)
-        + Store data in ```www/``` folder in your app directory
-        + Access with ```read.table("www/swiss.csv", sep=",")```
-        + Access online data by inserting the url into the ```read*``` function (e.g. ```read.table()```)
-    + **User specific objects** (e.g. object that records user's session information) are defined inside shinyServer’s unnamed function, but outside of any render* calls
-        + e.g. user registers himself, user data as input data (compare income)
-    + **Code/objects that are affected by choices in widgets** must be placed within the a ```render*``` function
-        + Shiny reruns code in a ```render*``` chunk each time a user changes a widget mentioned in the chunk
-* **Avoid** placing code within render function that does not need to be there... for performance reasons!
-
-
-### Data storage
-- Copy Jonas's part on data storage
-
-
 ## Minimum viable product (MVP)
 * ...useful concept when building apps!
 * "**version** of a product with **just enough features to be usable** by early customers who can then provide feedback for future product development." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
