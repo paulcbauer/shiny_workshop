@@ -4,8 +4,8 @@ title: "Server & reactive programming"
 
 * Basic reactivity https://mastering-shiny.org/basic-reactivity.html
 
-* Learning outcomes (first intuitions): Learn...
-    + ...
+- Learning outcomes:
+  - Understand logic underlying reactivity in Shiny apps
 
 Sources: [@wickham2021mastering, Ch. 3]
 
@@ -15,37 +15,38 @@ pacman::p_load(knitr, quarto)
 ```
 
 
-## Server & reactive programming
-
-### Data preparation
 
 * See preparation in design
 * Explain again when it makes sense to load things (for this conrete app)
+* REACTIVE IMPORTANT
+- bind_event, bind_cache (maybe not the latter)
+- https://mastering-shiny.org/basic-reactivity.html
 
 
 
 
 
 
-
-
-### Server basics
-
-* Reactive output automatically responds when users change widget input values
-* BUT we need to tell the server what to do with the input values
-* ```server <- function(input, output) {**construction of output objects in here**})``` 
-
-
+## Basics
+- Reactive output automatically responds when users change widget input values stored in list `inputs$...`
+- BUT we need to tell the server what to do with the input values in the server function
+- `server <- function(input, output) {**construction of output objects in here**})` 
 * **Describe the server how to build the object**
     + The object will be reactive if the code that builds it calls a widget value
-    + ```output$distPlot <- renderPlot({...})``` (store in output list)
+    + `output$distPlot <- renderPlot({...})`
+      - Resulting output is stored in list `output$...`
+- render functions (e.g. `renderPlot({...})`) wrap outputs and correspond to the type or reactive output
+- render functions produce new output when input values in them change
+
+## Render functions
+
     + render functions wrap outputs and correspond to the type or reactive output
-        + ```renderImage({...})``` creates images (saved as a link to a source file)
-        + ```renderPlot({...})``` creates plots
-        + ```renderPrint({...})``` creates any printed output
-        + ```renderTable({...})``` creates data frame, matrix, other table like structures
-        + ```renderText({...})``` creates character strings
-        + ```renderUI({...})``` creates a Shiny tag object or HTML
+        + `renderImage({...})` creates images (saved as a link to a source file)
+        + `renderPlot({...})` creates plots
+        + `renderPrint({...})` creates any printed output
+        + `renderTable({...})` creates data frame, matrix, other table like structures
+        + `renderText({...})` creates character strings
+        + `renderUI({...})` creates a Shiny tag object or HTML
 
 
 
@@ -176,16 +177,62 @@ shinyApp(ui=ui, server = server)
 
 
 
-### Summary
+
+
+
+
+
+
+
+## Loading things in Shiny apps
+
+### When is code run?
+* When is code in a shiny app run? ([Source](https://shiny.posit.co/r/getstarted/shiny-basics/lesson5/#:~:text=Shiny%20will%20run%20code%20placed,the%20life%20of%20the%20app.))
+
+![alt text](resources/run-once.png)
+![alt text](resources/run-once-per-user.png)
+![alt text](resources/run-many-times.png)
+
+* Q: So where shall we put the function to load the dataset?
+* Q: What problem might occur if we place certain code wrongly, e.g., load the data in the server or render function?
+
+
+
+
+
+### Where to load things
+* Code outside ```server <- function(input, output) {}``` is run once, when you launch your app
+* Code inside ```server <- function(input, output) {}``` is run once each time a user visits your app
+* Code inside ```render*``` functions is rerun constantly (not only when user changes widget value, see [reactivity(https://shiny.posit.co/r/articles/build/understanding-reactivity/)]) 
+* That means...
+    + Load **Source scripts, libraries, and data** outside of ```server``` function (at the beginning)
+        + Store data in ```www/``` folder in your app directory
+        + Access with ```read.table("www/swiss.csv", sep=",")```
+        + Access online data by inserting the url into the ```read*``` function (e.g. ```read.table()```)
+    + **User specific objects** (e.g. object that records user's session information) are defined inside shinyServer’s unnamed function, but outside of any render* calls
+        + e.g. user registers himself, user data as input data (compare income)
+    + **Code/objects that are affected by choices in widgets** must be placed within the a ```render*``` function
+        + Shiny reruns code in a ```render*``` chunk each time a user changes a widget mentioned in the chunk
+* **Avoid** placing code within render function that does not need to be there... for performance reasons!
+
+
+## Data storage
+- Copy Jonas's part on data storage
+
+
+
+
+
+## Summary
 
 To build reactive shiny apps...
 
-* Use ```*Output``` functions to place reactive objects in the UI (webpage)
-* Use ```render*``` functions to let R build output objects (on the server)
-    + Render functions are located in ```server <- function(input, output) {...})``` 
-    + R expressions are surrounded by braces, ```{}``` in ```render*``` functions
-    + Outputs of ```render*``` are saved in the ```output``` list, with one entry for each reactive object in your app
-    + Reactivity by including an ```input``` values in a ```render*``` expression
+* Use `*Output` functions to place reactive objects in the UI (webpage)
+* Use `render*` functions to let R build output objects (on the server)
+    + Render functions are located in `server <- function(input, output) {...})` 
+    + R expressions are surrounded by braces, `{}` in `render*` functions
+    + Outputs of `render*` are saved in the `output` list, with one entry for each reactive object in your app
+    + Reactivity by including an `input` values in a `render*` expression
 * Often times you will adapt/modify [examples](http://shiny.rstudio.com/gallery/) that you find online
 
 
