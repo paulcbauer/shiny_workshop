@@ -16,7 +16,6 @@ website:
     collapse-level: 2
     collapse-section: 2
     contents:
-      - index.qmd
       - 01-workshop.qmd
       - 02-introduction.qmd
       - 03-user-interface.qmd

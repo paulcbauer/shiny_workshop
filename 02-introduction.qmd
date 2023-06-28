@@ -261,22 +261,19 @@ A **web application framework** for R to turn analyses into interactive web appl
 2. **Interactivity**: Shiny lets you build interactive web apps, enhancing user engagement and experience. It's especially beneficial for creating dashboards where data can be displayed in an interactive way.
 3. **Integration with R Ecosystem**: Shiny integrates seamlessly with R's vast ecosystem. This includes integrating with packages for data manipulation, statistics, machine learning, and visualization.
 5. **Statistical Modeling and Visualization**: Shiny allows you to apply complex statistical modeling and visualizations within your app, leveraging R's strong capabilities in these areas.
-7. **No Need for Web Development Skills**: With Shiny, you can create web apps using R code alone. Knowledge of HTML, CSS, or JavaScript is not necessary, though it can help you to create more custom apps.
-8. **Reactivity**: Shiny's reactivity system is excellent. It makes it possible to create applications that automatically update outputs in response to changes in inputs.
-9. **Sharing and Publishing**: Shiny apps can be easily published and shared, either through RStudio's Shiny server, Shinyapps.io, or embedding in R Markdown documents or websites.
+6. **No Need for Web Development Skills**: With Shiny, you can create web apps using R code alone. Knowledge of HTML, CSS, or JavaScript is not necessary, though it can help you to create more custom apps.
+7. **Reactivity**: Shiny's reactivity system is excellent. It makes it possible to create applications that automatically update outputs in response to changes in inputs.
+8. **Sharing and Publishing**: Shiny apps can be easily published and shared, either through RStudio's Shiny server, Shinyapps.io, or embedding in R Markdown documents or websites.
 
 #### Cons of R Shiny:
 
 1. **Performance**: Shiny apps run on top of R, an interpreted language, which can cause performance issues when handling large amounts of data or complex calculations.
 2. **Single-threaded**: R (and by extension Shiny) is single-threaded, which can also cause performance issues when dealing with many simultaneous users.
 3. **Complexity**: While Shiny's basics are easy to learn, mastering the intricacies of reactivity can be challenging.
-5. **Limited Customization**/**Limited Mobile/Responsive Design**: Shiny provides flexibility, but customization can be limited, especially when compared with building a web app from scratch with JavaScript; Customization limited to advanced knowledge in CSS and JavaScript (but `shinyMobile` etc.)
-8. **Data Gathering and Saving**: It can be challenging to use Shiny for gathering and saving data to the database.
-9. **IT Support**/**Maintenance Cost**: Traditional IT support skills for Shiny may be limited, requiring developers to have a broader skill set; The cost of maintaining a Shiny application over time, including server costs and personnel time, can be high.
-11. **Software Dependencies**: Certain Shiny applications may have many software dependencies, which can be challenging to manage and could potentially lead to issues down the line.
-12. **Code Structure**: When a Shiny app grows in complexity, maintaining a clean and manageable code structure can be difficult (but **modularization with tree structure!**).
-14. **Deployment**: Deployment of Shiny apps on a server may require
-13. **Internationalization Issues** (but `shiny.i18n`); **Asynchronous Support** (but `promises`); **Multi-page Apps** (but `brochure`)
+4. **Limited Customization**: While it is not hard to create a simple app from your R output, it can be challenging to get around more advanced R packages or even CSS or JavaScript when you require more sophisticated user interfaces.
+5. **Data Gathering and Saving**: It can be challenging to use Shiny for gathering and saving data to the database.
+6. **Maintenance Cost**: The cost of maintaining a Shiny application over time, including server costs and personnel time, can be high because Shiny maintenance requires some more unique skill sets.
+7. **Software Dependencies**: Certain Shiny applications may have many software dependencies, which can be challenging to manage and could potentially lead to issues down the line.
 
 
 

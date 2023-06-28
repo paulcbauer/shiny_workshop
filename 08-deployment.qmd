@@ -111,7 +111,7 @@ htmltools::tags$iframe(src = "shinyapps/guerry/guerry_reactlog.html", width = "1
 ## Where to deploy
 
 | Name                                                                         | Use                                      | Requirements                   |
-|-----------------------------------|-------------------|------------------|
+|------------------------------------------------------------------------------|------------------------------------------|--------------------------------|
 | [shinyapps.io](https://www.shinyapps.io/)                                    | Casual to professional applications      | `rsconnect` R package          |
 | [Posit Connect](https://posit.co/products/enterprise/connect/)               | Professional to corporate applications   | `rsconnect` R package          |
 | [Shiny Server](https://posit.co/products/open-source/shinyserver/)           | Setting up self-hosted Shiny servers     | Shiny Server on a Linux server |
@@ -137,9 +137,8 @@ htmltools::tags$iframe(src = "shinyapps/guerry/guerry_reactlog.html", width = "1
 
 -   `rsconnect` enables the communication between the Posit services and R
 
-```{=html}
 <!-- -->
-```
+
 -   `rsconnect` is built around the [`deployApp()`](https://rstudio.github.io/rsconnect/reference/deployApp.html), [`deployAPI()`](https://rstudio.github.io/rsconnect/reference/deployAPI.html) and [`deployDoc()`](https://rstudio.github.io/rsconnect/reference/deployDoc.html) functions
 
 ## Creating an account

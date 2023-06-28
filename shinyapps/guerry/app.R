@@ -42,16 +42,8 @@ variables <- guerry %>%
   select(where(is.numeric) & !all_of(c("COUNT", "dept", "AVE_ID_GEO"))) %>%
   names()
 
-## Pivot ----
-guerry_long <- tidyr::pivot_longer(
-  st_drop_geometry(guerry),
-  cols = all_of(variables),
-  names_to = "variable"
-) %>%
-  mutate(variable = factor(variable, levels = unique(variable))) %>%
-  arrange(variable)
-
 ## Aggregate ----
+## Used for mapping and tabulating
 guerry_region <- guerry %>%
   group_by(Region) %>%
   summarise(across(
@@ -65,18 +57,12 @@ guerry_region <- guerry %>%
   }
 ))
 
-guerry_region_long <- tidyr::pivot_longer(
-  st_drop_geometry(guerry_region),
-  cols = all_of(variables),
-  names_to = "variable"
-) %>%
-  mutate(variable = factor(variable, levels = unique(variable))) %>%
-  arrange(variable)
-
 ## Read text data ----
+## Used for mapping
 txts <- read_json("app_labels.json", simplifyVector = TRUE)
 
 ## Prepare palettes ----
+## Used for mapping
 pals <- list(
   Sequential = RColorBrewer::brewer.pal.info %>%
     filter(category %in% "seq") %>%
@@ -85,6 +71,8 @@ pals <- list(
               "Cividis", "Rocket", "Mako", "Turbo")
 )
 
+## Prepare modebar clean-up ----
+## Used for modelling
 plotly_buttons <- c(
 	"sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
 	"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"

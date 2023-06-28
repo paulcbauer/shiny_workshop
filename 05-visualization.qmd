@@ -56,7 +56,7 @@ guerry_region <- guerry %>%
 txts <- read_json("shinyapps/guerry/app_labels.json", simplifyVector = TRUE)
 ```
 
-## Learning outcomes
+# Learning outcomes
 
 You will learn how to:
 
@@ -64,7 +64,7 @@ You will learn how to:
 -   Make your plots interactive using Plotly
 -   Explore issues using the power of interactive visualization dashboards
 
-## Interactive visualization: The core of Shiny
+# Interactive visualization: The core of Shiny
 
 -   Shiny offers the perfect basis for visualization
 
@@ -74,17 +74,19 @@ You will learn how to:
 
     -   Dashboards facilitate the idea of side-by-side comparison or provision of context
 
+## Good practice examples
+
 -   Examples of these concepts can be seen in many Shiny apps, one example is Edward Parker's [COVID-19 tracker](https://vac-lshtm.shinyapps.io/ncov_tracker/)
-
--   Further resources:
-
-    -   [Chapter "Graphics"](https://mastering-shiny.org/action-graphics.html) in Hadley Wickham's Mastering Shiny
-
-    -   ["Server-side linking with shiny"](https://plotly-r.com/linking-views-with-shiny.html) in Carson Sievert's Plotly book
 
 ![COVID-19 Tracker](https://raw.githubusercontent.com/eparker12/nCoV_tracker/master/www/app_image.png)
 
-## Plotting in Shiny
+## Further resources
+
+-   [Chapter "Graphics"](https://mastering-shiny.org/action-graphics.html) in Hadley Wickham's Mastering Shiny
+
+-   ["Server-side linking with shiny"](https://plotly-r.com/linking-views-with-shiny.html) in Carson Sievert's Plotly book
+
+# Plotting in Shiny
 
 -   Inserting plots in Shiny apps works just like any other UI component
 
@@ -93,6 +95,8 @@ You will learn how to:
     -   [`plotOutput()`](https://shiny.posit.co/r/reference/shiny/1.7.4/plotoutput) creates the empty element in the UI where the plot will go
 
     -   [`renderPlot()`](https://shiny.posit.co/r/reference/shiny/1.7.4/renderplot) renders the plot and updates the UI element every time a reactive dependency is invalidated
+
+## Setting up the UI element
 
 -   Taking our Shiny app as an example, we add another tab:
 
@@ -113,9 +117,30 @@ model <- tabItem(
 )
 ```
 
+-   The newly created tab Item has the tab name `model`
+
+-   We already created another tab item called `intro`, so we can tell where our new tab item goes:
+
+```{r eval=FALSE}
+dashboardPage(
+  header = ...,
+  sidebar = ...,
+  body = dashboardBody(
+    tabItems(
+      tabItem(tabName = "intro"), # Tab: intro
+      model                       # Tab: model
+    )
+  )
+)
+```
+
+## Filling with contents
+
 -   Pretty easy so far!
 
--   On the server side we do the plotting:
+-   On the server side we do the plotting
+
+-   Here, we use [`ggpairs`](https://ggobi.github.io/ggally/reference/ggpairs.html) from the [`GGally`](https://ggobi.github.io/ggally/) package, but you can use anything that produces a plot
 
 ```{r eval=F}
 output$pairplot <- renderPlot({
@@ -125,6 +150,201 @@ output$pairplot <- renderPlot({
 ```
 
 ![](resources/05_01.png)
+
+```{r eval=FALSE}
+#| code-fold: true
+#| code-summary: Full code for basic plotting
+
+library(shiny)
+library(htmltools)
+library(bs4Dash)
+library(shinyWidgets)
+library(Guerry)
+library(sf)
+library(tidyr)
+library(dplyr)
+library(plotly)
+library(jsonlite)
+library(GGally)
+
+# Preparation ----
+
+## Clean ----
+guerry <- Guerry::gfrance85 %>%
+  st_as_sf() %>%
+  as_tibble() %>%
+  st_as_sf(crs = 27572) %>%
+  mutate(Region = case_match(
+    Region,
+    "C" ~ "Central",
+    "E" ~ "East",
+    "N" ~ "North",
+    "S" ~ "South",
+    "W" ~ "West"
+  ))
+
+variables <- guerry %>%
+  st_drop_geometry() %>%
+  select(where(is.numeric) & !all_of(c("COUNT", "dept", "AVE_ID_GEO"))) %>%
+  names()
+
+## Aggregate ----
+guerry_region <- guerry %>%
+  group_by(Region) %>%
+  summarise(across(
+  .cols = all_of(variables),
+  function(x) {
+    if (cur_column() %in% c("Area", "Pop1831")) {
+      sum(x)
+    } else {
+      mean(x)
+    }
+  }
+))
+
+## Read text data ----
+txts <- read_json("../app_labels.json", simplifyVector = TRUE)
+
+plotly_buttons <- c(
+	"sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
+	"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
+)
+
+## Create theme ----
+dash_theme <- create_theme(
+  bs4dash_status(
+    primary = "#58748f",
+    secondary = "#666666",
+    info = "#E6EAEE",
+    danger = "#BF616A",
+    warning = "#FF6100",
+    light = "#F4F4F2",
+    dark = "#2c2c25"
+  ),
+  bs4dash_layout(
+    font_size_root = "5rem",
+    main_bg = "#FDFDFD",
+    sidebar_width = "350px"
+  ),
+  bs4dash_sidebar_light(bg = "#F4F4F2", color = "#000"),
+  bs4dash_sidebar_dark(bg = "#2c2c25", color = "#FFF"),
+  bs4dash_color(
+  	orange = "#F06400",
+    white = "#FDFDFD",
+    black = "#000",
+    gray_600 = "#666",
+    gray_800 = "#333",
+    gray_900 = "#000",
+    blue = "#58748f"
+  ),
+  bs4dash_font(
+    family_sans_serif = "Verdana",
+    family_base = "Georgia",
+    family_monospace = "Courier New"
+  )
+)
+
+## Preloader ----
+preloader <- list(
+  html = tagList(spin_6(), "Loading ..."),
+  color = "#B3DDFE"
+)
+
+
+
+# UI ----
+
+ui <- dashboardPage(
+  title = "The Guerry Dashboard",
+  ## Header ----
+  header = dashboardHeader(
+    tags$style("
+      /* remove white space from header */
+      .navbar {
+        padding-top: 0em;
+        padding-bottom: 0em;
+        padding-right: 0em;
+      }
+    "),
+    span(style = "display: inline-block; width: 100%;"),
+    a(
+      class = "logo",
+      href = "https://gesis.org/",
+      img(src = "../www/gesis-logo.png", style = "height: 1.8em;")
+    ),
+    title = tagList(
+      img(src = "../www/workshop-logo.png", width = 35, height = 35),
+      span("The Guerry Dashboard", class = "brand-text")
+    ),
+    skin = "light",
+    sidebarIcon = tags$i(class = "fa fa-bars", style = "color: black;")
+  ),
+  ## Sidebar ----
+  sidebar = dashboardSidebar(
+    id = "sidebar",
+    sidebarMenu(
+      id = "sidebarMenu",
+      menuItem(tabName = "intro", text = "Introduction", icon = icon("home")),
+      menuItem(tabName = "insp", text = "Inspect data", icon = icon("table")),
+      menuItem(tabName = "model", text = "Model data", icon = icon("chart-line"), selected = TRUE),
+      flat = TRUE
+    ),
+    minified = TRUE,
+    collapsed = TRUE,
+    fixed = FALSE,
+    skin = "light"
+  ),
+  ## Body ----
+  body = dashboardBody(
+    tabItems(
+    	tabItem("intro"),
+    	tabItem("insp"),
+      ### Model data ----
+      tabItem(
+      	"model",
+      	fluidRow(
+      		column(
+      			width = 6,
+      			box(
+      				width = 12,
+      				title = "Pair diagram",
+      				status = "primary",
+      				plotOutput("pairplot")
+      			)
+      		)
+      	)
+      )
+    ) # end tabItems
+  ),
+  ## Controlbar (top)----
+  controlbar = dashboardControlbar(
+    div(class = "p-3", skinSelector()),
+  	skin = "light"
+  ),
+  ## Footer (bottom)----
+  footer = dashboardFooter(
+  	left = span(
+  		"This dashboard was created by Jonas Lieth and Paul Bauer. Find the source code",
+  		a("here.", href = "https://github.com/paulcbauer/shiny_workshop/tree/main/shinyapps/guerry"),
+  		"It is based on data from the",
+  		a("Guerry R package.", href = "https://cran.r-project.org/web/packages/Guerry/index.html")
+  	)
+  )
+)
+
+
+
+# Server ----
+
+server <- function(input, output, session) {
+	output$pairplot <- renderPlot({
+		dt <- st_drop_geometry(guerry[c("Literacy", "Commerce")])
+		GGally::ggpairs(dt, axisLabels = "none")
+	})
+}
+
+shinyApp(ui, server)
+```
 
 -   The code to create a plot in a Shiny app is quite simple so far, but has not many advantages over plain plotting in the R console
 
@@ -136,11 +356,13 @@ output$pairplot <- renderPlot({
 
     -   Comparability
 
-## Reactivity
+# Reactivity
 
 -   Reactivity means adding reactive dependencies
 
 -   Currently, we hardcode the variables, but we can also make the user decide on them
+
+## Adding UI inputs
 
 -   Here, we add three user inputs
 
@@ -206,7 +428,11 @@ model <- tabItem(
 )
 ```
 
+## Accessing the new UI inputs
+
 -   On the server side, we need to deal with the new inputs
+
+-   **Question:** Which new UI inputs did we add? How can we access them on the server side?
 
 -   We add a new reactive that cleans the data
 
@@ -233,7 +459,7 @@ output$pairplot <- renderPlot({
 
 -   The plot now reacts to user input and updates its appearance when the user selection changes!
 
-## Interactivity
+# Interactivity
 
 -   Currently, our plot is a static image
 
@@ -243,9 +469,36 @@ output$pairplot <- renderPlot({
 
 -   Here, we'd like to go a bit further and implement Plotly plots
 
+## Plotly
+
 -   [Plotly](https://plotly.com/) is an open-source library to create charts that can be interacted with in various ways
 
 -   It supports several programming languages including R and works seamlessly with Shiny
+
+```{r}
+#| code-fold: true
+
+mtcars$am[which(mtcars$am == 0)] <- 'Automatic'
+mtcars$am[which(mtcars$am == 1)] <- 'Manual'
+mtcars$am <- as.factor(mtcars$am)
+
+
+plot_ly(
+  mtcars,
+  x = ~wt,
+  y = ~hp,
+  z = ~qsec,
+  color = ~am,
+  colors = c('#BF382A', '#0C4B8E')) %>%
+  add_markers() %>%
+  layout(scene = list(
+    xaxis = list(title = 'Weight'),
+    yaxis = list(title = 'Gross horsepower'),
+    zaxis = list(title = '1/4 mile time')
+  ))
+```
+
+## Plotly and Shiny
 
 -   Plotly requires similar components as plain plotting:
 
@@ -305,6 +558,8 @@ model <- tabItem(
 )
 ```
 
+## `ggplotly` on the server side
+
 -   Plotly introduces a very comprehensive plotting system centered around the [`plot_ly()`](https://rdrr.io/cran/plotly/man/plot_ly.html) function
 
 -   Lucky for us, all we have to do is call [`ggplotly()`](https://rdrr.io/cran/plotly/man/ggplotly.html) on our ggplot object to convert it to a plotly object
@@ -334,11 +589,13 @@ output$pairplot <- plotly::renderPlotly({
 
 ![](resources/05_03.gif)
 
-### Extending Plotly
+## Extending Plotly
 
 -   So far we made ggplot2 plots and converted them to Plotly charts using a single function call
 
 -   Many aspects of Plotly charts remain out of control as we are not using the `plot_ly()` function
+
+### Plotly's customization functions
 
 -   We can extend Plotly objects using three functions:
 
@@ -366,9 +623,24 @@ output$pairplot <- plotly::renderPlotly({
 
         -   `hovertext` modifies the tooltips texts shown on hover
 
+### Schema
+
 -   The actual number of options is immense!
 
 -   You can explore all options by calling [`plotly::schema()`](https://rdrr.io/cran/plotly/man/schema.html)
+
+```{r}
+plotly::schema()
+```
+
+```{r echo=FALSE}
+sch <- listviewer::jsonedit(plotly:::Schema, mode = "form")
+path <- file.path(getwd(), "schema.html")
+htmlwidgets::saveWidget(sch, path)
+tags$iframe(srcdoc = paste(readLines(path), collapse = '\n'), width = "100%", height = 500)
+```
+
+### Example
 
 -   For our app, we can clean up the mode bar and enhance the plot download
 
@@ -392,7 +664,7 @@ ggplotly(p) %>%
 
 ![](resources/05_03_config.png)
 
-## Comparability
+# Comparability
 
 -   By comparability, we loosely understand how we perceive charts in context
 
@@ -403,6 +675,8 @@ ggplotly(p) %>%
 -   A lot of the times it helps to see figures side-by-side
 
 -   With a little bit of creativity, Shiny can be a very competent story teller (for an impressive example, take a look at John Coene's [Freedom of Press Shiny app](https://johncoene.shinyapps.io/fopi-contest/))
+
+## Extending the layout
 
 -   Here, we will extend our lonely plot with a regression analysis to tell the full story of the associations of the Guerry indicators
 
@@ -483,6 +757,8 @@ model <- tabItem(
 )
 ```
 
+## Digesting the new layout
+
 -   **Question:** What did we add here? Which outputs need to be filled with content?
 
 -   On the server side, we extend our reactive object with a linear regression model
@@ -500,6 +776,8 @@ mparams <- reactive({
 }) %>%
 	bindEvent(input$refresh, ignoreNULL = FALSE)
 ```
+
+## Creating the output
 
 -   From this point, we can chuck the `mparams` reactive object into all the rendering functions
 
@@ -616,59 +894,33 @@ variables <- guerry %>%
   select(where(is.numeric) & !all_of(c("COUNT", "dept", "AVE_ID_GEO"))) %>%
   names()
 
+## Aggregate ----
+guerry_region <- guerry %>%
+  group_by(Region) %>%
+  summarise(across(
+  .cols = all_of(variables),
+  function(x) {
+    if (cur_column() %in% c("Area", "Pop1831")) {
+      sum(x)
+    } else {
+      mean(x)
+    }
+  }
+))
+
+## Read text data ----
+txts <- read_json("../app_labels.json", simplifyVector = TRUE)
+
 plotly_buttons <- c(
 	"sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
 	"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
 )
-
-## Create theme ----
-dash_theme <- create_theme(
-  bs4dash_status(
-    primary = "#58748f",
-    secondary = "#666666",
-    info = "#E6EAEE",
-    danger = "#BF616A",
-    warning = "#FF6100",
-    light = "#F4F4F2",
-    dark = "#2c2c25"
-  ),
-  bs4dash_layout(
-    font_size_root = "5rem",
-    main_bg = "#FDFDFD",
-    sidebar_width = "350px"
-  ),
-  bs4dash_sidebar_light(bg = "#F4F4F2", color = "#000"),
-  bs4dash_sidebar_dark(bg = "#2c2c25", color = "#FFF"),
-  bs4dash_color(
-  	orange = "#F06400",
-    white = "#FDFDFD",
-    black = "#000",
-    gray_600 = "#666",
-    gray_800 = "#333",
-    gray_900 = "#000",
-    blue = "#58748f"
-  ),
-  bs4dash_font(
-    family_sans_serif = "Verdana",
-    family_base = "Georgia",
-    family_monospace = "Courier New"
-  )
-)
-
-## Preloader ----
-preloader <- list(
-  html = tagList(spin_6(), "Loading ..."),
-  color = "#B3DDFE"
-)
-
 
 
 # UI ----
 
 ui <- dashboardPage(
   title = "The Guerry Dashboard",
-  freshTheme = dash_theme,
-  preloader = preloader,
   ## Header ----
   header = dashboardHeader(
     tags$style("
@@ -683,10 +935,10 @@ ui <- dashboardPage(
     a(
       class = "logo",
       href = "https://gesis.org/",
-      img(src = "gesis-logo.png", style = "height: 1.8em;")
+      img(src = "../www/gesis-logo.png", style = "height: 1.8em;")
     ),
     title = tagList(
-      img(src = "workshop-logo.png", width = 35, height = 35),
+      img(src = "../www/workshop-logo.png", width = 35, height = 35),
       span("The Guerry Dashboard", class = "brand-text")
     ),
     skin = "light",
@@ -709,10 +961,6 @@ ui <- dashboardPage(
   ),
   ## Body ----
   body = dashboardBody(
-    tags$head(
-      waiter::use_waiter(),
-      includeCSS("../www/styles.css")
-    ),
     tabItems(
     	tabItem("intro"),
     	tabItem("insp"),
@@ -885,7 +1133,7 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
-## Exercises
+# Exercises
 
 ::: callout-note
 ## Exercise 1
@@ -922,6 +1170,27 @@ fluidRow(
 ```
 :::
 
+::: {.callout-warning collapse="true"}
+## Solution
+
+The fourth quadrant is the second row of the second column, i.e.:
+
+```{r eval=FALSE}
+fluidRow(
+	column(
+		width = 6,
+		box(width = 12), # quadrant 1
+		box(width = 12) # quadrant 3
+	),
+	column(
+		width = 6,
+		box(width = 12), # quadrant 2
+		box(width = 12, status = "primary", plotOutput("new_plot")) # quadrant 4
+	)
+)
+```
+:::
+
 ::: callout-note
 ## Exercise 3
 
@@ -948,6 +1217,22 @@ Remove all mode bar buttons except "Zoom in" and "Zoom out" from the new visuali
 The relevant function is `plotly::config()`
 
 Call `schema()` and explore `object -> config` to find out about ways to remove mode bar buttons
+
+A list of modebar buttons is provided on Plotly's [GitHub repository](https://github.com/plotly/plotly.js/blob/master/src/components/modebar/buttons.js) or under `object -> layout -> layoutAttributes -> modebar -> remove`
+:::
+
+::: {.callout-warning collapse="true"}
+## Solution
+
+To remove modebar buttons, we need to change the `plotly::config()` of the generated plot output:
+
+```{r eval=FALSE}
+ggplotly(p) %>%
+  config(modeBarButtonsToRemove = c(
+    "sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d", "toimage",
+    "hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d", "pan"
+))
+```
 :::
 
 ::: callout-note
@@ -960,4 +1245,18 @@ Change the axis width of the new graph from exercise 4 to 5 pixels and color to 
 The relevant function is `plotly::layout()`
 
 Call `schema()` and explore `object -> layout -> layoutAttributes` to find out about ways to change the axis layout
+:::
+
+::: {.callout-warning collapse="true"}
+## Solution
+
+To change the axis width, we need to change the `plotly::layout()` of the plotly object. Determining which option controls the axis layout is a tricky question. To do that, we can explore the `plotly::schema()`. In this case, the relevant option is found unter `object -> layout -> layoutAttributes -> xaxis/yaxis -> linewidth/linecolor`. Then, just add a layout to the plot object and change the relevant options:
+
+```{r eval=FALSE}
+ggplotly(p) %>%
+	layout(
+	  xaxis = list(linewidth = 5, linecolor = "#000"),
+	  yaxis = list(linewidth = 5, linecolor = "#000")
+	)
+```
 :::
