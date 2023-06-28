@@ -260,9 +260,7 @@ A **web application framework** for R to turn analyses into interactive web appl
 1. **Fast Prototyping**: Shiny is excellent for quickly turning ideas into applications, and is relatively easy to use even for those who aren't seasoned programmers.
 2. **Interactivity**: Shiny lets you build interactive web apps, enhancing user engagement and experience. It's especially beneficial for creating dashboards where data can be displayed in an interactive way.
 3. **Integration with R Ecosystem**: Shiny integrates seamlessly with R's vast ecosystem. This includes integrating with packages for data manipulation, statistics, machine learning, and visualization.
-4. **Data Entry**: Shiny is good for creating applications that require simple data entry.
 5. **Statistical Modeling and Visualization**: Shiny allows you to apply complex statistical modeling and visualizations within your app, leveraging R's strong capabilities in these areas.
-6. **Executable Creation**: With the RInno package, you can create standalone Windows executables from your Shiny apps.
 7. **No Need for Web Development Skills**: With Shiny, you can create web apps using R code alone. Knowledge of HTML, CSS, or JavaScript is not necessary, though it can help you to create more custom apps.
 8. **Reactivity**: Shiny's reactivity system is excellent. It makes it possible to create applications that automatically update outputs in response to changes in inputs.
 9. **Sharing and Publishing**: Shiny apps can be easily published and shared, either through RStudio's Shiny server, Shinyapps.io, or embedding in R Markdown documents or websites.
@@ -272,17 +270,13 @@ A **web application framework** for R to turn analyses into interactive web appl
 1. **Performance**: Shiny apps run on top of R, an interpreted language, which can cause performance issues when handling large amounts of data or complex calculations.
 2. **Single-threaded**: R (and by extension Shiny) is single-threaded, which can also cause performance issues when dealing with many simultaneous users.
 3. **Complexity**: While Shiny's basics are easy to learn, mastering the intricacies of reactivity can be challenging.
-4. **Limited Mobile/Responsive Design**: Shiny does not natively support responsive design. Adding CSS and JavaScript to make apps responsive requires extra work and web development skills.
-5. **Limited Customization**: Shiny provides flexibility, but customization can be limited, especially when compared with building a web app from scratch with JavaScript.
-6. **Multi-page Apps**: Shiny isn't great for developing multi-page apps. The design can become complex and challenging.
-7. **Asynchronous Support**: As of my knowledge cutoff in September 2021, Shiny lacked full support for async programming, which is useful for improving performance. 
+5. **Limited Customization**/**Limited Mobile/Responsive Design**: Shiny provides flexibility, but customization can be limited, especially when compared with building a web app from scratch with JavaScript; Customization limited to advanced knowledge in CSS and JavaScript (but `shinyMobile` etc.)
 8. **Data Gathering and Saving**: It can be challenging to use Shiny for gathering and saving data to the database.
-9. **IT Support**: Traditional IT support skills for Shiny may be limited, requiring developers to have a broader skill set.
-10. **Maintenance Cost**: The cost of maintaining a Shiny application over time, including server costs and personnel time, can be high.
+9. **IT Support**/**Maintenance Cost**: Traditional IT support skills for Shiny may be limited, requiring developers to have a broader skill set; The cost of maintaining a Shiny application over time, including server costs and personnel time, can be high.
 11. **Software Dependencies**: Certain Shiny applications may have many software dependencies, which can be challenging to manage and could potentially lead to issues down the line.
-12. **Code Structure**: When a Shiny app grows in complexity, maintaining a clean and manageable code structure can be difficult.
-13. **Internationalization Issues**: There can be difficulties with internationalization in Shiny apps, making it more challenging to design apps for a global audience.
+12. **Code Structure**: When a Shiny app grows in complexity, maintaining a clean and manageable code structure can be difficult (but **modularization with tree structure!**).
 14. **Deployment**: Deployment of Shiny apps on a server may require
+13. **Internationalization Issues** (but `shiny.i18n`); **Asynchronous Support** (but `promises`); **Multi-page Apps** (but `brochure`)
 
 
 
@@ -454,6 +448,8 @@ knitr::include_graphics("02-run-app.png")
 * **Avoid** placing code within render function that does not need to be there... for performance reasons!
 
 
+### Data storage
+- Copy Jonas's part on data storage
 
 
 ## Minimum viable product (MVP)
@@ -461,6 +457,8 @@ knitr::include_graphics("02-run-app.png")
 * "**version** of a product with **just enough features to be usable** by early customers who can then provide feedback for future product development." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
 * "has **just enough core features to effectively deploy the product**, and no more. Developers typically **deploy the product to a subset of possible customers**, such as early adopters who are thought to be more forgiving, more likely to give feedback, and able to grasp a product vision from an early prototype or marketing information. This strategy targets **avoiding building products that customers do not want** and seek to **maximize information about the customer with the least money spent**. [...] falls under the Lean Startup methodology as MVPs aim to test business hypotheses [...]." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
 * ..we follow the same strategy, slowly building out our shiny app and adding features & complexity
+
+- CHECK & ADd: https://blog.crisp.se/wp-content/uploads/2016/01/Making-sense-of-MVP-.jpg
 
 
 ## Workflow: Development, debugging and getting help
