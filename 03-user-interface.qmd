@@ -197,22 +197,29 @@ https://mastering-shiny.org/basic-ui.html#exercises-2
 
 
 
-## UI: Basic Layout
-- ADD DASHBOARD LAYOUT HERE - HIER WEITER
-
-
-```{r, cache=TRUE, eval=FALSE, include=TRUE}
 
 ## UI: Layout
-* Apps consist of ```ui```, ```server``` and ```shinyApp(ui=ui, server = server)```
-* ```fluidPage()```: Creates a display that automatically adjusts to the dimensions of a user's browser window (smartphone!)
-    + Lay out your app by placing elements in the fluidpage function
-* Below a user interface with a title panel and a sidebar panel
+- Apps consist of ```ui```, ```server``` and ```shinyApp(ui=ui, server = server)```
+  - `ui <- function()`: function is used to create UI
+  - Shiny provides different functions that can be used to create basic layouts
+- `fluidPage()` creates fluid page layouts and is the layout classically used
+- `dashboardPage()` create a dashboard layout (we are using that!)
+
+### fluidPage
+- ```fluidPage()```: Create most basic layout
+  - Creates a display that automatically adjusts to the dimensions of a user's browser window (smartphone!)
+  - Lay out your app by placing elements in the fluidpage function
+  - layout consists of rows which in turn include columns
+    - rows exist for the purpose of making sure their elements appear on the same line, columns exist for the purpose of defining how much horizontal space within a 12-unit wide grid it's elements should occupy
+  - fluid pages scale their components in realtime to fill all available browser width
+    
+- Below a user interface with a title panel and a sidebar panel
     + ```titlePanel``` and ```sidebarLayout``` create a basic Shiny app/layout with a sidebar
     + ```sidebarLayout``` takes two functions
         + ```sidebarPanel```: Includes content displayed in the sidebar
         + ```mainPanel```: Includes content displayed in the main panel
 * **Try the code below** by pasting it into your console and running it. It will only create a user interface.
+
 ```{r, cache=TRUE, eval=FALSE, include=TRUE}
 ui <- fluidPage(
   titlePanel("This is the title panel"),
@@ -229,30 +236,11 @@ shinyApp(ui=ui, server = server)
 
 ```
 
-* Change ```sidebarLayout(...``` to ```sidebarLayout(position = "right",...```
-```{r, cache=TRUE, eval=FALSE, include=TRUE}
-# ui.R
-ui <- fluidPage(
-  titlePanel("title panel"),
+- Change ```sidebarLayout(position = "right",...)``` to position sidebar on the right
+- ```navbarPage()```: Create a [multi-page user-interface](http://shiny.rstudio.com/gallery/navbar-example.html) that includes a navigation bar
+- ```fluidRow()``` and ```column()```: Build layout up from grid system
 
-  sidebarLayout(position = "right",
-    sidebarPanel( "sidebar panel"),
-    mainPanel("main panel")
-  )
-)
-
-server <- function(input, output) {}
-
-shinyApp(ui=ui, server = server)
-```    
-
-
-
-
-
-## UI: Layout advanced
-
-### tabsetPanel and tabPanel
+#### tabsetPanel and tabPanel (ADAPT to DASHBOARD)
 
 * ```tabsetPanel()``` + ```tabPanel()```
     + Allows for using sidebar layout but dividing main panel into tabs
@@ -297,11 +285,93 @@ shinyApp(ui=ui, server = server)
 
 ``` 
 
-* ```navbarPage()```: Create a [multi-page user-interface](http://shiny.rstudio.com/gallery/navbar-example.html) that includes a navigation bar
-* ```fluidRow()``` and ```column()```: Build layout up from grid system
 
 
 
+
+
+
+
+### dashboardPage
+- `dashboardPage()`: Create dashboard layout
+  - `dashboardHeader()`: Creates the header
+  - `dashboardSidebar()`: Creates the sidebar
+  - `dashboardBody()`: Creates the body
+
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+# install.packages("shinydashboard")
+library(shinydashboard)
+# UI ----
+ui <- dashboardPage(title = "The Guerry Dashboard",
+
+  ### Header ----
+  header = dashboardHeader(),
+
+  ### Sidebar ----
+  sidebar = dashboardSidebar(),
+
+  ### Body ----
+  body = dashboardBody()
+)
+
+
+# Server ----
+
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+```
+
+#### Creating items and tabs
+- `sidebarMenu()`: Create menu in the sidebar relying `menuItem()` function
+  - `menuItem(tabName = "...", text = "...", icon = icon("table"))`: Creates one item in menu
+- `tabItems()`: Creates tabs within body using `tabItem()` functions
+  - `tabItem(tabName = "insp", ...)`: Create one tab item
+
+```{r, cache=TRUE, eval=FALSE, include=TRUE}
+# UI ----
+ui <- dashboardPage(title = "The Guerry Dashboard",
+
+  ### Header ----
+  header = dashboardHeader(
+    title = tagList(
+      "image here",
+      span("The Guerry Dashboard", class = "brand-text")
+    )
+  ),
+
+  ### Sidebar ----
+  sidebar = dashboardSidebar(
+    id = "sidebar",
+    sidebarMenu(
+      id = "sidebarMenu",
+      menuItem(tabName = "insp", 
+               text = "Table data", 
+               icon = icon("table"))
+    )
+  ),
+  ### Body ----
+  body = dashboardBody(
+    tabItems( # start tabItems
+
+      tabItem(
+        tabName = "insp",
+        hr(),
+        "put a table here"
+      )
+      
+    ) # end tabItems
+  )
+) # End UI
+
+
+
+# Server ----
+
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+```
 
 
 
@@ -322,6 +392,7 @@ shinyApp(ui=ui, server = server)
 
 
 ### HTML tag functions
+- Auf Dokumentation verweisen
 * Shiny's **HTML tag functions** translate input into html code
     + Paste ```h2("A NEW HOPE", align = "center")``` into your console
 * Here we just do a quick example but in [this tutorial you find more information](https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/)
@@ -375,6 +446,7 @@ shinyApp(ui=ui, server = server)
 
 
 ### Images
+* USE GUERRY IMAGE!
 * ```img()``` function places an image
 * Store image locally
     + Store in extra folder ```www```
@@ -382,25 +454,60 @@ shinyApp(ui=ui, server = server)
     + If working directory  = app directory create with: ```dir.create("www")```
 
 ```{r, cache=TRUE, eval=FALSE, include=TRUE}
-ui <- fluidPage(
-  titlePanel("My Shiny App"),
-  sidebarLayout(
-    sidebarPanel(),
-    mainPanel(
-      img(src="http://assets.schwarzenegger.com/images/img-2.jpg", height = 174, width = 300)
+# UI ----
+ui <- dashboardPage(
+  title = "The Guerry Dashboard",
+
+  ### Header ----
+  header = dashboardHeader(
+    title = tagList(
+      "image here",
+      span("The Guerry Dashboard", class = "brand-text")
     )
+  ),
+
+  ### Sidebar ----
+  sidebar = dashboardSidebar(
+    sidebarMenu(
+      id = "sidebarMenu",
+      menuItem(
+        tabName = "insp",
+        text = "Table data",
+        icon = icon("table")
+      )
+    )
+  ),
+  ### Body ----
+  body = dashboardBody(
+    tabItems( # start tabItems
+      tabItem(
+        tabName = "insp",
+        hr(),
+        img(src = "http://assets.schwarzenegger.com/images/img-2.jpg", height = 174, width = 300)
+      )
+    ) # end tabItems
   )
-)
+) # End UI
 
-server <- function(input, output) {}
+# include images in www folder
+# tags$img(src = "guerry.jpg", width = "100%")
 
-shinyApp(ui=ui, server = server)
+# Server ----
+
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
 ```
 
 
 
 
-#### Exercise: UI + Images
+#### Exercise: UI
+
+- CHANGE THIS DASHBOARD + EXERCISE ADD INTRODUCTION TAB WITH INFO
+- What is a box in dashboard
+- Tips wie bindet man ein image ein
+
 1. Create a new app (using the example codes)
 2. The title (title panel) is "A big name in the social sciences"
 2. Download an image of Max Weber from the web, e.g., [here](https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Max_Weber%2C_1918.jpg/220px-Max_Weber%2C_1918.jpg).
@@ -439,7 +546,9 @@ shinyApp(ui=ui, server = server)
 
 
 ## UI: Dynamic Layout
-
+- keep to one slide
+- Just describe the possibilities
+- when you might need it
 
 
 
