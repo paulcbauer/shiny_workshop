@@ -9,7 +9,10 @@ title: "Server & reactive programming"
 
 Sources: [@wickham2021mastering, Ch. 3]
 
-```{r message=FALSE, warning=FALSE, include=FALSE}
+```{r 04-server-reactive-programming-1, message=FALSE, warning=FALSE, include=FALSE}
+# namer::unname_chunks("04-server-reactive-programming.qmd")
+# namer::name_chunks("04-server-reactive-programming.qmd")
+
 # install.packages("pacman)
 pacman::p_load(knitr, quarto)
 ```
@@ -17,7 +20,7 @@ pacman::p_load(knitr, quarto)
 
 
 * See preparation in design
-* Explain again when it makes sense to load things (for this conrete app)
+
 * REACTIVE IMPORTANT
 - bind_event, bind_cache (maybe not the latter)
 - https://mastering-shiny.org/basic-reactivity.html
@@ -28,158 +31,237 @@ pacman::p_load(knitr, quarto)
 
 
 ## Basics
-- Reactive output automatically responds when users change widget input values stored in list `inputs$...`
-- BUT we need to tell the server what to do with the input values in the server function
-- `server <- function(input, output) {**construction of output objects in here**})` 
-* **Describe the server how to build the object**
-    + The object will be reactive if the code that builds it calls a widget value
-    + `output$distPlot <- renderPlot({...})`
-      - Resulting output is stored in list `output$...`
-- render functions (e.g. `renderPlot({...})`) wrap outputs and correspond to the type or reactive output
-- render functions produce new output when input values in them change
-
-## Render functions
-
-    + render functions wrap outputs and correspond to the type or reactive output
-        + `renderImage({...})` creates images (saved as a link to a source file)
-        + `renderPlot({...})` creates plots
-        + `renderPrint({...})` creates any printed output
-        + `renderTable({...})` creates data frame, matrix, other table like structures
-        + `renderText({...})` creates character strings
-        + `renderUI({...})` creates a Shiny tag object or HTML
+- In Shiny, server logics is expressed using reactive programming (elegant powerful programming paradigm!)
+  - But very different to writing a script that runs from start to end
+- Key idea: specify a graph of dependencies so that when an input changes, all related outputs are automatically updated
+  - Makes flow of an app considerably simpler
 
 
+## The server function
+- "Guts" of every shiny app below
+- UI simple because every user gets same html
+- SERVER more complicated because every user needs to get an independent version of the app (A using slider should not affect B's html)
+- `server()` is invoked each time new session starts
+  - has three parameters: `input`, `output`, `session` that are created by Shiny when session starts (not by us!) connecting to specific session
 
+```{r 04-server-reactive-programming-2, echo=FALSE, eval=FALSE, include=FALSE}
+library(shiny)
 
-
-### SERVER: Example
-* Use example from app with datatable!
-
-```{r, cache=TRUE, eval=FALSE, include=TRUE}
-ui <- fluidPage( 
-titlePanel("Displaying reactive output"),
-sidebarLayout( 
-    sidebarPanel( 
-      selectInput("selection", label = h3("Select box"), 
-        choices = list("Fertility" = "Fertility", 
-                       "Agriculture" = "Agriculture", 
-                       "Examination" = "Examination", 
-                       "Education" = "Education", 
-                       "Catholic" = "Catholic", 
-                       "Infant.Mortality" = "Infant.Mortality"),
-        selected = 1) # Selection is a variablename!
-      ),
-    mainPanel( # Draw main panel
-      plotOutput("distPlot") # Put the output - a plot - into the main panel
-    )
-  ) 
-)
-
-server <- function(input, output) { 
-     
-  output$distPlot <- renderPlot({ 
-      x    <-   swiss[, input$selection] # USING WIDGET VALUE
-      hist(x, col = 'darkgray', border = 'white', 
-           xlab=input$selection, 
-           main="Swiss French Provinces Fertility and Socioeconomic Indicators (1888) Data")
-  }) 
-} 
-
-shinyApp(ui=ui, server = server)
-```
-
-
-* Launch the app
-```{r, cache=TRUE, eval=FALSE, include=TRUE}
-# ui.R
-runApp(display.mode = "showcase")
-```
-
-* Launch it on the server!
-```{r, cache=TRUE, eval=FALSE, include=TRUE}
-deployApp()
-```
-
-
-
-
-
-### Exercise: SERVER
-1. Use the code below (we saw that before). 
-2. Add another reactive output that displays the selection made in the select box as text, e.g. "Infant.mortality", below the plot in the mainpanel.
-    + Tipp: You will need the output function `textOutput(...)` to show the text in the UI. And you will need the function `renderText({...})` to build the output on the server.
-3. If you like add another another output.
-
-
-```{r exercise-5, echo=TRUE, eval=FALSE, include=TRUE}
 ui <- fluidPage(
-  titlePanel("Displaying reactive output"),
-  sidebarLayout(
-    sidebarPanel(
-      selectInput("selection", label = h3("Select box"),
-                  choices = list("Fertility" = "Fertility",
-                                 "Agriculture" = "Agriculture",
-                                 "Examination" = "Examination",
-                                 "Education" = "Education",
-                                 "Catholic" = "Catholic",
-                                 "Infant.Mortality" = "Infant.Mortality"), selected = 1)
-    ),
-
-    mainPanel(
-      plotOutput("distPlot")
-    )
-  )
+  # front end interface (Html)
 )
 
-server <- function(input, output) {
-  output$distPlot <- renderPlot({
-    x    <-   swiss[, input$selection]
-    hist(x, col = 'darkgray', border = 'white', xlab=input$selection, main="Swiss French Provinces Fertility and Socioeconomic Indicators (1888) Data")
-  })
-
+server <- function(input, output, session) {
+  # back end logic
 }
 
-shinyApp(ui=ui, server = server)
+shinyApp(ui, server)
 ```
 
-```{r echo=TRUE, eval=FALSE, include=FALSE}
-ui <- fluidPage(
-  titlePanel("Displaying reactive output"),
-  sidebarLayout(
-    sidebarPanel(
-      selectInput("selection", label = h3("Select box"),
-                  choices = list("Fertility" = "Fertility",
-                                 "Agriculture" = "Agriculture",
-                                 "Examination" = "Examination",
-                                 "Education" = "Education",
-                                 "Catholic" = "Catholic",
-                                 "Infant.Mortality" = "Infant.Mortality"), selected = 1)
-    ),
+## Input & output
+- `input` argument is list-like object that contains all the **input data sent from the browser**, named according to the **input ID**
+  - e.g., `numericInput("count", label = "Number of values", value = 100)` generates `input$count`
+  - `input` is selective about who is allowed to read it, to read from an `input`, you must be in a reactive context created by a function like `renderText()` or `reactive()` (allows for outputs to automatically update when an input changes)
 
-    mainPanel(
-      plotOutput("distPlot"),
-      textOutput("text1")
-    )
-  )
+- `output` is similar to input: a list-like object named according to the `output ID`
+  - Main difference: used for sending output instead of receiving input (always in concert with **render function** as below)
+  
+```{r 04-server-reactive-programming-3, echo=FALSE, eval=FALSE, include=FALSE}
+ui <- fluidPage(
+  textOutput("greeting")
 )
 
-server <- function(input, output) {
-  output$distPlot <- renderPlot({
-    x    <-   swiss[, input$selection]
-    hist(x, col = 'darkgray', border = 'white', xlab=input$selection, main="Swiss French Provinces Fertility and Socioeconomic Indicators (1888) Data")
-  })
-  output$text1 <- renderText({
-    input$selection
+server <- function(input, output, session) {
+  output$greeting <- renderText("Hello human!")
+}
+```
+
+- render function does two things
+  - sets up special reactive context that automatically tracks what inputs the output uses
+  - converts output of R code into HTML suitable for display on a web page
+- Don't forget render function or read from outputs (see [here](https://mastering-shiny.org/basic-reactivity.html#output))
+
+
+## Reactive programming (1)
+* How does reactivity work? Let's look at the example below!
+
+```{r 04-server-reactive-programming-4, echo=FALSE, eval=FALSE, include=FALSE}
+ui <- fluidPage(
+  textInput("name", "What's your name?"),
+  textOutput("greeting")
+)
+
+server <- function(input, output, session) {
+  output$greeting <- renderText({
+    paste0("Hello ", input$name, "!")
   })
 }
-shinyApp(ui=ui, server = server)
+shinyApp(ui, server)
+```
+
+- Big idea in Shiny: you don’t need to tell an output when to update, because Shiny automatically figures it out for you!
+- Shiny performs the action every time we update `input$name`
+- Code doesn't tell Shiny to create string and send it to the browser, but instead informs Shiny how it could create the string if it needs to
+  - It's up to Shiny when (and even if!) the code should be run
+- App provides Shiny with **recipes**, not giving it commands
+
+## Reactive programming (2)
+
+- **Imperative vs. Declarative programming** ([Chapter 3.3.1](https://mastering-shiny.org/basic-reactivity.html#imperative-vs-declarative-programming))
+  - Imperative code: "Make me a sandwich"; Declarative code: "Ensure there is a sandwich in the refrigerator whenever I look inside of it"
+  - Imperative code is assertive; declarative code is passive-aggressive
+- **Laziness**  ([Chapter 3.3.2](https://mastering-shiny.org/basic-reactivity.html#laziness))
+  - Strength of declarative programming in Shiny: app will only ever do the minimal amount of work needed to update the output controls that you can currently see
+
+## Reactive programming (3): The reactive graph
+- Most R code can be read from top to bottom (= order of execution)... but doesn't work in Shiny
+- Look at **reactive graph** describing how inputs and outputs are connected to understand order of execution
+- @fig-graph-simple describes app above
+
+```{r 04-server-reactive-programming-5, echo = FALSE, out.width = NULL}
+#| label: fig-graph-simple
+#| fig-cap: "The reactive graph shows how the inputs and outputs are connected"
+knitr::include_graphics("resources/graph-1b.png", dpi = 300)
+```
+
+- Graph tells you that `greeting` will need to be recomputed whenever `name` is changed (`greeting` has a reactive dependency on `name`)
+- Quick high-level sketch of the reactive graph to remind you how all the pieces fit together
+
+
+## Reactive programming (4): Reactive expressions
+- Reactive expressions take inputs and produce outputs so they have a shape that combines features of both inputs and outputs
+- Think of them as a tool to reduce duplication in your reactive code by introducing additional nodes into the reactive graph (see @fig-graph-expression)
+
+```{r 04-server-reactive-programming-6, echo = FALSE, out.width = NULL}
+#| label: fig-graph-expression
+#| fig-cap: "A reactive expression is drawn with angles on both sides because it connects inputs to outputs"
+knitr::include_graphics("resources/graph-2b.png", dpi = 300)
+```
+
+- Below we add one to the app above:
+
+
+```{r 04-server-reactive-programming-7, echo=FALSE, eval=FALSE, include=FALSE}
+ui <- fluidPage(
+  textInput("name", "What's your name?"),
+  textOutput("greeting")
+)
+
+server <- function(input, output, session) {
+  string <- reactive(paste0("Hello ", input$name, "!"))
+  output$greeting <- renderText(string())
+}
+shinyApp(ui, server)
+```
+
+
+## Reactive programming (5): Executation order
+- The order your Shiny code run is solely determined by the reactive graph (different from classic R code)
+- We could flip code in server function below, but don't because harder to understand
+
+```{r 04-server-reactive-programming-8, echo=FALSE, eval=FALSE, include=FALSE}
+server <- function(input, output, session) {
+  output$greeting <- renderText(string())
+  string <- reactive(paste0("Hello ", input$name, "!"))
+}
+```
+
+
+## Reactive programming (6): Exercises
+1. Can you spot errors in the code of the different servers below? 
+
+```{r 04-server-reactive-programming-9, echo=FALSE, eval=FALSE, include=FALSE}
+# UI
+ui <- fluidPage(
+  textInput("name", "What's your name?"),
+  textOutput("greeting")
+)
+
+# SERVERS
+server1 <- function(input, output, server) {
+  input$greeting <- renderText(paste0("Hello ", name))
+}
+
+server2 <- function(input, output, server) {
+  greeting <- paste0("Hello ", input$name)
+  output$greeting <- renderText(greeting)
+}
+
+server3 <- function(input, output, server) {
+  output$greting <- paste0("Hello", input$name)
+}
+
+
+
 ```
 
 
 
+2.  Draw the reactive graph for the following server functions:
+    ```{r}
+    server1 <- function(input, output, session) {
+      c <- reactive(input$a + input$b)
+      e <- reactive(c() + input$d)
+      output$f <- renderText(e())
+    }
+    server2 <- function(input, output, session) {
+      x <- reactive(input$x1 + input$x2 + input$x3)
+      y <- reactive(input$y1 + input$y2)
+      output$z <- renderText(x() / y())
+    }
+    server3 <- function(input, output, session) {
+      d <- reactive(c() ^ input$d)
+      a <- reactive(input$a * 10)
+      c <- reactive(b() / input$c) 
+      b <- reactive(a() + input$b)
+    }
+    ```
+    
+    
+
+## Reactive expressions
+- [Chapter 3.4](https://mastering-shiny.org/basic-reactivity.html#reactive-expressions-1) is recommend reading
+- **Reactive expressions** are important because...
+  - they give Shiny more information so that it can do less recomputation when inputs change
+  - make apps more efficient and easier for humans to understand by simplifying reactive graph
+- Are a like inputs since you can use the results of a reactive expression in an output
+- Are like outputs since they depend on inputs and automatically know when they need updating
+- Helpful vocabulary: **Producers** refer to reactive inputs and expressions; **Consumers** refer to reactive expressions and outputs (@fig-prod-consumer)
+
+```{r 04-server-reactive-programming-10, echo = FALSE, out.width = NULL}
+#| label: fig-prod-consumer
+#| fig-cap: "Inputs and expressions are reactive producers; expressions and outputs are reactive consumers"
+
+knitr::include_graphics("resources/producers-consumers.png", dpi = 300)
+```
 
 
 
+## Controlling timing of evaluation
+- Won't dive deeper but there are additional helpful functions (see [Chapter 3.5](https://mastering-shiny.org/basic-reactivity.html#controlling-timing-of-evaluation))
+- `reactiveTimer()`
+  - a reactive expression that has a dependency on a hidden input: **the current time**
+  - Use reactiveTimer() to invalidate a reactive expression itself more often than it otherwise would
+  - See code example in [Chapter[3.5.1](https://mastering-shiny.org/basic-reactivity.html#timed-invalidation)
+- Sometimes you might want to require the user to opt-in to performing the expensive calculation by requiring them to click a `actionButton()`
+  - We need `eventReactive()`, which has two arguments: the first argument specifies what to take a dependency on, and the second argument specifies what to compute. That allows this app to only compute x1() and x2() when `actionButton()` is clicked
+  - See code example in [Chapter[3.5.2](https://mastering-shiny.org/basic-reactivity.html#on-click)  
+
+
+
+## Observers
+https://mastering-shiny.org/basic-reactivity.html#observers
+- So far focus on what's happening inside the app
+- Sometimes you need to reach outside cause side-effects to happen elsewhere in the world
+  - e.g., saving file to shared network drive, sending data to a web API, updating a database, or (most commonly) printing a debugging message to the console
+- Such actions don't affect how app looks, so avoid using an output and a render function
+- **observer** is the solution to such problems
+- One simple way is to use `observeEvent()` function
+
+- `observeEvent()` is similar to `eventReactive()`
+- Arguments: `eventExpr` specifies input or expression to take a dependency on; `handlerExpr` is code that will be run
+- Differences between `observeEvent()` and `eventReactive()`
+  - result of `observeEvent()` is not assigned to variable so you can't refer to it from other reactive consumers
 
 
 
@@ -234,6 +316,183 @@ To build reactive shiny apps...
     + Outputs of `render*` are saved in the `output` list, with one entry for each reactive object in your app
     + Reactivity by including an `input` values in a `render*` expression
 * Often times you will adapt/modify [examples](http://shiny.rstudio.com/gallery/) that you find online
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# OLD
+
+
+## Summary
+
+
+
+
+- Reactive output automatically responds when users change widget input values stored in list `inputs$...`
+- BUT we need to tell the server what to do with the input values in the server function
+- `server <- function(input, output) {**construction of output objects in here**})` 
+* **Describe the server how to build the object**
+    + The object will be reactive if the code that builds it calls a widget value
+    + `output$distPlot <- renderPlot({...})`
+      - Resulting output is stored in list `output$...`
+- render functions (e.g. `renderPlot({...})`) wrap outputs and correspond to the type or reactive output
+- render functions produce new output when input values in them change
+
+## Render functions
+
+    + render functions wrap outputs and correspond to the type or reactive output
+        + `renderImage({...})` creates images (saved as a link to a source file)
+        + `renderPlot({...})` creates plots
+        + `renderPrint({...})` creates any printed output
+        + `renderTable({...})` creates data frame, matrix, other table like structures
+        + `renderText({...})` creates character strings
+        + `renderUI({...})` creates a Shiny tag object or HTML
+
+
+
+
+
+### SERVER: Example
+* Use example from app with datatable!
+
+```{r 04-server-reactive-programming-11, cache=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage( 
+titlePanel("Displaying reactive output"),
+sidebarLayout( 
+    sidebarPanel( 
+      selectInput("selection", label = h3("Select box"), 
+        choices = list("Fertility" = "Fertility", 
+                       "Agriculture" = "Agriculture", 
+                       "Examination" = "Examination", 
+                       "Education" = "Education", 
+                       "Catholic" = "Catholic", 
+                       "Infant.Mortality" = "Infant.Mortality"),
+        selected = 1) # Selection is a variablename!
+      ),
+    mainPanel( # Draw main panel
+      plotOutput("distPlot") # Put the output - a plot - into the main panel
+    )
+  ) 
+)
+
+server <- function(input, output) { 
+     
+  output$distPlot <- renderPlot({ 
+      x    <-   swiss[, input$selection] # USING WIDGET VALUE
+      hist(x, col = 'darkgray', border = 'white', 
+           xlab=input$selection, 
+           main="Swiss French Provinces Fertility and Socioeconomic Indicators (1888) Data")
+  }) 
+} 
+
+shinyApp(ui=ui, server = server)
+```
+
+
+* Launch the app
+```{r 04-server-reactive-programming-12, cache=TRUE, eval=FALSE, include=TRUE}
+# ui.R
+runApp(display.mode = "showcase")
+```
+
+* Launch it on the server!
+```{r 04-server-reactive-programming-13, cache=TRUE, eval=FALSE, include=TRUE}
+deployApp()
+```
+
+
+
+
+
+### Exercise: SERVER
+1. Use the code below (we saw that before). 
+2. Add another reactive output that displays the selection made in the select box as text, e.g. "Infant.mortality", below the plot in the mainpanel.
+    + Tipp: You will need the output function `textOutput(...)` to show the text in the UI. And you will need the function `renderText({...})` to build the output on the server.
+3. If you like add another another output.
+
+
+```{r 04-server-reactive-programming-14, echo=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage(
+  titlePanel("Displaying reactive output"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("selection", label = h3("Select box"),
+                  choices = list("Fertility" = "Fertility",
+                                 "Agriculture" = "Agriculture",
+                                 "Examination" = "Examination",
+                                 "Education" = "Education",
+                                 "Catholic" = "Catholic",
+                                 "Infant.Mortality" = "Infant.Mortality"), selected = 1)
+    ),
+
+    mainPanel(
+      plotOutput("distPlot")
+    )
+  )
+)
+
+server <- function(input, output) {
+  output$distPlot <- renderPlot({
+    x    <-   swiss[, input$selection]
+    hist(x, col = 'darkgray', border = 'white', xlab=input$selection, main="Swiss French Provinces Fertility and Socioeconomic Indicators (1888) Data")
+  })
+
+}
+
+shinyApp(ui=ui, server = server)
+```
+
+```{r 04-server-reactive-programming-15, echo=TRUE, eval=FALSE, include=FALSE}
+ui <- fluidPage(
+  titlePanel("Displaying reactive output"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("selection", label = h3("Select box"),
+                  choices = list("Fertility" = "Fertility",
+                                 "Agriculture" = "Agriculture",
+                                 "Examination" = "Examination",
+                                 "Education" = "Education",
+                                 "Catholic" = "Catholic",
+                                 "Infant.Mortality" = "Infant.Mortality"), selected = 1)
+    ),
+
+    mainPanel(
+      plotOutput("distPlot"),
+      textOutput("text1")
+    )
+  )
+)
+
+server <- function(input, output) {
+  output$distPlot <- renderPlot({
+    x    <-   swiss[, input$selection]
+    hist(x, col = 'darkgray', border = 'white', xlab=input$selection, main="Swiss French Provinces Fertility and Socioeconomic Indicators (1888) Data")
+  })
+  output$text1 <- renderText({
+    input$selection
+  })
+}
+shinyApp(ui=ui, server = server)
+```
+
 
 
 
