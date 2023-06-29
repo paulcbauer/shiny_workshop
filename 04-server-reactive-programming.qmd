@@ -31,55 +31,56 @@ pacman::p_load(knitr, quarto)
 
 
 ## Basics
-- In Shiny, server logics is expressed using reactive programming (elegant powerful programming paradigm!)
-  - But very different to writing a script that runs from start to end
-- Key idea: specify a graph of dependencies so that when an input changes, all related outputs are automatically updated
-  - Makes flow of an app considerably simpler
+- In Shiny, server logic is expressed using **reactive programming** (*elegant powerful programming paradigm!*)
+- Very different to writing a script that runs from start to end
+- Key idea: specify a graph of dependencies so that when an input changes, all related outputs (throughout the script) are automatically updated
+- **Reactive programming** makes flow of an app considerably simpler
 
 
 ## The server function
 - "Guts" of every shiny app below
-- UI simple because every user gets same html
-- SERVER more complicated because every user needs to get an independent version of the app (A using slider should not affect B's html)
-- `server()` is invoked each time new session starts
-  - has three parameters: `input`, `output`, `session` that are created by Shiny when session starts (not by us!) connecting to specific session
 
 ```{r 04-server-reactive-programming-2, echo=FALSE, eval=FALSE, include=FALSE}
 library(shiny)
 
-ui <- fluidPage(
-  # front end interface (Html)
-)
+# front end interface (Html)
+ui <- fluidPage()
+
+# back end logic
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+```
+
+- `ui` simple because every user gets same html
+- `server` more complicated because every user needs independent version of the app (i.e., A using slider should not affect B's ui)
+- `server()` is invoked each time new session starts
+  - has three parameters: `input`, `output`, `session` that are created by Shiny (not by us!) when session starts  connecting to specific session
+
+
+
+## Input & output
+- `input` argument is list-like object that contains all the **input data sent from the browser**, named according to the **input ID**
+  - e.g., `numericInput("count", label = "Number of values", value = 100)` generates `input$count`
+  - `input` is selective about who is allowed to read from i
+    - namely you must be in a reactive context created by a function like `renderText()` or `reactive()`
+    - these functions allow for outputs to automatically update when an input changes
+
+- `output` is similar to input: a list-like object containing ouputs named according to `output ID`
+  - Difference: `output` used for sending output instead of receiving input (always in concert with **render function** as below)
+  
+```{r 04-server-reactive-programming-3, echo=FALSE, eval=FALSE, include=FALSE}
+ui <- fluidPage(textOutput("greeting"))
 
 server <- function(input, output, session) {
-  # back end logic
+  output$greeting <- renderText("Hello human!")
 }
 
 shinyApp(ui, server)
 ```
 
-## Input & output
-- `input` argument is list-like object that contains all the **input data sent from the browser**, named according to the **input ID**
-  - e.g., `numericInput("count", label = "Number of values", value = 100)` generates `input$count`
-  - `input` is selective about who is allowed to read it, to read from an `input`, you must be in a reactive context created by a function like `renderText()` or `reactive()` (allows for outputs to automatically update when an input changes)
-
-- `output` is similar to input: a list-like object named according to the `output ID`
-  - Main difference: used for sending output instead of receiving input (always in concert with **render function** as below)
-  
-```{r 04-server-reactive-programming-3, echo=FALSE, eval=FALSE, include=FALSE}
-ui <- fluidPage(
-  textOutput("greeting")
-)
-
-server <- function(input, output, session) {
-  output$greeting <- renderText("Hello human!")
-}
-```
-
-- render function does two things
-  - sets up special reactive context that automatically tracks what inputs the output uses
-  - converts output of R code into HTML suitable for display on a web page
-- Don't forget render function or read from outputs (see [here](https://mastering-shiny.org/basic-reactivity.html#output))
+- **render function** sets up special reactive context that automatically tracks what inputs the output uses AND converts output of R code into HTML suitable for display on a web page
+- Common errors: Forgeting render function or reading from outputs (see [here](https://mastering-shiny.org/basic-reactivity.html#output))
 
 
 ## Reactive programming (1)
