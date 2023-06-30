@@ -7,7 +7,7 @@ title: "User Interface (UI): Designing the front end"
   - Learn how to create UIs using different layouts, inputs and outputs
   - Become familiar with UI functions such as `fluidPage()`, `dashboardPage()`, `menuItem()`, `tabItems()`, `tabsetPanel()` and `tabPanel()`
 
-Sources: [@wickham2021mastering, Ch. 2]
+Sources: @wickham2021mastering [Ch. 2]
 
 
 ```{r 03-user-interface-1, message=FALSE, warning=FALSE, include=FALSE}
@@ -273,9 +273,10 @@ shinyApp(ui, server)
 
 
 ::: {.callout-warning collapse="true"}
+
 #### Solution
 
-```{r 03-user-interface-7, echo=FALSE, eval=FALSE, include=TRUE}
+```{r 03-user-interface-7, echo=TRUE, eval=FALSE, include=TRUE}
 
 # UI ----
 ui <- dashboardPage(
@@ -424,17 +425,36 @@ ui <- fluidPage(
 1.  When space is at a premium, it's useful to label text boxes using a placeholder that appears *inside* the text entry area.
     How do you call `textInput()` to generate the UI below?
 
+INSERT IMAGE
+
+::: {.callout-warning collapse="true"}
+
+#### Solution
+
 ```{r 03-user-interface-10, echo = FALSE, out.width = NULL, message = FALSE, eval=FALSE}
 ui <- fluidPage(
-      textInput("name", NULL, placeholder = "Your name")
+      textInput("name", NULL, 
+                placeholder = "Your name")
     )
-demo <- demoApp$new("basic-ui/placeholder", ui)
-demo$takeScreenshot()
 ```
+
+::: 
 
 2.  Carefully read the documentation for `sliderInput()` to figure out how to create a date slider, as shown below in @fig-date-slider.
 
-```{r 03-user-interface-11, echo = FALSE, out.width = NULL, message = FALSE}
+
+```{r prod-consumer, echo = FALSE, out.width = NULL}
+#| label: fig-date-slider
+#| fig-cap: "Date slider"
+knitr::include_graphics("resources/date-slider.png", dpi = 300)
+```
+
+
+::: {.callout-warning collapse="true"}
+
+#### Solution
+
+```{r 03-user-interface-11, echo = TRUE, out.width = NULL, message = FALSE}
 library(shiny)
     today <- as.Date("2021-01-01")
     ui <- fluidPage(
@@ -448,12 +468,7 @@ library(shiny)
     )
 ```
 
-
-```{r prod-consumer, echo = FALSE, out.width = NULL}
-#| label: fig-date-slider
-#| fig-cap: "Date slider"
-knitr::include_graphics("resources/date-slider.png", dpi = 300)
-```
+::: 
 
 3.  Create a slider input to select values between 0 and 100 where the interval between each selectable value on the slider is 5.
     Then, add animation to the input widget so when the user presses play the input widget scrolls through the range automatically.
@@ -550,10 +565,9 @@ c.  `renderPrint(t.test(1:5, 2:6))`
 
 d.  `renderText(str(lm(mpg ~ wt, data = mtcars)))`
 
-2.  Re-create the Shiny app from Section \@ref(plots), this time setting height to 300px and width to 700px.
-    Set the plot "alt" text so that a visually impaired user can tell that its a scatterplot of five random numbers.
 
-3.  Update the options in the call to `renderDataTable()` below so that the data is displayed, but all other controls are suppress (i.e. remove the search, ordering, and filtering commands).
+
+2.  Update the options in the call to `renderDataTable()` below so that the data is displayed, but all other controls are suppress (i.e. remove the search, ordering, and filtering commands).
     You'll need to read `?renderDataTable` and review the options at <https://datatables.net/reference/option/>.
 
 ```{r 03-user-interface-16}
@@ -605,6 +619,7 @@ d.  `renderText(str(lm(mpg ~ wt, data = mtcars)))`
     - `.noWS = ...` argument to remove whitespace
 - See [full reference for HTML tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)  
 - Here we just do a quick example but in [this tutorial you find more information](https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/)
+- **Exercise**: Please run the shiny app below and explore the effect of different html tags.
 
 
 ```{r 03-user-interface-17, cache=TRUE, eval=FALSE, include=TRUE}
@@ -626,7 +641,7 @@ ui <- dashboardPage(title = "My Shiny App",
       tags$p("A new p() command starts a new paragraph. Supply a style attribute to change the format of the entire paragraph.", style = "font-family: 'times'; font-si16pt"),
       strong("strong() makes bold text."),
       em("em() creates italicized (i.e, emphasized) text."),
-      tags$hr(),
+      tags$hr(style="border-color:black;"),
       tags$br(),
       tags$line(),
       br(),
