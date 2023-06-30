@@ -357,8 +357,8 @@ ui <- dashboardPage( # start UI
     id = "sidebar",
     sidebarMenu(
       id = "sidebarMenu",
-      menuItem(tabName = "insp", 
-               text = "Table data", 
+      menuItem(tabName = "tab_tabulate", 
+               text = "Tabulate data", 
                icon = icon("table"))
     )
   ),
@@ -367,10 +367,10 @@ ui <- dashboardPage( # start UI
     tabItems( # start tabItems
       
       tabItem(
-        tabName = "insp",
+        tabName = "tab_tabulate",
         fluidRow(
           pickerInput(
-            "insp_select",
+            "tab_tabulate_select",
             label = "Filter variables",
             choices = names(guerry),
             multiple = TRUE
@@ -378,7 +378,7 @@ ui <- dashboardPage( # start UI
         ),
         hr(),
         #### Data table ----
-        DT::dataTableOutput("insp_table")
+        DT::dataTableOutput("tab_tabulate_table")
       )
       
     ) # end tabItems
@@ -392,7 +392,7 @@ ui <- dashboardPage( # start UI
 server <- function(input, output, session) {
   
   tab <- reactive({
-    var <- input$insp_select
+    var <- input$tab_tabulate_select
     data_table <- guerry
     if (!is.null(var)) {data_table <- data_table[var]}
     data_table
@@ -413,7 +413,7 @@ server <- function(input, output, session) {
   })
   
   ## Render table ----
-  output$insp_table <- DT::renderDataTable(dt(), server = FALSE)
+  output$tab_tabulate_table <- DT::renderDataTable(dt(), server = FALSE)
   
 }
 
