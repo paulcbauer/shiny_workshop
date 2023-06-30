@@ -318,6 +318,7 @@ install.packages("tidyverse")
 library(shiny)
 library(Guerry)
 library(tidyverse)
+library(sf)
 
 
 ## Data: Clean & prepare data ----
@@ -342,7 +343,7 @@ guerry <- Guerry::gfrance85 %>%
 
 ui <- dashboardPage( # start UI
   title = "The Guerry Dashboard",
-
+  
   ### Header ----
   header = dashboardHeader(
     title = tagList(
@@ -350,25 +351,34 @@ ui <- dashboardPage( # start UI
       span("The Guerry Dashboard", class = "brand-text")
     )
   ),
-
+  
   ### Sidebar ----
   sidebar = dashboardSidebar(
     id = "sidebar",
     sidebarMenu(
       id = "sidebarMenu",
-      menuItem(tabName = "insp", 
-               text = "Table data", 
+      menuItem(tabName = "tab_tabulate", 
+               text = "Tabulate data", 
                icon = icon("table"))
     )
   ),
   ### Body ----
   body = dashboardBody(
     tabItems( # start tabItems
-
+      
       tabItem(
-        tabName = "insp",
+        tabName = "tab_tabulate",
+        fluidRow(
+          pickerInput(
+            "tab_tabulate_select",
+            label = "Filter variables",
+            choices = names(guerry),
+            multiple = TRUE
+          )
+        ),
         hr(),
-        DT::dataTableOutput("insp_table")
+        #### Data table ----
+        DT::dataTableOutput("tab_tabulate_table")
       )
       
     ) # end tabItems
@@ -380,12 +390,20 @@ ui <- dashboardPage( # start UI
 # Server ----
 
 server <- function(input, output, session) {
-
+  
+  tab <- reactive({
+    var <- input$tab_tabulate_select
+    data_table <- guerry
+    if (!is.null(var)) {data_table <- data_table[var]}
+    data_table
+  })
+  
+  
   ## Create table ----
   dt <- reactive({
-
+    
     DT::datatable(
-      guerry,
+      tab(),
       class = "hover",
       selection = "none",
       filter = list(position = "top", clear = FALSE),
@@ -395,7 +413,7 @@ server <- function(input, output, session) {
   })
   
   ## Render table ----
-  output$insp_table <- DT::renderDataTable(dt(), server = FALSE)
+  output$tab_tabulate_table <- DT::renderDataTable(dt(), server = FALSE)
   
 }
 
@@ -414,20 +432,26 @@ knitr::include_graphics("02-run-app.png")
 
 
 ## Minimum viable product (MVP)
-* ...useful concept when building apps!
+* ...useful concept when building apps (see @fig-mvp)!
 * "**version** of a product with **just enough features to be usable** by early customers who can then provide feedback for future product development." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
 * "has **just enough core features to effectively deploy the product**, and no more. Developers typically **deploy the product to a subset of possible customers**, such as early adopters who are thought to be more forgiving, more likely to give feedback, and able to grasp a product vision from an early prototype or marketing information. This strategy targets **avoiding building products that customers do not want** and seek to **maximize information about the customer with the least money spent**. [...] falls under the Lean Startup methodology as MVPs aim to test business hypotheses [...]." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
 * ..we follow the same strategy, slowly building out our shiny app and adding features & complexity
 
-- CHECK & ADd: https://blog.crisp.se/wp-content/uploads/2016/01/Making-sense-of-MVP-.jpg
+```{r run-app, out.width = NULL, echo = FALSE}
+#| label: fig-mvp
+#| fig-cap: "Illustration of MVP (Source: Colin Fay - https://engineering-shiny.org/building-ispum-app.html)"
+knitr::include_graphics("resources/MVP.png")
+```
+
 
 
 ## Workflow: Development, debugging and getting help
 - See discussions of workflow in @wickham2021mastering [Ch. 5, 20.2.1]
 - Three important Shiny workflows:
-  - Basic development cycle of creating apps, making changes, and experimenting with the results.
-  - Debugging, i.e., figure out what’s gone wrong with your code/brainstorm solutions
-  - Writing reprexes, self-contained chunks of code that illustrate a problem (essential for getting others' help)
+  - **Basic development** cycle of creating apps, making changes, and experimenting with the results.
+  - **Debugging**, i.e., figure out what’s gone wrong with your code/brainstorm solutions
+  - **Writing reprexes**, self-contained chunks of code that illustrate a problem (essential for getting others' help)
+- We'll shortly discuss development WF (debugging later on)
 
 
 

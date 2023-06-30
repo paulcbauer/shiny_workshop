@@ -38,18 +38,16 @@ pacman::p_load(knitr, quarto)
 - `dashboardPage()` create a dashboard layout (we use that!)
 
 ### fluidPage
-- `fluidPage()`: Create most basic layout
-  - Creates a display that automatically adjusts to the dimensions of a user's browser window (smartphone!)
-  - Lay out your app by placing elements in the fluidpage function
+- `fluidPage()`: Creates most basic layout
+  - a display that automatically adjusts to the dimensions of a user's browser window (smartphone!)
   - layout consists of rows which in turn include columns
     - rows exist for the purpose of making sure their elements appear on the same line, columns exist for the purpose of defining how much horizontal space within a 12-unit wide grid it's elements should occupy
-  - fluid pages scale their components in realtime to fill all available browser width
-    
 - Below a user interface with a title panel and a sidebar panel
     + `titlePanel()` and `sidebarLayout()` create a basic Shiny app/layout with a sidebar
     + `sidebarLayout()` takes two functions
         + `sidebarPanel()`: Includes content displayed in the sidebar
         + `mainPanel()`: Includes content displayed in the main panel
+- - `fluidRow()` and `column()`: Divide ui into rows/columns
 * **Try the code below** by pasting it into your console and running it. It will only create a user interface.
 
 ```{r 03-user-interface-2, cache=TRUE, eval=FALSE, include=TRUE}
@@ -57,65 +55,59 @@ ui <- fluidPage(
   titlePanel("This is the title panel"),
 
   sidebarLayout(
-    sidebarPanel( "Ths is the sidebar panel"),
-    mainPanel("And this is the main panel...")
+    sidebarPanel( "This is the sidebar panel"),
+    
+    mainPanel("And this is the main panel...",
+    fluidRow(
+    column(width = 4,"plot here"),
+    column(width = 3, 
+           offset = 2, "Model summary here")
+    )
+    
+    )
   )
 )
 
-server <- function(input, output) {}
+server <- function(input, output){}
 
 shinyApp(ui=ui, server = server)
-
 ```
 
 - Change `sidebarLayout(position = "right",...)` to position sidebar on the right
 - `navbarPage()`: Create a [multi-page user-interface](http://shiny.rstudio.com/gallery/navbar-example.html) that includes a navigation bar
-- `fluidRow()` and `column()`: Build layout up from grid system
+
 
 #### Creating panels and tabs
 
 * `tabsetPanel()` + `tabPanel()`
     + Allows for using sidebar layout but dividing main panel into tabs
-    + Users can switch between tabs
-    + Tabs can be used to display various outputs simultanously (rather than putting them all on one page)
+    + Users can switch between tabs that can be used to display various outputs simultanously
 
 ```{r 03-user-interface-3, cache=TRUE, eval=FALSE, include=TRUE}
-# ui.R
 ui <- fluidPage(
-
-  # Application title
-  titlePanel("User interface with several tabs in the main panel"),
-
+  titlePanel("This is the title panel"),
+  
   sidebarLayout(
-    sidebarPanel(
-
-      selectInput("var1", label = "Y-Variable:",
-                  choices = c("trust.2003.2004","trust.2004.2005"),
-                  selected = "trust.2003.2004"),
-      #
-      selectInput("var2", label = "X-Variable:",
-                  choices = c("threat.2004", "threat.2005"),
-                  selected = "threat.2004"),
-      #
-      sliderInput("trustrange", 
-                  label = "Range of initial trust level:", 
-                  min = 0, max = 10, value = c(0, 10))
-    ),
-
+    sidebarPanel( "This is the sidebar panel"),
+    
     mainPanel(
       tabsetPanel(type = "tabs",
-                  tabPanel("3d Frequency Plot", "plot here"),
-                  tabPanel("Histogram", "another plot here"),
-                  tabPanel("Model Summary", h4("estimation results here")),
-                  tabPanel("Data Summary", h4("Variable summaries (1)")),
-                  tabPanel("Explanation", p("This ShinyApp represents a quick example to illustrate the usefulness of Shiny for robustness analysis. The outcome variable is the change in trust between two panel waves (e.g. 2003 and 2004). The treatment variable is a victimization experience (threat or insult) that happened during that time period. The model is a simple bivariate OLS model (Y = trust change; X = victimization experience). There are no control variables."))
-
-))))
-
-server <- function(input, output) {}
-
-shinyApp(ui=ui, server = server)
-
+                  tabPanel("3d Frequency Plot", 
+                           "plot here"),
+                  tabPanel("Histogram", 
+                           "another plot here"),
+                  tabPanel("Model Summary", 
+                           h4("estimation results here")),
+                  tabPanel("Data Summary", 
+                           h4("Variable summaries (1)"))
+                  
+      )
+    )
+  ))
+  
+  server <- function(input, output){}
+  
+  shinyApp(ui=ui, server = server)
 ``` 
 
 
@@ -131,10 +123,10 @@ shinyApp(ui=ui, server = server)
   - `dashboardSidebar()`: Creates dashboard sidebar
     - sidebar typically contains a sidebarMenu, although it may also contain a sidebarSearchForm, or other Shiny inputs.
   - `dashboardBody()`: creates main body typically containing boxes or tabItems
+- `dashboardPage()` contained both in `shinydashboard` and `bs4Dash` package (use `bs4Dash`!)
 
 ```{r 03-user-interface-4, cache=TRUE, eval=FALSE, include=TRUE}
-# install.packages("shinydashboard")
-library(shinydashboard)
+library(bs4Dash)
 # UI ----
 ui <- dashboardPage(title = "The Guerry Dashboard",
 
@@ -162,25 +154,22 @@ menu in the sidebar relying `menuItem()` function
   - `menuItem(tabName = "...", text = "...", icon = icon("table"))`: Creates one item in sidebarMenu
 - `tabItems()`: creates container for tab items
   - `tabItem(tabName = "insp", ...)`: create one tab to put inside a tab items container
+  - can be combined with `fluidRow()` and `column()`
 
 ```{r 03-user-interface-5, cache=TRUE, eval=FALSE, include=TRUE}
+library(bs4Dash)
 # UI ----
 ui <- dashboardPage(title = "The Guerry Dashboard",
 
   ### Header ----
   header = dashboardHeader(
-    title = tagList(
-      "image here",
-      span("The Guerry Dashboard", class = "brand-text")
-    )
+    title = "Title here"
   ),
 
   ### Sidebar ----
   sidebar = dashboardSidebar(
-    id = "sidebar",
     sidebarMenu(
-      id = "sidebarMenu",
-      menuItem(tabName = "insp", 
+      menuItem(tabName = "tab_table", 
                text = "Table data", 
                icon = icon("table"))
     )
@@ -190,9 +179,9 @@ ui <- dashboardPage(title = "The Guerry Dashboard",
     tabItems( # start tabItems
 
       tabItem(
-        tabName = "insp",
+        tabName = "tab_table",
         hr(), # add separation line
-        "put a table here"
+        "Here we will put a table"
       )
       
     ) # end tabItems
