@@ -314,7 +314,7 @@ guerry <- Guerry::gfrance85 %>%
 
 ui <- dashboardPage( # start UI
   title = "The Guerry Dashboard",
-
+  
   ### Header ----
   header = dashboardHeader(
     title = tagList(
@@ -322,7 +322,7 @@ ui <- dashboardPage( # start UI
       span("The Guerry Dashboard", class = "brand-text")
     )
   ),
-
+  
   ### Sidebar ----
   sidebar = dashboardSidebar(
     id = "sidebar",
@@ -336,10 +336,19 @@ ui <- dashboardPage( # start UI
   ### Body ----
   body = dashboardBody(
     tabItems( # start tabItems
-
+      
       tabItem(
         tabName = "insp",
+        fluidRow(
+          pickerInput(
+            "insp_select",
+            label = "Filter variables",
+            choices = names(guerry),
+            multiple = TRUE
+          )
+        ),
         hr(),
+        #### Data table ----
         DT::dataTableOutput("insp_table")
       )
       
@@ -352,12 +361,20 @@ ui <- dashboardPage( # start UI
 # Server ----
 
 server <- function(input, output, session) {
-
+  
+  tab <- reactive({
+    var <- input$insp_select
+    data_table <- guerry
+    if (!is.null(var)) {data_table <- data_table[var]}
+    data_table
+  })
+  
+  
   ## Create table ----
   dt <- reactive({
-
+    
     DT::datatable(
-      guerry,
+      tab(),
       class = "hover",
       selection = "none",
       filter = list(position = "top", clear = FALSE),

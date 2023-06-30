@@ -1,36 +1,103 @@
-library(shinydashboard)
+library(shiny)
+library(Guerry)
+library(tidyverse)
+library(sf)
+
+
+## Data: Clean & prepare data ----
+guerry <- Guerry::gfrance85 %>%
+  st_as_sf() %>%
+  as_tibble() %>%
+  st_as_sf(crs = 27572) %>%
+  mutate(Region = case_match(
+    Region,
+    "C" ~ "Central",
+    "E" ~ "East",
+    "N" ~ "North",
+    "S" ~ "South",
+    "W" ~ "West"
+  )) %>%
+  select(!any_of(c("CODE_DEPT", "COUNT", "AVE_ID_GEO", "dept"))) %>%
+  st_drop_geometry() %>%
+  select(1:6)
+
+
 # UI ----
-ui <- dashboardPage(title = "My Shiny App",
-                    
-                    ### Header ----
-                    header = dashboardHeader(),
-                    
-                    ### Sidebar ----
-                    sidebar = dashboardSidebar(),
-                    
-                    ### Body ----
-                    body = dashboardBody(
-                      h2("A NEW HOPE", align = "center"),
-                      h5("It is a period of civil war.", align = "center"),
-                      p("p creates a paragraph of text."),
-                      tags$p("A new p() command starts a new paragraph. Supply a style attribute to change the format of the entire paragraph.", style = "font-family: 'times'; font-si16pt"),
-                      strong("strong() makes bold text."),
-                      em("em() creates italicized (i.e, emphasized) text."),
-                      tags$hr(style="border-color:black;"),
-                      tags$br(),
-                      tags$line(),
-                      br(),
-                      code("code displays your text similar to computer code"),
-                      div("div creates segments of text with a similar style. This division of text is all blue because I passed the argument 'style = color:blue' to div", style = "color:blue"),
-                      br(),
-                      p("span does the same thing as div, but it works with",
-                        span("groups of words", style = "color:blue"),
-                        "that appear inside a paragraph."))
-)
+
+ui <- dashboardPage( # start UI
+  title = "The Guerry Dashboard",
+  
+  ### Header ----
+  header = dashboardHeader(
+    title = tagList(
+      img(src = "workshop-logo.png", width = 35, height = 35),
+      span("The Guerry Dashboard", class = "brand-text")
+    )
+  ),
+  
+  ### Sidebar ----
+  sidebar = dashboardSidebar(
+    id = "sidebar",
+    sidebarMenu(
+      id = "sidebarMenu",
+      menuItem(tabName = "insp", 
+               text = "Table data", 
+               icon = icon("table"))
+    )
+  ),
+  ### Body ----
+  body = dashboardBody(
+    tabItems( # start tabItems
+      
+      tabItem(
+        tabName = "insp",
+        fluidRow(
+          pickerInput(
+            "insp_select",
+            label = "Filter variables",
+            choices = names(guerry),
+            multiple = TRUE
+          )
+        ),
+        hr(),
+        #### Data table ----
+        DT::dataTableOutput("insp_table")
+      )
+      
+    ) # end tabItems
+  )
+) # End UI
+
 
 
 # Server ----
 
-server <- function(input, output, session) {}
+server <- function(input, output, session) {
+  
+  tab <- reactive({
+    var <- input$insp_select
+    data_table <- guerry
+    if (!is.null(var)) {data_table <- data_table[var]}
+    data_table
+  })
+  
+  
+  ## Create table ----
+  dt <- reactive({
+    
+    DT::datatable(
+      tab(),
+      class = "hover",
+      selection = "none",
+      filter = list(position = "top", clear = FALSE),
+      rownames = FALSE
+    )
+    
+  })
+  
+  ## Render table ----
+  output$insp_table <- DT::renderDataTable(dt(), server = FALSE)
+  
+}
 
 shinyApp(ui, server)
