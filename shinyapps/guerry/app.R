@@ -21,7 +21,7 @@ library(performance)
 library(ggdark)
 library(modelsummary)
 
-# Preparation ----
+# Data preparation ----
 
 ## Clean ----
 guerry <- Guerry::gfrance85 %>%
@@ -154,10 +154,10 @@ ui <- dashboardPage(
     id = "sidebar",
     sidebarMenu(
       id = "sidebarMenu",
-      menuItem(tabName = "intro", text = "Introduction", icon = icon("home")),
-      menuItem(tabName = "exp", text = "Map data", icon = icon("map")),
-      menuItem(tabName = "insp", text = "Table data", icon = icon("table")),
-      menuItem(tabName = "model", text = "Model data", icon = icon("chart-line")),
+      menuItem(tabName = "tab_intro", text = "Introduction", icon = icon("home")),
+      menuItem(tabName = "tab_tabulate", text = "Tabulate data", icon = icon("table")),
+      menuItem(tabName = "tab_model", text = "Model data", icon = icon("chart-line")),
+      menuItem(tabName = "tab_map", text = "Map data", icon = icon("map")),
       flat = TRUE
     ),
     minified = TRUE,
@@ -172,9 +172,9 @@ ui <- dashboardPage(
       includeCSS("www/styles.css")
     ),
     tabItems(
-      ### Home tab ----
+      ### Tab: Introduction ----
       tabItem(
-        tabName = "intro",
+        tabName = "tab_intro",
         jumbotron(
         	title = "The Guerry Dashboard",
         	lead = "A Shiny app to explore the classic Guerry dataset.",
@@ -250,66 +250,13 @@ ui <- dashboardPage(
           )
         )
       ),
-      ### Explore data ----
+      ### Tab: Tabulate data ----
       tabItem(
-        tabName = "exp", # must correspond to related menuItem name
+        tabName = "tab_tabulate",
         fluidRow(
-          column(
-            width = 4, # must be between 1 and 12
-            box(
-              title = "Data selection",
-              status = "primary",
-              width = 12,
-              shinyWidgets::pickerInput(
-                "exp_select",
-                label = "Select a variable",
-                choices = setNames(variables, sapply(txts, "[[", "title")),
-                options = shinyWidgets::pickerOptions(liveSearch = TRUE)
-              ),
-              uiOutput("exp_desc")
-            ),
-            box(
-              title = "Map configuration",
-              status = "primary",
-              width = 12,
-              shinyWidgets::radioGroupButtons(
-                "exp_aggr",
-                label = "Aggregation level",
-                choices = c("Departments", "Regions"),
-                selected = "Departments",
-                individual = TRUE,
-                checkIcon = list(
-                  yes = tags$i(class = "fa fa-circle", style = "color: #58748f;"),
-                  no = tags$i(class = "fa fa-circle-o", style = "color: #58748f;")
-                )
-              ),
-              shinyWidgets::pickerInput(
-                "exp_pal",
-                label = "Color palette",
-                choices = pals,
-                selected = "Reds"
-              ) # end input
-            ) # end box
-          ), # end column
-          column(
-            width = 8,
-            box(
-              id = "exp_box",
-              status = "primary",
-              headerBorder = FALSE,
-              collapsible = FALSE,
-              width = 12,
-              leaflet::leafletOutput("exp_map", height = "800px", width = "100%")
-            ) # end box
-          ) # end column
-        ) # end fluidRow
-      ), # end tabItem
-      ### Inspect data ----
-      tabItem(
-        tabName = "insp",
-        fluidRow(
+          #### Inputs(s) ----
           pickerInput(
-            "insp_select",
+            "tab_tabulate_select",
             label = "Filter variables",
             choices = setNames(variables, sapply(txts, "[[", "title")),
             options = pickerOptions(
@@ -325,7 +272,7 @@ ui <- dashboardPage(
           ),
           div(style = "width: 20px;"),
           radioGroupButtons(
-            "insp_aggr",
+            "tab_tabulate_aggr",
             label = "Aggregation level",
             choices = c("Departments", "Regions"),
             selected = "Departments",
@@ -337,110 +284,168 @@ ui <- dashboardPage(
           )
         ),
         hr(),
-        #### Data table ----
-        DT::dataTableOutput("insp_table")
+        #### Output(s) (Data table) ----
+        DT::dataTableOutput("tab_tabulate_table")
       ),
-      ### Model data ----
+      ### Tab: Model data ----
       tabItem(
-      	tabName = "model",
-      	fluidRow(
-      		column(
-      			width = 6,
-      			#### Box: Select variables ----
-      			box(
-      				width = 12,
-      				title = "Select variables",
-      				status = "primary",
-      				shinyWidgets::pickerInput(
-      					"model_x",
-      					label = "Select a dependent variable",
-      					choices = setNames(variables, sapply(txts, "[[", "title")),
-      					options = shinyWidgets::pickerOptions(liveSearch = TRUE),
-      					selected = "Literacy"
-      				),
-      				shinyWidgets::pickerInput(
-      					"model_y",
-      					label = "Select independent variables",
-      					choices = setNames(variables, sapply(txts, "[[", "title")),
-      					options = shinyWidgets::pickerOptions(
-      						actionsBox = TRUE,
-      						liveSearch = TRUE,
-      						selectedTextFormat = "count",
-      						countSelectedText = "{0} variables selected",
-      						noneSelectedText = "No variables selected"
-      					),
-      					multiple = TRUE,
-      					selected = "Commerce"
-      				),
-      				shinyWidgets::prettyCheckbox(
-      					"model_std",
-      					label = "Standardize variables?",
-      					value = TRUE,
-      					status = "primary",
-      					shape = "curve"
-      				),
-      				hr(),
-      				actionButton(
-      					"refresh",
-      					label = "Apply changes",
-      					icon = icon("refresh"),
-      					flat = TRUE
-      				)
-      			),
-      			#### Box: Coefficient/Scatterplot ----
-      			tabBox(
-      			  status = "primary",
-      			  type = "tabs",
-      			  width = 12,
-      			  ##### Tab: Coefficient plot ----
-      			  tabPanel(
-      			    title = "Plot: Coefficients",
-      			    plotly::plotlyOutput("coefficientplot")
-      			  ),
-      			  ##### Tab: Scatterplot ----
-      			  tabPanel(
-      			    title = "Plot: Scatterplot",
-      			    plotly::plotlyOutput("scatterplot")
-      			  ),
-      			  ##### Tab: Table: Regression ----
-      			  tabPanel(
-      			    title = "Table: Model",
-      			    htmlOutput("tableregression")
-      			  )
-      			)
-      		),
-      		column(
-      			width = 6,
-      			#### Box: Pair diagramm ----
-      			box(
-      				width = 12,
-      				title = "Pair diagram",
-      				status = "primary",
-      				plotly::plotlyOutput("pairplot")
-      			),
-      			#### Box: Model diagnostics ----
-    			  tabBox(
-    			    status = "primary",
-    			    type = "tabs",
-    			    title = "Model diagnostics",
-    			    width = 12,
-    			    side = "right",
-    			    tabPanel(
-    			      title = "Normality",
-    			      plotly::plotlyOutput("normality")
-    			    ),
-    			    tabPanel(
-    			      title = "Outliers",
-    			      plotly::plotlyOutput("outliers")
-    			    ),
-    			    tabPanel(
-    			      title = "Heteroskedasticity",
-    			      plotly::plotlyOutput("heteroskedasticity")
-    			    )
-      			)
-      		)
-      	)
-      )
+        tabName = "tab_model",
+        fluidRow(
+          column(
+            width = 6,
+            #### Inputs(s) ----
+            box(
+              width = 12,
+              title = "Select variables",
+              status = "primary",
+              shinyWidgets::pickerInput(
+                "model_x",
+                label = "Select a dependent variable",
+                choices = setNames(variables, sapply(txts, "[[", "title")),
+                options = shinyWidgets::pickerOptions(liveSearch = TRUE),
+                selected = "Literacy"
+              ),
+              shinyWidgets::pickerInput(
+                "model_y",
+                label = "Select independent variables",
+                choices = setNames(variables, sapply(txts, "[[", "title")),
+                options = shinyWidgets::pickerOptions(
+                  actionsBox = TRUE,
+                  liveSearch = TRUE,
+                  selectedTextFormat = "count",
+                  countSelectedText = "{0} variables selected",
+                  noneSelectedText = "No variables selected"
+                ),
+                multiple = TRUE,
+                selected = "Commerce"
+              ),
+              shinyWidgets::prettyCheckbox(
+                "model_std",
+                label = "Standardize variables?",
+                value = TRUE,
+                status = "primary",
+                shape = "curve"
+              ),
+              hr(),
+              actionButton(
+                "refresh",
+                label = "Apply changes",
+                icon = icon("refresh"),
+                flat = TRUE
+              )
+            ),
+            #### Outputs(s) ----
+            tabBox(
+              status = "primary",
+              type = "tabs",
+              title = "Model analysis",
+              side = "right",
+              width = 12,
+              ##### Tabpanel: Coefficient plot ----
+              tabPanel(
+                title = "Plot: Coefficients",
+                plotly::plotlyOutput("coefficientplot")
+              ),
+              ##### Tabpanel: Scatterplot ----
+              tabPanel(
+                title = "Plot: Scatterplot",
+                plotly::plotlyOutput("scatterplot")
+              ),
+              ##### Tabpanel: Table: Regression ----
+              tabPanel(
+                title = "Table: Model",
+                htmlOutput("tableregression")
+              )
+            )
+          ),
+          column(
+            width = 6,
+            ##### Box: Pair diagramm ----
+            box(
+              width = 12,
+              title = "Pair diagram",
+              status = "primary",
+              plotly::plotlyOutput("pairplot")
+            ),
+            ##### TabBox: Model diagnostics ----
+            tabBox(
+              status = "primary",
+              type = "tabs",
+              title = "Model diagnostics",
+              width = 12,
+              side = "right",
+              tabPanel(
+                title = "Normality",
+                plotly::plotlyOutput("normality")
+              ),
+              tabPanel(
+                title = "Outliers",
+                plotly::plotlyOutput("outliers")
+              ),
+              tabPanel(
+                title = "Heteroskedasticity",
+                plotly::plotlyOutput("heteroskedasticity")
+              )
+            )
+          )
+        )
+      ),
+      ### Tab: Map data ----
+      tabItem(
+        tabName = "tab_map", # must correspond to related menuItem name
+        fluidRow(
+          column(
+            #### Inputs(s) ----
+            width = 4, # must be between 1 and 12
+            box(
+              title = "Data selection",
+              status = "primary",
+              width = 12,
+              shinyWidgets::pickerInput(
+                "tab_map_select",
+                label = "Select a variable",
+                choices = setNames(variables, sapply(txts, "[[", "title")),
+                options = shinyWidgets::pickerOptions(liveSearch = TRUE)
+              ),
+              uiOutput("tab_map_desc")
+            ),
+            box(
+              title = "Map configuration",
+              status = "primary",
+              width = 12,
+              shinyWidgets::radioGroupButtons(
+                "tab_map_aggr",
+                label = "Aggregation level",
+                choices = c("Departments", "Regions"),
+                selected = "Departments",
+                individual = TRUE,
+                checkIcon = list(
+                  yes = tags$i(class = "fa fa-circle", style = "color: #58748f;"),
+                  no = tags$i(class = "fa fa-circle-o", style = "color: #58748f;")
+                )
+              ),
+              shinyWidgets::pickerInput(
+                "tab_map_pal",
+                label = "Color palette",
+                choices = pals,
+                selected = "Reds"
+              ) # end input
+            ) # end box
+          ), # end column
+          column(
+            #### Output(s) ----
+            width = 8,
+            box(
+              id = "tab_map_box",
+              status = "primary",
+              headerBorder = FALSE,
+              collapsible = FALSE,
+              width = 12,
+              leaflet::leafletOutput("tab_map_map", height = "800px", width = "100%")
+            ) # end box
+          ) # end column
+        ) # end fluidRow
+      ) # end tabItem
     ) # end tabItems
   ),
   ## Controlbar (top)----
@@ -464,16 +469,240 @@ ui <- dashboardPage(
 # Server ----
 
 server <- function(input, output, session) {
-  ## Explore data ----
+  
+  ## Tabulate data ----
+  ### Variable selection ----
+  tab <- reactive({
+    var <- input$tab_tabulate_select
+    if (identical(input$tab_tabulate_aggr, "Departments")) {
+      poly <- guerry
+    } else {
+      poly <- guerry_region
+    }
+    
+    if (!is.null(var)) {
+      poly <- poly[var]
+    }
+    
+    poly <- select(poly, !any_of(c("CODE_DEPT", "COUNT", "AVE_ID_GEO", "dept")))
+    poly <- st_drop_geometry(poly)
+    poly[var] <- round(poly[var], 2)
+    poly
+  })
+  
+
+  ### Create table----
+  dt <- reactive({
+    tab <- tab()
+    ridx <- ifelse("Department" %in% names(tab), 3, 1)
+    DT::datatable(
+      tab,
+      class = "hover",
+      extensions = c("Buttons"),
+      selection = "none",
+      filter = list(position = "top", clear = FALSE),
+      style = "bootstrap4",
+      rownames = FALSE,
+      options = list(
+        dom = "Brtip",
+        deferRender = TRUE,
+        scroller = TRUE,
+        buttons = list(
+          list(extend = "copy", text = "Copy to clipboard"),
+          list(extend = "pdf", text = "Save as PDF"),
+          list(extend = "csv", text = "Save as CSV"),
+          list(extend = "excel", text = "Save as JSON", action = DT::JS("
+          function (e, dt, button, config) {
+            var data = dt.buttons.exportData();
+  
+            $.fn.dataTable.fileSave(
+              new Blob([JSON.stringify(data)]),
+              'Shiny dashboard.json'
+            );
+          }
+        "))
+        )
+      )
+    )
+  })
+  
+  ### Render table----
+  output$tab_tabulate_table <- DT::renderDataTable(dt(), server = FALSE)
+  
+  
+  
+  ## Model data ----
+  ### Define & estimate model ----
+  mparams <- reactive({
+    x <- input$model_x
+    y <- input$model_y
+    dt <- sf::st_drop_geometry(guerry)[c(x, y)]
+    dt_labels <- sf::st_drop_geometry(guerry)[c("Department", "Region")]
+    if (input$model_std) dt <- datawizard::standardise(dt)
+    form <- as.formula(paste(x, "~", paste(y, collapse = " + ")))
+    mod <- lm(form, data = dt)
+    
+    list(
+      x = x,
+      y = y,
+      data = dt,
+      data_labels = dt_labels,
+      model = mod
+    )
+  }) %>%
+    bindEvent(input$refresh, ignoreNULL = FALSE)
+  
+  ### Pair diagram ----
+  output$pairplot <- plotly::renderPlotly({
+    params <- mparams()
+    dt <- params$data
+    dt_labels <- params$data_labels
+    p <- GGally::ggpairs(
+      params$data,
+      axisLabels = "none",
+      lower = list(
+        continuous = function(data, mapping, ...) {
+          ggplot(data, mapping) +
+            suppressWarnings(geom_point(
+              aes(text = paste0(
+                "Department: ", 
+                dt_labels[["Department"]],
+                "<br>Region: ", 
+                dt_labels[["Region"]])),
+              color = "black"
+            ))
+        }
+      )
+    )
+    if (isTRUE(input$dark_mode)) p <- p +
+      dark_theme_gray() +
+      theme(plot.background = element_rect(fill = "#343a40"))
+    ggplotly(p) %>%
+      config(modeBarButtonsToRemove = plotly_buttons,
+             displaylogo = FALSE)
+  })
+  
+  ### Plot: Coefficientplot ----
+  output$coefficientplot <- renderPlotly({
+    params <- mparams()
+    dt <- params$data
+    x <- params$x
+    y <- params$y
+    
+    
+    p <- plot(parameters::model_parameters(params$model))
+    
+    if (isTRUE(input$dark_mode)) p <- p +
+      geom_point(color = "white") +
+      dark_theme_gray() +
+      theme(plot.background = element_rect(fill = "#343a40"))
+    ggplotly(p) %>%
+      config(modeBarButtonsToRemove = plotly_buttons,
+             displaylogo = FALSE)
+  })
+  
+  ### Plot: Scatterplot ----
+  output$scatterplot <- renderPlotly({
+    params <- mparams()
+    dt <- params$data
+    dt_labels <- params$data_labels
+    x <- params$x 
+    y <- params$y
+    
+    
+    if (length(y) == 1) {
+      p <- ggplot(params$data, 
+                  aes(x = .data[[params$x]], 
+                      y = .data[[params$y]])) +
+        geom_point(aes(text = paste0("Department: ", 
+                                     dt_labels[["Department"]],
+                                     "<br>Region: ", 
+                                     dt_labels[["Region"]])),
+                   color = "black") +
+        geom_smooth() + 
+        geom_smooth(method='lm') +
+        theme_light()
+    } else {
+      p <- ggplot() +
+        theme_void() +
+        annotate("text", 
+                 label = "Cannot create scatterplot.\nMore than two variables selected.", 
+                 x = 0, y = 0, 
+                 size = 5, 
+                 colour = "red",
+                 hjust = 0.5,
+                 vjust = 0.5) +
+        xlab(NULL)
+      
+    }
+    
+    if (isTRUE(input$dark_mode)) p <- p +
+      geom_point(color = "white") +
+      dark_theme_gray() +
+      theme(plot.background = element_rect(fill = "#343a40"))
+    ggplotly(p) %>%
+      config(modeBarButtonsToRemove = plotly_buttons,
+             displaylogo = FALSE)
+  })
+  
+  ### Table: Regression ----
+  output$tableregression <- renderUI({
+    params <- mparams()
+    HTML(modelsummary(
+      dvnames(list(params$model)),
+      gof_omit = "AIC|BIC|Log|Adj|RMSE"
+    ))
+  })
+  
+  ### Plot: Normality residuals ----
+  output$normality <- renderPlotly({
+    params <- mparams()
+    p <- plot(performance::check_normality(params$model))
+    if (isTRUE(input$dark_mode)) p <- p +
+      dark_theme_gray() +
+      theme(plot.background = element_rect(fill = "#343a40"))
+    ggplotly(p) %>%
+      config(modeBarButtonsToRemove = plotly_buttons,
+             displaylogo = FALSE)
+  })
+  
+  ### Plot: Outliers ----
+  output$outliers <- renderPlotly({
+    params <- mparams()
+    p <- plot(performance::check_outliers(params$model), show_labels = FALSE)
+    if (isTRUE(input$dark_mode)) p <- p +
+      dark_theme_gray() +
+      theme(plot.background = element_rect(fill = "#343a40"))
+    p$labels$x <- "Leverage"
+    ggplotly(p) %>%
+      config(modeBarButtonsToRemove = plotly_buttons,
+             displaylogo = FALSE)
+  })
+  
+  ### Plot: Heteroskedasticity ----
+  output$heteroskedasticity <- renderPlotly({
+    params <- mparams()
+    p <- plot(performance::check_heteroskedasticity(params$model))
+    if (isTRUE(input$dark_mode)) p <- p +
+      dark_theme_gray() +
+      theme(plot.background = element_rect(fill = "#343a40"))
+    p$labels$y <- "Sqrt. |Std. residuals|" # ggplotly doesn't support expressions
+    ggplotly(p) %>%
+      config(modeBarButtonsToRemove = plotly_buttons,
+             displaylogo = FALSE)
+  })
+  
+  
+  ## Map data ----
   
   # Render description of selected variable
-  output$exp_desc <- renderUI({
-    HTML(txts[[input$exp_select]]$desc)
+  output$tab_map_desc <- renderUI({
+    HTML(txts[[input$tab_map_select]]$desc)
   })
   
   # Select polygon based on aggregation level
   poly <- reactive({
-    if (identical(input$exp_aggr, "Regions")) {
+    if (identical(input$tab_map_aggr, "Regions")) {
       guerry_region
     } else {
       guerry
@@ -482,19 +711,19 @@ server <- function(input, output, session) {
   
   # Select palette based on input
   palette <- reactive({
-    pal <- input$exp_pal
+    pal <- input$tab_map_pal
     if (pal %in% pals$Viridis) {
       pal <- viridis::viridis_pal(option = tolower(pal))(5)
     }
     pal
   }) %>%
-    bindEvent(input$exp_pal)
+    bindEvent(input$tab_map_pal)
   
   # Compile parameters for leaflet rendering
   params <- reactive({
     poly <- st_transform(poly(), 4326)
     pal <- palette()
-    var <- input$exp_select
+    var <- input$tab_map_select
 
     values <- as.formula(paste0("~", var))
     pal <- colorNumeric(palette = pal, domain = NULL)
@@ -545,7 +774,7 @@ server <- function(input, output, session) {
   })
   
   # Render leaflet for the first time
-  output$exp_map <- leaflet::renderLeaflet({
+  output$tab_map_map <- leaflet::renderLeaflet({
     # Isolate call to params() to prevent render function to be executed
     # every time params() is invalidated. No dependency is made.
     params <- isolate(params())
@@ -587,7 +816,7 @@ server <- function(input, output, session) {
   # entire map, thus increasing performance.
   observe({
     params <- params()
-    leafletProxy("exp_map", data = params$poly) %>%
+    leafletProxy("tab_map_map", data = params$poly) %>%
       clearShapes() %>%
       clearControls() %>%
       addPolygons(
@@ -618,226 +847,7 @@ server <- function(input, output, session) {
   })
   
   
-  ## Inspect data ----
-  #### Variable selection ----
-  tab <- reactive({
-    var <- input$insp_select
-    if (identical(input$insp_aggr, "Departments")) {
-      poly <- guerry
-    } else {
-      poly <- guerry_region
-    }
-    
-    if (!is.null(var)) {
-      poly <- poly[var]
-    }
-    
-    poly <- select(poly, !any_of(c("CODE_DEPT", "COUNT", "AVE_ID_GEO", "dept")))
-		poly <- st_drop_geometry(poly)
-    poly[var] <- round(poly[var], 2)
-    poly
-  })
-  
-  #### Table: Data ----
-  ##### Create ----
-  dt <- reactive({
-    tab <- tab()
-    ridx <- ifelse("Department" %in% names(tab), 3, 1)
-    DT::datatable(
-      tab,
-      class = "hover",
-      extensions = c("Buttons"),
-      selection = "none",
-      filter = list(position = "top", clear = FALSE),
-      style = "bootstrap4",
-      rownames = FALSE,
-      options = list(
-        dom = "Brtip",
-        deferRender = TRUE,
-        scroller = TRUE,
-        buttons = list(
-          list(extend = "copy", text = "Copy to clipboard"),
-          list(extend = "pdf", text = "Save as PDF"),
-          list(extend = "csv", text = "Save as CSV"),
-          list(extend = "excel", text = "Save as JSON", action = DT::JS("
-          function (e, dt, button, config) {
-            var data = dt.buttons.exportData();
-  
-            $.fn.dataTable.fileSave(
-              new Blob([JSON.stringify(data)]),
-              'Shiny dashboard.json'
-            );
-          }
-        "))
-        )
-      )
-    )
-  })
-  
-  ##### Render ----
-  output$insp_table <- DT::renderDataTable(dt(), server = FALSE)
-  
-  
-  ## Model data ----
-  ### Define & estimate model ----
-  mparams <- reactive({
-  	x <- input$model_x
-  	y <- input$model_y
-  	dt <- sf::st_drop_geometry(guerry)[c(x, y)]
-  	dt_labels <- sf::st_drop_geometry(guerry)[c("Department", "Region")]
-  	if (input$model_std) dt <- datawizard::standardise(dt)
-  	form <- as.formula(paste(x, "~", paste(y, collapse = " + ")))
-  	mod <- lm(form, data = dt)
 
-  	list(
-  		x = x,
-  		y = y,
-  		data = dt,
-  		data_labels = dt_labels,
-  		model = mod
-  	)
-  }) %>%
-  	bindEvent(input$refresh, ignoreNULL = FALSE)
-  
-  ### Pair diagram ----
-  output$pairplot <- plotly::renderPlotly({
-  	params <- mparams()
-  	dt <- params$data
-  	dt_labels <- params$data_labels
-  	p <- GGally::ggpairs(
-  		params$data,
-  		axisLabels = "none",
-  		lower = list(
-  			continuous = function(data, mapping, ...) {
-  				ggplot(data, mapping) +
-  					suppressWarnings(geom_point(
-  						aes(text = paste0(
-  							"Department: ", 
-  							dt_labels[["Department"]],
-  							"<br>Region: ", 
-  							dt_labels[["Region"]])),
-  						color = "black"
-  					))
-  			}
-  		)
-  	)
-  	if (isTRUE(input$dark_mode)) p <- p +
-  		dark_theme_gray() +
-  		theme(plot.background = element_rect(fill = "#343a40"))
-  	ggplotly(p) %>%
-  		config(modeBarButtonsToRemove = plotly_buttons,
-  					 displaylogo = FALSE)
-  })
-  
-  ### Plot: Coefficientplot ----
-  output$coefficientplot <- renderPlotly({
-  	params <- mparams()
-  	dt <- params$data
-  	x <- params$x
-  	y <- params$y
-
- 
-  		p <- plot(parameters::model_parameters(params$model))
-
-  	if (isTRUE(input$dark_mode)) p <- p +
-  	  geom_point(color = "white") +
-  		dark_theme_gray() +
-  		theme(plot.background = element_rect(fill = "#343a40"))
-  	ggplotly(p) %>%
-  		config(modeBarButtonsToRemove = plotly_buttons,
-  					 displaylogo = FALSE)
-  })
-  
-  ### Plot: Scatterplot ----
-  output$scatterplot <- renderPlotly({
-    params <- mparams()
-    dt <- params$data
-    dt_labels <- params$data_labels
-    x <- params$x 
-    y <- params$y
-    
-    
-    if (length(y) == 1) {
-      p <- ggplot(params$data, 
-                  aes(x = .data[[params$x]], 
-                      y = .data[[params$y]])) +
-        geom_point(aes(text = paste0("Department: ", 
-                                     dt_labels[["Department"]],
-                                     "<br>Region: ", 
-                                     dt_labels[["Region"]])),
-                   color = "black") +
-        geom_smooth() + 
-      	geom_smooth(method='lm') +
-        theme_light()
-    } else {
-      p <- ggplot() +
-        theme_void() +
-        annotate("text", 
-                 label = "Cannot create scatterplot.\nMore than two variables selected.", 
-                 x = 0, y = 0, 
-                 size = 5, 
-                 colour = "red",
-                 hjust = 0.5,
-                 vjust = 0.5) +
-      xlab(NULL)
-      
-    }
-    
-    if (isTRUE(input$dark_mode)) p <- p +
-      geom_point(color = "white") +
-      dark_theme_gray() +
-      theme(plot.background = element_rect(fill = "#343a40"))
-    ggplotly(p) %>%
-      config(modeBarButtonsToRemove = plotly_buttons,
-             displaylogo = FALSE)
-  })
-  
-  ### Table: Regression ----
-  output$tableregression <- renderUI({
-    params <- mparams()
-    HTML(modelsummary(
-    	dvnames(list(params$model)),
-      gof_omit = "AIC|BIC|Log|Adj|RMSE"
-    ))
-  })
-  
-  ### Plot: Normality residuals ----
-  output$normality <- renderPlotly({
-  	params <- mparams()
-  	p <- plot(performance::check_normality(params$model))
-  	if (isTRUE(input$dark_mode)) p <- p +
-  		dark_theme_gray() +
-  		theme(plot.background = element_rect(fill = "#343a40"))
-  	ggplotly(p) %>%
-  		config(modeBarButtonsToRemove = plotly_buttons,
-  					 displaylogo = FALSE)
-  })
-  
-  ### Plot: Outliers ----
-  output$outliers <- renderPlotly({
-  	params <- mparams()
-  	p <- plot(performance::check_outliers(params$model), show_labels = FALSE)
-  	if (isTRUE(input$dark_mode)) p <- p +
-  		dark_theme_gray() +
-  		theme(plot.background = element_rect(fill = "#343a40"))
-  	p$labels$x <- "Leverage"
-  	ggplotly(p) %>%
-  		config(modeBarButtonsToRemove = plotly_buttons,
-  					 displaylogo = FALSE)
-  })
-
-  ### Plot: Heteroskedasticity ----
-  output$heteroskedasticity <- renderPlotly({
-  	params <- mparams()
-  	p <- plot(performance::check_heteroskedasticity(params$model))
-  	if (isTRUE(input$dark_mode)) p <- p +
-  		dark_theme_gray() +
-  		theme(plot.background = element_rect(fill = "#343a40"))
-  	p$labels$y <- "Sqrt. |Std. residuals|" # ggplotly doesn't support expressions
-  	ggplotly(p) %>%
-  		config(modeBarButtonsToRemove = plotly_buttons,
-  					 displaylogo = FALSE)
-  })
 }
 
 shinyApp(ui, server)
