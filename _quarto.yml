@@ -43,6 +43,7 @@ format:
     number-sections: true
     toc-depth: 3
     code-line-numbers: true
+    tbl-cap-location: top
 editor: 
   mode: source
 execute:
@@ -52,3 +53,4 @@ bibliography: [references.bib, packages.bib]
 tbl-cap-location: bottom
 fig-cap-location: bottom
 code-annotations: hover
+
