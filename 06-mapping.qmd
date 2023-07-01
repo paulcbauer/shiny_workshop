@@ -1,5 +1,5 @@
 ---
-title: "Mapping & advanced visualization"
+title: "Mapping data & advanced visualization"
 ---
 
 ```{r include=FALSE}
