@@ -1,5 +1,5 @@
 ---
-title: "Theming and styling"
+title: "Theming & styling"
 ---
 
 ```{r include=FALSE}
@@ -392,7 +392,7 @@ browsable(div(
 -   A complete reference of CSS can be found in the [Mozilla developer docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
 
 | Property           | Description                                      | Example values                     |
-|--------------------|--------------------------------------------------|------------------------------------|
+|-----------------|--------------------------------|-----------------------|
 | `color`            | Sets the color of an element                     | #000, black                        |
 | `background-color` | Sets the color of the element background         | #000, black                        |
 | `display`          | Determines how the element is displayed          | inline, block, flex, grid          |

@@ -1,5 +1,5 @@
 ---
-title: "Mapping and advanced visualization"
+title: "Mapping & advanced visualization"
 ---
 
 ```{r include=FALSE}
@@ -165,7 +165,7 @@ st_sf( # create an sf dataframe
     -   EPSG database: <https://epsg.io/>, e.g. EPSG code 4326: <https://epsg.io/4326>
 
 | Name                                                                                      | EPSG code | Area           | Geodetic? | Use                                                       |
-|-------------------------------------------------------------------------------------------|-----------|----------------|-----------|-----------------------------------------------------------|
+|--------------------------|-----------|-----------|-----------|---------------|
 | [World Geodetic System 1984 (WGS84)](https://en.wikipedia.org/wiki/World_Geodetic_System) | 4326      | World          | Yes       | Basic geographic coordinates, common usage in GPS systems |
 | [WGS 84 / Pseudo-Mercator](https://en.wikipedia.org/wiki/Web_Mercator_projection)         | 3857      | World          | No        | Google Maps, OpenStreetMap, general web mapping           |
 | [UTM zone 32N](https://de.wikipedia.org/wiki/UTM-Koordinatensystem)                       | 25832     | Central Europe | No        | Spatial analysis and measuring in Central Europe          |

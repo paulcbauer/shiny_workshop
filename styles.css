@@ -2,7 +2,18 @@
 
 /* css styles */
 
+ul.mt-1 {
+    list-style-type: decimal;
+    counter-reset: item;
+}
 
+li.sidebar-item {
+    counter-increment: item;
+}
+
+li.sidebar-item::marker {
+    content: counter(item) " ";
+}
 
 
 h1 {

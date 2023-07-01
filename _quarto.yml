@@ -12,9 +12,17 @@ website:
   sidebar:
     title: "Interactive Data Analysis with Shiny"
     style: "floating"
+    border: true
     search: true
     collapse-level: 2
     collapse-section: 2
+    tools:
+      - icon: cursor-fill
+        href: https://training.gesis.org/?site=pDetails&child=full&pID=0x0D17F8F738B14E0991504DBF8823A002
+      - icon: github
+        href: https://github.com/paulcbauer/shiny_workshop
+      - icon: bug-fill
+        href: https://github.com/paulcbauer/shiny_workshop/issues
     contents:
       - 01-workshop.qmd
       - 02-introduction.qmd
