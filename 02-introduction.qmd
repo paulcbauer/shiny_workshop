@@ -4,9 +4,8 @@ title: "Introduction"
 
 - Learning outcomes: 
   - Understand idea/aims/advantages/steps of interactive data analysis
-  - Understand basic structure of Shiny apps
-  - Launch first app
-  - Understand logic of reactivity/loading things in Shiny apps
+  - Understand basic structure of Shiny apps (components)
+  - Quick overview of Guerry data
   - Discuss MVP and workflow
 
 
@@ -279,7 +278,7 @@ A **web application framework** for R to turn analyses into interactive web appl
 
 
 
-### The Guerry Dashboard: The app we will built
+## The Guerry Dashboard: The app we will built
 - In the workshop we will built the Shiny app shown in @fig-guerrydashboard together. Please [explore this app here](https://paulbauer.shinyapps.io/guerry_dashboard/) (5-10 minutes) and answer the following questions:
   - What questions can we answer using the app?
   - How can this help us to understand and analyze the underlying data?
@@ -288,7 +287,37 @@ A **web application framework** for R to turn analyses into interactive web appl
 ![(Source: Original image)](02-guerrydashboard.png){#fig-guerrydashboard}
 
 
+### Data
+* In our app we will analyze the "Guerry data"
+* `?Guerry`: data from A.-M. Guerry, "Essay on the Moral Statistics of France"
+  - `Guerry::gfrance85` contains map of France in 1830 + the Guerry data, excluding Corsica (@tbl-guerry shows a subset)
 
+```{r}
+#| label: tbl-guerry
+#| tbl-cap: Guerry dataset (subset)
+library(sf)
+# Import the 'gfrance85' data from the 'Guerry' package
+data_guerry <- Guerry::gfrance85 %>%
+  st_as_sf() %>% # Convert to a Simple Features (sf) object
+  as_tibble() %>%  # Convert to a 'tibble'
+  st_as_sf(crs = 27572) %>% # set the Coordinate Reference to 27572 System (CRS)
+  mutate(Region = case_match( # Create new region column
+    Region,
+    "C" ~ "Central",
+    "E" ~ "East",
+    "N" ~ "North",
+    "S" ~ "South",
+    "W" ~ "West"
+  )) %>%
+  select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>% # drop columns
+  select(Region:Department, where(is.numeric)) # select columns
+
+kable(head(data_guerry[c(1,2,3,4,21,22)]))
+```
+
+* Data is on the level of `85` regions (`N = 85`)
+* `geometry`: variable that describes the geographic shape of regions (at time we'll have to exclude this column)
+* **Advantages**: Dataset is interesting, contains mapping data and is natively available in R
 
 
 
@@ -301,7 +330,8 @@ A **web application framework** for R to turn analyses into interactive web appl
 
 ### Your (first) Shiny app
 * Below you will create you first app and we'll use the opportunity to discuss the basic elements of a shiny app (see [here for more](https://mastering-shiny.org/basic-app.html#basic-app)).
-* Install the relevant packages:
+
+1. Install the relevant packages:
 
 ```{r, cache=TRUE, eval=FALSE, include=TRUE}
 install.packages("shiny")
@@ -309,10 +339,9 @@ install.packages("tidyverse")
 # Guerry package is already installed
 ```
 
-* Create a directory with the name of your app "myfirstapp" in your [working directory](https://bookdown.org/ndphillips/YaRrr/the-working-directory.html).
-
-* Create an rscript file that you call `"`app.R`.
-* Copy the code below and paste it into your `app.R` script.
+2. Create a directory with the name of your app "myfirstapp" in your [working directory](https://bookdown.org/ndphillips/YaRrr/the-working-directory.html).
+3. Create an rscript file that you call `app.R` and save the script.
+4. Copy the code below and paste it into your `app.R` script.
 
 ```{r, cache=TRUE, eval=FALSE, include=TRUE}
 library(shiny)
@@ -322,11 +351,13 @@ library(sf)
 
 
 ## Data: Clean & prepare data ----
-guerry <- Guerry::gfrance85 %>%
-  st_as_sf() %>%
-  as_tibble() %>%
-  st_as_sf(crs = 27572) %>%
-  mutate(Region = case_match(
+library(sf)
+# Import the 'gfrance85' data from the 'Guerry' package
+data_guerry <- Guerry::gfrance85 %>%
+  st_as_sf() %>% # Convert to a Simple Features (sf) object
+  as_tibble() %>%  # Convert to a 'tibble'
+  st_as_sf(crs = 27572) %>% # set the Coordinate Reference to 27572 System (CRS)
+  mutate(Region = case_match( # Create new region column
     Region,
     "C" ~ "Central",
     "E" ~ "East",
@@ -334,10 +365,9 @@ guerry <- Guerry::gfrance85 %>%
     "S" ~ "South",
     "W" ~ "West"
   )) %>%
-  select(!any_of(c("CODE_DEPT", "COUNT", "AVE_ID_GEO", "dept"))) %>%
-  st_drop_geometry() %>%
-  select(1:6)
-
+  select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>% # drop columns
+  select(Region:Department, where(is.numeric)) %>% # select columns
+  st_drop_geometry()
 
 # UI ----
 
@@ -372,7 +402,7 @@ ui <- dashboardPage( # start UI
           pickerInput(
             "tab_tabulate_select",
             label = "Filter variables",
-            choices = names(guerry),
+            choices = names(data_guerry),
             multiple = TRUE
           )
         ),
@@ -393,7 +423,7 @@ server <- function(input, output, session) {
   
   tab <- reactive({
     var <- input$tab_tabulate_select
-    data_table <- guerry
+    data_table <- data_guerry
     if (!is.null(var)) {data_table <- data_table[var]}
     data_table
   })
@@ -420,7 +450,7 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
-* You can run and stop the app by clicking **Run App** (@fig-runappbutton) button in the document toolbar.
+5. You can run and stop the app by clicking **Run App** (@fig-runappbutton) button in the document toolbar.
 
 ```{r run-app, out.width = NULL, echo = FALSE}
 #| label: fig-runappbutton
@@ -475,6 +505,11 @@ shinyApp(ui, server)
   5. Go to 1.
   
 3. **Controlling the view**: Default is a pop-out window but you can also choose `Run in Viewer Pane` and `Run External`.
+
+
+### Coding practices
+- Use document outline for navigation: Cntrl + Shift + O
+  - Number navigation for large apps
 
 ### Debugging workflow
 * Guaranteed that something will go wrong at the start
