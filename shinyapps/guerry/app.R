@@ -475,19 +475,19 @@ server <- function(input, output, session) {
   tab <- reactive({
     var <- input$tab_tabulate_select
     if (identical(input$tab_tabulate_aggr, "Departments")) {
-      poly <- guerry
+      data_table <- guerry
     } else {
-      poly <- guerry_region
+      data_table <- guerry_region
     }
     
     if (!is.null(var)) {
-      poly <- poly[var]
+      data_table <- data_table[var]
     }
     
-    poly <- select(poly, !any_of(c("CODE_DEPT", "COUNT", "AVE_ID_GEO", "dept")))
-    poly <- st_drop_geometry(poly)
-    poly[var] <- round(poly[var], 2)
-    poly
+    data_table <- select(data_table, !any_of(c("CODE_DEPT", "COUNT", "AVE_ID_GEO", "dept")))
+    data_table <- st_drop_geometry(data_table)
+    data_table[var] <- round(data_table[var], 2)
+    data_table
   })
   
 
