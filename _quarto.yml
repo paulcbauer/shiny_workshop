@@ -34,6 +34,7 @@ format:
     toc: true
     number-sections: true
     toc-depth: 3
+    code-line-numbers: true
 editor: 
   mode: source
 execute:
@@ -42,3 +43,4 @@ execute:
 bibliography: [references.bib, packages.bib]
 tbl-cap-location: bottom
 fig-cap-location: bottom
+code-annotations: hover
