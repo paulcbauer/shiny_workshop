@@ -389,7 +389,7 @@ tab <- reactive({
 
 
 ::: {.callout-note collapse="true"}
-In this Shiny app, when the "Generate Random Number" button is clicked, a random number is generated and displayed. The number changes each time you click the button. The observeEvent() function is used to perform an action (generating and displaying the random number) when the button is clicked.
+In this Shiny app, when the "Generate Random Number" button is clicked, a random number is generated and displayed. The number changes each time you click the button. The `observeEvent()` function is used to perform an action (generating and displaying the random number) when the button is clicked.
 :::
 
 
@@ -419,7 +419,7 @@ shinyApp(ui = ui, server = server)
 
 
 ::: {.callout-note collapse="true"}
-In this app, when you click the "Generate Random Number" button, a random number is generated, but it's not displayed yet. When you click the "Display Random Number" button, the generated number is then displayed. The eventReactive() function is used to create a reactive value (the random number) that is updated only when a specific event (clicking the "Generate Random Number" button) occurs.
+In this app, when you click the "Generate Random Number" button, a random number is generated, but it's not displayed yet. When you click the "Display Random Number" button, the generated number is then displayed. The `eventReactive()` function is used to create a reactive value (the random number) that is updated only when a specific event (clicking the "Generate Random Number" button) occurs.
 :::
 
 
@@ -453,7 +453,7 @@ shinyApp(ui = ui, server = server)
   - useful to access the current value of an input or reactive expression, but without re-running the code when that input or expression changes
   
 ::: {.callout-note collapse="true"}
-In this app, when you click the "Generate Random Number" button, a random number is generated. This number does not immediately cause a reactive event because it's isolated within the isolate() function. It only gets displayed when you click the "Display Random Number" button. Changes to randNum$num after "Display Random Number" button is clicked won't affect the displayed value until the button is clicked again. Thus, the isolate() function enables the use of reactive values without triggering reactivity.
+In this app, when you click the "Generate Random Number" button, a random number is generated. This number does not immediately cause a reactive event because it's isolated within the `isolate()` function. It only gets displayed when you click the "Display Random Number" button. Changes to randNum$num after "Display Random Number" button is clicked won't affect the displayed value until the button is clicked again. Thus, the `isolate()` function enables the use of reactive values without triggering reactivity.
 :::
   
 
@@ -491,7 +491,7 @@ shinyApp(ui = ui, server = server)
 * `bindEvent()`: provides a straightforward API for event handling that wraps `observe()` and `isolate()`.
 
 ::: {.callout-note collapse="true"}
-In this example, when the "Generate Random Number" button is clicked, a random number is generated, but it doesn't get displayed immediately. Instead, the output$randomNumber expression is bound to input$dispButton event with bindEvent(), and the result is displayed only when the "Display Random Number" button is clicked. This allows you to have more control over when the UI updates in response to changes in server-side reactive values.
+In this example, when the "Generate Random Number" button is clicked, a random number is generated, but it doesn't get displayed immediately. Instead, the `output$randomNumber` expression is bound to `input$dispButton` event with `bindEvent()`, and the result is displayed only when the "Display Random Number" button is clicked. This allows you to have more control over when the UI updates in response to changes in server-side reactive values.
 :::
 
 ```r
@@ -526,7 +526,7 @@ shinyApp(ui = ui, server = server)
 * `reactiveTimer()`: used to create a reactive expression that invalidates itself after a given number of milliseconds. This can be useful for causing certain parts of your Shiny app to update on a regular interval. 
 
 ::: {.callout-note collapse="true"}
-In this example, autoInvalidate() is a reactive expression that becomes invalidated (i.e., signals that it needs to be re-evaluated) every 1000 milliseconds. By referencing autoInvalidate() inside the renderText() function, we're creating a dependency — so, every time autoInvalidate() is invalidated, the current time is re-evaluated and the UI is updated with the new time.
+In this example, `autoInvalidate()` is a reactive expression that becomes invalidated (i.e., signals that it needs to be re-evaluated) every 1000 milliseconds. By referencing `autoInvalidate()` inside the `renderText()` function, we're creating a dependency — so, every time `autoInvalidate()` is invalidated, the current time is re-evaluated and the UI is updated with the new time.
 :::
 
 
