@@ -258,7 +258,7 @@ ui <- dashboardPage(
           pickerInput(
             "tab_tabulate_select",
             label = "Filter variables",
-            choices = setNames(variables, sapply(txts, "[[", "title")),
+            choices = variables,
             options = pickerOptions(
               actionsBox = TRUE,
               windowPadding = c(30, 0, 0, 0),
