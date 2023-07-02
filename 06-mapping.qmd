@@ -87,6 +87,14 @@ You will learn how to:
 
 -   Spatial data is all data that can be explicitly linked to a spatial reference (longitude/latitude)
 
+| val    | lon        | lat       |
+|--------|------------|-----------|
+| 5.234  | 52.5646345 | 7.4326654 |
+| 72.360 | 51.3453453 | 7.3242334 |
+| 12.543 | 52.4564561 | 7.2323423 |
+
+: A very basic form of spatial data
+
 ### Types of spatial data
 
 -   Geography can describe the world in two ways:
@@ -122,17 +130,23 @@ You will learn how to:
 -   `sfg` objects are matrices consisting purely of coordinates
 
 ```{r}
-st_sf( # create an sf dataframe
-	feature = c(1, 2), # feature column
-	geometry = # geometry column
-		st_sfc( # sfc object = geometry + spatial metadata
-			st_point(c(1, 1)), # sfg object = raw geometry
-			st_point(c(1, 2)), 
-		  st_point(c(2, 2)),
-			st_point(c(2, 1))
-		)
+st_sf(                     # <1>
+	feature = c(1, 2),       # <2>
+	geometry =               # <3>
+		st_sfc(                # <4>
+			st_point(c(1, 1)),   # <5>
+			st_point(c(1, 2)),   # <5>
+		  st_point(c(2, 2)),   # <5>
+			st_point(c(2, 1))    # <5>
+		)                      # <5>
 )
 ```
+
+1.  Create an sf dataframe
+2.  Create a feature column -- essentially a regular non-spatial column
+3.  Create a geometry column containing an `sfc` object
+4.  `sfc` = geometry + spatial metadata
+5.  `sfg` = raw geometries
 
 ### Coordinate reference systems
 
@@ -165,7 +179,7 @@ st_sf( # create an sf dataframe
     -   EPSG database: <https://epsg.io/>, e.g. EPSG code 4326: <https://epsg.io/4326>
 
 | Name                                                                                      | EPSG code | Area           | Geodetic? | Use                                                       |
-|-------------------------------------------------------------------------------------------|-----------|----------------|-----------|-----------------------------------------------------------|
+|--------------------|-------------|-------------|-------------|-------------|
 | [World Geodetic System 1984 (WGS84)](https://en.wikipedia.org/wiki/World_Geodetic_System) | 4326      | World          | Yes       | Basic geographic coordinates, common usage in GPS systems |
 | [WGS 84 / Pseudo-Mercator](https://en.wikipedia.org/wiki/Web_Mercator_projection)         | 3857      | World          | No        | Google Maps, OpenStreetMap, general web mapping           |
 | [UTM zone 32N](https://de.wikipedia.org/wiki/UTM-Koordinatensystem)                       | 25832     | Central Europe | No        | Spatial analysis and measuring in Central Europe          |
@@ -184,6 +198,74 @@ st_sf( # create an sf dataframe
     -   Transform an existing CRS to a new CRS: [`st_transform`](https://r-spatial.github.io/sf/reference/st_transform.html)`(..., 4326)`
 
 <!-- -->
+
+### Handling the Guerry dataset
+
+-   Let us take a look back at `guerry` and how to handle it as a spatial dataframe
+
+-   `Guerry::gfrance85` comes as an `sp` dataframe, that's a bit old so we have to convert it
+
+-   The dataset also comes with an invalid CRS, so we need to fix it
+
+```{r}
+data_guerry <- Guerry::gfrance85 %>% # <1>
+  st_as_sf() %>%                     # <2>
+  as_tibble() %>%                    # <3>
+  st_as_sf(crs = 27572) %>%          # <4>
+  mutate(Region = case_match(        # <5>
+    Region,                          # <5>
+    "C" ~ "Central",                 # <5>
+    "E" ~ "East",                    # <5>
+    "N" ~ "North",                   # <5>
+    "S" ~ "South",                   # <5>
+    "W" ~ "West"                     # <5>
+  )) %>%                             # <5>
+  select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>% # drop columns
+  select(Region:Department, where(is.numeric)) # select columns
+```
+
+1.  `Guerry::gfrance85` comes as an sp object and it has no CRS information
+2.  ..., so we convert it to an sf dataframe
+3.  Also convert it to a tibble to make it look nicer
+4.  Finally, convert it back to sf and set the CRS to 25572 (which is the native CRS of the Guerry data)
+5.  Here, we change the region coding that can be used for spatial aggregation
+
+### Spatial operations
+
+-   For mapping the Guerry data, a nice addition is to perform spatial aggregation to compare the data across geographical levels
+
+-   Spatial operations like spatial aggregations are one of the main differences between spatial and regular data
+
+-   In Guerry, we have two levels: Departments (smaller) and regions (larger)
+
+-   In the following chunk we perform spatial aggregation *outside* of the server function
+
+```{r}
+# Extract variable names
+variables <- guerry %>%
+	st_drop_geometry() %>%
+	select(where(is.numeric) & !all_of(c("COUNT", "dept", "AVE_ID_GEO"))) %>%
+	names()
+
+# Aggregate
+guerry_region <- guerry %>%
+	group_by(Region) %>%                               # <1>
+	summarise(across(                                  # <2>
+		.cols = all_of(variables),                       # <2>
+		function(x) {                                    # <2>
+			if (cur_column() %in% c("Area", "Pop1831")) {  # <2>
+				sum(x)                                       # <2>
+			} else {                                       # <2>
+				mean(x)                                      # <2>
+			}                                              # <2>
+		}                                                # <2>
+	))                                                 # <2>
+```
+
+1.  Define a group variable (Region)
+2.  Aggregate Guerry variables and geometries by their grouping variable `Region`. Features are summed or averaged while geometries are merged.
+
+### Guerry as spatial data
 
 -   **Question:** What can we say about the Guerry dataset in terms of spatial information?
 
@@ -214,23 +296,27 @@ guerry["Literacy"]
 -   In our app, we add a geographic explorer of the Guerry dataset
 
 ```{r eval=FALSE}
-tabItem(
-  tabName = "exp", # must correspond to related menuItem name
-  fluidRow(
-    column(
-      width = 12,
-      box(
-        id = "exp_box",
-        status = "primary",
-        headerBorder = FALSE,
-        collapsible = FALSE,
-        width = 12,
-        leaflet::leafletOutput("exp_map", height = "800px", width = "100%")
+tabItem(                       # <1>
+  tabName = "exp",             # <1>
+  fluidRow(                    # <2>
+    column(                    # <2>
+      width = 12,              # <2>
+      box(                     # <2>
+        id = "exp_box",        # <2>
+        status = "primary",    # <2>
+        headerBorder = FALSE,  # <2>
+        collapsible = FALSE,   # <2>
+        width = 12,            # <2>
+        leaflet::leafletOutput("exp_map", height = "800px", width = "100%") # <2>
       ) # end box
     ) # end column
   ) # end fluidRow
 ) # end tabItem
 ```
+
+1.  Create a new tab called `exp`
+2.  Add a fluid row containing a column and a box covering the entire page
+3.  Add a UI output that will hold the leaflet map. It covers the entire width and 800 pixels in height.
 
 ### Leaflet workhorse
 
@@ -245,17 +331,23 @@ tabItem(
     -   [`setView()`](https://rdrr.io/cran/leaflet/man/map-methods.html) sets the center and zoom level of the initial map view
 
 ```{r eval=FALSE}
-output$exp_map <- leaflet::renderLeaflet({
-		leaflet() %>%
-			addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
-			addProviderTiles("OpenTopoMap", group = "OTM") %>%
-			addProviderTiles("Stamen.TonerLite", group = "Stamen Toner") %>%
-			addProviderTiles("GeoportailFrance.orthos", group = "Orthophotos") %>%
-			addLayersControl(baseGroups = c("OSM", "OTM",
-																			"Stamen Toner", "Orthophotos")) %>%
-			setView(lng = 3, lat = 47, zoom = 5)
+output$exp_map <- leaflet::renderLeaflet({                                   # <1>
+		leaflet() %>%                                                            # <2>
+			addProviderTiles("OpenStreetMap.France", group = "OSM") %>%            # <3>
+			addProviderTiles("OpenTopoMap", group = "OTM") %>%                     # <3>
+			addProviderTiles("Stamen.TonerLite", group = "Stamen Toner") %>%       # <3>
+			addProviderTiles("GeoportailFrance.orthos", group = "Orthophotos") %>% # <3>
+			addLayersControl(baseGroups = c("OSM", "OTM",                          # <4>
+																			"Stamen Toner", "Orthophotos")) %>%    # <4>
+			setView(lng = 3, lat = 47, zoom = 5)                                   # <5>
 })
 ```
+
+1.  Fill the output `exp_map` with a leaflet map using `renderLeaflet`
+2.  Add an empty map using the power horse `leaflet()`
+3.  Add multiple basemaps: OpenStreetMap, OpenTopoMap, Stamen and ortho photos from the French geo portal
+4.  Add a button to control which of the basemaps to show
+5.  Set the initial center of the map and the zoom level
 
 ![](resources/06_01.gif)
 
@@ -296,47 +388,57 @@ output$exp_map <- leaflet::renderLeaflet({
 ```{r eval=FALSE}
 # Compile parameters for leaflet rendering
 params <- reactive({
-	values <- ~Literacy # passing data works using formulas
-	pal <- colorNumeric(palette = "Reds", domain = NULL)
+	values <- ~Literacy                                    # <1>
+	pal <- colorNumeric(palette = "Reds", domain = NULL)   # <2>
 	
-	list(
-		var = var,
-		pal = pal
-	)
+	list(var = var, pal = pal)
 })
 
 output$exp_map <- leaflet::renderLeaflet({
-	# Isolate call to params() to prevent render function to be executed
-	# every time params() is invalidated. No dependency is made.
 	params <- params()
-	leaflet(data = st_transform(guerry, 4326)) %>%
-		addProviderTiles("OpenStreetMap.France") %>%
-		setView(lng = 3, lat = 47, zoom = 5) %>%
-		addPolygons(
-			fillColor = ~params$pal(Literacy),
-			fillOpacity = 0.7,
-			weight = 1,
-			color = "black",
-			opacity = 0.5,
-			highlightOptions = highlightOptions( # add highlighting on hover
-				weight = 2,
-				color = "black",
-				opacity = 0.5,
-				fillOpacity = 1,
-				bringToFront = TRUE,
-				sendToBack = TRUE
-			)
-		) %>%
-		addLegend(
-			position = "bottomright",
-			pal = params$pal,
-			values = params$values,
+	leaflet(data = st_transform(guerry, 4326)) %>%        # <3>
+		addProviderTiles("OpenStreetMap.France") %>%        # <4>
+		setView(lng = 3, lat = 47, zoom = 5) %>%            # <5>
+		addPolygons(                                        # <6>
+			fillColor = ~params$pal(Literacy),                # <7>
+			fillOpacity = 0.7,                                # <8>
+			weight = 1,                                       # <8>
+			color = "black",                                  # <8>
+			opacity = 0.5,                                    # <8>
+			highlightOptions = highlightOptions(              # <9>
+				weight = 2,                                     # <9>
+				color = "black",                                # <9>
+				opacity = 0.5,                                  # <9>
+				fillOpacity = 1,                                # <9>
+				bringToFront = TRUE,                            # <9>
+				sendToBack = TRUE                               # <9>
+			)                                                 # <9>
+		) %>%                                               # <9>
+		addLegend(                                          # <10>
+			position = "bottomright",                         # <10>
+			pal = params$pal,                                 # <11>
+			values = params$values,                           # <11>
 			opacity = 0.9,
 			title = "Literacy",
-			labFormat = labelFormat(suffix = " %")
+			labFormat = labelFormat(suffix = " %")            # <12>
 		)
 })
 ```
+
+1.  Define the column of the spatial dataset that should be visualized. Note that columns are passed as formulas, not as vectors.
+2.  Determine the color palette for mapping. Here, we want to map continious values in red. The output is a function called `pal()` which we can use later on.
+3.  Create an empty map. Add spatial data. Note that leaflet by default only accepts spatial data with EPSG:4326. For anything else, consult [`leaflet::leafletCRS()`](https://rstudio.github.io/leaflet/projections.html), but don't expect to understand much of what's going on.
+4. Add a basemap of OpenStreetMap France
+5. Set the center and zoom level of the initial view
+6. The `addPolygons()` function adds polygons to the leaflet map
+7. `fillColor` determines how the polygons should be colored. We pass a formula that contains a call to our generated function `pal()` (see point 2) that maps colors to the Literacy variable.
+8. We can add additional parameters that control the appearance of the map, e.g. opacity, color or line thickness (weight).
+9. `highlightOptions()` allows you to add a nice highlight effect when hovering over the polygons
+10. Using `addLegend()` we add a legend to the bottom right of the Leaflet map
+11. `addLegend()` accepts values in the same way as `addPolygons()`: `pal` accepts the generated palette function and `values` accepts a formula containing the column name in the input dataset.
+12. Finally, `labelFormat()` allows you to change the formatting of the legend label, e.g. if you need to specify whether a number is a percentage, meters or something else
+
+
 
 ![](resources/06_02.gif)
 
@@ -370,38 +472,37 @@ pals <- list(
 ```
 
 ```{r eval=FALSE}
-# Define new tab item: "exp"
 tabItem(
-	tabName = "exp", # must correspond to related menuItem name
+	tabName = "exp",
 	fluidRow(
-		column(
-			width = 4, # must be between 1 and 12
-			box(
-				title = "Data selection",
-				status = "primary",
-				width = 12,
-				selectInput(
-					"exp_select",
-					label = "Select a variable",
-					choices = setNames(variables, sapply(txts, "[[", "title"))
-				),
-				uiOutput("exp_desc")
+		column(                                     # <1>
+			width = 4,                                # <1>
+			box(                                      # <1>
+				title = "Data selection",               # <1>
+				status = "primary",                     # <1>
+				width = 12,                             # <1>
+				selectInput(                            # <2>
+					"exp_select",                         # <2>
+					label = "Select a variable",          # <2>
+					choices = setNames(variables, sapply(txts, "[[", "title")) # <2>
+				),                                      # <2>
+				uiOutput("exp_desc")                    # <2>
 			),
-			box(
-				title = "Map configuration",
-				status = "primary",
-				width = 12,
-				radioButtons(
-					"exp_aggr",
-					label = "Aggregation level",
-					choices = c("Departments", "Regions"),
-					selected = "Departments"
-				),
-				selectInput(
-					"exp_pal",
-					label = "Color palette",
-					choices = pals,
-					selected = "Reds"
+			box(                                      # <3>
+				title = "Map configuration",            # <3>
+				status = "primary",                     # <3>
+				width = 12,                             # <3>
+				radioButtons(                           # <4>
+					"exp_aggr",                           # <4>
+					label = "Aggregation level",          # <4>
+					choices = c("Departments", "Regions"),# <4>
+					selected = "Departments"              # <4>
+				),                                      # <4>
+				selectInput(                            # <5>
+					"exp_pal",                            # <5>
+					label = "Color palette",              # <5>
+					choices = pals,                       # <5>
+					selected = "Reds"                     # <5>
 				) # end input
 			) # end box
 		), # end column
@@ -420,35 +521,8 @@ tabItem(
 ) # end tabItem
 ```
 
-### Spatial operations
-
--   To change the aggregation level, we need the Guerry dataset at different levels
-
--   The Guerry dataset contains two group variables: Department (smaller) and Region (larger)
-
--   We perform spatial aggregation on the Guerry dataset *outside* of the server function:
-
-```{r}
-# Extract variable names
-variables <- guerry %>%
-	st_drop_geometry() %>%
-	select(where(is.numeric) & !all_of(c("COUNT", "dept", "AVE_ID_GEO"))) %>%
-	names()
-
-## Aggregate ----
-guerry_region <- guerry %>%
-	group_by(Region) %>%
-	summarise(across(
-		.cols = all_of(variables),
-		function(x) {
-			if (cur_column() %in% c("Area", "Pop1831")) {
-				sum(x)
-			} else {
-				mean(x)
-			}
-		}
-	))
-```
+1. Previously, the map tab only consisted of one column with a box. Now we add another column that occupies 1/3 of the page where we add our UI inputs
+2. -
 
 ### Server side
 
@@ -576,26 +650,32 @@ leaflet() %>%
 -   You can create generic HTML tables using the `table` tag (`tags$table`) together with the `tr` (table row, `tags$tr`) and `td` (table data, `tags$td`)
 
 ```{r}
-tags$table(
-	tags$tr(
-		tags$td("Cell 1"),
-		tags$td("Cell 2"),
-		tags$td("Cell 3")
+tags$table(             # <1>
+	tags$tr(              # <2>
+		tags$td("Cell 1"),  # <3>
+		tags$td("Cell 2"),  # <3>
+		tags$td("Cell 3")   # <3>
 	),
-		tags$tr(
-		tags$td("Cell 4"),
-		tags$td("Cell 5"),
-		tags$td("Cell 6")
+		tags$tr(            # <2>
+		tags$td("Cell 4"),  # <3>
+		tags$td("Cell 5"),  # <3>
+		tags$td("Cell 6")   # <3>
 	),
-		tags$tr(
-		tags$td("Cell 7"),
-		tags$td("Cell 8"),
-		tags$td("Cell 9")
+		tags$tr(            # <2>
+		tags$td("Cell 7"),  # <3>
+		tags$td("Cell 8"),  # <3>
+		tags$td("Cell 9")   # <3>
 	)
 )
 ```
 
+1. Define the table environment
+2. Define a table row
+3. Define three data cells
+
 ![](https://vertex-academy.com/tutorials/wp-content/uploads/2016/08/table.png)
+
+- In the following chunk we use `mapply()` to map region, department and variable value into a nicely aligned grid:
 
 ```{r eval=FALSE}
 params <- reactive({
@@ -606,39 +686,39 @@ params <- reactive({
   values <- as.formula(paste0("~", var))
   pal <- colorNumeric(palette = pal, domain = NULL)
   
-  reg <- poly[["Region"]]
-  dep <- poly[["Department"]]
-  val <- poly[[var]]
+  reg <- poly[["Region"]]     # <1>
+  dep <- poly[["Department"]] # <1>
+  val <- poly[[var]]          # <1>
   
   # If aggregated on region level, department will be NULL
-  if (is.null(dep)) {
-    dep <- rep(NA, nrow(poly))
-  }
+  if (is.null(dep)) {         # <2>
+    dep <- rep(NA, nrow(poly))# <2>
+  }                           # <2>
 
   # Create labels that are nicely aligned in a grid
   # If aggregated on region level, omit department name (because it is NULL)
-  labels <- mapply(
-    function(reg, dep, val) {
-      HTML(as.character(tags$table(
+  labels <- mapply(           # <3>
+    function(reg, dep, val) { # <3>
+      HTML(as.character(tags$table( # <4>
       	# Add region row
-        tags$tr(
+        tags$tr( # <5>
           style = "line-height: 10px", # more compact layout
-          tags$td(tags$b("Region: ")), # left-hand side
-          tags$td(reg) # right-hand side
+          tags$td(tags$b("Region: ")), # <6>
+          tags$td(reg)                 # <7>
         ),
         # Add department row if available
         if (!is.na(dep)) {
-          tags$tr(
+          tags$tr( # <5>
             style = "line-height: 10px",
-            tags$td(tags$b("Department: ")),
-            tags$td(dep)
+            tags$td(tags$b("Department: ")), # <6>
+            tags$td(dep)                     # <7>
           )
         },
         # Add value row
-        tags$tr(
+        tags$tr( # <5>
           style = "line-height: 10px",
-          tags$td(tags$b(paste0(txts[[var]]$lgd, ": "))),
-          tags$td(round(val, 2))
+          tags$td(tags$b(paste0(txts[[var]]$lgd, ": "))), # <6>
+          tags$td(round(val, 2))                          # <7>
         )
       )))
     },
@@ -652,14 +732,12 @@ params <- reactive({
     var = var,
     pal = pal,
     values = values,
-    labels = labels
+    labels = labels # <8>
   )
   
   # Render leaflet for the first time
   output$exp_map <- leaflet::renderLeaflet({
-    # Isolate call to params() to prevent render function to be executed
-    # every time params() is invalidated. No dependency is made.
-    params <- isolate(params())
+    params <- params()
     leaflet(data = params$poly) %>%
       addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
       addProviderTiles("OpenTopoMap", group = "OTM") %>%
@@ -674,7 +752,7 @@ params <- reactive({
         weight = 1,
         color = "black",
         opacity = 0.5,
-        label = params$labels, # don't forget to pass the labels to the map!!
+        label = params$labels, # <9>
         highlightOptions = highlightOptions(
           weight = 2,
           color = "black",
@@ -695,6 +773,16 @@ params <- reactive({
   })
 })
 ```
+
+1. Store all relevant information, this includes: the region names, the department names and the variable values
+2. In case the map is aggregated, the department names are going to be `NULL`. To prevent errors down the line, we replace it with `NA` the same length as the other vectors.
+3. Then, we apply a function to the three vectors parallely, so that we can work with all label values at the same time
+4. Create a table environment
+5. Create three rows, one for each vector: regions, departments and values
+6. The first cell is the left-hand side (e.g. "Department" or "Region")
+7. The second cell is the right-hand side (e.g. the department name)
+8. Add the newly created labels to the `params()` list
+9. Don't forget to pass the labels to the leaflet maps using the `labels` parameter!
 
 ![](resources/06_04.gif)
 
@@ -749,9 +837,7 @@ params <- reactive({
 ```{r eval=FALSE}
   # Render leaflet for the first time
   output$exp_map <- leaflet::renderLeaflet({
-    # Isolate call to params() to prevent render function to be executed
-    # every time params() is invalidated. No dependency is made.
-    params <- isolate(params())
+    params <- isolate(params()) # <1>
     leaflet(data = params$poly) %>%
       addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
       addProviderTiles("OpenTopoMap", group = "OTM") %>%
@@ -787,6 +873,8 @@ params <- reactive({
   })
 ```
 
+1. Most of the code remains the same. However, we isolate the call to `params()` to prevent the rendering function to execute every time `params()` is invalidated. No dependency is taken!
+
 ### Implement proxies
 
 -   Instead, we create an observer that updates the map layers *in place*
@@ -796,42 +884,44 @@ params <- reactive({
 -   Second, new features are added in the usual piping manner
 
 ```{r eval=FALSE}
-  # Create a leaflet proxy. Proxies update map values without re-rendering the
-  # entire map, thus increasing performance.
-  observe({
-  	# params() can be called without isolation here!
-    params <- params()
-    leafletProxy("exp_map", data = params$poly) %>%
-      clearShapes() %>% # remove existing polygons
-      clearControls() %>% # remove existing legends
-    	# add new features:
-      addPolygons(
-        fillColor = as.formula(paste0("~params$pal(", params$var, ")")),
-        fillOpacity = 0.7,
-        weight = 1,
-        color = "black",
-        opacity = 0.5,
-        label = params$labels,
-        highlightOptions = highlightOptions(
-          weight = 2,
-          color = "black",
-          opacity = 0.5,
-          fillOpacity = 1,
-          bringToFront = TRUE,
-          sendToBack = TRUE
-        )
-      ) %>%
-      addLegend(
-        position = "bottomright",
-        na.label = "No data",
-        pal = params$pal,
-        values = params$values,
-        opacity = 0.9,
-        title = txts[[params$var]]$lgd,
-        labFormat = labelFormat(suffix = txts[[params$var]]$unit)
-      )
-  })
+  observe({ # <1>
+    params <- params() # <2>
+    leafletProxy("exp_map", data = params$poly) %>% # <3>
+      clearShapes() %>% # <4>
+      clearControls() %>% # <4>
+      addPolygons( # <5>
+        fillColor = as.formula(paste0("~params$pal(", params$var, ")")), # <5>
+        fillOpacity = 0.7, # <5>
+        weight = 1, # <5>
+        color = "black", # <5>
+        opacity = 0.5, # <5>
+        label = params$labels, # <5>
+        highlightOptions = highlightOptions( # <5>
+          weight = 2, # <5>
+          color = "black", # <5>
+          opacity = 0.5, # <5>
+          fillOpacity = 1, # <5>
+          bringToFront = TRUE, # <5>
+          sendToBack = TRUE # <5>
+        ) # <5>
+      ) %>% # <5>
+      addLegend( # <5>
+        position = "bottomright", # <5>
+        na.label = "No data", # <5>
+        pal = params$pal, # <5>
+        values = params$values, # <5>
+        opacity = 0.9, # <5>
+        title = txts[[params$var]]$lgd, # <5>
+        labFormat = labelFormat(suffix = txts[[params$var]]$unit) # <5>
+      ) # <5>
+  }) # <5>
 ```
+
+1. Proxies work with observers. There is no need to use a rendering function as the widget is re-rendered but an existing widget is updated.
+2. `params()` can be called without isolation here!
+3. Create a leaflet proxy. Proxies update map values without re-rendering the entire map, thus increasing performance.
+4. Remove existing layers because we don't want to stack layers infinitely
+5. Add new layers in the same way you would with a normal leaflet map
 
 ### What changed?
 
@@ -922,13 +1012,19 @@ input$map_exp_shape_click
 
 ```{r eval=FALSE}
 observe({
-	click <- input$exp_map_shape_click
-	req(click) # Cancel execution if click is not "truthy"
-	leafletProxy("map_exp") %>% # Create proxy object
-		clearMarkers() %>% # Remove ALL markers
-		addMarkers(lng = click$lng, lat = click$lat) # add a new marker
+	click <- input$exp_map_shape_click # <1>
+	req(click) # <2>
+	leafletProxy("map_exp") %>% # <3>
+		clearMarkers() %>% # <4>
+		addMarkers(lng = click$lng, lat = click$lat) # <5>
 })
 ```
+
+1. Store event object. The event is invalidated when a user clicks on a shape in the `exp_map` leaflet widget
+2. Cancel the observer when the click object is not "truthy" (see `?isTruthy`). If nothing is clicked, the observer should not be run.
+3. Create a Leaflet proxy
+4. Clear the previous marker
+5. Add a new marker
 
 ![](resources/06_07.gif)
 
@@ -949,9 +1045,9 @@ observe({
 observe({
 	click <- input$exp_map_shape_click
 	req(click)
-	id <- paste0(click$lng, click$lat) # Generate an ID from long and lat values
+	id <- paste0(click$lng, click$lat) # <1>
 	leafletProxy("exp_map") %>%
-		addMarkers(lng = click$lng, lat = click$lat, layerId = id) # Create a marker with unique ID
+		addMarkers(lng = click$lng, lat = click$lat, layerId = id) # <2>
 })
 
 # Delete an existing marker
@@ -959,9 +1055,13 @@ observe({
 	click <- input$exp_map_marker_click
 	req(click)
 	leafletProxy("exp_map") %>%
-		removeMarker(click$id) # Remove a marker with when marker ID and click ID align
+		removeMarker(click$id) # <3>
 })
 ```
+
+1. Generate an ID from long/lat so we know exactly what element we are talking about
+2. Pass the generated ID to a marker that we add
+3. When clicking on a new marker again, we can know exactly what marker to delete and do not need to delete everything
 
 ![](resources/06_08.gif)
 
@@ -1074,11 +1174,11 @@ Doesn't return a warning, but is random and drops all features
 ::: callout-note
 ### Exercise 4
 
-Currently, the `Guerry` dataframe has the CRS "NTF (Paris) / Lambert zone II", which is already a good choice. What other CRS could be a good choice for accurate mapping in France? What is the respective EPSG code?
+Currently, the `Guerry` dataframe has the CRS "NTF (Paris) / Lambert zone II", which is already a good choice. What other CRS could be a good choice for accurate mapping in France?
 :::
 
 ::: {.callout-tip collapse="true"}
-Remember the UTM coordinate system! Scroll back up to see the UTM zones. EPSG codes can be looked up using <https://epsg.io/>
+Remember the UTM coordinate system! Scroll back up to see the UTM zones.
 :::
 
 ::: {.callout-warning collapse="true"}
@@ -1102,7 +1202,7 @@ Remember you can visit <https://epsg.io/> to look up EPSG codes.
 ::: {.callout-warning collapse="true"}
 ### Solution
 
-Using the search function on [epsg.io](https://epsg.io/) we can determine that the EPSG code to transform the Guerry dataset from Lambert zone II to UTM zone 31N is one of 23031, 25831 or 32631.
+Using the search function on [epsg.io](https://epsg.io/?q=utm+zone+31n) we can determine that the EPSG code to transform the Guerry dataset from Lambert zone II to UTM zone 31N is one of 23031, 25831 or 32631.
 
 ```{r eval=FALSE}
 st_transform(guerry, 23031)
@@ -1112,7 +1212,7 @@ st_transform(guerry, 23031)
 ::: callout-note
 ### Exercise 6
 
-Add a marker of Paris to the Leaflet map. Add a popup that adds additional trivia information about the capital of France.
+Add a marker of Paris to the Leaflet map. Add a popup that adds fun trivia information about the capital of France.
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -1168,7 +1268,7 @@ leaflet(data = params$poly) %>%
 ::: callout-note
 ### Exercise 7
 
-Change the icon of the marker from exercise 6 to an icon of a city and the color to red.
+Change the icon of the marker from exercise 6 to an icon depicting city and the color to red.
 :::
 
 ::: {.callout-tip collapse="true"}

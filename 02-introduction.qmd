@@ -279,7 +279,7 @@ A **web application framework** for R to turn analyses into interactive web appl
 
 
 
-## The Guerry Dashboard: The app we will built
+## The Guerry Dashboard: The app we will build
 - In the workshop we will built the Shiny app shown in @fig-guerrydashboard together. Please [explore this app here](https://paulbauer.shinyapps.io/guerry_dashboard/) (5-10 minutes) and answer the following questions:
   - What questions can we answer using the app?
   - How can this app help us to understand and analyze the underlying data?
