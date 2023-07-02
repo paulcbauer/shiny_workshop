@@ -4,9 +4,8 @@ title: "Introduction"
 
 - Learning outcomes: 
   - Understand idea/aims/advantages/steps of interactive data analysis
-  - Understand basic structure of Shiny apps
-  - Launch first app
-  - Understand logic of reactivity/loading things in Shiny apps
+  - Understand basic structure of Shiny apps (components)
+  - Quick overview of Guerry data
   - Discuss MVP and workflow
 
 
@@ -15,11 +14,10 @@ title: "Introduction"
 pacman::p_load(knitr, quarto, tidyverse, gganimate, kableExtra)
 ```
 
-Sources: [@Bertini2017-jq, @wickham2021mastering]
+Sources: [@Bertini2017-jq; @wickham2021mastering]
 
 ## Interactive data analysis
 
-Sources: [@Bertini2017-jq]
 
 ### Why?
 - "From Data Visualization to Interactive Data Analysis" [@Bertini2017-jq]
@@ -28,14 +26,18 @@ Sources: [@Bertini2017-jq]
   - *"if I understand a problem better, there are higher chances I can find a better solution for it"*
   - **Main goal of (interactive) data analysis**: "understanding" something
 - @fig-bertini-one outlines the relationship between reality, data/statistical models, human mental models 
-  - Humans have a mental model of the reality and use data and models (= description of reality) to study it so that they can hopefully understand it better
+  - Humans have a mental model of the reality and use data and models (= description of reality) to study this model and improve it
 
 
 ![Relationship between reality, data/statistical models, human mental models (Source: Bertini, 2017)](02-bertinin-1.webp){#fig-bertini-one}
 
 ### How Does Interactive Data Analysis Work?
 - @fig-bertini-two outlines process underlying interactive data analysis
-  - **Loop fashion**: start with loosely specified goal, translate goal into one or more questions, organize and analyze the data to answer these questions, generate new questions and start over
+  - **Loop**
+    - start with loosely specified goal/problem (*Decrease crime!*)
+    - translate goal into one or more questions (*What causes crime?*)
+    - gather, organize and analyze the data to answer these questions *Gather data on crime and other factors, model and visualize it*)
+    - generate new questions and start over
 
 ![Process underlying interactive data analysis (Source: Bertini, 2017)](02-bertinin-2.webp){#fig-bertini-two}
 
@@ -46,29 +48,30 @@ Sources: [@Bertini2017-jq]
 4. **Creating models out of data** (not always): using statistical modeling and machine learning methods can be useful when the question asked can be answered more easily by building a model, e.g., explanatory or predictive ML model such as regression, clustering, NLP
 5. **Visualizing data and models**: results obtained from data transformation and querying (or from some model) are turned into something our **eyes can digest** and hopefully understand. **Simple representations** like tables and lists rather than fancy charts are perfectly reasonable visualization for many problems. 
 6. **Interpreting the results**: once results have been generated and represented in visual format, they need to be interpreted by someone (crucial step!)
-    - complex activity including: understanding how to read the graph, understanding what graph communicates about phenomenon of interest, linking results to questions and pre-existing knowledge of problem
-    - Interpretation heavily influenced by pre-existing knowledge (about domain problem, data transformation process, modeling, visual representation)
+    - **complex activity** including understanding how to **read the graph**, understanding what graph communicates about phenomenon of interest, **linking results to questions** and pre-existing knowledge of problem (think of your **audience**!)
+    - **Interpretation** heavily **influenced** by **pre-existing knowledge** (about domain problem, data transformation process, modeling, visual representation)
 7. **Generating inferences and more questions**: steps above lead to creating new knowledge, additional questions or hypotheses
-    - Outcome: not only answers but also (hopefully better, more refined) questions
+    - **Outcome**: not only answers but also (hopefully better, more refined) questions
 
 
 ### Important aspects of data analysis & Quo vadis interaction?
-- The process is not sequential and is highly iterative (jumping back/forth between steps)
-- Some activities are exclusively human, e.g., defining problems, generating questions, etc.
-- Visualization is just a small portion of the process and effectiveness depends on all steps above
+- **Process** not sequential but **highly iterative** (jumping back/forth between steps)
+- **Some activities exclusively human**, e.g., defining problems, generating questions, etc.
+- **Visualization only small portion** of process and effectiveness depends on other steps
 - **Interaction**: all over the place... every time you tell your computer what to do and you computer returns some information back to you
   - Gather and transform the data
   - Specify a model and/or a query from the data
   - Specify how to represent the results (and the model)
   - Browse the results
   - Synthesize and communicate the facts gathered
-- **Direct Manipulation vs. Command-Line Interaction**: Besides [WIMP](https://en.wikipedia.org/wiki/WIMP_(computing)) interfaces, direct manipulation, clicks, mouse overs, etc., command line interface is also interactive ("modely" changes: (dis-)advantages?)
+- **Direct manipulation vs. command-Line interaction**: [WIMP](https://en.wikipedia.org/wiki/WIMP_(computing)) interfaces (direct manipulation, clicks, mouse overs, etc.,) are interactive but so is command line
 
 
 
 
-### Challenges of Interactive Visual Data Analysis
+### Challenges of Interactive Visual Data Analysis (UPDATE)
 - **Specification (Mind &rarr; Data/Model)**: "*should we expect everyone to be a coder and learn a specification language in order to perform data analysis?*"
+  - Shiny allows non-coders to perform data analysis
 - **Representation (Data/Model &rarr; Eyes)**
   - "deciding **what** to visualize is often equally, if not more, important, than deciding **how** to visualize it"
   - "how fancy does a visualization need to be in order to be useful for data analysis?"
@@ -77,40 +80,15 @@ Sources: [@Bertini2017-jq]
 - **Interpretation (Eyes &rarr; Mind)**
   - "what does one need to know in order to reason effectively about the results of modeling and visualization?"
   - "Are people able to interpret and trust their models?"
-- Suggestions: Focus more on (more relevant) problems; More tools, less visualizations; Make it public
+
 
 ## Why visualize?
  
 
 ### Anscombes's quartet (1)
 
-* @tbl-anscombe displays Anscombe's quartet [@Anscombe1973-xv], a dataset (or 4 little datasets) often used to illustrate the usefulness of visualization
-	- Q: What does the table reveal about the data? Is it easy to read?
-```{r tbl-anscombe, echo=FALSE, echo=FALSE, out.width = '100%'}
-#| label: tbl-anscombe
-#| tbl-cap: "Anscombe's quartett: Visualization"
-anscombe_table <- anscombe %>% dplyr::select(x1, y1, x2, y2, x3, y3, x4, y4)
-kable(anscombe_table, format = "html", table.attr = "style='width:95%;margin: auto;'",
-      caption = "Anscombe's quartet data") %>%
-  kable_styling(full_width = F) %>%
-  column_spec(1, color = "red") %>%
-  column_spec(2, color = "red") %>%
-  column_spec(3, color = "blue") %>%
-  column_spec(4, color = "blue") %>%
-  column_spec(5, color = "darkgreen") %>%
-  column_spec(6, color = "darkgreen") %>%
-  column_spec(7, color = "orange") %>%
-  column_spec(8, color = "orange")
-```
-
-
-
- 
-
-### Anscombes's quartet (2)
-
-* @tbl-regression-anscombe shows results from a linear regression based on Anscombe's quartet [@Anscombe1973-xv]
-	- Q: What do we see now?
+* @tbl-regression-anscombe shows results from a linear regression based on Anscombe's quartet [@Anscombe1973-xv] often used to illustrate the usefulness of visualization
+	- Q: What do we find here?
 ```{r tbl-regression-anscombe, echo=FALSE, echo=FALSE, results = "asis"}
 #| label: tbl-regression-anscombe
 #| tbl-cap: "Linear models based on sets of Anscombe's quartet"
@@ -133,6 +111,31 @@ modelsummary(models,
 output = 'gt',
 notes = "Notes: some notes...",
 gof_map = NA)
+```
+
+
+
+
+ 
+
+### Anscombes's quartet (2)
+* @tbl-anscombe displays Anscombe's quartet [@Anscombe1973-xv], a dataset (or 4 little datasets)
+	- Q: What does the table reveal about the data? Is it easy to read?
+```{r tbl-anscombe, echo=FALSE, echo=FALSE, out.width = '100%'}
+#| label: tbl-anscombe
+#| tbl-cap: "Anscombe's quartett: Visualization"
+anscombe_table <- anscombe %>% dplyr::select(x1, y1, x2, y2, x3, y3, x4, y4)
+kable(anscombe_table, format = "html", table.attr = "style='width:95%;margin: auto;'",
+      caption = "Anscombe's quartet data") %>%
+  kable_styling(full_width = F) %>%
+  column_spec(1, color = "red") %>%
+  column_spec(2, color = "red") %>%
+  column_spec(3, color = "blue") %>%
+  column_spec(4, color = "blue") %>%
+  column_spec(5, color = "darkgreen") %>%
+  column_spec(6, color = "darkgreen") %>%
+  column_spec(7, color = "orange") %>%
+  column_spec(8, color = "orange")
 ```
 
 
@@ -217,12 +220,10 @@ ggplot(datasaurus_dozen, aes(x=x, y=y))+
 ### Interactivity for data visualization
 
 * "**interactive** data visualization enables direct actions on a plot to change elements and link between multiple plots" [@Swayne1999-wf] ([Wikipedia](https://en.wikipedia.org/wiki/Interactive_data_visualization))
-* Interactivity revolutionizes the way we work with data
-* Revolutionizes perception of data [cf. @Cleveland1984-fy]
+* Interactivity revolutionizes the way we work with and how we perceive data [cf. @Cleveland1984-fy]
 * Started ~last quarter of the 20th century, PRIM-9 (1974) [@Friendly2006-aq, 23, see also Cleveland and McGill,
 1988, Young et al. 2006]
-* We have come a long way... ["evolution of animals"](http://stat-graphics.org/movies/prim9.html) (2:20, 3:20, Tukey inventor of boxplot)
-* [More history](http://stat-graphics.org/movies/)
+* We have come a long way... [John Tukey on prim9](https://youtu.be/B7XoW2qiFUA?t=151)
 * Interactivity allows for...
     + ...making sense of big data (more dimensions)
     + ...exploring data
@@ -247,7 +248,7 @@ A **web application framework** for R to turn analyses into interactive web appl
 * When you change something on the webpage, the information is send to the computer
 * Computer runs the script with the new **inputs** (**input functions**)
 * Computer sends back **outputs** to the webpage  (**output functions**)
-* History of Shiny: [The Past and Future of Shiny](https://www.youtube.com/watch?v=HpqLXB_TnpI)
+* History of Shiny: [Joe Cheng: The Past and Future of Shiny](https://www.youtube.com/watch?v=HpqLXB_TnpI)^[Joe Cheng is the Chief Technology Officer at RStudio and was the original creator of the Shiny web framework, and continues to work on packages at the intersection of R and the web.]
 
 
 
@@ -258,17 +259,17 @@ A **web application framework** for R to turn analyses into interactive web appl
 #### Pros of R Shiny:
 
 1. **Fast Prototyping**: Shiny is excellent for quickly turning ideas into applications, and is relatively easy to use even for those who aren't seasoned programmers.
-2. **Interactivity**: Shiny lets you build interactive web apps, enhancing user engagement and experience. It's especially beneficial for creating dashboards where data can be displayed in an interactive way.
-3. **Integration with R Ecosystem**: Shiny integrates seamlessly with R's vast ecosystem. This includes integrating with packages for data manipulation, statistics, machine learning, and visualization.
-5. **Statistical Modeling and Visualization**: Shiny allows you to apply complex statistical modeling and visualizations within your app, leveraging R's strong capabilities in these areas.
-6. **No Need for Web Development Skills**: With Shiny, you can create web apps using R code alone. Knowledge of HTML, CSS, or JavaScript is not necessary, though it can help you to create more custom apps.
-7. **Reactivity**: Shiny's reactivity system is excellent. It makes it possible to create applications that automatically update outputs in response to changes in inputs.
+2. **Interactivity**: Shiny lets you build interactive web apps, enhancing user engagement and experience (especially good for dashboards)
+3. **Integration with R Ecosystem**: Shiny integrates seamlessly with R's **vast open-source ecosystem** (thousands of R packages, but also see [shiny for python](https://shiny.posit.co/py/))
+5. **Statistical Modeling and Visualization**: Shiny allows you to apply complex statistical modeling and visualizations within your app (leveraging R's strong capabilities)
+6. **No Need for Web Development Skills**: With Shiny, you can create web apps using R code alone. Knowledge of HTML, CSS, or JavaScript is not necessary but can help
+7. **Reactivity**: Shiny's reactivity system is excellent. Fairly simple to create applications that automatically update in response to user inputs
 8. **Sharing and Publishing**: Shiny apps can be easily published and shared, either through RStudio's Shiny server, Shinyapps.io, or embedding in R Markdown documents or websites.
 
 #### Cons of R Shiny:
 
 1. **Performance**: Shiny apps run on top of R, an interpreted language, which can cause performance issues when handling large amounts of data or complex calculations.
-2. **Single-threaded**: R (and by extension Shiny) is single-threaded, which can also cause performance issues when dealing with many simultaneous users.
+2. **Single-threaded**: R (and by extension Shiny) is single-threaded, which can also cause performance issues when dealing with many simultaneous users (see [here](https://shiny.posit.co/r/articles/improve/scaling-and-tuning/)).
 3. **Complexity**: While Shiny's basics are easy to learn, mastering the intricacies of reactivity can be challenging.
 4. **Limited Customization**: While it is not hard to create a simple app from your R output, it can be challenging to get around more advanced R packages or even CSS or JavaScript when you require more sophisticated user interfaces.
 5. **Data Gathering and Saving**: It can be challenging to use Shiny for gathering and saving data to the database.
@@ -278,17 +279,47 @@ A **web application framework** for R to turn analyses into interactive web appl
 
 
 
-
-### The Guerry Dashboard: The app we will built
+## The Guerry Dashboard: The app we will built
 - In the workshop we will built the Shiny app shown in @fig-guerrydashboard together. Please [explore this app here](https://paulbauer.shinyapps.io/guerry_dashboard/) (5-10 minutes) and answer the following questions:
   - What questions can we answer using the app?
-  - How can this help us to understand and analyze the underlying data?
-  - What interactive elements did you identify in the app?
+  - How can this app help us to understand and analyze the underlying data?
+  - What interactive elements can we identify in the app?
 
 ![(Source: Original image)](02-guerrydashboard.png){#fig-guerrydashboard}
 
 
+### Data
+* In our app we will analyze the "Guerry data"
+* `?Guerry`: data from A.-M. Guerry, "Essay on the Moral Statistics of France"
+  - `Guerry::gfrance85` contains map of France in 1830 + the Guerry data, excluding Corsica (@tbl-guerry shows a subset)
 
+```{r}
+#| label: tbl-guerry
+#| tbl-cap: Guerry dataset (subset)
+library(sf)
+# Import the 'gfrance85' data from the 'Guerry' package
+data_guerry <- Guerry::gfrance85 %>%
+  st_as_sf() %>% # Convert to a Simple Features (sf) object
+  as_tibble() %>%  # Convert to a 'tibble'
+  st_as_sf(crs = 27572) %>% # set the Coordinate Reference to 27572 System (CRS)
+  mutate(Region = case_match( # Create new region column
+    Region,
+    "C" ~ "Central",
+    "E" ~ "East",
+    "N" ~ "North",
+    "S" ~ "South",
+    "W" ~ "West"
+  )) %>%
+  select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>% # drop columns
+  select(Region:Department, where(is.numeric)) # select columns
+
+kable(head(data_guerry[c(1,2,3,4,21,22)]))
+```
+
+- Data is on the level of `85` departments (`N = 85`)
+  - Later on we also aggregate it to regions
+- `geometry`: variable that describes the geographic shape of regions (sometimes we'll have to exclude this column)
+- **Advantages**: Dataset is interesting, contains mapping data and is natively available in R
 
 
 
@@ -300,8 +331,9 @@ A **web application framework** for R to turn analyses into interactive web appl
 
 
 ### Your (first) Shiny app
-* Below you will create you first app and we'll use the opportunity to discuss the basic elements of a shiny app (see [here for more](https://mastering-shiny.org/basic-app.html#basic-app)).
-* Install the relevant packages:
+* Below you will create you first app and we'll use the opportunity to discuss the basic components of a shiny app (see [here for more](https://mastering-shiny.org/basic-app.html#basic-app)).
+
+1. Install the relevant packages:
 
 ```{r, cache=TRUE, eval=FALSE, include=TRUE}
 install.packages("shiny")
@@ -309,10 +341,9 @@ install.packages("tidyverse")
 # Guerry package is already installed
 ```
 
-* Create a directory with the name of your app "myfirstapp" in your [working directory](https://bookdown.org/ndphillips/YaRrr/the-working-directory.html).
-
-* Create an rscript file that you call `"`app.R`.
-* Copy the code below and paste it into your `app.R` script.
+2. Create a directory with the name of your app "myfirstapp" in your [working directory](https://bookdown.org/ndphillips/YaRrr/the-working-directory.html).
+3. Create an rscript file in Rstudio and save it in the working directory with the name `app.R`.
+4. Copy the code below and paste it into your `app.R` script.
 
 ```{r, cache=TRUE, eval=FALSE, include=TRUE}
 library(shiny)
@@ -322,11 +353,13 @@ library(sf)
 
 
 ## Data: Clean & prepare data ----
-guerry <- Guerry::gfrance85 %>%
-  st_as_sf() %>%
-  as_tibble() %>%
-  st_as_sf(crs = 27572) %>%
-  mutate(Region = case_match(
+library(sf)
+# Import the 'gfrance85' data from the 'Guerry' package
+data_guerry <- Guerry::gfrance85 %>%
+  st_as_sf() %>% # Convert to a Simple Features (sf) object
+  as_tibble() %>%  # Convert to a 'tibble'
+  st_as_sf(crs = 27572) %>% # set the Coordinate Reference to 27572 System (CRS)
+  mutate(Region = case_match( # Create new region column
     Region,
     "C" ~ "Central",
     "E" ~ "East",
@@ -334,10 +367,9 @@ guerry <- Guerry::gfrance85 %>%
     "S" ~ "South",
     "W" ~ "West"
   )) %>%
-  select(!any_of(c("CODE_DEPT", "COUNT", "AVE_ID_GEO", "dept"))) %>%
-  st_drop_geometry() %>%
-  select(1:6)
-
+  select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>% # drop columns
+  select(Region:Department, where(is.numeric)) %>% # select columns
+  st_drop_geometry()
 
 # UI ----
 
@@ -372,7 +404,7 @@ ui <- dashboardPage( # start UI
           pickerInput(
             "tab_tabulate_select",
             label = "Filter variables",
-            choices = names(guerry),
+            choices = names(data_guerry),
             multiple = TRUE
           )
         ),
@@ -393,7 +425,7 @@ server <- function(input, output, session) {
   
   tab <- reactive({
     var <- input$tab_tabulate_select
-    data_table <- guerry
+    data_table <- data_guerry
     if (!is.null(var)) {data_table <- data_table[var]}
     data_table
   })
@@ -420,7 +452,7 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
-* You can run and stop the app by clicking **Run App** (@fig-runappbutton) button in the document toolbar.
+5. You can run and stop the app by clicking **Run App** (@fig-runappbutton) button in the document toolbar.
 
 ```{r run-app, out.width = NULL, echo = FALSE}
 #| label: fig-runappbutton
@@ -433,15 +465,18 @@ knitr::include_graphics("02-run-app.png")
 
 ## Minimum viable product (MVP)
 * ...useful concept when building apps (see @fig-mvp)!
-* "**version** of a product with **just enough features to be usable** by early customers who can then provide feedback for future product development." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
-* "has **just enough core features to effectively deploy the product**, and no more. Developers typically **deploy the product to a subset of possible customers**, such as early adopters who are thought to be more forgiving, more likely to give feedback, and able to grasp a product vision from an early prototype or marketing information. This strategy targets **avoiding building products that customers do not want** and seek to **maximize information about the customer with the least money spent**. [...] falls under the Lean Startup methodology as MVPs aim to test business hypotheses [...]." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
-* ..we follow the same strategy, slowly building out our shiny app and adding features & complexity
 
 ```{r run-app, out.width = NULL, echo = FALSE}
 #| label: fig-mvp
 #| fig-cap: "Illustration of MVP (Source: Colin Fay - https://engineering-shiny.org/building-ispum-app.html)"
 knitr::include_graphics("resources/MVP.png")
 ```
+
+* "**version** [...] with **just enough features to be usable** by early customers" to collect feedback ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
+* "has **just enough core features to effectively deploy the product** [...] Developers typically **deploy the product to a subset of possible customers, such as early adopters** who are thought to be more forgiving, more likely to give feedback, and able to grasp a product vision [...] strategy targets **avoiding building products that customers do not want** and seek to **maximize information about the customer with the least money spent**. [...] falls under the Lean Startup methodology [...]." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
+* ..we "follow" same strategy, slowly building out our shiny app, adding features & complexity
+
+
 
 
 
@@ -456,29 +491,36 @@ knitr::include_graphics("resources/MVP.png")
 
 
 ### Development workflow
-1. **Creating the app**: start every app with the same six lines of R code (`Shift + Tab` or in menue `New Project -> Shiny Web Application`)
-
-```{r}
-library(shiny)
-ui <- fluidPage(
-)
-server <- function(input, output, session) {
-}
-shinyApp(ui, server)
-```
-
-2. **Seeing your changes**: you'll create a few apps a day, but you'll run apps hundreds of times, so mastering the development workflow is particularly important
+1. **Creating the app**: start every app with the same six lines of R code below (`Shift + Tab` or in menue `New Project -> Shiny Web Application`)
+2. **Seeing your changes**: you'll create a few apps a da (really?!?), but you'll run apps hundreds of times, so mastering the development workflow is particularly important
   1. Write some code.^[**Automated testing**: allows you to turn interactive experiments you're running into automated code, i.e., run tests more quickly and not forget them (because they are automated). Requires more initial investment.]
   2. Launch the app with `Cmd/Ctrl + Shift + Enter`.
   3. Interactively experiment with the app.
   4. Close the app.
   5. Go to 1.
   
-3. **Controlling the view**: Default is a pop-out window but you can also choose `Run in Viewer Pane` and `Run External`.
+- Tips
+  - **Controlling the view**: Default is a pop-out window but you can also choose `Run in Viewer Pane` and `Run External`.
+  - **Document outline**: Use it for navigation in your app code (`Cntrl + Shift + O`)
+
+```{r}
+library(shiny)
+ui <- fluidPage(
+  
+)
+server <- function(input, output, session) {
+  
+}
+shinyApp(ui, server)
+```
+
+
+
+
 
 ### Debugging workflow
 * Guaranteed that something will go wrong at the start
-* Cause is mismatch between your mental model of Shiny, and what Shiny actually does
+* Cause is **mismatch** between your **mental model of Shiny**, and **what Shiny actually does**
 * We need to develop **robust workflow for identifying and fixing mistakes**
 * Three main cases of problems: **(1) Unexpected error**, **(2) No error but incorrect values**; **(3) Correct values but not updated**
   - (1) Use traceback and interactive debugger

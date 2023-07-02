@@ -1,5 +1,5 @@
 ---
-title: "Visualization in Shiny apps"
+title: "Modelling and visualizing data"
 editor: visual
 ---
 

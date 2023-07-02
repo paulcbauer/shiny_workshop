@@ -36,7 +36,7 @@ title: "About this workshop"
 	- Currently [MZES](https://www.mzes.uni-mannheim.de/d7/en) Research fellow (University of Mannheim)
 	- Previously... University of Bern (PhD, 2015), European University Institute (Postdoc, 15'-17')
 	- My research interests: political sociology & methodology [see [Google Scholar](https://scholar.google.com/citations?user=hw-b-MkAAAAJ&hl=en&oi=ao))
-	- Started R around 2009, first shiny apps ~2015 for teaching purposes
+	- Started R around 2009, first shiny apps ~2015 for teaching/research purposes (e.g., [here](https://paulcbauer.shinyapps.io/transformations_of_variables/) and [here](https://paulcbauer.shinyapps.io/visualizing-causal-scenarios/))
 	- Contact: `mail@paulcbauer.de`; [www.paulcbauer.de](https://sites.google.com/paulcbauer.de/web/); [Twitter](https://twitter.com/p_c_bauer); [Github](https://github.com/paulcbauer)
 - Jonas
 	- Currently a research fellow at GESIS' survey data curation (SDC) department
@@ -186,4 +186,4 @@ cat(packages)
 2. [Shiny feature demos](https://shiny.posit.co/r/gallery/#feature-demos)
 3. [Shiny widget gallery](https://shiny.posit.co/r/gallery/widgets/widget-gallery/)
 4. [R Shiny for Enterprise Application Development: 6 Lessons for Building Shiny Apps](https://appsilon.com/why-you-should-use-r-shiny-for-enterprise-application-development/#anchor-7)
-
+5. [Shiny apps by Dimiter Toshkov](http://www.dimiter.eu/Visualizations.html)
