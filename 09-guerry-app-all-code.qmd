@@ -1,0 +1,8 @@
+---
+title: "Guerry app: All the code"
+---
+
+
+# Guerry app code
+
+* INSERT CODE FROM APP IN SHINYAPPS FOLDER

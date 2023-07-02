@@ -32,7 +32,7 @@ website:
       - 06-mapping.qmd
       - 07-theming.qmd
       - 08-deployment.qmd
-
+      - 09-guerry-app-all-code.qmd
 
 
 format:
