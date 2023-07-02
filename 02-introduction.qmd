@@ -316,9 +316,10 @@ data_guerry <- Guerry::gfrance85 %>%
 kable(head(data_guerry[c(1,2,3,4,21,22)]))
 ```
 
-* Data is on the level of `85` regions (`N = 85`)
-* `geometry`: variable that describes the geographic shape of regions (sometimes we'll have to exclude this column)
-* **Advantages**: Dataset is interesting, contains mapping data and is natively available in R
+- Data is on the level of `85` departments (`N = 85`)
+  - Later on we also aggregate it to regions
+- `geometry`: variable that describes the geographic shape of regions (sometimes we'll have to exclude this column)
+- **Advantages**: Dataset is interesting, contains mapping data and is natively available in R
 
 
 
