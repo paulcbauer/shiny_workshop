@@ -1,0 +1,13 @@
+---
+title: "Guerry app: All the code"
+---
+
+
+# Guerry app code
+- Below you can find the complete code to built the Guerry app.
+
+
+
+```{r example, echo=FALSE, class.output="c", comment=""}
+cat(readLines("shinyapps/guerry/app.R"), sep = "\n")
+```
