@@ -78,6 +78,12 @@ You will learn how to:
 
 -   Examples of these concepts can be seen in many Shiny apps, one example is Edward Parker's [COVID-19 tracker](https://vac-lshtm.shinyapps.io/ncov_tracker/)
 
+::: callout-note
+## Exercise
+
+Explore the COVID-19 tracker. Do you think this is a good Shiny app? If so, why? If not, why not?
+:::
+
 ![COVID-19 Tracker](https://raw.githubusercontent.com/eparker12/nCoV_tracker/master/www/app_image.png)
 
 ## Further resources
@@ -101,21 +107,25 @@ You will learn how to:
 -   Taking our Shiny app as an example, we add another tab:
 
 ```{r eval=F}
-model <- tabItem(
-	"model",
-	fluidRow(
-		column(
-			width = 6,
-	    box(
-				width = 12,
-				title = "Pair diagram",
-				status = "primary",
-				plotOutput("pairplot")
+model <- tabItem(              # <1>
+	"model",                     # <1>
+	fluidRow(                    # <2>
+		column(                    # <2>
+			width = 6,               # <2>
+	    box(                     # <2>
+				width = 12,            # <2>
+				title = "Pair diagram",# <2>
+				status = "primary",    # <2>
+				plotOutput("pairplot") # <3>
 			)
 		)
 	)
 )
 ```
+
+1.  Create a tab item called "model"
+2.  Create an initial layout containing a fluid row with one column and one box
+3.  Create a plot output widget
 
 -   The newly created tab Item has the tab name `model`
 
@@ -123,16 +133,31 @@ model <- tabItem(
 
 ```{r eval=FALSE}
 dashboardPage(
-  header = ...,
-  sidebar = ...,
-  body = dashboardBody(
-    tabItems(
-      tabItem(tabName = "intro"), # Tab: intro
-      model                       # Tab: model
+  header = dashboardHeader(
+    title = tagList(
+      img(src = "workshop-logo.png", width = 35, height = 35),
+      span("The Guerry Dashboard", class = "brand-text")
+    )
+  ),
+  sidebar = dashboardSidebar(                             # <1>
+    id = "sidebar",                                       # <1>
+    sidebarMenu(                                          # <1>
+      id = "sidebarMenu",                                 # <1>
+      menuItem(tabName = "intro", text = "Introduction"), # <1>
+      menuItem(tabName = "model", text = "Model data")    # <1>
+    )
+  ),
+  body = dashboardBody(                                   # <2>
+    tabItems(                                             # <2>
+      tabItem(tabName = "intro"),                         # <2>
+      model                                               # <2>
     )
   )
 )
 ```
+
+1.  Create the respective menu items in the sidebar. Don't forget to match the tab names!
+2.  Create the tab items within the body. The function `tabItems()` contains all tab objects. We add our newly created `model` object after the introduction. Again, the order and names of `tabItem()`s corresponds to the order and names of `menuItem()`s!
 
 ## Filling with contents
 
@@ -143,13 +168,19 @@ dashboardPage(
 -   Here, we use [`ggpairs`](https://ggobi.github.io/ggally/reference/ggpairs.html) from the [`GGally`](https://ggobi.github.io/ggally/) package, but you can use anything that produces a plot
 
 ```{r eval=F}
-output$pairplot <- renderPlot({
-	dt <- st_drop_geometry(guerry[c("Literacy", "Commerce")])
-	GGally::ggpairs(dt, axisLabels = "none")
+output$pairplot <- renderPlot({                             # <1>
+	dt <- st_drop_geometry(guerry[c("Literacy", "Commerce")]) # <2>
+	GGally::ggpairs(dt, axisLabels = "none")                  # <3>
 })
 ```
 
+1.  The `renderPlot()` function accepts an expression that produces a plot
+2.  Clean the data before plotting
+3.  `ggpairs()` creates a ggplot2 object which starts a plotting device in its print method
+
 ![](resources/05_01.png)
+
+## Full code
 
 ```{r eval=FALSE}
 #| code-fold: true
@@ -346,6 +377,8 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
+## Limitations
+
 -   The code to create a plot in a Shiny app is quite simple so far, but has not many advantages over plain plotting in the R console
 
 -   To really make it shine, we need three features:
@@ -379,39 +412,39 @@ To avoid overreactivity, we add an [`actionButton()`](https://shiny.posit.co/r/r
 ```{r eval=F}
 model <- tabItem(
 	"model",
-	fluidRow(
-		column(
-			width = 6,
+	fluidRow(                                                             # <1>
+		column(                                                             # <1>
+			width = 6,                                                        # <1>
 			#### Box: Select variables ----
-      box(
-				width = 12,
-				title = "Select variables",
-				status = "primary",
-				selectInput(
-					"model_x",
-					label = "Select a dependent variable",
-					choices = setNames(variables, sapply(txts, "[[", "title")),
-					selected = "Literacy"
-				),
-				selectizeInput(
-					"model_y",
-					label = "Select independent variables",
-					choices = setNames(variables, sapply(txts, "[[", "title")),
-					multiple = TRUE,
-					selected = "Commerce"
-				),
-				checkboxInput(
-					"model_std",
-					label = "Standardize variables?",
-					value = TRUE
-				),
+      box(                                                              # <1>
+				width = 12,                                                     # <1>
+				title = "Select variables",                                     # <1>
+				status = "primary",                                             # <1>
+				selectInput(                                                    # <2>
+					"model_x",                                                    # <2>
+					label = "Select a dependent variable",                        # <2>
+					choices = setNames(variables, sapply(txts, "[[", "title")),   # <2>
+					selected = "Literacy"                                         # <2>
+				),                                                              # <2>
+				selectizeInput(                                                 # <3>
+					"model_y",                                                    # <3>
+					label = "Select independent variables",                       # <3>
+					choices = setNames(variables, sapply(txts, "[[", "title")),   # <3>
+					multiple = TRUE,                                              # <3>
+					selected = "Commerce"                                         # <3>
+				),                                                              # <3>
+				checkboxInput(                                                  # <4>
+					"model_std",                                                  # <4>
+					label = "Standardize variables?",                             # <4>
+					value = TRUE                                                  # <4>
+				),                                                              # <4>
 				hr(),
-				actionButton(
-					"refresh",
-					label = "Apply changes",
-					icon = icon("refresh"),
-					flat = TRUE
-				)
+				actionButton(                                                   # <5>
+					"refresh",                                                    # <5>
+					label = "Apply changes",                                      # <5>
+					icon = icon("refresh"),                                       # <5>
+					flat = TRUE                                                   # <5>
+				)                                                               # <5>
 			)
 		),
 		#### Box: Pair diagramm ----
@@ -428,6 +461,12 @@ model <- tabItem(
 )
 ```
 
+1.  Create a new column + box to hold our new input UI
+2.  Create a `selectInput()` to select a single x variable. By passing a named list to the `choices` argument, the list names are shown to the user and the list values are sent to the server!
+3.  Create a `selectizeInput()` to select multiple y variables
+4.  Create a `checkboxInput()` to let users decide whether to standardize variables or not
+5.  Create an `actionButton()` that needs to be pressed for changes to take effect
+
 ## Accessing the new UI inputs
 
 -   On the server side, we need to deal with the new inputs
@@ -441,23 +480,309 @@ model <- tabItem(
 :::
 
 ```{r eval=F}
-dt <- reactive({
-	x <- input$model_x
-	y <- input$model_y
-	dt <- sf::st_drop_geometry(guerry)[c(x, y)]
-	if (input$model_std) dt <- datawizard::standardise(dt)
-	dt
-}) %>%
-	bindEvent(input$refresh, ignoreNULL = FALSE)
+dt <- reactive({                                           # <1>
+	x <- input$model_x                                       # <1>
+	y <- input$model_y                                       # <1>
+	dt <- sf::st_drop_geometry(guerry)[c(x, y)]              # <1>
+	if (input$model_std) dt <- datawizard::standardise(dt)   # <1>
+	dt                                                       # <1>
+}) %>%                                                     # <1>
+	bindEvent(input$refresh, ignoreNULL = FALSE)             # <2>
 
 output$pairplot <- renderPlot({
-	GGally::ggpairs(dt(), axisLabels = "none")
+	GGally::ggpairs(dt(), axisLabels = "none")               # <3>
 })
 ```
+
+1.  Create a reactive expression that takes care of data cleaning and stores the cleaned data in a reactive object called `dt`
+2.  Execute the reactive expression (and thus update `dt`), if and only if the refresh button is pressed
+3.  Create a pairs plot using the newly created `dt()` object. This is the same as the `dt` dataframe that we used before with the difference that `dt()` updates every time `input$model_x`, `input$model_y` or `input$model_std` are changed.
 
 ![](resources/05_02.gif)
 
 -   The plot now reacts to user input and updates its appearance when the user selection changes!
+
+## Full code
+
+```{r eval=FALSE}
+#| code-fold: true
+#| code-summary: Full code for reactive plotting
+
+library(shiny)
+library(htmltools)
+library(bs4Dash)
+library(fresh)
+library(waiter)
+library(shinyWidgets)
+library(Guerry)
+library(sf)
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+library(viridis)
+library(leaflet)
+library(plotly)
+library(jsonlite)
+library(ggplot2)
+library(GGally)
+library(datawizard)
+library(parameters)
+library(performance)
+library(ggdark)
+library(modelsummary)
+
+# Preparation ----
+
+## Clean ----
+guerry <- Guerry::gfrance85 %>%
+  st_as_sf() %>%
+  as_tibble() %>%
+  st_as_sf(crs = 27572) %>%
+  mutate(Region = case_match(
+    Region,
+    "C" ~ "Central",
+    "E" ~ "East",
+    "N" ~ "North",
+    "S" ~ "South",
+    "W" ~ "West"
+  ))
+
+variables <- guerry %>%
+  st_drop_geometry() %>%
+  select(where(is.numeric) & !all_of(c("COUNT", "dept", "AVE_ID_GEO"))) %>%
+  names()
+
+## Pivot ----
+guerry_long <- tidyr::pivot_longer(
+  st_drop_geometry(guerry),
+  cols = all_of(variables),
+  names_to = "variable"
+) %>%
+  mutate(variable = factor(variable, levels = unique(variable))) %>%
+  arrange(variable)
+
+## Aggregate ----
+guerry_region <- guerry %>%
+  group_by(Region) %>%
+  summarise(across(
+  .cols = all_of(variables),
+  function(x) {
+    if (cur_column() %in% c("Area", "Pop1831")) {
+      sum(x)
+    } else {
+      mean(x)
+    }
+  }
+))
+
+guerry_region_long <- tidyr::pivot_longer(
+  st_drop_geometry(guerry_region),
+  cols = all_of(variables),
+  names_to = "variable"
+) %>%
+  mutate(variable = factor(variable, levels = unique(variable))) %>%
+  arrange(variable)
+
+## Read text data ----
+txts <- read_json("../app_labels.json", simplifyVector = TRUE)
+
+## Prepare palettes ----
+pals <- list(
+  Sequential = RColorBrewer::brewer.pal.info %>%
+    filter(category %in% "seq") %>%
+    row.names(),
+  Viridis = c("Magma", "Inferno", "Plasma", "Viridis",
+              "Cividis", "Rocket", "Mako", "Turbo")
+)
+
+plotly_buttons <- c(
+	"sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
+	"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
+)
+
+## Create theme ----
+dash_theme <- create_theme(
+  bs4dash_status(
+    primary = "#58748f",
+    secondary = "#666666",
+    info = "#E6EAEE",
+    danger = "#BF616A",
+    warning = "#FF6100",
+    light = "#F4F4F2",
+    dark = "#2c2c25"
+  ),
+  bs4dash_layout(
+    font_size_root = "5rem",
+    main_bg = "#FDFDFD",
+    sidebar_width = "350px"
+  ),
+  bs4dash_sidebar_light(bg = "#F4F4F2", color = "#000"),
+  bs4dash_sidebar_dark(bg = "#2c2c25", color = "#FFF"),
+  bs4dash_color(
+  	orange = "#F06400",
+    white = "#FDFDFD",
+    black = "#000",
+    gray_600 = "#666",
+    gray_800 = "#333",
+    gray_900 = "#000",
+    blue = "#58748f"
+  ),
+  bs4dash_font(
+    family_sans_serif = "Verdana",
+    family_base = "Georgia",
+    family_monospace = "Courier New"
+  )
+)
+
+## Preloader ----
+preloader <- list(
+  html = tagList(spin_6(), "Loading ..."),
+  color = "#B3DDFE"
+)
+
+
+
+# UI ----
+
+ui <- dashboardPage(
+  title = "The Guerry Dashboard",
+  freshTheme = dash_theme,
+  preloader = preloader,
+  ## Header ----
+  header = dashboardHeader(
+    tags$style("
+      /* remove white space from header */
+      .navbar {
+        padding-top: 0em;
+        padding-bottom: 0em;
+        padding-right: 0em;
+      }
+    "),
+    span(style = "display: inline-block; width: 100%;"),
+    a(
+      class = "logo",
+      href = "https://gesis.org/",
+      img(src = "../www/gesis-logo.png", style = "height: 1.8em;")
+    ),
+    title = tagList(
+      img(src = "../www/workshop-logo.png", width = 35, height = 35),
+      span("The Guerry Dashboard", class = "brand-text")
+    ),
+    skin = "light",
+    sidebarIcon = tags$i(class = "fa fa-bars", style = "color: black;")
+  ),
+  ## Sidebar ----
+  sidebar = dashboardSidebar(
+  	id = "sidebar",
+  	sidebarMenu(
+  		id = "sidebarMenu",
+  		menuItem(tabName = "intro", text = "Introduction", icon = icon("home")),
+  		menuItem(tabName = "insp", text = "Inspect data", icon = icon("table")),
+  		menuItem(tabName = "model", text = "Model data", icon = icon("chart-line"), selected = TRUE),
+  		flat = TRUE
+  	),
+  	minified = TRUE,
+  	collapsed = TRUE,
+  	fixed = FALSE,
+  	skin = "light"
+  ),
+  ## Body ----
+  body = dashboardBody(
+    tags$head(
+      waiter::use_waiter(),
+      includeCSS("../www/styles.css")
+    ),
+    tabItems(
+    	tabItem("intro"),
+    	tabItem("insp"),
+    	tabItem(
+    		"model",
+    		fluidRow(
+    			column(
+    				width = 6,
+    				#### Box: Select variables ----
+    				box(
+    					width = 12,
+    					title = "Select variables",
+    					status = "primary",
+    					selectInput(
+    						"model_x",
+    						label = "Select a dependent variable",
+    						choices = setNames(variables, sapply(txts, "[[", "title")),
+    						selected = "Literacy"
+    					),
+    					selectizeInput(
+    						"model_y",
+    						label = "Select independent variables",
+    						choices = setNames(variables, sapply(txts, "[[", "title")),
+    						multiple = TRUE,
+    						selected = "Commerce"
+    					),
+    					checkboxInput(
+    						"model_std",
+    						label = "Standardize variables?",
+    						value = TRUE
+    					),
+    					hr(),
+    					actionButton(
+    						"refresh",
+    						label = "Apply changes",
+    						icon = icon("refresh"),
+    						flat = TRUE
+    					)
+    				)
+    			),
+    			#### Box: Pair diagramm ----
+    			column(
+    				width = 6,
+    				box(
+    					width = 12,
+    					title = "Pair diagram",
+    					status = "primary",
+    					plotOutput("pairplot")
+    				)
+    			)
+    		)
+    	)
+    ) # end tabItems
+  ),
+  ## Controlbar (top)----
+  controlbar = dashboardControlbar(
+    div(class = "p-3", skinSelector()),
+  	skin = "light"
+  ),
+  ## Footer (bottom)----
+  footer = dashboardFooter(
+  	left = span(
+  		"This dashboard was created by Jonas Lieth and Paul Bauer. Find the source code",
+  		a("here.", href = "https://github.com/paulcbauer/shiny_workshop/tree/main/shinyapps/guerry"),
+  		"It is based on data from the",
+  		a("Guerry R package.", href = "https://cran.r-project.org/web/packages/Guerry/index.html")
+  	)
+  )
+)
+
+
+
+# Server ----
+
+server <- function(input, output, session) {
+	dt <- reactive({
+		x <- input$model_x
+		y <- input$model_y
+		dt <- sf::st_drop_geometry(guerry)[c(x, y)]
+		if (input$model_std) dt <- datawizard::standardise(dt)
+		dt
+	}) %>%
+		bindEvent(input$refresh, ignoreNULL = FALSE)
+	
+	output$pairplot <- renderPlot({
+		GGally::ggpairs(dt(), axisLabels = "none")
+	})
+}
+
+shinyApp(ui, server)
+```
 
 # Interactivity
 
@@ -477,6 +802,7 @@ output$pairplot <- renderPlot({
 
 ```{r}
 #| code-fold: true
+#| code-summary: Code to re-produce the Plotly figure
 
 mtcars$am[which(mtcars$am == 0)] <- 'Automatic'
 mtcars$am[which(mtcars$am == 1)] <- 'Manual'
@@ -551,12 +877,14 @@ model <- tabItem(
 				width = 12,
 				title = "Pair diagram",
 				status = "primary",
-				plotly::plotlyOutput("pairplot")
+				plotly::plotlyOutput("pairplot") # <1>
 			)
 		)
 	)
 )
 ```
+
+1.  This is the only thing that changes on the UI side when implementing Plotly. Plotly does not produce regular static plots and thus needs a special output widget.
 
 ## `ggplotly` on the server side
 
@@ -574,18 +902,14 @@ dt <- reactive({
 }) %>%
 	bindEvent(input$refresh, ignoreNULL = FALSE)
 
-output$pairplot <- plotly::renderPlotly({
+output$pairplot <- plotly::renderPlotly({                # <1>
 	p <- GGally::ggpairs(dt(), axisLabels = "none")
-	plotly::ggplotly(p) %>%
-		config(
-			modeBarButtonsToRemove = c(
-				"sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
-				"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
-			),
-			displaylogo = FALSE
-		)
+	plotly::ggplotly(p)                                    # <2>
 })
 ```
+
+1.  As Plotly plots are not static plots, we need to use a special rendering function called `plotly::renderPlotly()`
+2.  Just as on the UI side, we need not change much on the server side. Just wrap your ggplot2 object in a call to `plotly::ggplotly()`.
 
 ![](resources/05_03.gif)
 
@@ -640,6 +964,10 @@ htmlwidgets::saveWidget(sch, path)
 tags$iframe(srcdoc = paste(readLines(path), collapse = '\n'), width = "100%", height = 500)
 ```
 
+```{r echo=FALSE}
+unlink(path)
+```
+
 ### Example
 
 -   For our app, we can clean up the mode bar and enhance the plot download
@@ -647,22 +975,324 @@ tags$iframe(srcdoc = paste(readLines(path), collapse = '\n'), width = "100%", he
 ```{r eval=FALSE}
 ggplotly(p) %>%
   config(
-  	modeBarButtonsToRemove = c(
-	  	"sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
-			"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
-		),
-    displaylogo = FALSE,
-		toImageButtonOptions = list(
-			format = "svg",
-			filename = "guerry_plot",
-			height = NULL, # adopt height and width as is
-			width = NULL
-		),
-		scrollZoom = TRUE
+  	modeBarButtonsToRemove = c(                                          # <1>
+	  	"sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d", # <1>
+			"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"   # <1>
+		),                                                                   # <1>
+    displaylogo = FALSE,                                                 # <2>
+		toImageButtonOptions = list(                                         # <3>
+			format = "svg",                                                    # <3>
+			filename = "guerry_plot",                                          # <3>
+			height = NULL,                                                     # <3>
+			width = NULL                                                       # <3>
+		),                                                                   # <3>
+		scrollZoom = TRUE                                                    # <4>
 	)
 ```
 
+1.  Removes specified buttons from the modebar
+2.  Removes the Plotly logo
+3.  Changes the output of snapshots taken of the plot. Setting `height` and `width` to `NULL` keeps the aspect ratio of the plot as it is shown in the app.
+4.  Enables zooming through scrolling
+
 ![](resources/05_03_config.png)
+
+## Full code
+
+```{r eval=FALSE}
+#| code-fold: true
+#| code-summary: Full code for interactive visualization
+
+library(shiny)
+library(htmltools)
+library(bs4Dash)
+library(fresh)
+library(waiter)
+library(shinyWidgets)
+library(Guerry)
+library(sf)
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+library(viridis)
+library(leaflet)
+library(plotly)
+library(jsonlite)
+library(ggplot2)
+library(GGally)
+library(datawizard)
+library(parameters)
+library(performance)
+library(ggdark)
+library(modelsummary)
+
+# Preparation ----
+
+## Clean ----
+guerry <- Guerry::gfrance85 %>%
+  st_as_sf() %>%
+  as_tibble() %>%
+  st_as_sf(crs = 27572) %>%
+  mutate(Region = case_match(
+    Region,
+    "C" ~ "Central",
+    "E" ~ "East",
+    "N" ~ "North",
+    "S" ~ "South",
+    "W" ~ "West"
+  ))
+
+variables <- guerry %>%
+  st_drop_geometry() %>%
+  select(where(is.numeric) & !all_of(c("COUNT", "dept", "AVE_ID_GEO"))) %>%
+  names()
+
+## Pivot ----
+guerry_long <- tidyr::pivot_longer(
+  st_drop_geometry(guerry),
+  cols = all_of(variables),
+  names_to = "variable"
+) %>%
+  mutate(variable = factor(variable, levels = unique(variable))) %>%
+  arrange(variable)
+
+## Aggregate ----
+guerry_region <- guerry %>%
+  group_by(Region) %>%
+  summarise(across(
+  .cols = all_of(variables),
+  function(x) {
+    if (cur_column() %in% c("Area", "Pop1831")) {
+      sum(x)
+    } else {
+      mean(x)
+    }
+  }
+))
+
+guerry_region_long <- tidyr::pivot_longer(
+  st_drop_geometry(guerry_region),
+  cols = all_of(variables),
+  names_to = "variable"
+) %>%
+  mutate(variable = factor(variable, levels = unique(variable))) %>%
+  arrange(variable)
+
+## Read text data ----
+txts <- read_json("../app_labels.json", simplifyVector = TRUE)
+
+## Prepare palettes ----
+pals <- list(
+  Sequential = RColorBrewer::brewer.pal.info %>%
+    filter(category %in% "seq") %>%
+    row.names(),
+  Viridis = c("Magma", "Inferno", "Plasma", "Viridis",
+              "Cividis", "Rocket", "Mako", "Turbo")
+)
+
+plotly_buttons <- c(
+	"sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
+	"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
+)
+
+## Create theme ----
+dash_theme <- create_theme(
+  bs4dash_status(
+    primary = "#58748f",
+    secondary = "#666666",
+    info = "#E6EAEE",
+    danger = "#BF616A",
+    warning = "#FF6100",
+    light = "#F4F4F2",
+    dark = "#2c2c25"
+  ),
+  bs4dash_layout(
+    font_size_root = "5rem",
+    main_bg = "#FDFDFD",
+    sidebar_width = "350px"
+  ),
+  bs4dash_sidebar_light(bg = "#F4F4F2", color = "#000"),
+  bs4dash_sidebar_dark(bg = "#2c2c25", color = "#FFF"),
+  bs4dash_color(
+  	orange = "#F06400",
+    white = "#FDFDFD",
+    black = "#000",
+    gray_600 = "#666",
+    gray_800 = "#333",
+    gray_900 = "#000",
+    blue = "#58748f"
+  ),
+  bs4dash_font(
+    family_sans_serif = "Verdana",
+    family_base = "Georgia",
+    family_monospace = "Courier New"
+  )
+)
+
+## Preloader ----
+preloader <- list(
+  html = tagList(spin_6(), "Loading ..."),
+  color = "#B3DDFE"
+)
+
+
+
+# UI ----
+
+ui <- dashboardPage(
+  title = "The Guerry Dashboard",
+  freshTheme = dash_theme,
+  preloader = preloader,
+  ## Header ----
+  header = dashboardHeader(
+    tags$style("
+      /* remove white space from header */
+      .navbar {
+        padding-top: 0em;
+        padding-bottom: 0em;
+        padding-right: 0em;
+      }
+    "),
+    span(style = "display: inline-block; width: 100%;"),
+    a(
+      class = "logo",
+      href = "https://gesis.org/",
+      img(src = "../www/gesis-logo.png", style = "height: 1.8em;")
+    ),
+    title = tagList(
+      img(src = "../www/workshop-logo.png", width = 35, height = 35),
+      span("The Guerry Dashboard", class = "brand-text")
+    ),
+    skin = "light",
+    sidebarIcon = tags$i(class = "fa fa-bars", style = "color: black;")
+  ),
+  ## Sidebar ----
+  sidebar = dashboardSidebar(
+  	id = "sidebar",
+  	sidebarMenu(
+  		id = "sidebarMenu",
+  		menuItem(tabName = "intro", text = "Introduction", icon = icon("home")),
+  		menuItem(tabName = "insp", text = "Inspect data", icon = icon("table")),
+  		menuItem(tabName = "model", text = "Model data", icon = icon("chart-line"), selected = TRUE),
+  		flat = TRUE
+  	),
+  	minified = TRUE,
+  	collapsed = TRUE,
+  	fixed = FALSE,
+  	skin = "light"
+  ),
+  ## Body ----
+  body = dashboardBody(
+    tags$head(
+      waiter::use_waiter(),
+      includeCSS("../www/styles.css")
+    ),
+    tabItems(
+    	tabItem("intro"),
+    	tabItem("insp"),
+    	tabItem(
+    		"model",
+    		fluidRow(
+    			column(
+    				width = 6,
+    				#### Box: Select variables ----
+    				box(
+    					width = 12,
+    					title = "Select variables",
+    					status = "primary",
+    					selectInput(
+    						"model_x",
+    						label = "Select a dependent variable",
+    						choices = setNames(variables, sapply(txts, "[[", "title")),
+    						selected = "Literacy"
+    					),
+    					selectizeInput(
+    						"model_y",
+    						label = "Select independent variables",
+    						choices = setNames(variables, sapply(txts, "[[", "title")),
+    						multiple = TRUE,
+    						selected = "Commerce"
+    					),
+    					checkboxInput(
+    						"model_std",
+    						label = "Standardize variables?",
+    						value = TRUE
+    					),
+    					hr(),
+    					actionButton(
+    						"refresh",
+    						label = "Apply changes",
+    						icon = icon("refresh"),
+    						flat = TRUE
+    					)
+    				)
+    			),
+    			#### Box: Pair diagramm ----
+    			column(
+    				width = 6,
+    				box(
+    					width = 12,
+    					title = "Pair diagram",
+    					status = "primary",
+    					plotly::plotlyOutput("pairplot")
+    				)
+    			)
+    		)
+    	)
+    ) # end tabItems
+  ),
+  ## Controlbar (top)----
+  controlbar = dashboardControlbar(
+    div(class = "p-3", skinSelector()),
+  	skin = "light"
+  ),
+  ## Footer (bottom)----
+  footer = dashboardFooter(
+  	left = span(
+  		"This dashboard was created by Jonas Lieth and Paul Bauer. Find the source code",
+  		a("here.", href = "https://github.com/paulcbauer/shiny_workshop/tree/main/shinyapps/guerry"),
+  		"It is based on data from the",
+  		a("Guerry R package.", href = "https://cran.r-project.org/web/packages/Guerry/index.html")
+  	)
+  )
+)
+
+
+
+# Server ----
+
+server <- function(input, output, session) {
+	dt <- reactive({
+		x <- input$model_x
+		y <- input$model_y
+		dt <- sf::st_drop_geometry(guerry)[c(x, y)]
+		if (input$model_std) dt <- datawizard::standardise(dt)
+		dt
+	}) %>%
+		bindEvent(input$refresh, ignoreNULL = FALSE)
+	
+	output$pairplot <- plotly::renderPlotly({
+		p <- GGally::ggpairs(dt(), axisLabels = "none")
+		plotly::ggplotly(p) %>%
+			config(
+				modeBarButtonsToRemove = c(
+					"sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
+					"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
+				),
+				displaylogo = FALSE,
+				toImageButtonOptions = list(
+					format = "svg",
+					filename = "guerry_plot",
+					height = NULL, # adopt height and width as is
+					width = NULL
+				),
+				scrollZoom = TRUE
+			)
+	})
+}
+
+shinyApp(ui, server)
+```
 
 # Comparability
 
@@ -722,25 +1352,25 @@ model <- tabItem(
 				)
 			),
       #### Box: Coefficient/Scatterplot ----
-			tabBox(
-			  status = "primary",
-			  type = "tabs",
-			  width = 12,
+			tabBox(                                      # <1>
+			  status = "primary",                        # <1>
+			  width = 12,                                # <1>
+			  type = "tabs",                             # <2>
 			  ##### Tab: Coefficient plot ----
-			  tabPanel(
-			    title = "Plot: Coefficients",
-			    plotly::plotlyOutput("coefficientplot")
-			  ),
+			  tabPanel(                                  # <3>
+			    title = "Plot: Coefficients",            # <3>
+			    plotly::plotlyOutput("coefficientplot")  # <3>
+			  ),                                         # <3>
 			  ##### Tab: Scatterplot ----
-			  tabPanel(
-			    title = "Plot: Scatterplot",
-			    plotly::plotlyOutput("scatterplot")
-			  ),
+			  tabPanel(                                  # <4>
+			    title = "Plot: Scatterplot",             # <4>
+			    plotly::plotlyOutput("scatterplot")      # <4>
+			  ),                                         # <4>
 			  ##### Tab: Table: Regression ----
-			  tabPanel(
-			    title = "Table: Model",
-			    htmlOutput("tableregression")
-			  )
+			  tabPanel(                                  # <5>
+			    title = "Table: Model",                  # <5>
+			    htmlOutput("tableregression")            # <5>
+			  )                                          # <5>
 			)
 		),
 		#### Box: Pair diagramm ----
@@ -757,6 +1387,12 @@ model <- tabItem(
 )
 ```
 
+1.  Adds a new `tabBox()` which can contain multiple `tabPanel()`
+2.  Specify the appearance of the tabs. `pills` fills the entire tab panel with the status color while `tabs` is more subtle in its coloring.
+3.  Add a tab that holds a Plotly coefficient plot
+4.  Add a tab that holds a Plotly scatter plot
+5.  Add a tab that holds a HTML regression table
+
 ## Digesting the new layout
 
 -   **Question:** What did we add here? Which outputs need to be filled with content?
@@ -764,18 +1400,22 @@ model <- tabItem(
 -   On the server side, we extend our reactive object with a linear regression model
 
 ```{r eval=F}
-mparams <- reactive({
+mparams <- reactive({                                            # <1>
 	x <- input$model_x
 	y <- input$model_y
 	dt <- sf::st_drop_geometry(guerry)[c(x, y)]
 	if (input$model_std) dt <- datawizard::standardise(dt)
-	form <- as.formula(paste(x, "~", paste(y, collapse = " + ")))
-	mod <- lm(form, data = dt)
+	form <- as.formula(paste(x, "~", paste(y, collapse = " + ")))  # <2>
+	mod <- lm(form, data = dt)                                     # <2>
 
-	list(x = x,	y = y, data = dt,	model = mod)
+	list(x = x,	y = y, data = dt,	model = mod)                     # <3>
 }) %>%
 	bindEvent(input$refresh, ignoreNULL = FALSE)
 ```
+
+1.  We renamed the `dt()` reactive object to `mparams()` as it now holds multiple arguments instead of just one dataframe
+2.  Create a formula and produce the linear regression output
+3.  Return a list of arguments to be used for the outputs
 
 ## Creating the output
 
@@ -783,65 +1423,70 @@ mparams <- reactive({
 
 ```{r eval=F}
 ### Pair diagram ----
-output$pairplot <- renderPlotly({
-	p <- GGally::ggpairs(mparams()$data, axisLabels = "none")
-	ggplotly(p)
-})
+output$pairplot <- renderPlotly({                           # <1>
+	p <- GGally::ggpairs(mparams()$data, axisLabels = "none") # <1>
+	ggplotly(p)                                               # <1>
+})                                                          # <1>
 
 ### Plot: Coefficientplot ----
-output$coefficientplot <- renderPlotly({
-	params <- mparams()
-	dt <- params$data
-	x <- params$x
-	y <- params$y
-
-	p <- plot(parameters::model_parameters(params$model))
-
-	ggplotly(p)
-})
+output$coefficientplot <- renderPlotly({                    # <2>
+	params <- mparams()                                       # <2>
+	dt <- params$data                                         # <2>
+	x <- params$x                                             # <2>
+	y <- params$y                                             # <2>
+                                                            # <2>
+	p <- plot(parameters::model_parameters(params$model))     # <2>
+                                                            # <2>
+	ggplotly(p)                                               # <2>
+})                                                          # <2>
 
 ### Plot: Scatterplot ----
-output$scatterplot <- renderPlotly({
-	params <- mparams()
-	dt <- params$data
-	dt_labels <- params$data_labels
-	x <- params$x 
-	y <- params$y
-
-
-	if (length(y) == 1) {
-	  p <- ggplot(params$data, 
-	              aes(x = .data[[params$x]], 
-	                  y = .data[[params$y]])) +
-	    geom_point() +
-	    geom_smooth() + 
-	    theme_light()
-	} else {
-	  p <- ggplot() +
-	    theme_void() +
-	    annotate("text", 
-	             label = "Cannot create scatterplot.\nMore than two variables selected.", 
-	             x = 0, y = 0, 
-	             size = 5, 
-	             colour = "red",
-	             hjust = 0.5,
-	             vjust = 0.5) +
-	  xlab(NULL)
-	  
-	}
-
-	ggplotly(p)
-})
+output$scatterplot <- renderPlotly({                        # <3>
+	params <- mparams()                                       # <3>
+	dt <- params$data                                         # <3>
+	dt_labels <- params$data_labels                           # <3>
+	x <- params$x                                             # <3>
+	y <- params$y                                             # <3>
+                                                            # <3>
+                                                            # <3>
+	if (length(y) == 1) {                                     # <3>
+	  p <- ggplot(params$data,                                # <3>
+	              aes(x = .data[[params$x]],                  # <3>
+	                  y = .data[[params$y]])) +               # <3>
+	    geom_point() +                                        # <3>
+	    geom_smooth() +                                       # <3>
+	    theme_light()                                         # <3>
+	} else {                                                  # <3>
+	  p <- ggplot() +                                         # <3>
+	    theme_void() +                                        # <3>
+	    annotate("text",                                      # <3>
+	             label = "Cannot create scatterplot.\nMore than two variables selected.", # <3>
+	             x = 0, y = 0,                                # <3>
+	             size = 5,                                    # <3>
+	             colour = "red",                              # <3>
+	             hjust = 0.5,                                 # <3>
+	             vjust = 0.5) +                               # <3>
+	  xlab(NULL)                                              # <3>
+	                                                          # <3>
+	}                                                         # <3>
+                                                            # <3>
+	ggplotly(p)                                               # <3>
+})                                                          # <3>
 
 ### Table: Regression ----
-output$tableregression <- renderUI({
-	params <- mparams()
-	HTML(modelsummary(
-		dvnames(list(params$model)),
-	  gof_omit = "AIC|BIC|Log|Adj|RMSE"
-	))
-})
+output$tableregression <- renderUI({                        # <4>
+	params <- mparams()                                       # <4>
+	HTML(modelsummary(                                        # <4>
+		dvnames(list(params$model)),                            # <4>
+	  gof_omit = "AIC|BIC|Log|Adj|RMSE"                       # <4>
+	))                                                        # <4>
+})                                                          # <4>
 ```
+
+1.  Again, we need to change the input to the `ggpairs()` function as the name and structure of the reactive object has changed.
+2.  Create a Plotly coefficient plot using the `parameters` package
+3.  Create a Plotly scatter plot for bi-variate regression. If more than one y variable is selected, an empty plot and a warning message is created.
+4.  Create a model table using the `modelsummary` package and prepare it for HTML rendering.
 
 ![](resources/05_04.gif)
 
@@ -849,6 +1494,7 @@ output$tableregression <- renderUI({
 
 ```{r eval=FALSE}
 #| code-fold: true
+#| code-summary: Full code for comparable visualization
 
 library(shiny)
 library(htmltools)
@@ -1259,4 +1905,14 @@ ggplotly(p) %>%
 	  yaxis = list(linewidth = 5, linecolor = "#000")
 	)
 ```
+:::
+
+::: callout-note
+## Exercise 7
+
+Currently, we have three input widgets to change the appearance of plots: `model_x`, `model_y`, and `model_std`. Implement another input widgets that allows users to manipulate the data, output or the plot appearance.
+:::
+
+::: {.callout-tip collapse="true"}
+Should the new input widget change all plots or just a selection of plots? Should the new widgets control the way data is cleaned (e.g. normalising), analysed (e.g. different modelling approaches) or displayed (e.g. plot theming)?
 :::
