@@ -42,6 +42,7 @@ format:
     toc: true
     number-sections: true
     toc-depth: 3
+    code-annotations: hover
 editor: 
   mode: source
 execute:
