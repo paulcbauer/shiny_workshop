@@ -186,4 +186,4 @@ cat(packages)
 2. [Shiny feature demos](https://shiny.posit.co/r/gallery/#feature-demos)
 3. [Shiny widget gallery](https://shiny.posit.co/r/gallery/widgets/widget-gallery/)
 4. [R Shiny for Enterprise Application Development: 6 Lessons for Building Shiny Apps](https://appsilon.com/why-you-should-use-r-shiny-for-enterprise-application-development/#anchor-7)
-
+5. [Shiny apps by Dimiter Toshkov](http://www.dimiter.eu/Visualizations.html)
