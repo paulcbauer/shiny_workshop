@@ -23,6 +23,7 @@ title: "About this workshop"
   packages <- stringr::str_wrap(packages, width = 80) 
   packages <- gsub("install.packages\\('pacman'\\)", "install.packages\\('pacman'\\)\n", packages) 
   packages <- gsub("library\\(pacman\\)", "library\\(pacman\\)\n", packages)
+  packages <- c(packages, "profvis", "rsconnect", "whereami")
 ```
 
 
