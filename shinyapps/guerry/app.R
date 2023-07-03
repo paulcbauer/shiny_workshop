@@ -875,7 +875,7 @@ server <- function(input, output, session) {
           },
           tags$tr(
             style = "line-height: 10px",
-            tags$td(tags$b(paste0(txts[[var]]$lgd, ": "))),
+            tags$td(tags$b(paste0(variable_desc[[var]]$lgd, ": "))),
             tags$td(round(val, 2))
           )
         )))

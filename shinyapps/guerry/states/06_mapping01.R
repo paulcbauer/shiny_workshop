@@ -459,38 +459,6 @@ ui <- dashboardPage(
         tabName = "tab_map", # must correspond to related menuItem name
         fluidRow(
           column(
-            #### Inputs(s) ----
-            width = 4, # must be between 1 and 12
-            box(
-              title = "Data selection",
-              status = "primary",
-              width = 12,
-              selectInput(
-                "tab_map_select",
-                label = "Select a variable",
-                choices = setNames(names(variable_names), variable_names)
-              ),
-              uiOutput("tab_map_desc")
-            ),
-            box(
-              title = "Map configuration",
-              status = "primary",
-              width = 12,
-              radioButtons(
-                "tab_map_aggr",
-                label = "Aggregation level",
-                choices = c("Departments", "Regions"),
-                selected = "Departments"
-              ),
-              selectInput(
-                "tab_map_pal",
-                label = "Color palette",
-                choices = pals,
-                selected = "Reds"
-              ) # end input
-            ) # end box
-          ), # end column
-          column(
             #### Output(s) ----
             width = 8,
             box(
@@ -747,8 +715,7 @@ server <- function(input, output, session) {
   
   ## 4.3 Map data ----
   output$tab_map_map <- leaflet::renderLeaflet({
-    params <- params()
-    leaflet(data = params$poly) %>%
+    leaflet() %>%
       addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
       addProviderTiles("OpenTopoMap", group = "OTM") %>%
       addProviderTiles("Stamen.TonerLite", group = "Stamen Toner") %>%

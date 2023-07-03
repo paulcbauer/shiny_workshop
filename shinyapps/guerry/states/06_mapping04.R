@@ -897,24 +897,6 @@ server <- function(input, output, session) {
         labFormat = labelFormat(suffix = variable_desc[[params$var]]$unit)
       )
   })
-  
-  
-  # Add a new marker
-  observe({
-    click <- input$tab_map_map_shape_click
-    req(click)
-    id <- paste0(click$lng, click$lat) # <1>
-    leafletProxy("tab_map_map") %>%
-      addMarkers(lng = click$lng, lat = click$lat, layerId = id) # <2>
-  })
-  
-  # Delete an existing marker
-  observe({
-    click <- input$tab_map_map_marker_click
-    req(click)
-    leafletProxy("tab_map_map") %>%
-      removeMarker(click$id) # <3>
-  })
 }
 
 shinyApp(ui, server)
