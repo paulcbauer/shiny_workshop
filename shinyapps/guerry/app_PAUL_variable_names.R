@@ -39,6 +39,28 @@ data_guerry <- Guerry::gfrance85 %>%
   select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>%
   select(Region:Department, where(is.numeric))
 
+variable_names <- list(Crime_pers = "Crime against persons",  
+                       Crime_prop =  "Crime against property",  
+                       Literacy = "Literacy",  
+                       Donations = "Donations to the poor",  
+                       Infants = "Illegitimate births",  
+                       Suicides = "Suicides",  
+                       Wealth = "Tax / capita",  
+                       Commerce = "Commerce & Industry",  
+                       Clergy = "Clergy",  
+                       Crime_parents = "Crime against parents",  
+                       Infanticide = "Infanticides",  
+                       Donation_clergy = "Donations to the clergy",  
+                       Lottery = "Wager on Royal Lottery",  
+                       Desertion = "Military desertion",  
+                       Insturction = "Instruction",  
+                       Prostitutes = "Prostitutes",  
+                       Distance = "Distance to paris",  
+                       Area = "Area",  
+                       Pop1831 = "Population")
+
+
+
 ## Prep data (Tab: Tabulate data) ----
 data_guerry_tabulate <- data_guerry %>% 
   select(-Region) %>%
@@ -272,7 +294,7 @@ ui <- dashboardPage(
           pickerInput(
             "tab_tabulate_select",
             label = "Filter variables",
-            choices = names(data_guerry_tabulate),
+            choices = setNames(names(variable_names), variable_names),
             options = pickerOptions(
               actionsBox = TRUE,
               windowPadding = c(30, 0, 0, 0),
