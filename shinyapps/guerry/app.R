@@ -21,10 +21,10 @@ library(performance)
 library(ggdark)
 library(modelsummary)
 
-# Data preparation ----
+# 1 Data preparation ----
 
-## Clean ----
-guerry <- Guerry::gfrance85 %>%
+## Load & clean data ----
+data_guerry <- Guerry::gfrance85 %>%
   st_as_sf() %>%
   as_tibble() %>%
   st_as_sf(crs = 27572) %>%
@@ -35,19 +35,55 @@ guerry <- Guerry::gfrance85 %>%
     "N" ~ "North",
     "S" ~ "South",
     "W" ~ "West"
-  ))
+  )) %>%
+  select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>%
+  select(Region:Department, where(is.numeric))
 
-variables <- guerry %>%
+variable_names <- list(Crime_pers = "Crime against persons",  
+                       Crime_prop =  "Crime against property",  
+                       Literacy = "Literacy",  
+                       Donations = "Donations to the poor",  
+                       Infants = "Illegitimate births",  
+                       Suicides = "Suicides",  
+                       Wealth = "Tax / capita",  
+                       Commerce = "Commerce & Industry",  
+                       Clergy = "Clergy",  
+                       Crime_parents = "Crime against parents",  
+                       Infanticide = "Infanticides",  
+                       Donation_clergy = "Donations to the clergy",  
+                       Lottery = "Wager on Royal Lottery",  
+                       Desertion = "Military desertion",  
+                       Insturction = "Instruction",  
+                       Prostitutes = "Prostitutes",  
+                       Distance = "Distance to paris",  
+                       Area = "Area",  
+                       Pop1831 = "Population")
+
+
+
+## Prep data (Tab: Tabulate data) ----
+data_guerry_tabulate <- data_guerry %>% 
+  select(-Region) %>%
+  st_drop_geometry(data_table) %>% 
+  mutate(across(where(is.numeric), round, 2))
+
+
+
+
+
+## Prep data (Tab: Map data) ----
+variables <- data_guerry %>%
   st_drop_geometry() %>%
-  select(where(is.numeric) & !all_of(c("COUNT", "dept", "AVE_ID_GEO"))) %>%
+  select(where(is.numeric)) %>%
   names()
 
-## Aggregate ----
-## Used for mapping and tabulating
-guerry_region <- guerry %>%
+# Aggregate data
+data_guerry_region <- data_guerry %>%
+  st_drop_geometry() %>%
+  select(-Department) %>%
   group_by(Region) %>%
   summarise(across(
-  .cols = all_of(variables),
+  .cols = everything(),
   function(x) {
     if (cur_column() %in% c("Area", "Pop1831")) {
       sum(x)
@@ -57,8 +93,8 @@ guerry_region <- guerry %>%
   }
 ))
 
-## Read text data ----
-## Used for mapping
+
+## Import data labels ----
 txts <- read_json("app_labels.json", simplifyVector = TRUE)
 
 ## Prepare palettes ----
@@ -78,7 +114,7 @@ plotly_buttons <- c(
 	"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
 )
 
-## Create theme ----
+# 2 Create theme & preload ----
 dash_theme <- create_theme(
   bs4dash_status(
     primary = "#58748f",
@@ -120,13 +156,13 @@ preloader <- list(
 
 
 
-# UI ----
+# 3 UI ----
 
 ui <- dashboardPage(
   title = "The Guerry Dashboard",
   freshTheme = dash_theme,
   preloader = preloader,
-  ## Header ----
+  ## 3.1 Header ----
   header = dashboardHeader(
     tags$style("
       /* remove white space from header */
@@ -149,7 +185,7 @@ ui <- dashboardPage(
     skin = "light",
     sidebarIcon = tags$i(class = "fa fa-bars", style = "color: black;")
   ),
-  ## Sidebar ----
+  ## 3.2 Sidebar ----
   sidebar = dashboardSidebar(
     id = "sidebar",
     sidebarMenu(
@@ -165,14 +201,14 @@ ui <- dashboardPage(
     fixed = FALSE,
     skin = "light"
   ),
-  ## Body ----
+  ## 3.3 Body ----
   body = dashboardBody(
     tags$head(
       waiter::use_waiter(),
       includeCSS("www/styles.css")
     ),
     tabItems(
-      ### Tab: Introduction ----
+      ### 3.1.1 Tab: Introduction ----
       tabItem(
         tabName = "tab_intro",
         jumbotron(
@@ -250,7 +286,7 @@ ui <- dashboardPage(
           )
         )
       ),
-      ### Tab: Tabulate data ----
+      ### 3.3.2 Tab: Tabulate data ----
       tabItem(
         tabName = "tab_tabulate",
         fluidRow(
@@ -258,7 +294,7 @@ ui <- dashboardPage(
           pickerInput(
             "tab_tabulate_select",
             label = "Filter variables",
-            choices = variables,
+            choices = setNames(names(variable_names), variable_names),
             options = pickerOptions(
               actionsBox = TRUE,
               windowPadding = c(30, 0, 0, 0),
@@ -269,25 +305,13 @@ ui <- dashboardPage(
             ),
             inline = TRUE,
             multiple = TRUE
-          ),
-          div(style = "width: 20px;"),
-          radioGroupButtons(
-            "tab_tabulate_aggr",
-            label = "Aggregation level",
-            choices = c("Departments", "Regions"),
-            selected = "Departments",
-            individual = TRUE,
-            checkIcon = list(
-              yes = tags$i(class = "fa fa-circle", style = "color: #58748f;"),
-              no = tags$i(class = "fa fa-circle-o", style = "color: #58748f;")
-            )
           )
         ),
         hr(),
         #### Output(s) (Data table) ----
         DT::dataTableOutput("tab_tabulate_table")
       ),
-      ### Tab: Model data ----
+      ### 3.3.3 Tab: Model data ----
       tabItem(
         tabName = "tab_model",
         fluidRow(
@@ -301,14 +325,14 @@ ui <- dashboardPage(
               shinyWidgets::pickerInput(
                 "model_x",
                 label = "Select a dependent variable",
-                choices = setNames(variables, sapply(txts, "[[", "title")),
+                choices = names(data_guerry[-c(1,2)]),
                 options = shinyWidgets::pickerOptions(liveSearch = TRUE),
                 selected = "Literacy"
               ),
               shinyWidgets::pickerInput(
                 "model_y",
                 label = "Select independent variables",
-                choices = setNames(variables, sapply(txts, "[[", "title")),
+                choices = names(data_guerry[-c(1,2)]),
                 options = shinyWidgets::pickerOptions(
                   actionsBox = TRUE,
                   liveSearch = TRUE,
@@ -390,7 +414,7 @@ ui <- dashboardPage(
           )
         )
       ),
-      ### Tab: Map data ----
+      ### 3.3.4 Tab: Map data ----
       tabItem(
         tabName = "tab_map", # must correspond to related menuItem name
         fluidRow(
@@ -448,12 +472,8 @@ ui <- dashboardPage(
       ) # end tabItem
     ) # end tabItems
   ),
-  ## Controlbar (top)----
-  controlbar = dashboardControlbar(
-    div(class = "p-3", skinSelector()),
-  	skin = "light"
-  ),
-  ## Footer (bottom)----
+
+  ## 3.4 Footer (bottom)----
   footer = dashboardFooter(
   	left = span(
   		"This dashboard was created by Jonas Lieth and Paul Bauer. Find the source code",
@@ -461,32 +481,30 @@ ui <- dashboardPage(
   		"It is based on data from the",
   		a("Guerry R package.", href = "https://cran.r-project.org/web/packages/Guerry/index.html")
   	)
-  )
+  ),
+  ## 3.5 Controlbar (top)----
+  controlbar = dashboardControlbar(
+    div(class = "p-3", skinSelector()),
+    skin = "light"
+  )  
 )
 
 
 
-# Server ----
+# 4 Server ----
 
 server <- function(input, output, session) {
   
-  ## Tabulate data ----
+  ## 4.1 Tabulate data ----
   ### Variable selection ----
   tab <- reactive({
     var <- input$tab_tabulate_select
-    if (identical(input$tab_tabulate_aggr, "Departments")) {
-      data_table <- guerry
-    } else {
-      data_table <- guerry_region
-    }
+    data_table <- data_guerry_tabulate
     
     if (!is.null(var)) {
-      data_table <- data_table[var]
+      data_table <- data_table[, var]
     }
-    
-    data_table <- select(data_table, !any_of(c("CODE_DEPT", "COUNT", "AVE_ID_GEO", "dept")))
-    data_table <- st_drop_geometry(data_table)
-    data_table[var] <- round(data_table[var], 2)
+
     data_table
   })
   
@@ -531,13 +549,13 @@ server <- function(input, output, session) {
   
   
   
-  ## Model data ----
+  ## 4.2 Model data ----
   ### Define & estimate model ----
   mparams <- reactive({
     x <- input$model_x
     y <- input$model_y
-    dt <- sf::st_drop_geometry(guerry)[c(x, y)]
-    dt_labels <- sf::st_drop_geometry(guerry)[c("Department", "Region")]
+    dt <- sf::st_drop_geometry(data_guerry)[c(x, y)]
+    dt_labels <- sf::st_drop_geometry(data_guerry)[c("Department", "Region")]
     if (input$model_std) dt <- datawizard::standardise(dt)
     form <- as.formula(paste(x, "~", paste(y, collapse = " + ")))
     mod <- lm(form, data = dt)
@@ -693,7 +711,7 @@ server <- function(input, output, session) {
   })
   
   
-  ## Map data ----
+  ## 4.3 Map data ----
   
   # Render description of selected variable
   output$tab_map_desc <- renderUI({
@@ -703,9 +721,9 @@ server <- function(input, output, session) {
   # Select polygon based on aggregation level
   poly <- reactive({
     if (identical(input$tab_map_aggr, "Regions")) {
-      guerry_region
+      data_guerry_region
     } else {
-      guerry
+      data_guerry
     }
   })
   
