@@ -42,7 +42,7 @@ format:
     toc: true
     number-sections: true
     toc-depth: 3
-    code-annotations: false
+    code-annotations: true
     code-line-numbers: true
     tbl-cap-location: top
 editor: 
