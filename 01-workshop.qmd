@@ -67,6 +67,7 @@ workshop?
 
 
 ## Contact & Outline & Dates
+- **Important**: 1st time we teach workshop/material
 - **Course outline/content/dates:** (see toc on the left) 
   - Day 1: Introduction to Shiny
     - 13:00 - 14:00: Welcome and Introduction (1)
@@ -105,7 +106,7 @@ workshop?
 	- Document generated with [quarto](https://quarto.org/)
 - **Motivation**: Have a go-to script for participants (and ourselves!)
 - **Content**: Mixture of theory, lab sessions, exercises and pure code examples for discussion
-- **Important**: 1st time we teach workshop/material
+
 
 
 
