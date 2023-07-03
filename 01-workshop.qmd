@@ -114,8 +114,8 @@ workshop?
 - **Strategy**: From the simple to the complex, slowly building up a complex Shiny app that includes various aspects (tabulate data, modelling and descriptive graphs, mapping)
 
 - **Goals**: By the end of the course participants will:
-	- understand the basics of reactive programming for interactive data analysis and visualization
 	- know what the structure of a Shiny application looks like
+	- understand the basics of reactive programming for interactive data analysis and visualization
 	- be comfortable to use R Shiny to build their own interactive applications
 	- have learned about different ways to launch their Shiny application
 
@@ -144,7 +144,7 @@ workshop?
     ;-) (on a screen)
         + Remember: "How is your Shiny app consumed (smartphone)?"
     + Participation from everywhere
-* **Rule(s)**: Please keep your camera online!
+* **Rule(s)**: Please keep your camera online if possible!
   + Distracting animals/children/partners are a welcome distraction!
   + Yawning, leaving, looking bored etc. allowed!
   + Use a virtual background if you like!
@@ -160,8 +160,8 @@ workshop?
     
 ## Recommended readings
 
-- Important: The course does not require any prior reading. 
-- However, our schedule is primarily based on two textbooks which we generally recommend for further reading:
+- **Important**: Our workshop does not require any prior reading. 
+- However, our schedule is primarily based on two textbooks which we generally recommend for further reading (see references on website):
 	- @wickham2021mastering: Mastering Shiny: Build Interactive Apps, Reports, and Dashboards Powered by R. Accessible online at: https://mastering-shiny.org/. 
 	- Fay, Colin, Rochette, Sébastien, Guyader, Vincent, and Girard, Cervan (2022): Engineering Production-Grade Shiny Apps. Accessible online at: https://engineering-shiny.org/.
 
