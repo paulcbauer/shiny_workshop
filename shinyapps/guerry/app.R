@@ -24,6 +24,145 @@ library(modelsummary)
 # 1 Data preparation ----
 
 ## Load & clean data ----
+variable_names <- list(
+  Crime_pers = "Crime against persons",  
+  Crime_prop =  "Crime against property",  
+  Literacy = "Literacy",  
+  Donations = "Donations to the poor",  
+  Infants = "Illegitimate births",  
+  Suicides = "Suicides",  
+  Wealth = "Tax / capita",  
+  Commerce = "Commerce & Industry",  
+  Clergy = "Clergy",  
+  Crime_parents = "Crime against parents",  
+  Infanticide = "Infanticides",  
+  Donation_clergy = "Donations to the clergy",  
+  Lottery = "Wager on Royal Lottery",  
+  Desertion = "Military desertion",  
+  Instruction = "Instruction",  
+  Prostitutes = "Prostitutes",  
+  Distance = "Distance to paris",  
+  Area = "Area",  
+  Pop1831 = "Population"
+)
+
+variable_desc <- list(
+  Crime_pers = list(
+    title = "Crime against persons",
+    desc = as.character(p(tags$b("Crime against persons:"), "Population per crime against persons", hr(), helpText("Source: Table A2 in Guerry (1833). Compte général, 1825-1830"))),
+    lgd = "Pop. per crime",
+    unit = ""
+  ),
+  Crime_prop = list(
+    title = "Crime against property",
+    desc = as.character(p(tags$b("Crime against property:"), "Population per crime against property", hr(), helpText("Source: Compte général, 1825-1830"))),
+    lgd = "Pop. per crime",
+    unit = ""
+  ),
+  Literacy = list(
+    title = "Literacy",
+    desc = as.character(p(tags$b("Percent Read & Write:"), "Percent of military conscripts who can read and write", hr(), helpText("Source: Table A2 in Guerry (1833)"))),
+    lgd = "Literacy",
+    unit = " %"
+  ),
+  Donations = list(
+    title = "Donations to the poor",
+    desc = as.character(p(tags$b("Donations to the poor"), hr(), helpText("Source: Table A2 in Guerry (1833). Bulletin des lois"))),
+    lgd = "Donations",
+    unit = ""
+  ),
+  Infants = list(
+    title = "Illegitimate births",
+    desc = as.character(p(tags$b("Population per illegitimate birth"), hr(), helpText("Source: Table A2 in Guerry (1833). Bureau des Longitudes, 1817-1821"))),
+    lgd = "Pop. per birth",
+    unit = ""
+  ),
+  Suicides = list(
+    title = "Suicides",
+    desc = as.character(p(tags$b("Population per suicide"), hr(), helpText("Source: Table A2 in Guerry (1833). Compte général, 1827-1830"))),
+    lgd = "Pop. per suicide",
+    unit = ""
+  ),
+  Wealth = list(
+    title = "Tax / capita",
+    desc = as.character(p(tags$b("Per capita tax on personal property:"), "A ranked index based on taxes on personal and movable property per inhabitant", hr(), helpText("Source: Table A1 in Guerry (1833)"))),
+    lgd = "Tax / capita",
+    unit = ""
+  ),
+  Commerce = list(
+    title = "Commerce & Industry",
+    desc = as.character(p(tags$b("Commerce & Industry:"), "Commerce and Industry, measured by the rank of the number of patents / population", hr(), helpText("Source: Table A1 in Guerry (1833)"))),
+    lgd = "Patents / capita",
+    unit = ""
+  ),
+  Clergy = list(
+    title = "Clergy",
+    desc = as.character(p(tags$b("Distribution of clergy:"), "Distribution of clergy, measured by the rank of the number of Catholic priests in active service / population", hr(), helpText("Source: Table A1 in Guerry (1833). Almanach officiel du clergy, 1829"))),
+    lgd = "Priests / capita",
+    unit = ""
+  ),
+  Crime_parents = list(
+    title = "Crime against parents",
+    desc = as.character(p(tags$b("Crime against parents:"), "Crimes against parents, measured by the rank of the ratio of crimes against parents to all crimes \u2013 Average for the years 1825-1830", hr(), helpText("Source: Table A1 in Guerry (1833). Compte général"))),
+    lgd = "Share of crimes",
+    unit = " %"
+  ),
+  Infanticide = list(
+    title = "Infanticides",
+    desc = as.character(p(tags$b("Infanticides per capita:"), "Ranked ratio of number of infanticides to population \u2013 Average for the years 1825-1830", hr(), helpText("Source: Table A1 in Guerry (1833). Compte général"))),
+    lgd = "Infanticides / capita",
+    unit = ""
+  ),
+  Donation_clergy = list(
+    title = "Donations to the clergy",
+    desc = as.character(p(tags$b("Donations to the clergy:"), "Ranked ratios of the number of bequests and donations inter vivios to population \u2013 Average for the years 1815-1824", hr(), helpText("Source: Table A1 in Guerry (1833). Bull. des lois, ordunn. d’autorisation"))),
+    lgd = "Donations / capita",
+    unit = ""
+  ),
+  Lottery = list(
+    title = "Wager on Royal Lottery",
+    desc = as.character(p(tags$b("Per capita wager on Royal Lottery:"), "Ranked ratio of the proceeds bet on the royal lottery to population \u2013 Average for the years 1822-1826", hr(), helpText("Source: Table A1 in Guerry (1833). Compte rendu par le ministre des finances"))),
+    lgd = "Wager / capita",
+    unit = ""
+  ),
+  Desertion = list(
+    title = "Military desertion",
+    desc = as.character(p(tags$b("Military desertion:"), "Military disertion, ratio of the number of young soldiers accused of desertion to the force of the military contingent, minus the deficit produced by the insufficiency of available billets\u2013 Average of the years 1825-1827", hr(), helpText("Source: Table A1 in Guerry (1833). Compte du ministère du guerre, 1829 état V"))),
+    lgd = "No. of desertions",
+    unit = ""
+  ),
+  Instruction = list(
+    title = "Instruction",
+    desc = as.character(p(tags$b("Instruction:"), "Ranks recorded from Guerry's map of Instruction. Note: this is inversely related to literacy (as defined here)")),
+    lgd = "Instruction",
+    unit = ""
+  ),
+  Prostitutes = list(
+    title = "Prostitutes",
+    desc = as.character(p(tags$b("Prostitutes in Paris:"), "Number of prostitutes registered in Paris from 1816 to 1834, classified by the department of their birth", hr(), helpText("Source: Parent-Duchatelet (1836), De la prostitution en Paris"))),
+    lgd = "No. of prostitutes",
+    unit = ""
+  ),
+  Distance = list(
+    title = "Distance to paris",
+    desc = as.character(p(tags$b("Distance to Paris (km):"), "Distance of each department centroid to the centroid of the Seine (Paris)", hr(), helpText("Source: Calculated from department centroids"))),
+    lgd = "Distance",
+    unit = " km"
+  ),
+  Area = list(
+    title = "Area",
+    desc = as.character(p(tags$b("Area (1000 km^2)"), hr(), helpText("Source: Angeville (1836)"))),
+    lgd = "Area",
+    unit = " km\u00b2"
+  ),
+  Pop1831 = list(
+    title = "Population",
+    desc = as.character(p(tags$b("Population in 1831, in 1000s"), hr(), helpText("Source: Taken from Angeville (1836), Essai sur la Statistique de la Population français"))),
+    lgd = "Population (in 1000s)",
+    unit = ""
+  )
+)
+
 data_guerry <- Guerry::gfrance85 %>%
   st_as_sf() %>%
   as_tibble() %>%
@@ -37,53 +176,21 @@ data_guerry <- Guerry::gfrance85 %>%
     "W" ~ "West"
   )) %>%
   select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>%
-  select(Region:Department, where(is.numeric))
-
-variable_names <- list(Crime_pers = "Crime against persons",  
-                       Crime_prop =  "Crime against property",  
-                       Literacy = "Literacy",  
-                       Donations = "Donations to the poor",  
-                       Infants = "Illegitimate births",  
-                       Suicides = "Suicides",  
-                       Wealth = "Tax / capita",  
-                       Commerce = "Commerce & Industry",  
-                       Clergy = "Clergy",  
-                       Crime_parents = "Crime against parents",  
-                       Infanticide = "Infanticides",  
-                       Donation_clergy = "Donations to the clergy",  
-                       Lottery = "Wager on Royal Lottery",  
-                       Desertion = "Military desertion",  
-                       Insturction = "Instruction",  
-                       Prostitutes = "Prostitutes",  
-                       Distance = "Distance to paris",  
-                       Area = "Area",  
-                       Pop1831 = "Population")
+  select(Region:Department, all_of(names(variable_names)))
 
 
 
 ## Prep data (Tab: Tabulate data) ----
 data_guerry_tabulate <- data_guerry %>% 
-  select(-Region) %>%
-  st_drop_geometry(data_table) %>% 
-  mutate(across(where(is.numeric), round, 2))
-
-
-
+  st_drop_geometry() %>% 
+  mutate(across(.cols = all_of(names(variable_names)), round, 2))
 
 
 ## Prep data (Tab: Map data) ----
-variables <- data_guerry %>%
-  st_drop_geometry() %>%
-  select(where(is.numeric)) %>%
-  names()
-
-# Aggregate data
 data_guerry_region <- data_guerry %>%
-  st_drop_geometry() %>%
-  select(-Department) %>%
   group_by(Region) %>%
   summarise(across(
-  .cols = everything(),
+  .cols = all_of(names(variable_names)),
   function(x) {
     if (cur_column() %in% c("Area", "Pop1831")) {
       sum(x)
@@ -92,10 +199,6 @@ data_guerry_region <- data_guerry %>%
     }
   }
 ))
-
-
-## Import data labels ----
-txts <- read_json("app_labels.json", simplifyVector = TRUE)
 
 ## Prepare palettes ----
 ## Used for mapping
@@ -325,14 +428,14 @@ ui <- dashboardPage(
               shinyWidgets::pickerInput(
                 "model_x",
                 label = "Select a dependent variable",
-                choices = names(data_guerry[-c(1,2)]),
+                choices = setNames(names(variable_names), variable_names),
                 options = shinyWidgets::pickerOptions(liveSearch = TRUE),
                 selected = "Literacy"
               ),
               shinyWidgets::pickerInput(
                 "model_y",
                 label = "Select independent variables",
-                choices = names(data_guerry[-c(1,2)]),
+                choices = setNames(names(variable_names), variable_names),
                 options = shinyWidgets::pickerOptions(
                   actionsBox = TRUE,
                   liveSearch = TRUE,
@@ -428,7 +531,7 @@ ui <- dashboardPage(
               shinyWidgets::pickerInput(
                 "tab_map_select",
                 label = "Select a variable",
-                choices = setNames(variables, sapply(txts, "[[", "title")),
+                choices = setNames(names(variable_names), variable_names),
                 options = shinyWidgets::pickerOptions(liveSearch = TRUE)
               ),
               uiOutput("tab_map_desc")
@@ -715,7 +818,7 @@ server <- function(input, output, session) {
   
   # Render description of selected variable
   output$tab_map_desc <- renderUI({
-    HTML(txts[[input$tab_map_select]]$desc)
+    HTML(variable_desc[[input$tab_map_select]]$desc)
   })
   
   # Select polygon based on aggregation level
@@ -825,8 +928,8 @@ server <- function(input, output, session) {
         pal = params$pal,
         values = params$values,
         opacity = 0.9,
-        title = txts[[params$var]]$lgd,
-        labFormat = labelFormat(suffix = txts[[params$var]]$unit)
+        title = variable_desc[[params$var]]$lgd,
+        labFormat = labelFormat(suffix = variable_desc[[params$var]]$unit)
       )
   })
   
@@ -859,8 +962,8 @@ server <- function(input, output, session) {
         pal = params$pal,
         values = params$values,
         opacity = 0.9,
-        title = txts[[params$var]]$lgd,
-        labFormat = labelFormat(suffix = txts[[params$var]]$unit)
+        title = variable_desc[[params$var]]$lgd,
+        labFormat = labelFormat(suffix = variable_desc[[params$var]]$unit)
       )
   })
   
