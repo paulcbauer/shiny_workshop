@@ -610,7 +610,7 @@ d.  `renderText(str(lm(mpg ~ wt, data = mtcars)))`
 2.  Update the options in the call to `renderDataTable()` below so that the data is displayed, but all other controls are suppress (i.e. remove the search, ordering, and filtering commands).
     You'll need to read `?renderDataTable` and review the options at <https://datatables.net/reference/option/> or at <https://shiny.posit.co/r/gallery/widgets/datatables-options/>
 
-```{r 03-user-interface-16}
+```{r 03-user-interface-16, eval=FALSE}
 ui <- fluidPage(
       dataTableOutput("table")
     )
