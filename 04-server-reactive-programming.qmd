@@ -583,7 +583,7 @@ shinyApp(ui = ui, server = server)
 
 
 
-```{r}
+```{r eval=FALSE}
 ## install.packages("pacman")
 pacman::p_load(shiny, htmltools, bs4Dash, fresh,
                waiter, shinyWidgets, Guerry, sf,
@@ -611,9 +611,8 @@ data_guerry <- Guerry::gfrance85 %>%
 
 ## Prep data (Tab: Tabulate data) ----
 data_guerry_tabulate <- data_guerry %>% 
-  select(-Region) %>%
-  st_drop_geometry(data_table) %>% 
-  mutate(across(where(is.numeric), round, 2))
+  st_drop_geometry() %>% 
+  mutate(across(.cols = all_of(unlist(variable_names)), round, 2))
 
 
 
@@ -771,8 +770,7 @@ data_guerry <- Guerry::gfrance85 %>%
 
 ## Prep data (Tab: Tabulate data) ----
 data_guerry_tabulate <- data_guerry %>% 
-  select(-Region) %>%
-  st_drop_geometry(data_table) %>% 
+  st_drop_geometry() %>% 
   mutate(across(where(is.numeric), round, 2))
 
 
