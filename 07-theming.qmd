@@ -27,73 +27,51 @@ pacman::p_load(
 You will learn how to:
 
 -   Apply global themes to your Shiny app
-
 -   Use the "Inspect" tool to your advantage
-
 -   Add visual feedback during loading times
-
 -   Supplement basic CSS to do what R cannot
 
 ## Theming in Shiny
 
 -   Shiny apps look a bit lackluster by default - but why is that?
-
 -   Shiny is based on a raw form of Bootstrap by default
 
 ### Bootstrap
 
 -   [Bootstrap](https://en.wikipedia.org/wiki/Bootstrap_(front-end_framework)) is a framework containing design templates that are based on CSS, HTML and JavaScript
-
     -   Used by around 20% of websites
-
     -   One of the most popular GitHub projects
-
     -   Possibly a bit boring due to its popularity
-
 -   Classic Shiny uses Bootstrap 3
-
 -   `bs4Dash`, the package we use for the Guerry dashboard, uses Bootstrap 4 (more precisely [AdminLTE 3](https://adminlte.io/))
 
 ### Shiny extensions for styling
 
 -   Shiny has some really cool extensions for amping up your UI, some of which we will address:
-
     -   [`bslib`](https://rstudio.github.io/bslib/) - customize bootstrap themes
-
     -   [`fresh`](https://dreamrs.github.io/fresh/reference/fresh.html) - customize dashboard themes
-
     -   [`waiter`](https://shiny.john-coene.com/waiter/) - create pretty spinners
-
     -   [`shinyWidgets`](https://cran.r-project.org/web/packages/shinyWidgets/index.html) - beautify input widgets
-
     -   [`shinyjs`](https://cran.r-project.org/web/packages/shinyjs/index.html) - do JavaScript magic without knowing JavaScript
 
 ### Further reading
 
 -   [Chapter 6](https://mastering-shiny.org/action-layout.html) of Hadley Wickham's "Mastering Shiny"
-
 -   [Chapter 6 to 9](https://unleash-shiny.rinterface.com/beautify-css.html) of David Granjon's "Outstanding User Interfaces with Shiny"
 
 ## Inspect tool
 
 -   Most major browsers offer an "Inspect" tool for websites
-
     -   Lets you manipulate single HTML elements in real time (**HTML pane**)
-
     -   Lets you change the CSS styling of a website in real time (**CSS pane**)
-
     -   Lets you change the layout of a website in real time (**Layout pane**)
-
     -   Provides an interface to visualize where HTML elements are located on a website (**"Pick an element"**)
-
     -   Lets you extract colors directly from a website (**"Grab a color"**)
 
 ### How to open the inspector
 
 1.  Visit a website (e.g. your Shiny app in a browser)
-
 2.  Right click somewhere (e.g. an element you want to inspect)
-
 3.  Select "Inspect"
 
 -   A window will open that looks just like the one below
@@ -107,25 +85,17 @@ Also works in RStudio! Right click somewhere, then "Inspect Element"
 ### Exploring the inspector
 
 -   **Question:** From the list above, can you make out which part of the inspector does what?
-
     -   HTML pane
-
     -   CSS pane
-
     -   Layout pane
-
     -   Pick an element
-
     -   Grab a color
-
 -   Despite the complicated look, the Inspect tool can be useful for all kinds of theming endeavours
 
 ## Theming with `bslib`
 
 -   The `bslib` package can be used to control the bootstrap theme configuration
-
 -   Bootstrap themes can be specified using the [`bs_theme()`](https://rstudio.github.io/bslib/reference/bs_theme.html) function
-
 -   In Shiny, we can plug `bs_theme`s in page layout such as [`fillPage()`](https://shiny.posit.co/r/reference/shiny/1.4.0/fillpage) or [`fluidPage()`](https://shiny.posit.co/r/reference/shiny/1.4.0/fluidpage)
 
 ### Bootstrap versions with `bslib`
@@ -155,7 +125,6 @@ shinyApp(ui, server)
 ### Bootswatch
 
 -   Other than the version, there's a lot to change in [`bs_theme()`](https://rstudio.github.io/bslib/reference/bs_theme.html)
-
 -   For example, we can apply one of the pre-made Bootswatch themes:
 
 ```{r eval=FALSE}
@@ -193,19 +162,14 @@ The code to update the theme including all arguments is printed to the console!
 ## Theming with `fresh`
 
 -   [`fresh`](https://dreamrs.github.io/fresh/reference/fresh.html) is an R package that can be used to theme, besides classic Shiny, dashboards like [`shinydashboard`](https://rstudio.github.io/shinydashboard/) and [`bs4Dash`](https://rinterface.github.io/bs4Dash/)
-
 -   [`bs4Dash`](https://rinterface.github.io/bs4Dash/) can easily be themed using the [`fresh`](https://dreamrs.github.io/fresh/reference/fresh.html) package
 
 ### Adding a GESIS-like theme
 
 -   Workflow:
-
     -   Create a theme using [`fresh::create_theme()`](https://dreamrs.github.io/fresh/reference/create_theme.html)
-
     -   Add theming elements, such as layout, colors, fonts
-
     -   Pass the theme object as an argument to [`dashboardPage()`](https://rinterface.github.io/bs4Dash/reference/dashboardPage.html)
-
 -   In the following code chunk, we add a theme that roughly resembles the GESIS web style
 
 ::: callout-tip
@@ -256,17 +220,13 @@ Using the pipette tool from the Inspector, extract the color scheme from a websi
 ## Spinners
 
 -   A lack of feedback in graphical user interfaces can lead to frustration
-
 -   In such cases, spinners can be an elegant solution
-
 -   There are many Shiny extensions that support spinners: [`shinycssloaders`](https://cran.r-project.org/web/packages/shinycssloaders/), [`shinybusy`](https://cran.r-project.org/web/packages/shinybusy/), [`waiter`](https://cran.r-project.org/web/packages/waiter/)
 
 ### Startup spinners with `waiter`
 
 -   `bs4Dash` and `waiter` work particularly well together:
-
     -   Call `tags$head(use_waiter())` at the beginning of `dashboardBody`
-
     -   Assemble a preloader and pass it as an argument to the `dashboardPage`
 
 ::: callout-tip
@@ -292,11 +252,8 @@ ui <- dashboardPage(
 ## Custom styling
 
 -   Shiny apps can look good without a single line of non-R code
-
 -   However, to give an app the final touch, it's hard to get around CSS
-
 -   Not least, Shiny apps are built using HTML, CSS and JavaScript, so it's naturally a good idea to know the essentials
-
 -   The `bs4Dash::box()` applies a lot of styling behind the scenes and we can inspect what exactly is happening by printing its returned object:
 
 ```{r}
@@ -306,9 +263,7 @@ print(bs4Dash::box())
 ### CSS
 
 -   [CSS](https://en.wikipedia.org/wiki/CSS) (Cascading Style Sheets) is a computer language that is used to style HTML documents
-
 -   HTML provides the containers, CSS styles them
-
 -   We can write HTML and CSS easily from within R using the `htmltools` package (see `?builder` and `?browsable`)
 
 ```{r}
@@ -378,21 +333,17 @@ browsable(div(
 ```
 
 -   **Question:** Why is `div.cls` green and not blue or black?
-
 -   Combining the knowledge from above:
-
     -   `p.cls` changes the properties of all `p` tags with class `cls`
-
     -   `#id .cls` changes the properties of all elements with class `cls` within an element of ID `id`
 
 ### CSS properties
 
 -   CSS is build entirely upon so-called properties
-
 -   A complete reference of CSS can be found in the [Mozilla developer docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
 
 | Property           | Description                                      | Example values                     |
-|-----------------|--------------------------------|-----------------------|
+|--------------------|--------------------------------------------------|------------------------------------|
 | `color`            | Sets the color of an element                     | #000, black                        |
 | `background-color` | Sets the color of the element background         | #000, black                        |
 | `display`          | Determines how the element is displayed          | inline, block, flex, grid          |
@@ -416,19 +367,14 @@ browsable(div(
 ### Including CSS in R
 
 -   CSS can either be defined using inline CSS (`tags$style`) or an external CSS file
-
 -   In the Guerry app, we include a CSS file which takes care of some styling:
-
     -   Add a folder called "www" in your app directory
-
     -   Add a file called "styles.css" to that folder
-
     -   In R, add: `tags$head(includeCSS("www/styles.css"))` to the `dashboardBody`
 
 ### Example: Removing white space
 
 -   During session 6: mapping, you might have noticed a large amount of white space when making the Leaflet map
-
 -   Not a tragedy, but we lose quite a lot of functional space
 
 ![](resources/white_space.png)
@@ -436,15 +382,10 @@ browsable(div(
 #### Diagnosis
 
 -   Cause: `bs4Dash::box()` reserves some space in its header and body for some reason
-
 -   How do we know?
-
     1.  Right click on the white space
-
     2.  Open the inspector
-
     3.  Look out for the properties "padding" or "margin", usually the culprits in terms of white space
-
     4.  Disable them to see what changes
 
 ![](resources/07_01.gif)
@@ -452,9 +393,7 @@ browsable(div(
 #### Fix
 
 -   Bad news: We can't fix this using R alone as the values are given by AdminLTE, `bs4Dash`'s CSS framework
-
 -   Good news: This is a really nice use case for custom CSS styling
-
 -   Using the Inspect tool, we add `padding: 0px;` to both the box header and body directly
 
 ![](resources/07_02.gif)
@@ -462,9 +401,7 @@ browsable(div(
 #### Permanent fix
 
 -   Our fix with the Inspect tool is lost as soon as we close or reload the tab
-
 -   To fix the padding permanently, we need to make changes to the HTML class
-
 -   **Question:** What HTML class do we need to amend? Which HTML element is responsible for the faulty white space?
 
 ::: callout-tip
@@ -476,7 +413,6 @@ If you are not sure what element does what, try to hover over the element in the
 #### Embedding CSS
 
 -   Now that we know what properties to change and where, we can start writing CSS
-
 -   Either in a dedicated `styles.css` file or using `tags$style` inside the UI code, we put the following CSS lines:
 
 ``` {.CSS filename="styles.css"}
