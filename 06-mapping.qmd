@@ -21,10 +21,32 @@ pacman::p_load(
 	jsonlite
 )
 
-guerry <- Guerry::gfrance85 %>%
-  st_as_sf() %>% # convert sp to the newer sf format
+variable_names <- list(
+  Crime_pers = "Crime against persons",  
+  Crime_prop =  "Crime against property",  
+  Literacy = "Literacy",  
+  Donations = "Donations to the poor",  
+  Infants = "Illegitimate births",  
+  Suicides = "Suicides",  
+  Wealth = "Tax / capita",  
+  Commerce = "Commerce & Industry",  
+  Clergy = "Clergy",  
+  Crime_parents = "Crime against parents",  
+  Infanticide = "Infanticides",  
+  Donation_clergy = "Donations to the clergy",  
+  Lottery = "Wager on Royal Lottery",  
+  Desertion = "Military desertion",  
+  Instruction = "Instruction",  
+  Prostitutes = "Prostitutes",  
+  Distance = "Distance to paris",  
+  Area = "Area",  
+  Pop1831 = "Population"
+)
+
+data_guerry <- Guerry::gfrance85 %>%
+  st_as_sf() %>%
   as_tibble() %>%
-  st_as_sf(crs = 27572) %>% # set the correct coordinate reference system
+  st_as_sf(crs = 27572) %>%
   mutate(Region = case_match(
     Region,
     "C" ~ "Central",
@@ -32,27 +54,9 @@ guerry <- Guerry::gfrance85 %>%
     "N" ~ "North",
     "S" ~ "South",
     "W" ~ "West"
-  ))
-
-variables <- guerry %>%
-  st_drop_geometry() %>%
-  select(where(is.numeric) & !all_of(c("COUNT", "dept", "AVE_ID_GEO"))) %>%
-  names()
-
-guerry_region <- guerry %>%
-  group_by(Region) %>%
-  summarise(across(
-  .cols = all_of(variables),
-  function(x) {
-    if (cur_column() %in% c("Area", "Pop1831")) {
-      sum(x)
-    } else {
-      mean(x)
-    }
-  }
- ))
-  
-txts <- read_json("shinyapps/guerry/app_labels.json", simplifyVector = TRUE)
+  )) %>%
+  select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>%
+  select(Region:Department, all_of(names(variable_names)))
 ```
 
 # Learning outcomes
@@ -106,7 +110,7 @@ You will learn how to:
 - In R, spatial data can be handled using various packages:
     - `sp` (vector data) and `raster` (raster data) used to be the common packages for spatial analysis
     - `sf` (vector data) and `terra` (raster data) are their more timely successors
-- By default, `guerry` is an sp object, but we converted it to an sf dataframe
+- By default, `data_guerry` is an sp object, but we converted it to an sf dataframe
 - `sf` dataframes consist of a geometry column (class `sfc`) and multiple features (i.e. non-spatial columns)
 - `sfc` geometries are list-like objects that consist of individual geometries (class `sfg`) and spatial metadata (e.g. type or dimension)
 - `sfg` objects are matrices consisting purely of coordinates
@@ -170,11 +174,11 @@ st_sf(                     # <1>
 
 ## Handling the Guerry dataset
 
-- Let us take a look back at `guerry` and how to handle it as a spatial dataframe
+- Let us take a look back at `data_guerry` and how to handle it as a spatial dataframe
 - `Guerry::gfrance85` comes as an `sp` dataframe, that's a bit old so we have to convert it
 - The dataset also comes with an invalid CRS, so we need to fix it
 
-```{r}
+```{r eval=FALSE}
 data_guerry <- Guerry::gfrance85 %>% # <1>
   st_as_sf() %>%                     # <2>
   as_tibble() %>%                    # <3>
@@ -188,7 +192,7 @@ data_guerry <- Guerry::gfrance85 %>% # <1>
     "W" ~ "West"                     # <5>
   )) %>%                             # <5>
   select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>% # drop columns
-  select(Region:Department, where(is.numeric)) # select columns
+  select(Region:Department, all_of(names(variable_names))) # select columns
 ```
 
 1.  `Guerry::gfrance85` comes as an sp object and it has no CRS information
@@ -205,17 +209,10 @@ data_guerry <- Guerry::gfrance85 %>% # <1>
 - In the following chunk we perform spatial aggregation *outside* of the server function
 
 ```{r}
-# Extract variable names
-variables <- guerry %>%
-	st_drop_geometry() %>%
-	select(where(is.numeric) & !all_of(c("COUNT", "dept", "AVE_ID_GEO"))) %>%
-	names()
-
-# Aggregate
-guerry_region <- guerry %>%
+data_guerry_region <- data_guerry %>%
 	group_by(Region) %>%                               # <1>
 	summarise(across(                                  # <2>
-		.cols = all_of(variables),                       # <2>
+		.cols = all_of(names(variable_names)),                       # <2>
 		function(x) {                                    # <2>
 			if (cur_column() %in% c("Area", "Pop1831")) {  # <2>
 				sum(x)                                       # <2>
@@ -234,7 +231,7 @@ guerry_region <- guerry %>%
 - **Question:** What can we say about the Guerry dataset in terms of spatial information?
 
 ```{r}
-guerry["Literacy"]
+data_guerry["Literacy"]
 ```
 
 ## Exercise 1
@@ -250,7 +247,8 @@ Consult the documentation of `st_geometry()`
 ::: {.callout-warning collapse="true"}
 ## Solution
 
-```{r eval=FALSE} st_geometry(guerry)}
+```{r eval=FALSE}
+st_geometry(data_guerry)
 ```
 
 `sf` objects are dataframes containing of one or more non-spatial feature columns and a geometry column containing an `sfc` object
@@ -272,8 +270,8 @@ Objects of class `sfc` behave like lists and can be subset in the same fashion
 ## Solution
 
 ```{r eval=FALSE}
-  geom <- st_geometry(guerry)
-  geom[[1]]
+geom <- st_geometry(data_guerry)
+geom[[1]]
 ```
 
 `sfg` objects contain raw geometries consisting only of coordinates and a geometric topology (i.e. how to connect coordinates to make a polygon)
@@ -284,7 +282,7 @@ Objects of class `sfc` behave like lists and can be subset in the same fashion
 ## Exercise 3
 
 ::: callout-note
-`guerry` currently consists of multi polygons. How can we convert these polygons to point geometries? Explore the [function reference](https://r-spatial.github.io/sf/reference/index.html) of the sf package and find functions (multiple answers possible) that can convert polygons to points in some way.
+`data_guerry` currently consists of multi polygons. How can we convert these polygons to point geometries? Explore the [function reference](https://r-spatial.github.io/sf/reference/index.html) of the sf package and find functions (multiple answers possible) that can convert polygons to points in some way.
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -294,15 +292,15 @@ A search for "point" can give you the most obvious functions to fulfill the task
 ::: {.callout-warning collapse="true"}
 ## Solution
 
-`st_point_on_surface(guerry)` returns a point that is guaranteed to be on the polygon
+`st_point_on_surface(data_guerry)` returns a point that is guaranteed to be on the polygon
 
-`st_centroid(guerry)` returns the geometrical center of the polygon
+`st_centroid(data_guerry)` returns the geometrical center of the polygon
 
-`st_cast(guerry, "POINT")` or `st_cast(guerry, "MULTIPOINT")`
+`st_cast(data_guerry, "POINT")` or `st_cast(data_guerry, "MULTIPOINT")`
 
 All of them return a warning! [Why might that be?](https://r-spatial.github.io/sf/articles/sf1.html#how-attributes-relate-to-geometries)
 
-`st_sample(guerry, size = rep(1, nrow(guerry)))`
+`st_sample(data_guerry, size = rep(1, nrow(data_guerry)))`
 
 Doesn't return a warning, but is random and drops all features
 :::
@@ -337,7 +335,7 @@ Remember you can visit <https://epsg.io/> to look up EPSG codes.
 Using the search function on [epsg.io](https://epsg.io/?q=utm+zone+31n) we can determine that the EPSG code to transform the Guerry dataset from Lambert zone II to UTM zone 31N is one of 23031, 25831 or 32631.
 
 ```{r eval=FALSE}
-  st_transform(guerry, 23031)
+  st_transform(data_guerry, 23031)
 ```
 :::
 
@@ -369,7 +367,7 @@ tabItem(                       # <1>
         headerBorder = FALSE,  # <2>
         collapsible = FALSE,   # <2>
         width = 12,            # <2>
-        leaflet::leafletOutput("exp_map", height = "800px", width = "100%") # <3>
+        leaflet::leafletOutput("tab_map_map", height = "800px", width = "100%") # <3>
       ) # end box
     ) # end column
   ) # end fluidRow
@@ -389,7 +387,7 @@ tabItem(                       # <1>
     - [`setView()`](https://rdrr.io/cran/leaflet/man/map-methods.html) sets the center and zoom level of the initial map view
 
 ```{r eval=FALSE}
-output$exp_map <- leaflet::renderLeaflet({                                   # <1>
+output$tab_map_map <- leaflet::renderLeaflet({                                   # <1>
 		leaflet() %>%                                                            # <2>
 			addProviderTiles("OpenStreetMap.France", group = "OSM") %>%            # <3>
 			addProviderTiles("OpenTopoMap", group = "OTM") %>%                     # <3>
@@ -401,7 +399,7 @@ output$exp_map <- leaflet::renderLeaflet({                                   # <
 })
 ```
 
-1.  Fill the output `exp_map` with a leaflet map using `renderLeaflet`
+1.  Fill the output `tab_map_map` with a leaflet map using `renderLeaflet`
 2.  Add an empty map using the power horse `leaflet()`
 3.  Add multiple basemaps: OpenStreetMap, OpenTopoMap, Stamen and ortho photos from the French geo portal
 4.  Add a button to control which of the basemaps to show
@@ -421,7 +419,7 @@ output$exp_map <- leaflet::renderLeaflet({                                   # <
 
 ## Specifics of Leaflet mapping
 
-- Variables are passed using formulas (i.e. instead of `guerry$Literacy`, we write `~Literacy`)
+- Variables are passed using formulas (i.e. instead of `data_guerry$Literacy`, we write `~Literacy`)
 - Leaflet by default only supports WGS84 (EPSG:4326) as CRS
 - Palettes are applied using custom functions that are generated in function factories:
     - `colorNumeric()` maps continuous values
@@ -431,57 +429,49 @@ output$exp_map <- leaflet::renderLeaflet({                                   # <
 - `highlightOptions()` adds a nice highlight effect when hovering over a polygon
 
 ```{r eval=FALSE}
-# Compile parameters for leaflet rendering
-params <- reactive({
-	values <- ~Literacy                                    # <1>
-	pal <- colorNumeric(palette = "Reds", domain = NULL)   # <2>
+output$tab_map_map <- leaflet::renderLeaflet({
+	pal <- colorNumeric(palette = "Reds", domain = NULL)  # <1>
 	
-	list(var = var, pal = pal)
-})
-
-output$exp_map <- leaflet::renderLeaflet({
-	params <- params()
-	leaflet(data = st_transform(guerry, 4326)) %>%        # <3>
-		addProviderTiles("OpenStreetMap.France") %>%        # <4>
-		setView(lng = 3, lat = 47, zoom = 5) %>%            # <5>
-		addPolygons(                                        # <6>
-			fillColor = ~params$pal(Literacy),                # <7>
-			fillOpacity = 0.7,                                # <8>
-			weight = 1,                                       # <8>
-			color = "black",                                  # <8>
-			opacity = 0.5,                                    # <8>
-			highlightOptions = highlightOptions(              # <9>
-				weight = 2,                                     # <9>
-				color = "black",                                # <9>
-				opacity = 0.5,                                  # <9>
-				fillOpacity = 1,                                # <9>
-				bringToFront = TRUE,                            # <9>
-				sendToBack = TRUE                               # <9>
-			)                                                 # <9>
-		) %>%                                               # <9>
-		addLegend(                                          # <10>
-			position = "bottomright",                         # <10>
-			pal = params$pal,                                 # <11>
-			values = params$values,                           # <11>
+	leaflet(data = st_transform(data_guerry, 4326)) %>%   # <2>
+		addProviderTiles("OpenStreetMap.France") %>%        # <3>
+		setView(lng = 3, lat = 47, zoom = 5) %>%            # <4>
+		addPolygons(                                        # <5>
+			fillColor = ~params$pal(Literacy),                # <6>
+			fillOpacity = 0.7,                                # <7>
+			weight = 1,                                       # <7>
+			color = "black",                                  # <7>
+			opacity = 0.5,                                    # <7>
+			highlightOptions = highlightOptions(              # <8>
+				weight = 2,                                     # <8>
+				color = "black",                                # <8>
+				opacity = 0.5,                                  # <8>
+				fillOpacity = 1,                                # <8>
+				bringToFront = TRUE,                            # <8>
+				sendToBack = TRUE                               # <8>
+			)                                                 # <8>
+		) %>%                                               # <8>
+		addLegend(                                          # <9>
+			position = "bottomright",                         # <9>
+			pal = params$pal,                                 # <10>
+			values = params$values,                           # <10>
 			opacity = 0.9,
 			title = "Literacy",
-			labFormat = labelFormat(suffix = " %")            # <12>
+			labFormat = labelFormat(suffix = " %")            # <11>
 		)
 })
 ```
 
-1.  Define the column of the spatial dataset that should be visualized. Note that columns are passed as formulas, not as vectors.
-2.  Determine the color palette for mapping. Here, we want to map continious values in red. The output is a function called `pal()` which we can use later on.
-3.  Create an empty map. Add spatial data. Note that leaflet by default only accepts spatial data with EPSG:4326. For anything else, consult [`leaflet::leafletCRS()`](https://rstudio.github.io/leaflet/projections.html), but don't expect to understand much of what's going on.
-4.  Add a basemap of OpenStreetMap France
-5.  Set the center and zoom level of the initial view
-6.  The `addPolygons()` function adds polygons to the leaflet map
-7.  `fillColor` determines how the polygons should be colored. We pass a formula that contains a call to our generated function `pal()` (see point 2) that maps colors to the Literacy variable.
-8.  We can add additional parameters that control the appearance of the map, e.g. opacity, color or line thickness (weight).
-9.  `highlightOptions()` allows you to add a nice highlight effect when hovering over the polygons
-10. Using `addLegend()` we add a legend to the bottom right of the Leaflet map
-11. `addLegend()` accepts values in the same way as `addPolygons()`: `pal` accepts the generated palette function and `values` accepts a formula containing the column name in the input dataset.
-12. Finally, `labelFormat()` allows you to change the formatting of the legend label, e.g. if you need to specify whether a number is a percentage, meters or something else
+1.  Determine the color palette for mapping. Here, we want to map continious values in red. The output is a function called `pal()` which we can use later on.
+2.  Create an empty map. Add spatial data. Note that leaflet by default only accepts spatial data with EPSG:4326. For anything else, consult [`leaflet::leafletCRS()`](https://rstudio.github.io/leaflet/projections.html), but don't expect to understand much of what's going on.
+3.  Add a basemap of OpenStreetMap France
+4.  Set the center and zoom level of the initial view
+5.  The `addPolygons()` function adds polygons to the leaflet map
+6.  `fillColor` determines how the polygons should be colored. We pass a formula that contains a call to our generated function `pal()` (see point 2) that maps colors to the Literacy variable.
+7.  We can add additional parameters that control the appearance of the map, e.g. opacity, color or line thickness (weight).
+8.  `highlightOptions()` allows you to add a nice highlight effect when hovering over the polygons
+9. Using `addLegend()` we add a legend to the bottom right of the Leaflet map
+10. `addLegend()` accepts values in the same way as `addPolygons()`: `pal` accepts the generated palette function and `values` accepts a formula containing the column name in the input dataset.
+11. Finally, `labelFormat()` allows you to change the formatting of the legend label, e.g. if you need to specify whether a number is a percentage, meters or something else
 
 ![](resources/06_02.gif)
 
@@ -551,7 +541,7 @@ tabItem(
 				headerBorder = FALSE,
 				collapsible = FALSE,
 				width = 12,
-				leaflet::leafletOutput("exp_map", height = "800px", width = "100%")
+				leaflet::leafletOutput("tab_map_map", height = "800px", width = "100%")
 			) # end box
 		) # end column
 	) # end fluidRow
@@ -573,9 +563,9 @@ tabItem(
 	# Select polygon based on aggregation level (B)
 	poly <- reactive({
 		if (identical(input$exp_aggr, "Regions")) {
-			guerry_region
+			data_guerry_region
 		} else {
-			guerry
+			data_guerry
 		}
 	})
 	
@@ -607,7 +597,7 @@ tabItem(
 	})
 	
 	# Render leaflet for the first time
-	output$exp_map <- leaflet::renderLeaflet({
+	output$tab_map_map <- leaflet::renderLeaflet({
 		# Isolate call to params() to prevent render function to be executed
 		# every time params() is invalidated. No dependency is made.
 		params <- params()
@@ -891,7 +881,7 @@ list(
 
 - To give a short description of the selected variable and their source, we add a new UI output
 
-```{r}
+```{r eval=FALSE}
 tabItem(
 	tabName = "exp",
 	fluidRow(
@@ -934,7 +924,7 @@ tabItem(
 				headerBorder = FALSE,
 				collapsible = FALSE,
 				width = 12,
-				leaflet::leafletOutput("exp_map", height = "800px", width = "100%")
+				leaflet::leafletOutput("tab_map_map", height = "800px", width = "100%")
 			) # end box
 		) # end column
 	) # end fluidRow
@@ -945,7 +935,7 @@ tabItem(
 
 ## Render context
 
-```{r}
+```{r eval=FALSE}
   # Add a variable description
   output$tab_map_desc <- renderUI({         # <1>
     HTML(txts[[input$tab_map_select]]$desc) # <1>
@@ -954,9 +944,9 @@ tabItem(
 	# Select polygon based on aggregation level (B)
 	poly <- reactive({
 		if (identical(input$exp_aggr, "Regions")) {
-			guerry_region
+			data_guerry_region
 		} else {
-			guerry
+			data_guerry
 		}
 	})
 	
@@ -988,7 +978,7 @@ tabItem(
 	})
 	
 	# Render leaflet for the first time
-	output$exp_map <- leaflet::renderLeaflet({
+	output$tab_map_map <- leaflet::renderLeaflet({
 		# Isolate call to params() to prevent render function to be executed
 		# every time params() is invalidated. No dependency is made.
 		params <- params()
@@ -1145,7 +1135,7 @@ params <- reactive({
   )
   
   # Render leaflet for the first time
-  output$exp_map <- leaflet::renderLeaflet({
+  output$tab_map_map <- leaflet::renderLeaflet({
     params <- params()
     leaflet(data = params$poly) %>%
       addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
@@ -1219,7 +1209,7 @@ params <- reactive({
 
 ## Proxy workflow
 
-1.  Initialize an isolated output widget (i.e., no dependencies) / `output$exp_map`
+1.  Initialize an isolated output widget (i.e., no dependencies) / `output$tab_map_map`
 2.  Create an observer that updates input dependencies / `observe()`
 3.  Invalidate an input
 4.  Remove existing features and add new ones
@@ -1233,7 +1223,7 @@ params <- reactive({
 
 ```{r eval=FALSE}
   # Render leaflet for the first time
-  output$exp_map <- leaflet::renderLeaflet({
+  output$tab_map_map <- leaflet::renderLeaflet({
     params <- isolate(params()) # <1>
     leaflet(data = params$poly) %>%
       addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
@@ -1264,8 +1254,8 @@ params <- reactive({
         pal = params$pal,
         values = params$values,
         opacity = 0.9,
-        title = txts[[params$var]]$lgd,
-        labFormat = labelFormat(suffix = txts[[params$var]]$unit)
+        title = variable_desc[[params$var]]$lgd,
+        labFormat = labelFormat(suffix = variable_desc[[params$var]]$unit)
       )
   })
 ```
@@ -1281,7 +1271,7 @@ params <- reactive({
 ```{r eval=FALSE}
   observe({ # <1>
     params <- params() # <2>
-    leafletProxy("exp_map", data = params$poly) %>% # <3>
+    leafletProxy("tab_map_map", data = params$poly) %>% # <3>
       clearShapes() %>% # <4>
       clearControls() %>% # <4>
       addPolygons( # <5>
@@ -1306,8 +1296,8 @@ params <- reactive({
         pal = params$pal, # <5>
         values = params$values, # <5>
         opacity = 0.9, # <5>
-        title = txts[[params$var]]$lgd, # <5>
-        labFormat = labelFormat(suffix = txts[[params$var]]$unit) # <5>
+        title = variable_desc[[params$var]]$lgd, # <5>
+        labFormat = labelFormat(suffix = variable_desc[[params$var]]$unit) # <5>
       ) # <5>
   }) # <5>
 ```
@@ -1364,7 +1354,7 @@ params <- reactive({
     - `input$<Map ID>_bounds` provides the bounding box of the current view
     - `input$<Map ID>_zoom` provides the current zoom level
     - `input$<Map ID>_center` provides the center point of the current view
-- **Question:** When does `input$map_exp_marker_click` trigger?
+- **Question:** When does `input$tab_map_map_marker_click` trigger?
 
 ## Events in practice
 
@@ -1372,11 +1362,11 @@ params <- reactive({
 
 ```{r include=FALSE}
 input <- list()
-input$map_exp_shape_click <- list(id = NULL, .nonce = 0.0504539489632481, lat = 49.003195289566, lng = -1.14056772662844)
+input$tab_map_map_shape_click <- list(id = NULL, .nonce = 0.0504539489632481, lat = 49.003195289566, lng = -1.14056772662844)
 ```
 
 ```{r}
-input$map_exp_shape_click
+input$tab_map_map_shape_click
 ```
 
 ## Clear objects
@@ -1388,15 +1378,15 @@ input$map_exp_shape_click
 
 ```{r eval=FALSE}
 observe({
-	click <- input$exp_map_shape_click # <1>
+	click <- input$tab_map_map_shape_click # <1>
 	req(click) # <2>
-	leafletProxy("map_exp") %>% # <3>
+	leafletProxy("tab_map_map") %>% # <3>
 		clearMarkers() %>% # <4>
 		addMarkers(lng = click$lng, lat = click$lat) # <5>
 })
 ```
 
-1.  Store event object. The event is invalidated when a user clicks on a shape in the `exp_map` leaflet widget
+1.  Store event object. The event is invalidated when a user clicks on a shape in the `tab_map_map` leaflet widget
 2.  Cancel the observer when the click object is not "truthy" (see `?isTruthy`). If nothing is clicked, the observer should not be run.
 3.  Create a Leaflet proxy
 4.  Clear the previous marker
@@ -1415,18 +1405,18 @@ observe({
 ```{r eval=FALSE}
 # Add a new marker
 observe({
-	click <- input$exp_map_shape_click
+	click <- input$tab_map_map_shape_click
 	req(click)
 	id <- paste0(click$lng, click$lat) # <1>
-	leafletProxy("exp_map") %>%
+	leafletProxy("tab_map_map") %>%
 		addMarkers(lng = click$lng, lat = click$lat, layerId = id) # <2>
 })
 
 # Delete an existing marker
 observe({
-	click <- input$exp_map_marker_click
+	click <- input$tab_map_map_marker_click
 	req(click)
-	leafletProxy("exp_map") %>%
+	leafletProxy("tab_map_map") %>%
 		removeMarker(click$id) # <3>
 })
 ```
@@ -1447,22 +1437,33 @@ observe({
 - Further reading: [Joe Cheng - "Communicating with Shiny via JavaScript"](https://shiny.posit.co/r/articles/build/communicating-with-js/)
 
 ```{r eval=FALSE}
-output$exp_map <- renderLeaflet({
+output$tab_map_map <- renderLeaflet({
 	leaflet() %>%
 		htmlwidgets::onRender("function(el, x) {
       this.on('mousemove', function(e) {
         var lng = e.latlng.lng;
         var lat = e.latlng.lat;
         var coord = [lng, lat];            // capture long and lat
-        Shiny.onInputChange('exp_map', coord)   // send coordinates to Shiny
+        Shiny.onInputChange('tab_map_map', coord)   // send coordinates to Shiny
       });
       this.on('mouseout', function(e) {
-        Shiny.onInputChange('exp_map', null)    // reset coordinates when mouse leaves map
+        Shiny.onInputChange('tab_map_map', null)    // reset coordinates when mouse leaves map
       })
     }")
 })
 ```
 :::
+
+## Full code
+
+```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping04.R"}
+#| code-fold: true
+#| code-summary: Full R code including Shiny events
+```
+
+
+
+## Exercises
 
 ::: callout-note
 ## Exercise 9
@@ -1493,19 +1494,19 @@ Print the current mouse coordinates to the console every time a polygon on the m
 :::
 
 ::: {.callout-tip collapse="true"}
-You can access click coordinates using the map event `input$map_exp_shape_click`
+You can access click coordinates using the map event `input$tab_map_map_shape_click`
 :::
 
 ::: {.callout-warning collapse="true"}
 ## Solution
 
-To capture the the mouse coordinates we need to access the Leaflet event `input$exp_map_shape_click`. Printing to the console is done in an observer as it triggers side effects and does not create a reactive object.
+To capture the the mouse coordinates we need to access the Leaflet event `input$tab_map_map_shape_click`. Printing to the console is done in an observer as it triggers side effects and does not create a reactive object.
 
 ```{r eval=FALSE}
 observe({
-	click <- input$exp_map_shape_click
+	click <- input$tab_map_map_shape_click
 	cat(paste(
-		"Click on exp_map detected",
+		"Click on tab_map_map detected",
 		paste("Lon:", click$lng),
 		paste("Lat:", click$lat),
 		"\n",
