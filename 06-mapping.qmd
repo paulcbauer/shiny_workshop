@@ -357,12 +357,12 @@ Using the search function on [epsg.io](https://epsg.io/?q=utm+zone+31n) we can d
 
 ```{r eval=FALSE}
 tabItem(                       # <1>
-  tabName = "exp",             # <1>
+  tabName = "tab_map",             # <1>
   fluidRow(                    # <2>
     column(                    # <2>
       width = 12,              # <2>
       box(                     # <2>
-        id = "exp_box",        # <2>
+        id = "tab_map_box",        # <2>
         status = "primary",    # <2>
         headerBorder = FALSE,  # <2>
         collapsible = FALSE,   # <2>
@@ -374,7 +374,7 @@ tabItem(                       # <1>
 ) # end tabItem
 ```
 
-1.  Create a new tab called `exp`
+1.  Create a new tab called `tab_map`
 2.  Add a fluid row containing a column and a box covering the entire page
 3.  Add a UI output that will hold the leaflet map. It covers the entire width and 800 pixels in height.
 
@@ -486,7 +486,7 @@ output$tab_map_map <- leaflet::renderLeaflet({
     - `selectInput()` to select a variable to map
     - `radioButtons()` to select an aggregation level, departments or regions
     - `selectInput()` to select a color palette
-- Additionally, one new UI output (`exp_desc`) is added that describes the selected variable
+- Additionally, one new UI output (`tab_map_desc`) is added that describes the selected variable
 
 ```{r}
 # Define selectable palettes: All sequential palettes + viridis
@@ -501,7 +501,7 @@ pals <- list(
 
 ```{r eval=FALSE}
 tabItem(
-	tabName = "exp",
+	tabName = "tab_map",
 	fluidRow(
 		column(                                     # <1>
 			width = 4,                                # <1>
@@ -510,7 +510,7 @@ tabItem(
 				status = "primary",                     # <1>
 				width = 12,                             # <1>
 				selectInput(                            # <2>
-					"exp_select",                         # <2>
+					"tab_map_select",                         # <2>
 					label = "Select a variable",          # <2>
 					choices = setNames(variable_names, names(variable_names)) # <2>
 				)                                      # <2>
@@ -520,13 +520,13 @@ tabItem(
 				status = "primary",                     # <3>
 				width = 12,                             # <3>
 				radioButtons(                           # <4>
-					"exp_aggr",                           # <4>
+					"tab_map_aggr",                           # <4>
 					label = "Aggregation level",          # <4>
 					choices = c("Departments", "Regions"),# <4>
 					selected = "Departments"              # <4>
 				),                                      # <4>
 				selectInput(                            # <5>
-					"exp_pal",                            # <5>
+					"tab_map_pal",                            # <5>
 					label = "Color palette",              # <5>
 					choices = pals,                       # <5>
 					selected = "Reds"                     # <5>
@@ -536,7 +536,7 @@ tabItem(
 		column(
 			width = 8,
 			box(
-				id = "exp_box",
+				id = "tab_map_box",
 				status = "primary",
 				headerBorder = FALSE,
 				collapsible = FALSE,
@@ -555,53 +555,52 @@ tabItem(
 ## Server side
 
 - In the server function, we have a lot to do (annotated with their respective letters in the code below):
-    - Apply the selected aggregation level (A)
-    - Apply the selected palette (B)
-    - Change hard code to adaptive code (C)
+    - Apply the selected aggregation level
+    - Apply the selected palette
+    - Change hard code to adaptive code
 
 ```{r eval=FALSE}
-	# Select polygon based on aggregation level (B)
-	poly <- reactive({
-		if (identical(input$exp_aggr, "Regions")) {
-			data_guerry_region
-		} else {
-			data_guerry
-		}
-	})
+	# Select polygon based on aggregation level
+	poly <- reactive({                                 # <1>
+		if (identical(input$tab_map_aggr, "Regions")) {  # <1>
+			data_guerry_region                             # <1>
+		} else {                                         # <1>
+			data_guerry                                    # <1>
+		}                                                # <1>
+	})                                                 # <1>
 	
-	# Select palette based on input (C)
-	palette <- reactive({
-		pal <- input$exp_pal
-		if (pal %in% pals$Viridis) {
-			pal <- viridis::viridis_pal(option = tolower(pal))(5)
-		}
-		pal
-	})
+	# Select palette based on input
+	palette <- reactive({                                     # <2>
+		pal <- input$tab_map_pal                                # <2>
+		if (pal %in% pals$Viridis) {                            # <2>
+			pal <- viridis::viridis_pal(option = tolower(pal))(5) # <2>
+		}                                                       # <2>
+		pal                                                     # <2>
+	})                                                        # <2>
 	
-	# Compile parameters for leaflet rendering (D)
-	params <- reactive({
-		poly <- st_transform(poly(), 4326)
-		pal <- palette()
-		var <- input$exp_select
-		
-		values <- as.formula(paste0("~", var))
-		pal <- colorNumeric(palette = pal, domain = NULL)
-		
-		list(
-			poly = poly,
-			var = var,
-			pal = pal,
-			values = values,
-			labels = labels
-		)
-	})
+	# Compile parameters for leaflet rendering
+	params <- reactive({                                      # <3>
+		poly <- st_transform(poly(), 4326)                      # <3>
+		pal <- palette()                                        # <3>
+		var <- input$tab_map_select                             # <3>
+		                                                        # <3>
+		values <- as.formula(paste0("~", var))                  # <3>
+		pal <- colorNumeric(palette = pal, domain = NULL)       # <3>
+		                                                        # <3>
+		list(                                                   # <3>
+			poly = poly,                                          # <3>
+			var = var,                                            # <3>
+			pal = pal,                                            # <3>
+			values = values                                       # <3>
+		)                                                       # <3>
+	})                                                        # <3>
 	
 	# Render leaflet for the first time
 	output$tab_map_map <- leaflet::renderLeaflet({
 		# Isolate call to params() to prevent render function to be executed
 		# every time params() is invalidated. No dependency is made.
-		params <- params()
-		leaflet(data = params$poly) %>%
+		params <- params()                                      # <4>
+		leaflet(data = params$poly) %>%                         # <4>
 			addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
 			addProviderTiles("OpenTopoMap", group = "OTM") %>%
 			addProviderTiles("Stamen.TonerLite", group = "Stamen Toner") %>%
@@ -610,7 +609,7 @@ tabItem(
 																			"Stamen Toner", "Orthophotos")) %>%
 			setView(lng = 3, lat = 47, zoom = 5) %>%
 			addPolygons(
-				fillColor = as.formula(paste0("~params$pal(", params$var, ")")),
+				fillColor = as.formula(paste0("~params$pal(", params$var, ")")), # <4>
 				fillOpacity = 0.7,
 				weight = 1,
 				color = "black",
@@ -626,18 +625,22 @@ tabItem(
 			) %>%
 			addLegend(
 				position = "bottomright",
-				pal = params$pal,
-				values = params$values,
+				pal = params$pal, # <4>
+				values = params$values, # <4>
 				opacity = 0.9
 			)
 	})
 ```
 
+1. In a reactive expression called `poly()` we catch the selected aggregation level and decide whether to use the original `data_guerry` or the aggregated variant `data_guerry_region`.
+2. In a reactive expression called `palette()` we catch the selected palette and match it with the available palette names.
+3. We combine all inputs in a reactive expression called `params()` where we do the remaining data wrangling before the input data goes into leaflet mapping
+4. Finally, we do the mapping and replace all previously hard-coded information with our new reactive data. This includes the input dataframe which is now simply `params$poly`, the fill color which is now a formula that is pasted together from the palette function and the selected variable and finally the palette and values required for the legend.
+
 ![](resources/06_03.gif)
 
-## Exercise 6
-
 ::: callout-note
+## Exercise 6
 Add a marker of Paris to the Leaflet map. Add a popup that adds fun trivia information about the capital of France.
 :::
 
@@ -687,9 +690,10 @@ leaflet(data = params$poly) %>%
 ```
 :::
 
-## Exercise 7
+
 
 ::: callout-note
+## Exercise 7
 Change the icon of the marker from exercise 6 to an icon depicting a city and the color to red.
 :::
 
@@ -715,9 +719,10 @@ To change the color and the icon, we need to work with "awesome markers". Icons 
 ```
 :::
 
+::: callout-note
 ## Exercise 8
-
 Set the default plotting variable to "Distance to Paris"
+:::
 
 ::: {.callout-tip collapse="true"}
 Remember the `selected` argument in input UI components
@@ -730,9 +735,9 @@ To change the default values of a reactive Shiny plot, you need to change the `s
 
 ```{r eval=FALSE}
 selectInput(
-  "exp_select",
+  "tab_map_select",
   label = "Select a variable",
-  choices = setNames(variables, sapply(txts, "[[", "title")),
+  choices = setNames(names(variable_names), variable_names),
   selected = "Distance"
 )
 ```
@@ -755,7 +760,7 @@ selectInput(
 For such large data objects, it can be a good idea to place them outside the main code file to increase readability.
 :::
 
-```{r}
+```{r echo=TRUE, results='hide'}
 #| code-fold: true
 #| code-summary: Create a list with context information
 list(
@@ -883,7 +888,7 @@ list(
 
 ```{r eval=FALSE}
 tabItem(
-	tabName = "exp",
+	tabName = "tab_map",
 	fluidRow(
 		column(                                     
 			width = 4,                                
@@ -892,24 +897,24 @@ tabItem(
 				status = "primary",                     
 				width = 12,                             
 				selectInput(                            
-					"exp_select",                         
+					"tab_map_select",                         
 					label = "Select a variable",          
 					choices = setNames(variable_names, names(variable_names))
 				),                                      
-				uiOutput("exp_desc")                    # <1>
+				uiOutput("tab_map_desc")                    # <1>
 			),
 			box(                                      
 				title = "Map configuration",            
 				status = "primary",                     
 				width = 12,                             
 				radioButtons(                           
-					"exp_aggr",                           
+					"tab_map_aggr",                           
 					label = "Aggregation level",          
 					choices = c("Departments", "Regions"),
 					selected = "Departments"              
 				),                                      
 				selectInput(                            
-					"exp_pal",                            
+					"tab_map_pal",                            
 					label = "Color palette",              
 					choices = pals,                       
 					selected = "Reds"                     
@@ -919,7 +924,7 @@ tabItem(
 		column(
 			width = 8,
 			box(
-				id = "exp_box",
+				id = "tab_map_box",
 				status = "primary",
 				headerBorder = FALSE,
 				collapsible = FALSE,
@@ -943,7 +948,7 @@ tabItem(
 
 	# Select polygon based on aggregation level (B)
 	poly <- reactive({
-		if (identical(input$exp_aggr, "Regions")) {
+		if (identical(input$tab_map_aggr, "Regions")) {
 			data_guerry_region
 		} else {
 			data_guerry
@@ -952,7 +957,7 @@ tabItem(
 	
 	# Select palette based on input (C)
 	palette <- reactive({
-		pal <- input$exp_pal
+		pal <- input$tab_map_pal
 		if (pal %in% pals$Viridis) {
 			pal <- viridis::viridis_pal(option = tolower(pal))(5)
 		}
@@ -963,7 +968,7 @@ tabItem(
 	params <- reactive({
 		poly <- st_transform(poly(), 4326)
 		pal <- palette()
-		var <- input$exp_select
+		var <- input$tab_map_select
 		
 		values <- as.formula(paste0("~", var))
 		pal <- colorNumeric(palette = pal, domain = NULL)
@@ -1080,7 +1085,7 @@ tags$table(             # <1>
 params <- reactive({
   poly <- st_transform(poly(), 4326)
   pal <- palette()
-  var <- input$exp_select
+  var <- input$tab_map_select
 
   values <- as.formula(paste0("~", var))
   pal <- colorNumeric(palette = pal, domain = NULL)
