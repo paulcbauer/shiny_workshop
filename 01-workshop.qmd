@@ -73,16 +73,16 @@ workshop?
     - 14:00 - 15:00: Introduction (2)
     - 15:00 - 15:30: Coffee break
     - 15:30 - 16:30: User Interface (UI): Designing the front end (1)
-    - 16:30 - 17:30: User Interface (UI): Designing the front end (2)
+    - 16:30 - 17:30: User Interface (UI): Designing the front end (2) [**Introduction tab**]
   - Day 2: Reactive programming
     - 13:00 - 14:00: Server: Reactive programming (1)
-    - 14:00 - 15:00: Server: Reactive programming (2)
+    - 14:00 - 15:00: Server: Reactive programming (2)  [**Tabulate data tab**]
     - 15:00 - 15:30: Coffee break
     - 15:30 - 16:30: Modelling and visualizing data (1)
-    - 16:30 - 17:30: Modelling and visualizing data (2)
+    - 16:30 - 17:30: Modelling and visualizing data (2) [**Modelling data tab**]
   - Day 3: Develop your app
     - 13:00 - 14:00: Mapping data & advanced visualization (1)
-    - 14:00 - 15:00: Mapping data & advanced visualization (2)
+    - 14:00 - 15:00: Mapping data & advanced visualization (2)  [**Mapping data tab**]
     - 15:00 - 15:30: Coffee break
     - 15:30 - 16:30: Theming & styling 
     - 16:30 - 17:30: Strengthen & Deploy
