@@ -714,17 +714,10 @@ server <- function(input, output, session) {
   
   
   ## 4.3 Map data ----
-  # Compile parameters for leaflet rendering
-  params <- reactive({
-    values <- ~Literacy
-    pal <- colorNumeric(palette = "Reds", domain = NULL)
-    
-    list(var = var, pal = pal)
-  })
-  
   # Render leaflet for the first time
   output$tab_map_map <- leaflet::renderLeaflet({
-    params <- params()
+    pal <- colorNumeric(palette = "Reds", domain = NULL)
+    
     leaflet(data = st_transform(data_guerry, 4326)) %>%
       addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
       addProviderTiles("OpenTopoMap", group = "OTM") %>%
@@ -733,7 +726,7 @@ server <- function(input, output, session) {
       addLayersControl(baseGroups = c("OSM", "OTM", "Stamen Toner", "Orthophotos")) %>%
       setView(lng = 3, lat = 47, zoom = 5) %>%
       addPolygons(
-        fillColor = ~params$pal(Literacy),
+        fillColor = ~pal(Literacy),
         fillOpacity = 0.7,
         weight = 1,
         color = "black",
@@ -749,7 +742,7 @@ server <- function(input, output, session) {
       ) %>%
       addLegend(
         position = "bottomright",
-        pal = params$pal,
+        pal = pal,
         values = ~Literacy,
         opacity = 0.9,
         title = "Literacy",
