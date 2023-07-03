@@ -1910,7 +1910,7 @@ ggplotly(p) %>%
 ::: callout-note
 ## Exercise 7
 
-Currently, we have three input widgets to change the appearance of plots: `model_x`, `model_y`, and `model_std`. Implement another input widgets that allows users to manipulate the data, output or the plot appearance.
+Currently, we have three input widgets to change the appearance of plots: `model_x`, `model_y`, and `model_std`. Implement another input widget that allows users to manipulate the data, output or the plot appearance.
 :::
 
 ::: {.callout-tip collapse="true"}
