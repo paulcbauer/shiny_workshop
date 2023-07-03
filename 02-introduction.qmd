@@ -17,7 +17,7 @@ pacman::p_load(knitr, quarto, tidyverse, gganimate, kableExtra)
 Sources: [@Bertini2017-jq; @wickham2021mastering]
 
 ## Interactive data analysis
-
+- Part is almost exclusively based on @Bertini2017-jq.
 
 ### Why?
 - "From Data Visualization to Interactive Data Analysis" [@Bertini2017-jq]
@@ -36,17 +36,18 @@ Sources: [@Bertini2017-jq; @wickham2021mastering]
   - **Loop**
     - start with loosely specified goal/problem (*Decrease crime!*)
     - translate goal into one or more questions (*What causes crime?*)
-    - gather, organize and analyze the data to answer these questions *Gather data on crime and other factors, model and visualize it*)
-    - generate new questions and start over
+    - gather, organize and analyze the data to answer these questions (*Gather **data** on crime and other factors, **model** and **visualize** it*)
+    - generate knowledge and new questions and start over
 
 ![Process underlying interactive data analysis (Source: Bertini, 2017)](02-bertinin-2.webp){#fig-bertini-two}
 
-### Steps of interactive data analysis 
-1. **Defining the problem**: What problem are you trying to solve? What is your ultimate goal? How is increased understanding derived from data analysis going to bring you closer to your goal?
-2. **Generating questions**: Problem is typically too high-level and loosely specified to translate into data analysis. The problem needs to be translated (implicitly or, better, explicitly) into number of data analysis questions.
-3. **Gathering, transforming and familiarizing with the data**: all projects require analysts to familiarize with the content and its meaning and perform multiple transformations, both to familiarize with the data (e.g., often slicing, dicing and aggregating the data) and to prepare it for the analysis one is planning to perform.
-4. **Creating models out of data** (not always): using statistical modeling and machine learning methods can be useful when the question asked can be answered more easily by building a model, e.g., explanatory or predictive ML model such as regression, clustering, NLP
-5. **Visualizing data and models**: results obtained from data transformation and querying (or from some model) are turned into something our **eyes can digest** and hopefully understand. **Simple representations** like tables and lists rather than fancy charts are perfectly reasonable visualization for many problems. 
+### Steps of interactive data analysis
+1. **Defining the problem**: What problem/goal are you trying to solve/reach through interactive data analysis?
+2. **Generating questions**: Translate high-level problem into number of data analysis questions
+3. **Gathering, transforming and familiarizing with the data**, e.g., often slicing, dicing and aggregating the data and to prepare it for the analysis one is planning to perform.
+4. **Creating models out of data** (not always): using statistical modeling and machine learning methods to summarize and analyze data
+5. **Visualizing data and models**: results obtained from data transformation and querying (or from some model) are turned into something our **eyes can digest** and hopefully understand.     
+    - **Simple representations** like tables and lists rather than fancy charts are perfectly reasonable visualization for many problems. 
 6. **Interpreting the results**: once results have been generated and represented in visual format, they need to be interpreted by someone (crucial step!)
     - **complex activity** including understanding how to **read the graph**, understanding what graph communicates about phenomenon of interest, **linking results to questions** and pre-existing knowledge of problem (think of your **audience**!)
     - **Interpretation** heavily **influenced** by **pre-existing knowledge** (about domain problem, data transformation process, modeling, visual representation)
@@ -58,28 +59,33 @@ Sources: [@Bertini2017-jq; @wickham2021mastering]
 - **Process** not sequential but **highly iterative** (jumping back/forth between steps)
 - **Some activities exclusively human**, e.g., defining problems, generating questions, etc.
 - **Visualization only small portion** of process and effectiveness depends on other steps
-- **Interaction**: all over the place... every time you tell your computer what to do and you computer returns some information back to you
+- **Interaction**: all over the place... every time you tell your computer what to do (and she returns information)
   - Gather and transform the data
   - Specify a model and/or a query from the data
   - Specify how to represent the results (and the model)
   - Browse the results
   - Synthesize and communicate the facts gathered
 - **Direct manipulation vs. command-Line interaction**: [WIMP](https://en.wikipedia.org/wiki/WIMP_(computing)) interfaces (direct manipulation, clicks, mouse overs, etc.,) are interactive but so is command line
+  - You can let users type!
+- **Audience**: what skills and pre-knowledge do the have? (domain knowledge, statistics, graphs)
 
 
 
 
-### Challenges of Interactive Visual Data Analysis (UPDATE)
-- **Specification (Mind &rarr; Data/Model)**: "*should we expect everyone to be a coder and learn a specification language in order to perform data analysis?*"
-  - Shiny allows non-coders to perform data analysis
+### Challenges of Interactive Visual Data Analysis
+- Broadly three parts...
+- **Specification (Mind &rarr; Data/Model)**: necessary to translate our questions and ideas into specifications the computer can read
+  - Shiny allows non-coders to perform data analysis, but requires R knowledge to built apps
+  - But even simpler tools out there
 - **Representation (Data/Model &rarr; Eyes)**
-  - "deciding **what** to visualize is often equally, if not more, important, than deciding **how** to visualize it"
+  - next step is to find a (visual) representation so users can inspect and understand them
+  - "deciding **what to visualize** is often equally, if not more, important, than deciding **how to visualize** it" [@Bertini2017-jq]
   - "how fancy does a visualization need to be in order to be useful for data analysis?"
     - "most visualization problems can be solved with a handful of graphs"
-    - really hard to use, tweak, and combine graphs in clever/effective/innovative ways
+  - really hard to use, tweak, and combine graphs in clever/effective/innovative ways
 - **Interpretation (Eyes &rarr; Mind)**
   - "what does one need to know in order to reason effectively about the results of modeling and visualization?"
-  - "Are people able to interpret and trust their models?"
+  - "Are people able to interpret and trust [your shiny app]?"
 
 
 ## Why visualize?
@@ -217,20 +223,19 @@ ggplot(datasaurus_dozen, aes(x=x, y=y))+
 
 
 
-### Interactivity for data visualization
+### Interactivity data visualization
 
-* "**interactive** data visualization enables direct actions on a plot to change elements and link between multiple plots" [@Swayne1999-wf] ([Wikipedia](https://en.wikipedia.org/wiki/Interactive_data_visualization))
-* Interactivity revolutionizes the way we work with and how we perceive data [cf. @Cleveland1984-fy]
-* Started ~last quarter of the 20th century, PRIM-9 (1974) [@Friendly2006-aq, 23, see also Cleveland and McGill,
+- "**interactive data visualization** enables direct actions on a plot to change elements and link between multiple plots" [@Swayne1999-wf] ([Wikipedia](https://en.wikipedia.org/wiki/Interactive_data_visualization))
+- Interactivity revolutionizes the way we work with and how we perceive data [cf. @Cleveland1984-fy]
+- Started ~last quarter of the 20th century, PRIM-9 (1974) [@Friendly2006-aq, 23, see also Cleveland and McGill,
 1988, Young et al. 2006]
-* We have come a long way... [John Tukey on prim9](https://youtu.be/B7XoW2qiFUA?t=151)
+  - We have come a long way... [John Tukey on prim9](https://youtu.be/B7XoW2qiFUA?t=151)
 * Interactivity allows for...
     + ...making sense of big data (more dimensions)
     + ...exploring data
     + ...making data accessible to those without background
-    + Online publishing, Interactive analysis/reading
-    + My current projects: [www.digitalpolitics.info](https://paulcbauer.github.io/digitalpolitics/) ([older example](https://paulcbauer.shinyapps.io/transformations_of_variables/))
-* Example: Check out the datablogs of various newspapers... [data journalism](http://www.theguardian.com/data)!
+    + ...generating interactive "publications"
+
 
 
 
@@ -249,7 +254,8 @@ A **web application framework** for R to turn analyses into interactive web appl
 * Computer runs the script with the new **inputs** (**input functions**)
 * Computer sends back **outputs** to the webpage  (**output functions**)
 * History of Shiny: [Joe Cheng: The Past and Future of Shiny](https://www.youtube.com/watch?v=HpqLXB_TnpI)^[Joe Cheng is the Chief Technology Officer at RStudio and was the original creator of the Shiny web framework, and continues to work on packages at the intersection of R and the web.]
-
+- **Popularity**: Shiny <img src="https://cranlogs.r-pkg.org/badges/shiny" alt="">
+  - Comparison: Ggplot2 <img src="https://cranlogs.r-pkg.org/badges/ggplot2" alt="">, dplyr <img src="https://cranlogs.r-pkg.org/badges/dplyr" alt="">
 
 
 
