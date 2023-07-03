@@ -491,18 +491,6 @@ knitr::include_graphics("resources/MVP.png")
 
 
 ### Development workflow
-1. **Creating the app**: start every app with the same six lines of R code below (`Shift + Tab` or in menue `New Project -> Shiny Web Application`)
-2. **Seeing your changes**: you'll create a few apps a da (really?!?), but you'll run apps hundreds of times, so mastering the development workflow is particularly important
-  1. Write some code.^[**Automated testing**: allows you to turn interactive experiments you're running into automated code, i.e., run tests more quickly and not forget them (because they are automated). Requires more initial investment.]
-  2. Launch the app with `Cmd/Ctrl + Shift + Enter`.
-  3. Interactively experiment with the app.
-  4. Close the app.
-  5. Go to 1.
-  
-- Tips
-  - **Controlling the view**: Default is a pop-out window but you can also choose `Run in Viewer Pane` and `Run External`.
-  - **Document outline**: Use it for navigation in your app code (`Cntrl + Shift + O`)
-
 ```{r}
 library(shiny)
 ui <- fluidPage(
@@ -513,6 +501,22 @@ server <- function(input, output, session) {
 }
 shinyApp(ui, server)
 ```
+
+1. **Creating the app**: start every app with the same six lines of R code below (`Shift + Tab` or in menue `New Project -> Shiny Web Application`)
+2. **Seeing your changes**: you'll create a few apps a da (really?!?), but you'll run apps hundreds of times, so mastering the development workflow is particularly important
+  1. Write some code.^[**Automated testing**: allows you to turn interactive experiments you're running into automated code, i.e., run tests more quickly and not forget them (because they are automated). Requires more initial investment.]
+  2. Launch the app with `Cmd/Ctrl + Shift + Enter`.
+  3. Interactively experiment with the app.
+  4. Close the app.
+  5. Go to 1.
+  
+#### A few tips 
+- **Controlling the view**: Default is a pop-out window but you can also choose `Run in Viewer Pane` and `Run External`.
+- **Document outline**: Use it for navigation in your app code (`Cntrl + Shift + O`)
+- **Using/exploring other apps**: Inspect that app code, then slowly delete parts you don't need
+  - if only interested in UI, delete everything in within server function: `server <- function(input, output, session) {delete everything here}`
+
+
 
 
 
