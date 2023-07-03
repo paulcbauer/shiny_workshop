@@ -67,20 +67,34 @@ workshop?
 
 
 ## Contact & Outline & Dates
+- **Course outline/content/dates:** (see toc on the left) 
+  - Day 1: Introduction to Shiny
+    - 13:00 - 14:00: Welcome and Introduction (1)
+    - 14:00 - 15:00: Introduction (2)
+    - 15:00 - 15:30: Coffee break
+    - 15:30 - 16:30: User Interface (UI): Designing the front end (1)
+    - 16:30 - 17:30: User Interface (UI): Designing the front end (2)
+  - Day 2: Reactive programming
+    - 13:00 - 14:00: Server: Reactive programming (1)
+    - 14:00 - 15:00: Server: Reactive programming (2)
+    - 15:00 - 15:30: Coffee break
+    - 15:30 - 16:30: Modelling and visualizing data (1)
+    - 16:30 - 17:30: Modelling and visualizing data (2)
+  - Day 3: Develop your app
+    - 13:00 - 14:00: Mapping data & advanced visualization (1)
+    - 14:00 - 15:00: Mapping data & advanced visualization (2)
+    - 15:00 - 15:30: Coffee break
+    - 15:30 - 16:30: Theming & styling 
+    - 16:30 - 17:30: Strengthen & Deploy
 
-- Framework
-  + GESIS – Leibniz Institute for the Social Sciences
-  + [Gesis Training Courses](https://training.gesis.org/?site=pOverview&cat=Workshop)
-- **Dates**, **Contact** and **Outline:** See syllabus (received via email).
-  + Everyone fine with the schedule?
-    + Whenever you need a break let us know!
+
 
 
 
 
 ## Script & material {#material}
-* **Literature**: See syllabus.
-* **Website/script**: https://bookdown.org/paul/shiny_workshop/
+- **Literature**: See syllabus.
+- **Website/script**: https://bookdown.org/paul/shiny_workshop/
 	- Find it: Google "shiny paul jonas"
 	- Document = slides  + script (Zoom in/out with `STRG + mousewheel`)
 	- **Code**: can all be found in the script
@@ -89,26 +103,29 @@ workshop?
 	- **Navigation**: TOCs on left and right
 	- Search document (upper left)
 	- Document generated with [quarto](https://quarto.org/)
-* **Motivation**: Have a go-to script for participants (and ourselves!)
-* **Content**: Mixture of theory, lab sessions, exercises and pure code examples for discussion
+- **Motivation**: Have a go-to script for participants (and ourselves!)
+- **Content**: Mixture of theory, lab sessions, exercises and pure code examples for discussion
+- **Important**: 1st time we teach workshop/material
 
 
 
+## Strategy & Goals
+- **Strategy**: From the simple to the complex, slowly building up a complex Shiny app that includes various aspects (tabulate data, modelling and descriptive graphs, mapping)
 
-## Goals
-
-- By the end of the course participants will:
+- **Goals**: By the end of the course participants will:
 	- understand the basics of reactive programming for interactive data analysis and visualization
 	- know what the structure of a Shiny application looks like
 	- be comfortable to use R Shiny to build their own interactive applications
 	- have learned about different ways to launch their Shiny application
 
 
-## Structure & stategy
-* **Content**: See toc on the left
-* **Strategy**: From the simple to the complex
-	- Slowly building up a complex Shiny app that includes various aspects (data, descriptive statistics, modelling, map)
-* *Let's have a quick look at the app!*
+
+
+
+
+  
+
+
 
 
 
