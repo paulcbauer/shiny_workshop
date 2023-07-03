@@ -575,7 +575,7 @@ shinyApp(ui = ui, server = server)
 
 
 
-## Guerry app: Reactivity
+## Guerry app (reactivity): Tabulate data tab
 * The Guerry app includes the following reactive functions: `reactive()`, `observe()`, `isolate()`, `bindEvent()`
 * Below the basic code underlying the Tabulate tab of our app.
   - What would the reactive graph look like for this app?
@@ -738,7 +738,7 @@ shiny::reactlogShow()
 ```
 
 
-## Guerry app: Saving of tabulated data
+## Guerry app: Tabulated data (download)
 - Below we will extend our app above to add saving options for the tabulated data in different formats.
 
 
