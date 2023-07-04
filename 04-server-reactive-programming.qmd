@@ -7,7 +7,7 @@ title: "Server: Reactive programming"
   - Become familiar with difference reactive functions such as `reactive()` or `observe()`
   - Explore reactivity in the Guerry app focusing on the *Tabulate data* tab
 
-Sources: [@wickham2021mastering, Ch. 3]
+Sources: @wickham2021mastering [Ch. 3]
 
 ```{r 04-server-reactive-programming-1, message=FALSE, warning=FALSE, include=FALSE}
 # namer::unname_chunks("04-server-reactive-programming.qmd")

@@ -14,7 +14,7 @@ title: "Introduction"
 pacman::p_load(knitr, quarto, tidyverse, gganimate, kableExtra)
 ```
 
-Sources: [@Bertini2017-jq; @wickham2021mastering]
+Sources: @Bertini2017-jq, @wickham2021mastering and @Fay2021-ta
 
 ## Interactive data analysis
 - Part is almost exclusively based on @Bertini2017-jq.
