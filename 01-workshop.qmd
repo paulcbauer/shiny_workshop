@@ -4,6 +4,10 @@ title: "About this workshop"
 
 
 ```{r functions, echo=FALSE, cache=FALSE}
+# Manual packages
+ packages_manual <- c("profvis", "rsconnect", "whereami")
+
+
 # Generate package chunk
    file_names <- stringr::str_subset(dir(), "qmd")
   packages_all <- NULL
@@ -19,11 +23,15 @@ title: "About this workshop"
   packages_all <- c(packages_all, packages)
   
   }
+  # Add manual packages
+  packages_all <- c(packages_all, packages_manual)
+  
+  # Clean up
   packages <- paste("# install.packages('pacman')", "library(pacman)", "p_load('", paste(unique(packages_all), collapse="', '"), "')",sep="") 
   packages <- stringr::str_wrap(packages, width = 80) 
   packages <- gsub("install.packages\\('pacman'\\)", "install.packages\\('pacman'\\)\n", packages) 
   packages <- gsub("library\\(pacman\\)", "library\\(pacman\\)\n", packages)
-  packages <- c(packages, "profvis", "rsconnect", "whereami")
+
 ```
 
 
