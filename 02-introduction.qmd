@@ -497,14 +497,17 @@ knitr::include_graphics("resources/MVP.png")
 
 
 ### Development workflow
-```{r}
+```{r eval=FALSE}
 library(shiny)
+
 ui <- fluidPage(
   
 )
+
 server <- function(input, output, session) {
   
 }
+
 shinyApp(ui, server)
 ```
 

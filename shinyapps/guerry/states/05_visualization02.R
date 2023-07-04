@@ -332,30 +332,19 @@ server <- function(input, output, session) {
   
   ## 4.2 Model data ----
   ### Define & estimate model ----
-  mparams <- reactive({
+  dat <- reactive({
     x <- input$model_x
     y <- input$model_y
     dt <- sf::st_drop_geometry(data_guerry)[c(x, y)]
-    dt_labels <- sf::st_drop_geometry(data_guerry)[c("Department", "Region")]
     if (input$model_std) dt <- datawizard::standardise(dt)
-    form <- as.formula(paste(x, "~", paste(y, collapse = " + ")))
-    mod <- lm(form, data = dt)
     
-    list(
-      x = x,
-      y = y,
-      data = dt,
-      data_labels = dt_labels,
-      model = mod
-    )
+    dt
   }) %>%
     bindEvent(input$refresh, ignoreNULL = FALSE)
   
   ### Pair diagram ----
   output$pairplot <- renderPlot({
-    params <- mparams()
-    dt <- params$data
-    GGally::ggpairs(params$data, axisLabels = "none")
+    GGally::ggpairs(dat(), axisLabels = "none")
   })
 }
 

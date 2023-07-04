@@ -22,10 +22,32 @@ pacman::p_load(
 	jsonlite
 )
 
-guerry <- Guerry::gfrance85 %>%
-  st_as_sf() %>% # convert sp to the newer sf format
+variable_names <- list(
+  Crime_pers = "Crime against persons",  
+  Crime_prop =  "Crime against property",  
+  Literacy = "Literacy",  
+  Donations = "Donations to the poor",  
+  Infants = "Illegitimate births",  
+  Suicides = "Suicides",  
+  Wealth = "Tax / capita",  
+  Commerce = "Commerce & Industry",  
+  Clergy = "Clergy",  
+  Crime_parents = "Crime against parents",  
+  Infanticide = "Infanticides",  
+  Donation_clergy = "Donations to the clergy",  
+  Lottery = "Wager on Royal Lottery",  
+  Desertion = "Military desertion",  
+  Instruction = "Instruction",  
+  Prostitutes = "Prostitutes",  
+  Distance = "Distance to paris",  
+  Area = "Area",  
+  Pop1831 = "Population"
+)
+
+data_guerry <- Guerry::gfrance85 %>%
+  st_as_sf() %>%
   as_tibble() %>%
-  st_as_sf(crs = 27572) %>% # set the correct coordinate reference system
+  st_as_sf(crs = 27572) %>%
   mutate(Region = case_match(
     Region,
     "C" ~ "Central",
@@ -33,36 +55,18 @@ guerry <- Guerry::gfrance85 %>%
     "N" ~ "North",
     "S" ~ "South",
     "W" ~ "West"
-  ))
-
-variables <- guerry %>%
-  st_drop_geometry() %>%
-  select(where(is.numeric) & !all_of(c("COUNT", "dept", "AVE_ID_GEO"))) %>%
-  names()
-
-guerry_region <- guerry %>%
-  group_by(Region) %>%
-  summarise(across(
-  .cols = all_of(variables),
-  function(x) {
-    if (cur_column() %in% c("Area", "Pop1831")) {
-      sum(x)
-    } else {
-      mean(x)
-    }
-  }
- ))
-  
-txts <- read_json("shinyapps/guerry/app_labels.json", simplifyVector = TRUE)
+  )) %>%
+  select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>%
+  select(Region:Department, all_of(names(variable_names)))
 ```
 
-# Learning outcomes
 
 You will learn how to:
 
 -   Embed plots and diagrams from ggplot2 in Shiny apps
 -   Make your plots interactive using Plotly
 -   Explore issues using the power of interactive visualization dashboards
+-   Visualize a regression analysis in Shiny
 
 # Interactive visualization: The core of Shiny
 
@@ -95,13 +99,19 @@ Explore the COVID-19 tracker. Do you think this is a good Shiny app? If so, why?
     -   [`plotOutput()`](https://shiny.posit.co/r/reference/shiny/1.7.4/plotoutput) creates the empty element in the UI where the plot will go
     -   [`renderPlot()`](https://shiny.posit.co/r/reference/shiny/1.7.4/renderplot) renders the plot and updates the UI element every time a reactive dependency is invalidated
 
+## A new section for the Guerry app
+
+- To exemplify what Shiny can do with visualizations, we add a new tab to the app called "Model data"
+- The goal is to explore the relationships among Guerry variables
+- **Question**: If you think about a Shiny app that explores the relationships within a dataset, what types of visualizations come into your mind first?
+
 ## Setting up the UI element
 
 -   Taking our Shiny app as an example, we add another tab:
 
 ```{r eval=F}
 model <- tabItem(              # <1>
-	"model",                     # <1>
+	"tab_model",                     # <1>
 	fluidRow(                    # <2>
 		column(                    # <2>
 			width = 6,               # <2>
@@ -116,12 +126,12 @@ model <- tabItem(              # <1>
 )
 ```
 
-1.  Create a tab item called "model"
+1.  Create a tab item called "tab_model"
 2.  Create an initial layout containing a fluid row with one column and one box
 3.  Create a plot output widget
 
--   The newly created tab Item has the tab name `model`
--   We already created another tab item called `intro`, so we can tell where our new tab item goes:
+-   The newly created tab Item has the tab name `tab_model`
+-   We already created another tab item called `tab_intro`, so we can tell where our new tab item goes:
 
 ```{r eval=FALSE}
 dashboardPage(
@@ -135,13 +145,13 @@ dashboardPage(
     id = "sidebar",                                       # <1>
     sidebarMenu(                                          # <1>
       id = "sidebarMenu",                                 # <1>
-      menuItem(tabName = "intro", text = "Introduction"), # <1>
-      menuItem(tabName = "model", text = "Model data")    # <1>
+      menuItem(tabName = "tab_intro", text = "Introduction"), # <1>
+      menuItem(tabName = "tab_model", text = "Model data")    # <1>
     )
   ),
   body = dashboardBody(                                   # <2>
     tabItems(                                             # <2>
-      tabItem(tabName = "intro"),                         # <2>
+      tabItem(tabName = "tab_intro"),                         # <2>
       model                                               # <2>
     )
   )
@@ -149,7 +159,7 @@ dashboardPage(
 ```
 
 1.  Create the respective menu items in the sidebar. Don't forget to match the tab names!
-2.  Create the tab items within the body. The function `tabItems()` contains all tab objects. We add our newly created `model` object after the introduction. Again, the order and names of `tabItem()`s corresponds to the order and names of `menuItem()`s!
+2.  Create the tab items within the body. The function `tabItems()` contains all tab objects. We add our newly created `tab_model` object after the introduction. Again, the order and names of `tabItem()`s corresponds to the order and names of `menuItem()`s!
 
 ## Filling with contents
 
@@ -183,7 +193,7 @@ output$pairplot <- renderPlot({                             # <1>
 -   To really make it shine, we need three features:
     -   Reactivity
     -   Interactivity
-    -   Comparability
+    -   Contextuality
 
 # Reactivity
 
@@ -203,7 +213,7 @@ To avoid overreactivity, we add an [`actionButton()`](https://shiny.posit.co/r/r
 
 ```{r eval=F}
 model <- tabItem(
-	"model",
+	"tab_model",
 	fluidRow(                                                             # <1>
 		column(                                                             # <1>
 			width = 6,                                                        # <1>
@@ -215,13 +225,13 @@ model <- tabItem(
 				selectInput(                                                    # <2>
 					"model_x",                                                    # <2>
 					label = "Select a dependent variable",                        # <2>
-					choices = setNames(variables, sapply(txts, "[[", "title")),   # <2>
+					choices = setNames(names(variable_names), variable_names),   # <2>
 					selected = "Literacy"                                         # <2>
 				),                                                              # <2>
 				selectizeInput(                                                 # <3>
 					"model_y",                                                    # <3>
 					label = "Select independent variables",                       # <3>
-					choices = setNames(variables, sapply(txts, "[[", "title")),   # <3>
+					choices = setNames(names(variable_names), variable_names),   # <3>
 					multiple = TRUE,                                              # <3>
 					selected = "Commerce"                                         # <3>
 				),                                                              # <3>
@@ -270,7 +280,7 @@ model <- tabItem(
 :::
 
 ```{r eval=F}
-dt <- reactive({                                           # <1>
+dat <- reactive({                                           # <1>
 	x <- input$model_x                                       # <1>
 	y <- input$model_y                                       # <1>
 	dt <- sf::st_drop_geometry(guerry)[c(x, y)]              # <1>
@@ -280,13 +290,13 @@ dt <- reactive({                                           # <1>
 	bindEvent(input$refresh, ignoreNULL = FALSE)             # <2>
 
 output$pairplot <- renderPlot({
-	GGally::ggpairs(dt(), axisLabels = "none")               # <3>
+	GGally::ggpairs(dat(), axisLabels = "none")               # <3>
 })
 ```
 
-1.  Create a reactive expression that takes care of data cleaning and stores the cleaned data in a reactive object called `dt`
-2.  Execute the reactive expression (and thus update `dt`), if and only if the refresh button is pressed
-3.  Create a pairs plot using the newly created `dt()` object. This is the same as the `dt` dataframe that we used before with the difference that `dt()` updates every time `input$model_x`, `input$model_y` or `input$model_std` are changed.
+1.  Create a reactive expression that takes care of data cleaning and stores the cleaned data in a reactive object called `dat`
+2.  Execute the reactive expression (and thus update `dat`), if and only if the refresh button is pressed
+3.  Create a pairs plot using the newly created `dat()` object. This is the same as the `dt` dataframe that we used before with the difference that `dat()` updates every time `input$model_x`, `input$model_y` or `input$model_std` are changed.
 
 ![](resources/05_02.gif)
 
@@ -303,7 +313,7 @@ output$pairplot <- renderPlot({
 
 -   Currently, our plot is a static image
 -   Static images are fine for reports or print articles, but Shiny features much more than that
--   Base Shiny features interactive components like click, double click, hover or brush events (see [Chapter 7](https://mastering-shiny.org/action-graphics.html#dynamic-height-and-width) in Mastering Shiny)
+-   Base Shiny features interactive components like click, double click, hover or brush events (see [Chapter 7.1](https://mastering-shiny.org/action-graphics.html#interactivity) in Mastering Shiny)
 -   Here, we'd like to go a bit further and implement Plotly plots
 
 ## Plotly
@@ -343,7 +353,7 @@ plot_ly(
 
 ```{r eval=F}
 model <- tabItem(
-	"model",
+	"tab_model",
 	fluidRow(
 		column(
 			width = 6,
@@ -355,13 +365,13 @@ model <- tabItem(
 				selectInput(
 					"model_x",
 					label = "Select a dependent variable",
-					choices = setNames(variables, sapply(txts, "[[", "title")),
+					choices = setNames(names(variable_names), variable_names),
 					selected = "Literacy"
 				),
 				selectizeInput(
 					"model_y",
 					label = "Select independent variables",
-					choices = setNames(variables, sapply(txts, "[[", "title")),
+					choices = setNames(names(variable_names), variable_names),
 					multiple = TRUE,
 					selected = "Commerce"
 				),
@@ -401,7 +411,7 @@ model <- tabItem(
 -   Lucky for us, all we have to do is call [`ggplotly()`](https://rdrr.io/cran/plotly/man/ggplotly.html) on our ggplot object to convert it to a plotly object
 
 ```{r eval=F}
-dt <- reactive({
+dat <- reactive({
 	x <- input$model_x
 	y <- input$model_y
 	dt <- sf::st_drop_geometry(guerry)[c(x, y)]
@@ -411,7 +421,7 @@ dt <- reactive({
 	bindEvent(input$refresh, ignoreNULL = FALSE)
 
 output$pairplot <- plotly::renderPlotly({                # <1>
-	p <- GGally::ggpairs(dt(), axisLabels = "none")
+	p <- GGally::ggpairs(dat(), axisLabels = "none")
 	plotly::ggplotly(p)                                    # <2>
 })
 ```
@@ -498,13 +508,20 @@ ggplotly(p) %>%
 #| code-summary: Full code for interactive visualization
 ```
 
-# Comparability
+# Contextuality
 
--   By comparability, we loosely understand how we perceive charts in context
+-   By contextuality, we loosely understand how we perceive charts in context
 -   Just showing a simple graph can be more than enough to convey a message
 -   In many cases though, we need more than one figure to lead an argument
 -   A lot of the times it helps to see figures side-by-side
--   With a little bit of creativity, Shiny can be a very competent story teller (for an impressive example, take a look at John Coene's [Freedom of Press Shiny app](https://johncoene.shinyapps.io/fopi-contest/))
+-   Regular plotting: Interactivity and reactivity possible, but *no contextuality*
+-   Embedded plotting: Contextuality provided, but interactivity and reactivity mostly impossible (e.g. in a report or a paper)
+
+
+## Good practices
+
+-   Appsilon's [US bee colony monitor](https://connect.appsilon.com/bee-colony/) provides an easy way to compare aggregated numbers, between-state and within-state distributions side-by-side
+-   With a little bit of creativity, Shiny can be a very competent story teller (for an impressive example, take a look at John Coene's [Freedom of Press Shiny app](https://johncoene.shinyapps.io/fopi-contest/)) 
 
 ## Extending the layout
 
@@ -514,7 +531,7 @@ ggplotly(p) %>%
 
 ```{r eval=F}
 model <- tabItem(
-	"model",
+	"tab_model",
 	fluidRow(
 		column(
 			width = 6,
@@ -526,13 +543,13 @@ model <- tabItem(
 				selectInput(
 					"model_x",
 					label = "Select a dependent variable",
-					choices = setNames(variables, sapply(txts, "[[", "title")),
+					choices = setNames(names(variable_names), variable_names),
 					selected = "Literacy"
 				),
 				selectizeInput(
 					"model_y",
 					label = "Select independent variables",
-					choices = setNames(variables, sapply(txts, "[[", "title")),
+					choices = setNames(names(variable_names), variable_names),
 					multiple = TRUE,
 					selected = "Commerce"
 				),
@@ -610,7 +627,7 @@ mparams <- reactive({                                            # <1>
 	bindEvent(input$refresh, ignoreNULL = FALSE)
 ```
 
-1.  We renamed the `dt()` reactive object to `mparams()` as it now holds multiple arguments instead of just one dataframe
+1.  We renamed the `dat()` reactive object to `mparams()` as it now holds multiple arguments instead of just one dataframe
 2.  Create a formula and produce the linear regression output
 3.  Return a list of arguments to be used for the outputs
 
@@ -691,7 +708,7 @@ output$tableregression <- renderUI({                        # <4>
 
 ```{r eval=FALSE, file="shinyapps/guerry/states/05_visualization04.R"}
 #| code-fold: true
-#| code-summary: Full code for comparable visualization
+#| code-summary: Full code for contextual visualization
 ```
 
 # Exercises

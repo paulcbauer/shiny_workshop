@@ -59,7 +59,6 @@ data_guerry <- Guerry::gfrance85 %>%
   select(Region:Department, all_of(names(variable_names)))
 ```
 
-# Learning outcomes
 
 You will learn how to:
 
@@ -407,6 +406,14 @@ output$tab_map_map <- leaflet::renderLeaflet({                                  
 
 ![](resources/06_01.gif)
 
+## Full code
+
+```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping01.R"}
+#| code-fold: true
+#| code-summary: Full code including an empty map
+```
+
+
 # Add data
 
 - Currently, we only show a background, but do not map the Guerry data
@@ -474,6 +481,13 @@ output$tab_map_map <- leaflet::renderLeaflet({
 11. Finally, `labelFormat()` allows you to change the formatting of the legend label, e.g. if you need to specify whether a number is a percentage, meters or something else
 
 ![](resources/06_02.gif)
+## Full code
+
+```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping02.R"}
+#| code-fold: true
+#| code-summary: Full code including a simple Leaflet map
+```
+
 
 # Add reactivity
 
@@ -1027,6 +1041,13 @@ tabItem(
 - The result is arguably nicer to look at, but certainly provides more information to understand the map we created
 
 
+## Full code
+
+```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping03.R"}
+#| code-fold: true
+#| code-summary: Full code including a reactive Leaflet map
+```
+
 
 
 # Add hover labels
@@ -1037,7 +1058,8 @@ tabItem(
 
 ## How to add labels
 
-- Adding labels is itself not a difficult task: You can just provide the values vector we use as data input:
+- Adding labels is itself not a difficult task: You can just provide the values vector we use as data input
+- Labels then contain a single value with no information as to what you're looking at
 
 ```{r eval=FALSE}
 leaflet() %>%
@@ -1060,12 +1082,12 @@ tags$table(             # <1>
 		tags$td("Cell 2"),  # <3>
 		tags$td("Cell 3")   # <3>
 	),
-		tags$tr(            # <2>
+	tags$tr(            # <2>
 		tags$td("Cell 4"),  # <3>
 		tags$td("Cell 5"),  # <3>
 		tags$td("Cell 6")   # <3>
 	),
-		tags$tr(            # <2>
+	tags$tr(            # <2>
 		tags$td("Cell 7"),  # <3>
 		tags$td("Cell 8"),  # <3>
 		tags$td("Cell 9")   # <3>
@@ -1461,9 +1483,9 @@ output$tab_map_map <- renderLeaflet({
 
 ## Full code
 
-```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping04.R"}
+```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping05.R"}
 #| code-fold: true
-#| code-summary: Full R code including Shiny events
+#| code-summary: Full code including Shiny events
 ```
 
 

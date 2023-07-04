@@ -333,98 +333,32 @@ server <- function(input, output, session) {
   
   ## 4.2 Model data ----
   ### Define & estimate model ----
-  mparams <- reactive({
+  dat <- reactive({
     x <- input$model_x
     y <- input$model_y
     dt <- sf::st_drop_geometry(data_guerry)[c(x, y)]
-    dt_labels <- sf::st_drop_geometry(data_guerry)[c("Department", "Region")]
     if (input$model_std) dt <- datawizard::standardise(dt)
-    form <- as.formula(paste(x, "~", paste(y, collapse = " + ")))
-    mod <- lm(form, data = dt)
     
-    list(
-      x = x,
-      y = y,
-      data = dt,
-      data_labels = dt_labels,
-      model = mod
-    )
+    dt
   }) %>%
     bindEvent(input$refresh, ignoreNULL = FALSE)
   
   ### Pair diagram ----
   output$pairplot <- plotly::renderPlotly({
-    params <- mparams()
-    dt <- params$data
-    dt_labels <- params$data_labels
-    p <- GGally::ggpairs(params$data, axisLabels = "none")
+    p <- GGally::ggpairs(dat(), axisLabels = "none")
     
     ggplotly(p) %>%
-      config(modeBarButtonsToRemove = plotly_buttons,
-             displaylogo = FALSE)
-  })
-  
-  ### Plot: Coefficientplot ----
-  output$coefficientplot <- renderPlotly({
-    params <- mparams()
-    dt <- params$data
-    x <- params$x
-    y <- params$y
-    
-    p <- plot(parameters::model_parameters(params$model))
-    
-    ggplotly(p) %>%
-      config(modeBarButtonsToRemove = plotly_buttons,
-             displaylogo = FALSE)
-  })
-  
-  ### Plot: Scatterplot ----
-  output$scatterplot <- renderPlotly({
-    params <- mparams()
-    dt <- params$data
-    dt_labels <- params$data_labels
-    x <- params$x 
-    y <- params$y
-    
-    
-    if (length(y) == 1) {
-      p <- ggplot(params$data, 
-                  aes(x = .data[[params$x]], 
-                      y = .data[[params$y]])) +
-        geom_point(aes(text = paste0("Department: ", 
-                                     dt_labels[["Department"]],
-                                     "<br>Region: ", 
-                                     dt_labels[["Region"]])),
-                   color = "black") +
-        geom_smooth() + 
-        geom_smooth(method = "lm") +
-        theme_light()
-    } else {
-      p <- ggplot() +
-        theme_void() +
-        annotate("text", 
-                 label = "Cannot create scatterplot.\nMore than two variables selected.", 
-                 x = 0, y = 0, 
-                 size = 5, 
-                 colour = "red",
-                 hjust = 0.5,
-                 vjust = 0.5) +
-        xlab(NULL)
-      
-    }
-    
-    ggplotly(p) %>%
-      config(modeBarButtonsToRemove = plotly_buttons,
-             displaylogo = FALSE)
-  })
-  
-  ### Table: Regression ----
-  output$tableregression <- renderUI({
-    params <- mparams()
-    HTML(modelsummary(
-      dvnames(list(params$model)),
-      gof_omit = "AIC|BIC|Log|Adj|RMSE"
-    ))
+      config(
+        modeBarButtonsToRemove = plotly_buttons,
+        displaylogo = FALSE,
+        toImageButtonOptions = list(
+          format = "svg",
+          filename = "guerry_plot",
+          height = NULL,
+          width = NULL
+        ),
+        scrollZoom = TRUE
+      )
   })
 }
 
