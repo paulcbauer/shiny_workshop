@@ -605,7 +605,7 @@ server <- function(input, output, session) {
     data_table <- data_guerry_tabulate
     
     if (!is.null(var)) {
-      data_table <- data_table[, var]
+      data_table <- data_table[, c("Region", "Department",var)]
     }
 
     data_table
