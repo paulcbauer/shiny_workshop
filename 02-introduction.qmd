@@ -29,7 +29,7 @@ Sources: [@Bertini2017-jq; @wickham2021mastering]
   - Humans have a mental model of the reality and use data and models (= description of reality) to study this model and improve it
 
 
-![Relationship between reality, data/statistical models, human mental models (Source: Bertini, 2017)](02-bertinin-1.webp){#fig-bertini-one}
+![Relationship between reality, data/statistical models, human mental models (Source: Bertini, 2017)](resources/02-bertinin-1.webp){#fig-bertini-one}
 
 ### How Does Interactive Data Analysis Work?
 - @fig-bertini-two outlines process underlying interactive data analysis
@@ -39,7 +39,7 @@ Sources: [@Bertini2017-jq; @wickham2021mastering]
     - gather, organize and analyze the data to answer these questions (*Gather **data** on crime and other factors, **model** and **visualize** it*)
     - generate knowledge and new questions and start over
 
-![Process underlying interactive data analysis (Source: Bertini, 2017)](02-bertinin-2.webp){#fig-bertini-two}
+![Process underlying interactive data analysis (Source: Bertini, 2017)](resources/02-bertinin-2.webp){#fig-bertini-two}
 
 ### Steps of interactive data analysis
 1. **Defining the problem**: What problem/goal are you trying to solve/reach through interactive data analysis?
@@ -291,7 +291,7 @@ A **web application framework** for R to turn analyses into interactive web appl
   - How can this app help us to understand and analyze the underlying data?
   - What interactive elements can we identify in the app?
 
-![(Source: Original image)](02-guerrydashboard.png){#fig-guerrydashboard}
+![(Source: Original image)](resources/02-guerrydashboard.png){#fig-guerrydashboard}
 
 
 ### Data
@@ -385,7 +385,7 @@ kable(head(data_guerry[c(1,2,3,4,21,22)]))
 ### Components of a Shiny app
 * As depicted in @fig-shinycomponents, a Shiny app has **two components**, the **user interface (UI)** and the **server**, that are passed as arguments to the `shinyApp()` which creates a Shiny app object from this **ui/server pair**
 
-![Source: https://hosting.analythium.io/the-anatomy-of-a-shiny-application/ (c) Analythium](02-compontents-shiny-app.png){#fig-shinycomponents}
+![Source: https://hosting.analythium.io/the-anatomy-of-a-shiny-application/ (c) Analythium](resources/02-compontents-shiny-app.png){#fig-shinycomponents}
 
 
 
@@ -416,7 +416,7 @@ install.packages("tidyverse")
 ```{r run-app, out.width = NULL, echo = FALSE}
 #| label: fig-runappbutton
 #| fig-cap: " The Run App button can be found at the top-right of the source pane."
-knitr::include_graphics("02-run-app.png")
+knitr::include_graphics("resources/02-run-app.png")
 ```
 
 
