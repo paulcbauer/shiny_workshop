@@ -2,7 +2,6 @@
 title: "Strengthen & Deploy"
 ---
 
-# Learning outcomes
 
 You will learn how to:
 

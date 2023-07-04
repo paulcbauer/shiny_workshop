@@ -22,7 +22,6 @@ pacman::p_load(
 )
 ```
 
-## Learning outcomes
 
 You will learn how to:
 
