@@ -756,11 +756,17 @@ shinyApp(ui, server)
 
 
 ```{r example, echo=FALSE, class.output="c", comment=""}
-cat(readLines("shinyapps/guerry/app_tab_introduction.R"), sep = "\n")
+cat(readLines("shinyapps/guerry/states_paul/app_tab_introduction.R"), sep = "\n")
 ```
 
 
+```{r eval=FALSE, file="shinyapps/guerry/states_paul/app_tab_introduction.R"}
 
+#| code-fold: true
+
+#| code-summary: Full R code including Shiny events
+
+```
 
 
 
