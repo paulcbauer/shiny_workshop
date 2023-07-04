@@ -7,7 +7,7 @@ title: "Server: Reactive programming"
   - Become familiar with difference reactive functions such as `reactive()` or `observe()`
   - Explore reactivity in the Guerry app focusing on the *Tabulate data* tab
 
-Sources: [@wickham2021mastering, Ch. 3]
+Sources: @wickham2021mastering [Ch. 3]
 
 ```{r 04-server-reactive-programming-1, message=FALSE, warning=FALSE, include=FALSE}
 # namer::unname_chunks("04-server-reactive-programming.qmd")
@@ -62,15 +62,21 @@ shinyApp(ui, server)
 
 - `output`: a list-like object containing outputs named according to `output ID`
   - **Difference**: `output` used for sending output instead of receiving `input` (always in concert with **render function** as below)
-  - Q: How many outputs are there below?
+  - Q: How many inputs/outputs are there in the code below?
   
 ```{r 04-server-reactive-programming-3, echo=TRUE, eval=FALSE}
-ui <- fluidPage(textOutput("greeting"))
+#| code-fold: true
+#| code-summary: "Simple input/output example"
+ui <- fluidPage(
+  textInput("name", "What's your name?"),
+  textOutput("greeting")
+)
 
 server <- function(input, output, session) {
-  output$greeting <- renderText("Hello human!") # <1>
+  output$greeting <- renderText({ # <1>
+    paste0("Hello ", input$name, "!")
+  })
 }
-
 shinyApp(ui, server)
 ```
 
@@ -210,7 +216,7 @@ shinyApp(ui, server)
 
 
 ### Executation order
-- Order Shiny code is run is solely determined by reactive graph (different from classic R code!)
+- Order Shiny code is run is solely determined by reactive graph
 - Below we flip code in server function below
   - Better **keep order for easier understanding**!
 
@@ -261,7 +267,7 @@ server3 <- function(input, output, server) {
 2.  Draw the reactive graph for the following three server functions (what are the inputs, reactives and ouputs):
 
 ::: {.callout-tip collapse="true"}
-Start by deciding **how many** and **which inputs**, **reactives** and **ouputs** there are. Then start drawing with inputs representing first column on the left. You could use, e.g., `a>` for inputs, `>c>` for reactives and `>f` for outputs and arrows to connect them.
+Start by deciding **how many** and **which inputs (1)**, **reactives (2)** and **ouputs (3)** there are. Then start drawing with inputs representing first column on the left. You could use, e.g., `a>` for inputs, `>c>` for reactives and `>f` for outputs and arrows to connect them.
 :::
 
 ```{r 04-server-reactive-programming-10}
@@ -397,8 +403,9 @@ knitr::include_graphics("resources/producers-consumers.png", dpi = 300)
 
 ### observe() and observeEvent()
 
-* `observe()`: creates an observer that runs whenever any of its reactive dependencies change, i.e., code inside `observe()` will be re-evaluated whenever any **reactive inputs or reactive expressions** that it references get updated.
-* `observeEvent()` (observers): used when you want to perform an action in response to an event (see `input$button` below), but you don't need the result of the action to be used in the UI.
+- `observe()`: creates an observer that runs whenever any of its reactive dependencies change
+  - i.e., code inside `observe()` will be re-evaluated whenever any **reactive inputs or reactive expressions** that it references get updated.
+- `observeEvent()` (observers): used when you want to perform an action in response to an event (see `input$button` below), but you don't need the result of the action to be used in the UI.
 
 
 ::: {.callout-note collapse="true"}
@@ -466,7 +473,7 @@ shinyApp(ui = ui, server = server, options = list(display.mode='showcase'))
   - useful to access the current value of an input or reactive expression, but without re-running the code when that input or expression changes
   
 ::: {.callout-note collapse="true"}
-In this app, when you click the "Generate Random Number" button, a random number is generated. This number does not immediately cause a reactive event because it's isolated within the `isolate()` function. It only gets displayed when you click the "Display Random Number" button. Changes to randNum$num after "Display Random Number" button is clicked won't affect the displayed value until the button is clicked again. Thus, the `isolate()` function enables the use of reactive values without triggering reactivity.
+In this app, when you click the "Generate Random Number" button, a random number is generated. This number does not immediately cause a reactive event because it's isolated within the `isolate()` function. It only gets displayed when you click the "Display Random Number" button. Changes to `randNum$num` after "Display Random Number" button is clicked won't affect the displayed value until the button is clicked again. Thus, the `isolate()` function enables the use of reactive values without triggering reactivity.
 :::
   
 
@@ -482,7 +489,7 @@ ui <- fluidPage(
 
 # Define server logic
 server <- function(input, output) {
-    randNum <- reactiveValues(num = NULL)
+    randNum <- reactiveValues(num = NULL) # Create object to store reactiv values
 
     observeEvent(input$genButton, {
         randNum$num <- runif(1) # Generate a random number when genButton is clicked
@@ -578,136 +585,15 @@ shinyApp(ui = ui, server = server)
 ## Guerry app (reactivity): Tabulate data tab
 * The Guerry app includes the following reactive functions: `reactive()`, `observe()`, `isolate()`, `bindEvent()`
 * Below the basic code underlying the Tabulate tab of our app.
-  - What would the reactive graph look like for this app?
+  - What would the reactive graph look like for this app (how many inputs, reatives, outputs)?
   - Which reactive functions can you identify?
 
 
 
-```{r eval=FALSE}
-## install.packages("pacman")
-pacman::p_load(shiny, htmltools, bs4Dash, fresh,
-               waiter, shinyWidgets, Guerry, sf,
-               tidyr, tidyverse, RColorBrewer,
-               viridis, leaflet, plotly, jsonlite,
-               GGally, datawizard, parameters,
-               performance, ggdark, modelsummary)
-# 1 Data preparation ----
+```{r eval=FALSE, file="shinyapps/guerry/states_paul/app_tab_tabulate.R"}
+#| code-fold: true
+#| code-summary: R code underlying tabulate tab
 
-## Load & clean data ----
-data_guerry <- Guerry::gfrance85 %>%
-  st_as_sf() %>%
-  as_tibble() %>%
-  st_as_sf(crs = 27572) %>%
-  mutate(Region = case_match(
-    Region,
-    "C" ~ "Central",
-    "E" ~ "East",
-    "N" ~ "North",
-    "S" ~ "South",
-    "W" ~ "West"
-  )) %>%
-  select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>%
-  select(Region:Department, where(is.numeric))
-
-## Prep data (Tab: Tabulate data) ----
-data_guerry_tabulate <- data_guerry %>% 
-  st_drop_geometry() %>% 
-  mutate(across(.cols = all_of(unlist(variable_names)), round, 2))
-
-
-
-# 3 UI ----
-
-ui <- dashboardPage(
-  title = "The Guerry Dashboard",
-  ## 3.1 Header ----
-  header = dashboardHeader(),
-  ## 3.2 Sidebar ----
-  sidebar = dashboardSidebar(
-    id = "sidebar",
-    sidebarMenu(
-      id = "sidebarMenu",
-      menuItem(tabName = "tab_tabulate", text = "Tabulate data", icon = icon("table")),
-      flat = TRUE
-    ),
-    minified = TRUE,
-    collapsed = TRUE,
-    fixed = FALSE,
-    skin = "light"
-  ),
-  ## 3.3 Body ----
-  body = dashboardBody(
-    tabItems(
-      ### 3.3.2 Tab: Tabulate data ----
-      tabItem(
-        tabName = "tab_tabulate",
-        fluidRow(
-          #### Inputs(s) ----
-          pickerInput(
-            "tab_tabulate_select",
-            label = "Filter variables",
-            choices = names(data_guerry_tabulate),
-            options = pickerOptions(
-              actionsBox = TRUE,
-              windowPadding = c(30, 0, 0, 0),
-              liveSearch = TRUE,
-              selectedTextFormat = "count",
-              countSelectedText = "{0} variables selected",
-              noneSelectedText = "No filters applied"
-            ),
-            inline = TRUE,
-            multiple = TRUE
-          )
-        ),
-        hr(),
-        #### Output(s) (Data table) ----
-        DT::dataTableOutput("tab_tabulate_table")
-      )
-    ) # end tabItems
-  )
-)
-
-
-
-# 4 Server ----
-
-server <- function(input, output, session) {
-  
-  ## 4.1 Tabulate data ----
-  ### Variable selection ----
-  tab <- reactive({
-    var <- input$tab_tabulate_select
-    data_table <- data_guerry_tabulate
-    
-    if (!is.null(var)) {
-      data_table <- data_table[, var]
-    }
-    
-    data_table
-  })
-  
-  
-  ### Create table----
-  dt <- reactive({
-    tab <- tab()
-    ridx <- ifelse("Department" %in% names(tab), 3, 1)
-    DT::datatable(
-      tab,
-      class = "hover",
-      extensions = c("Buttons"),
-      selection = "none",
-      filter = list(position = "top", clear = FALSE),
-      style = "bootstrap4",
-      rownames = FALSE
-    )
-  })
-  
-  ### Render table----
-  output$tab_tabulate_table <- DT::renderDataTable(dt(), server = FALSE)
-  
-}
-
-shinyApp(ui, server)
 ```
 
 
@@ -730,187 +616,44 @@ reactlog_enable()
 # reactlog_disable()
 
 # run a shiny app
-runApp("C:/Users/Paul/Google Drive/13_SHINY_Workshop/shinyapps/myfirstapp")
+runApp("C:/Users/Paul/Google Drive/13_SHINY_Workshop/shinyapps/guerry/states_paul/app_tab_tabulate.R")
 
 # once app has closed, display reactlog from shiny
 shiny::reactlogShow()
 ```
 
 
-## Guerry app: Tabulated data (download)
-- Below we will extend our app above to add saving options for the tabulated data in different formats.
-
-
-```{r 04-server-reactive-programming-13-23, cache=TRUE, eval=FALSE, echo=TRUE}
-## install.packages("pacman")
-pacman::p_load(shiny, htmltools, bs4Dash, fresh,
-               waiter, shinyWidgets, Guerry, sf,
-               tidyr, tidyverse, RColorBrewer,
-               viridis, leaflet, plotly, jsonlite,
-               GGally, datawizard, parameters,
-               performance, ggdark, modelsummary)
-
-# 1 Data preparation ----
-
-## Load & clean data ----
-data_guerry <- Guerry::gfrance85 %>%
-  st_as_sf() %>%
-  as_tibble() %>%
-  st_as_sf(crs = 27572) %>%
-  mutate(Region = case_match(
-    Region,
-    "C" ~ "Central",
-    "E" ~ "East",
-    "N" ~ "North",
-    "S" ~ "South",
-    "W" ~ "West"
-  )) %>%
-  select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>%
-  select(Region:Department, where(is.numeric))
-
-## Prep data (Tab: Tabulate data) ----
-data_guerry_tabulate <- data_guerry %>% 
-  st_drop_geometry() %>% 
-  mutate(across(where(is.numeric), round, 2))
 
 
 
-# 3 UI ----
-
-ui <- dashboardPage(
-  title = "The Guerry Dashboard",
-  ## 3.1 Header ----
-  header = dashboardHeader(),
-  ## 3.2 Sidebar ----
-  sidebar = dashboardSidebar(
-    id = "sidebar",
-    sidebarMenu(
-      id = "sidebarMenu",
-      menuItem(tabName = "tab_tabulate", text = "Tabulate data", icon = icon("table")),
-      flat = TRUE
-    ),
-    minified = TRUE,
-    collapsed = TRUE,
-    fixed = FALSE,
-    skin = "light"
-  ),
-  ## 3.3 Body ----
-  body = dashboardBody(
-    tabItems(
-      ### 3.3.2 Tab: Tabulate data ----
-      tabItem(
-        tabName = "tab_tabulate",
-        fluidRow(
-          #### Inputs(s) ----
-          pickerInput(
-            "tab_tabulate_select",
-            label = "Filter variables",
-            choices = names(data_guerry_tabulate),
-            options = pickerOptions(
-              actionsBox = TRUE,
-              windowPadding = c(30, 0, 0, 0),
-              liveSearch = TRUE,
-              selectedTextFormat = "count",
-              countSelectedText = "{0} variables selected",
-              noneSelectedText = "No filters applied"
-            ),
-            inline = TRUE,
-            multiple = TRUE
-          )
-        ),
-        hr(),
-        #### Output(s) (Data table) ----
-        DT::dataTableOutput("tab_tabulate_table")
-      )
-    ) # end tabItems
-  )
-)
-
-
-
-# 4 Server ----
-
-server <- function(input, output, session) {
-  
-  ## 4.1 Tabulate data ----
-  ### Variable selection ----
-  tab <- reactive({
-    var <- input$tab_tabulate_select
-    data_table <- data_guerry_tabulate
-    
-    if (!is.null(var)) {
-      data_table <- data_table[, var]
-    }
-    
-    data_table
-  })
-  
-  
-  ### Create table----
-  dt <- reactive({
-    tab <- tab()
-    ridx <- ifelse("Department" %in% names(tab), 3, 1)
-    DT::datatable(
-      tab,
-      class = "hover",
-      extensions = c("Buttons"),
-      selection = "none",
-      filter = list(position = "top", clear = FALSE),
-      style = "bootstrap4",
-      rownames = FALSE,
-      options = list(
-        dom = "Brtip",
-        deferRender = TRUE,
-        scroller = TRUE,
-        buttons = list(
-          list(extend = "copy", text = "Copy to clipboard"),
-          list(extend = "pdf", text = "Save as PDF"),
-          list(extend = "csv", text = "Save as CSV"),
-          list(extend = "excel", text = "Save as JSON", action = DT::JS("
-          function (e, dt, button, config) {
-            var data = dt.buttons.exportData();
-  
-            $.fn.dataTable.fileSave(
-              new Blob([JSON.stringify(data)]),
-              'Shiny dashboard.json'
-            );
-          }
-        "))
-        )
-      )
-    )
-  })
-  
-  ### Render table----
-  output$tab_tabulate_table <- DT::renderDataTable(dt(), server = FALSE)
-  
-}
-
-shinyApp(ui, server)
-```
-
-
-## Loading things in Shiny apps
+## Loading things in Shiny
 
 ### When is code run?
-* When is code in a shiny app run? ([Source](https://shiny.posit.co/r/getstarted/shiny-basics/lesson5/#:~:text=Shiny%20will%20run%20code%20placed,the%20life%20of%20the%20app.))
+* When is code in a shiny app run? ([Source](https://shiny.posit.co/r/getstarted/shiny-basics/lesson5/))
 
 * Code outside of ui and server is run once, when the app is launched.
 
-![alt text](resources/run-once.png)
+![](resources/run-once.png)
 
 * Code inside the server function is run once each time a user visits the app (opens the webpage).
 
-![alt text](resources/run-once-per-user.png)
+![](resources/run-once-per-user.png)
 
 * Code inside render functions is run each time a user changes a widget (`input$...`) that `ouput$...` depends on
 
-![alt text](resources/run-many-times.png)
+![](resources/run-many-times.png)
 
 * Q: So where shall we put the function to load the datasets?
 * Q: What problem might occur if we place certain code wrongly ? Where would you place data management tasks?
 
+::: {.callout-warning collapse="true"}
 
+#### Insight
+
+- If possible place anything computationally intensive outside of the render functions.
+  - e.g., might make sense to estimate models/subset data beforehand if possible and access precalculated objects in reactive functions
+
+:::
 
 
 
@@ -933,19 +676,12 @@ shinyApp(ui, server)
 ## Data storage
 - Things might get tricky for more data-hungry Shiny apps
 - The way data is stored and accessed has some important implications for
-    - Memory allocation: R stores objects in the working memory
-    - Performance: "R does too much" - Colin Fay
-    - Readability: Putting everything in one file might get messy
-- For the Guerry app, I created a separate R code file which exports all the text elements into a JSON file:
- 
-```{r 04-server-reactive-programming-15, eval=FALSE, echo=TRUE}
-library(jsonlite)
-txts <- read_json("shinyapps/guerry/app_labels.json", simplifyVector = TRUE)
-```
- 
+    - **Memory allocation**: R stores objects in the working memory
+    - **Performance**: "R does too much" - Colin Fay
+    - **Readability**: Putting everything in one file might get messy
 - For more sophisticated setups: **databases** (e.g., SQLite, PostgreSQL, MongoDB)
-- R can work perfectly well with database connections (R Packages: DBI, dbplyr, sf)
-- SQLite works well for casually trying out databases
+- R can work perfectly well with database connections (R Packages: DBI, dbplyr, sf) ([see overview here](https://solutions.posit.co/connections/db/))
+  - SQLite works well for casually trying out databases ([see overview here](https://solutions.posit.co/connections/db/databases/sqlite/index.html))
 
 
 

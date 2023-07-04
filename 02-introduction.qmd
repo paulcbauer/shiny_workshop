@@ -14,7 +14,7 @@ title: "Introduction"
 pacman::p_load(knitr, quarto, tidyverse, gganimate, kableExtra)
 ```
 
-Sources: [@Bertini2017-jq; @wickham2021mastering]
+Sources: @Bertini2017-jq, @wickham2021mastering and @Fay2021-ta
 
 ## Interactive data analysis
 - Part is almost exclusively based on @Bertini2017-jq.
@@ -29,7 +29,7 @@ Sources: [@Bertini2017-jq; @wickham2021mastering]
   - Humans have a mental model of the reality and use data and models (= description of reality) to study this model and improve it
 
 
-![Relationship between reality, data/statistical models, human mental models (Source: Bertini, 2017)](02-bertinin-1.webp){#fig-bertini-one}
+![Relationship between reality, data/statistical models, human mental models (Source: Bertini, 2017)](resources/02-bertinin-1.webp){#fig-bertini-one}
 
 ### How Does Interactive Data Analysis Work?
 - @fig-bertini-two outlines process underlying interactive data analysis
@@ -39,7 +39,7 @@ Sources: [@Bertini2017-jq; @wickham2021mastering]
     - gather, organize and analyze the data to answer these questions (*Gather **data** on crime and other factors, **model** and **visualize** it*)
     - generate knowledge and new questions and start over
 
-![Process underlying interactive data analysis (Source: Bertini, 2017)](02-bertinin-2.webp){#fig-bertini-two}
+![Process underlying interactive data analysis (Source: Bertini, 2017)](resources/02-bertinin-2.webp){#fig-bertini-two}
 
 ### Steps of interactive data analysis
 1. **Defining the problem**: What problem/goal are you trying to solve/reach through interactive data analysis?
@@ -291,7 +291,7 @@ A **web application framework** for R to turn analyses into interactive web appl
   - How can this app help us to understand and analyze the underlying data?
   - What interactive elements can we identify in the app?
 
-![(Source: Original image)](02-guerrydashboard.png){#fig-guerrydashboard}
+![(Source: Original image)](resources/02-guerrydashboard.png){#fig-guerrydashboard}
 
 
 ### Data
@@ -301,8 +301,59 @@ A **web application framework** for R to turn analyses into interactive web appl
 
 ```{r}
 #| label: tbl-guerry
-#| tbl-cap: Guerry dataset (subset)
+#| tbl-cap: Guerry dataset (subset of columns)
+#| code-fold: true
+#| code-summary: Data preparation code of the app
+
+library(shiny)
+library(htmltools)
+library(bs4Dash)
+library(fresh)
+library(waiter)
+library(shinyWidgets)
+library(Guerry)
 library(sf)
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+library(viridis)
+library(leaflet)
+library(plotly)
+library(jsonlite)
+library(ggplot2)
+library(GGally)
+library(datawizard)
+library(parameters)
+library(performance)
+library(ggdark)
+library(modelsummary)
+
+# 1 Data preparation ----
+
+## Load & clean data ----
+variable_names <- list(
+  Crime_pers = "Crime against persons",  
+  Crime_prop =  "Crime against property",  
+  Literacy = "Literacy",  
+  Donations = "Donations to the poor",  
+  Infants = "Illegitimate births",  
+  Suicides = "Suicides",  
+  Wealth = "Tax / capita",  
+  Commerce = "Commerce & Industry",  
+  Clergy = "Clergy",  
+  Crime_parents = "Crime against parents",  
+  Infanticide = "Infanticides",  
+  Donation_clergy = "Donations to the clergy",  
+  Lottery = "Wager on Royal Lottery",  
+  Desertion = "Military desertion",  
+  Instruction = "Instruction",  
+  Prostitutes = "Prostitutes",  
+  Distance = "Distance to paris",  
+  Area = "Area",  
+  Pop1831 = "Population"
+)
+
+
 # Import the 'gfrance85' data from the 'Guerry' package
 data_guerry <- Guerry::gfrance85 %>%
   st_as_sf() %>% # Convert to a Simple Features (sf) object
@@ -319,12 +370,14 @@ data_guerry <- Guerry::gfrance85 %>%
   select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>% # drop columns
   select(Region:Department, where(is.numeric)) # select columns
 
+
+
 kable(head(data_guerry[c(1,2,3,4,21,22)]))
 ```
 
 - Data is on the level of `85` departments (`N = 85`)
   - Later on we also aggregate it to regions
-- `geometry`: variable that describes the geographic shape of regions (sometimes we'll have to exclude this column)
+- `geometry`: variable that describes the geographic shape of `regions` (sometimes we'll have to exclude this column)
 - **Advantages**: Dataset is interesting, contains mapping data and is natively available in R
 
 
@@ -332,12 +385,12 @@ kable(head(data_guerry[c(1,2,3,4,21,22)]))
 ### Components of a Shiny app
 * As depicted in @fig-shinycomponents, a Shiny app has **two components**, the **user interface (UI)** and the **server**, that are passed as arguments to the `shinyApp()` which creates a Shiny app object from this **ui/server pair**
 
-![Source: https://hosting.analythium.io/the-anatomy-of-a-shiny-application/ (c) Analythium](02-compontents-shiny-app.png){#fig-shinycomponents}
+![Source: https://hosting.analythium.io/the-anatomy-of-a-shiny-application/ (c) Analythium](resources/02-compontents-shiny-app.png){#fig-shinycomponents}
 
 
 
 ### Your (first) Shiny app
-* Below you will create you first app and we'll use the opportunity to discuss the basic components of a shiny app (see [here for more](https://mastering-shiny.org/basic-app.html#basic-app)).
+* Below you will create you first app and we'll use the opportunity to discuss the basic components of a shiny app (see analogous example [here](https://mastering-shiny.org/basic-app.html#basic-app)).
 
 1. Install the relevant packages:
 
@@ -351,119 +404,19 @@ install.packages("tidyverse")
 3. Create an rscript file in Rstudio and save it in the working directory with the name `app.R`.
 4. Copy the code below and paste it into your `app.R` script.
 
-```{r, cache=TRUE, eval=FALSE, include=TRUE}
-library(shiny)
-library(Guerry)
-library(tidyverse)
-library(sf)
+```{r eval=FALSE, file="shinyapps/guerry/states_paul/app_tab_tabulate.R"}
+#| code-fold: true
+#| code-summary: Code of the tabulate tab subset of the app
 
-
-## Data: Clean & prepare data ----
-library(sf)
-# Import the 'gfrance85' data from the 'Guerry' package
-data_guerry <- Guerry::gfrance85 %>%
-  st_as_sf() %>% # Convert to a Simple Features (sf) object
-  as_tibble() %>%  # Convert to a 'tibble'
-  st_as_sf(crs = 27572) %>% # set the Coordinate Reference to 27572 System (CRS)
-  mutate(Region = case_match( # Create new region column
-    Region,
-    "C" ~ "Central",
-    "E" ~ "East",
-    "N" ~ "North",
-    "S" ~ "South",
-    "W" ~ "West"
-  )) %>%
-  select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>% # drop columns
-  select(Region:Department, where(is.numeric)) %>% # select columns
-  st_drop_geometry()
-
-# UI ----
-
-ui <- dashboardPage( # start UI
-  title = "The Guerry Dashboard",
-  
-  ### Header ----
-  header = dashboardHeader(
-    title = tagList(
-      img(src = "workshop-logo.png", width = 35, height = 35),
-      span("The Guerry Dashboard", class = "brand-text")
-    )
-  ),
-  
-  ### Sidebar ----
-  sidebar = dashboardSidebar(
-    id = "sidebar",
-    sidebarMenu(
-      id = "sidebarMenu",
-      menuItem(tabName = "tab_tabulate", 
-               text = "Tabulate data", 
-               icon = icon("table"))
-    )
-  ),
-  ### Body ----
-  body = dashboardBody(
-    tabItems( # start tabItems
-      
-      tabItem(
-        tabName = "tab_tabulate",
-        fluidRow(
-          pickerInput(
-            "tab_tabulate_select",
-            label = "Filter variables",
-            choices = names(data_guerry),
-            multiple = TRUE
-          )
-        ),
-        hr(),
-        #### Data table ----
-        DT::dataTableOutput("tab_tabulate_table")
-      )
-      
-    ) # end tabItems
-  )
-) # End UI
-
-
-
-# Server ----
-
-server <- function(input, output, session) {
-  
-  tab <- reactive({
-    var <- input$tab_tabulate_select
-    data_table <- data_guerry
-    if (!is.null(var)) {data_table <- data_table[var]}
-    data_table
-  })
-  
-  
-  ## Create table ----
-  dt <- reactive({
-    
-    DT::datatable(
-      tab(),
-      class = "hover",
-      selection = "none",
-      filter = list(position = "top", clear = FALSE),
-      rownames = FALSE
-    )
-    
-  })
-  
-  ## Render table ----
-  output$tab_tabulate_table <- DT::renderDataTable(dt(), server = FALSE)
-  
-}
-
-shinyApp(ui, server)
 ```
+
 
 5. You can run and stop the app by clicking **Run App** (@fig-runappbutton) button in the document toolbar.
 
 ```{r run-app, out.width = NULL, echo = FALSE}
 #| label: fig-runappbutton
 #| fig-cap: " The Run App button can be found at the top-right of the source pane."
-knitr::include_graphics("02-run-app.png")
+knitr::include_graphics("resources/02-run-app.png")
 ```
 
 
@@ -474,13 +427,17 @@ knitr::include_graphics("02-run-app.png")
 
 ```{r run-app, out.width = NULL, echo = FALSE}
 #| label: fig-mvp
-#| fig-cap: "Illustration of MVP (Source: Colin Fay - https://engineering-shiny.org/building-ispum-app.html)"
+#| fig-cap: "Illustration of MVP (Source: Fay et al. 2021 - [read description](https://engineering-shiny.org/building-ispum-app.html))"
 knitr::include_graphics("resources/MVP.png")
 ```
 
 * "**version** [...] with **just enough features to be usable** by early customers" to collect feedback ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
-* "has **just enough core features to effectively deploy the product** [...] Developers typically **deploy the product to a subset of possible customers, such as early adopters** who are thought to be more forgiving, more likely to give feedback, and able to grasp a product vision [...] strategy targets **avoiding building products that customers do not want** and seek to **maximize information about the customer with the least money spent**. [...] falls under the Lean Startup methodology [...]." ([Wikipedia](https://en.wikipedia.org/wiki/Minimum_viable_product))
-* ..we "follow" same strategy, slowly building out our shiny app, adding features & complexity
+* "Making things work before working on low-level optimization makes the whole engineering process easier" (Fay et al. 2021)
+* **The "UI first" approach**: often the safest way to go (Fay et al. 2021)
+  - **Agreeing on specifications**: helps everybody involved in the application to agree on what the app is supposed to do, and once the UI is set, there should be no "surprise implementation"
+  - **Organizing work**: "It's much easier to work on a piece of the app you can visually identify and integrate in a complete app scenario"
+  - But...
+- ..we "follow" same strategy, slowly building out our shiny app, adding features & complexity
 
 
 
@@ -492,37 +449,35 @@ knitr::include_graphics("resources/MVP.png")
   - **Basic development** cycle of creating apps, making changes, and experimenting with the results.
   - **Debugging**, i.e., figure out what’s gone wrong with your code/brainstorm solutions
   - **Writing reprexes**, self-contained chunks of code that illustrate a problem (essential for getting others' help)
-- We'll shortly discuss development WF (debugging later on)
+- Below development WF, debugging later on
 
 
 
 ### Development workflow
-```{r eval=FALSE}
-library(shiny)
-
-ui <- fluidPage(
-  
-)
-
-server <- function(input, output, session) {
-  
-}
-
-shinyApp(ui, server)
-```
-
-1. **Creating the app**: start every app with the same six lines of R code below (`Shift + Tab` or in menue `New Project -> Shiny Web Application`)
+1. **Creating the app**: start every app with the same lines of R code below (`Shift + Tab` or in menue `New Project -> Shiny Web Application`)
 2. **Seeing your changes**: you'll create a few apps a da (really?!?), but you'll run apps hundreds of times, so mastering the development workflow is particularly important
   1. Write some code.^[**Automated testing**: allows you to turn interactive experiments you're running into automated code, i.e., run tests more quickly and not forget them (because they are automated). Requires more initial investment.]
   2. Launch the app with `Cmd/Ctrl + Shift + Enter`.
   3. Interactively experiment with the app.
   4. Close the app.
   5. Go to 1.
+
+```{r}
+library(shiny)
+ui <- fluidPage(
   
+)
+server <- function(input, output, session) {
+  
+}
+shinyApp(ui, server)
+```
+
 #### A few tips 
 - **Controlling the view**: Default is a pop-out window but you can also choose `Run in Viewer Pane` and `Run External`.
 - **Document outline**: Use it for navigation in your app code (`Cntrl + Shift + O`)
 - **Using/exploring other apps**: Inspect that app code, then slowly delete parts you don't need
+  - Rerun app to see whether it still works after each deletion
   - if only interested in UI, delete everything in within server function: `server <- function(input, output, session) {delete everything here}`
 
 

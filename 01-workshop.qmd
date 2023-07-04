@@ -3,7 +3,7 @@ title: "About this workshop"
 ---
 
 
-```{r functions, echo=FALSE}
+```{r functions, echo=FALSE, cache=FALSE}
 # Generate package chunk
    file_names <- stringr::str_subset(dir(), "qmd")
   packages_all <- NULL
@@ -184,7 +184,7 @@ workshop?
   - only viable competitor is Python
   - Install the necessary packages using the code below.
 
-```{r workshop-1, echo=FALSE, comment=NA}
+```{r workshop-1, echo=FALSE, comment=NA, cache=FALSE}
 options(width = 300)
 cat(packages)
 ```
