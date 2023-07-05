@@ -53,16 +53,15 @@ shinyApp(ui, server)
 
 
 
-## Input & output
+## Input & output (lists)
 - `input`: a list-like object that contains all the **input data sent from the browser**, named according to the **input ID**
   - e.g., `numericInput("count", label = "Number of values", value = 100)` generates `input$count`
-  - `input` is selective about who is allowed to read from it
-    - can only be read from within reactive contexts created by a **reactive functions** like `renderText()` or `reactive()`
-      - **reactive functions** allow for outputs to automatically update when an input changes
+  - `input` can only be read from within reactive contexts created by a **reactive functions** like `renderText()` or `reactive()`
+    - **reactive functions** allow for outputs to automatically update when an input changes
 
 - `output`: a list-like object containing outputs named according to `output ID`
   - **Difference**: `output` used for sending output instead of receiving `input` (always in concert with **render function** as below)
-  - Q: How many inputs/outputs are there in the code below?
+  - Q: How many inputs/outputs/render functions are there in the code below? What does it do?
   
 ```{r 04-server-reactive-programming-3, echo=TRUE, eval=FALSE}
 #| code-fold: true
@@ -82,13 +81,14 @@ shinyApp(ui, server)
 
 1. render functions, e.g., `renderText()` set up special reactive context that automatically tracks what inputs the output uses AND converts output of R code into HTML suitable for display on a web page
 
-- **Common coding errors**: Forgetting render function or reading from outputs (see [here](https://mastering-shiny.org/basic-reactivity.html#output))
+
 
 
 
 ## Render functions
 
-- **render functions** wrap outputs and correspond to the type or reactive output
+- **render functions**, located in `server`, wrap generated outputs and correspond to the type or reactive output
+  - resulting values are stored in `output$...` list
 - Q: What do you think are the following render functions used for? (e.g., )
   - `renderImage({...})`
   - `renderPlot({...})`
@@ -143,14 +143,7 @@ shinyApp(ui, server)
 - **Important**: Code informs Shiny how it could create the string if it needs to, but it's up to Shiny when (and even if!) the code should be run
 - **Recipe**: App provides Shiny with **recipe** (not commands) what to do with inputs
 
-### Imperative vs. Declarative programming and laziness
 
-- **Imperative vs. declarative programming** ([Chapter 3.3.1](https://mastering-shiny.org/basic-reactivity.html#imperative-vs-declarative-programming))
-  - **Imperative code**: "Make me a sandwich" (*"assertive" code*)
-  - **Declarative code**: "Ensure there is a sandwich in the refrigerator whenever I look inside of it" (*"passive-aggressive" code*)
-  - Shiny follows the latter principles
-- **Laziness** as strength of **declarative programming** ([Chapter 3.3.2](https://mastering-shiny.org/basic-reactivity.html#laziness))
-  - app will only ever do the minimal amount of work needed to update the output controls that you can currently see
 
 ### The reactive graph
 - Usually R code can be read from top to bottom (= order of execution)... not in Shiny!
@@ -195,7 +188,8 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
-- **Avoid duplication**: Below example of two outputs relying on same reactive expression `string` (avoid duplication!)
+- **Avoid duplication**
+  - Q: How does the code below avoid duplicating code?
 
 ```{r 04-server-reactive-programming-7-2, echo=TRUE, eval=FALSE}
 #| code-fold: true
@@ -249,6 +243,7 @@ server1 <- function(input, output, server) {
   input$greeting <- renderText(paste0("Hello ", name))
 }
 
+# HOMEWORK!
 server2 <- function(input, output, server) {
   greeting <- paste0("Hello ", input$name)
   output$greeting <- renderText(greeting)
@@ -264,10 +259,10 @@ server3 <- function(input, output, server) {
 
 
 
-2.  Draw the reactive graph for the following three server functions (what are the inputs, reactives and ouputs):
+2.  Draw the reactive graph for the following three server functions (what are the inputs, reactives and ouputs):  (Homework: `server2` and `server3`!)
 
 ::: {.callout-tip collapse="true"}
-Start by deciding **how many** and **which inputs (1)**, **reactives (2)** and **ouputs (3)** there are. Then start drawing with inputs representing first column on the left. You could use, e.g., `a>` for inputs, `>c>` for reactives and `>f` for outputs and arrows to connect them.
+Start by deciding **how many** and **which inputs (1)**, **reactives (2)** and **ouputs (3)** there are. Then start drawing with inputs represented in the first column on the left. You could use, e.g., `name>` for inputs, `>name>` for reactives and `>name` for outputs and arrows to connect them.
 :::
 
 ```{r 04-server-reactive-programming-10}
@@ -302,6 +297,9 @@ server3 <- function(input, output, session) {
   - `server1`: Forgot `input$`
   - `server2`: `input$name` outside of `renderText()` function
   - `server3`: Typo in `output$greting`
+
+<br><br><br>
+
 
 2.  Draw the reactive graph for the following three server functions ([Solution source](https://mastering-shiny-solutions.org/basic-reactivity.html#exercise-4.3.6.1)):
 
@@ -364,9 +362,8 @@ depends on both `c()` and `input$d`.
   - make apps more efficient and easier for humans to understand (simplify reactive graph!)
 - Are like inputs since you can use results of a reactive expression in an output
 - Are like outputs since they depend on inputs and automatically know when they need updating
-- Helpful vocabulary (see @fig-prod-consumer)
-  - **Producers** refer to **reactive inputs and expressions**
-  - **Consumers** refer to **reactive expressions and outputs**
+- Inputs and reactive expressions are **reactive producers** (see @fig-prod-consumer)
+- Reactive expressions and outputs are **reactive consumers** (see @fig-prod-consumer)
 
 ```{r 04-server-reactive-programming-11, echo = FALSE, out.width = NULL}
 #| label: fig-prod-consumer
@@ -378,63 +375,115 @@ knitr::include_graphics("resources/producers-consumers.png", dpi = 300)
 
 
 ## Reactive functions: Overview
-- Shiny provides a variety of reactive functions such as `reactive()`, `observeEvent()`,  `eventReactive()` and `bindevent()`
-- Below we explore them using examples of simple apps (we'll run them together)
-  - You can also use `runApp("appname", display.mode = "showcase")`
-- See insightful discussions on reactivity and reactive functions in [Chapter 3.5.1](https://mastering-shiny.org/basic-reactivity.html#timed-invalidation)
+- Shiny provides a variety of reactive functions such as `reactive()`, `observe()`, `bindevent()` and others.`
+- See insightful discussions on reactivity and reactive functions in [Chapter 3.5.1](https://mastering-shiny.org/basic-reactivity.html#timed-invalidation).
 
 
 ### reactive()
-- `reactive()`: used to create a reactive expression, which is a piece of code that can access reactive values (like inputs), do something with them, and return a value. 
+- `reactive()`: wraps a normal expression to create a reactive expression
   - is "reactive" in the sense that if its dependencies change, it will automatically update.
+  - Below reactive `string` changes whenever dependency `input$name` changes.
+  - Q: What would be the *reactive producer* and what the *reactive consumer*?
+
 
 ```r
-  tab <- reactive({
-    var <- input$tab_tabulate_select
-    data_table <- data_guerry_tabulate
-    
-    if (!is.null(var)) {
-      data_table <- data_table[, var]
-    }
+ui <- fluidPage(
+  textInput("name", "What's your name?"),
+  textOutput("greeting"),
+)
 
-    data_table
+server <- function(input, output, session) {
+  string <- reactive(paste0("Hello ", input$name, "!"))
+  output$greeting <- renderText(string())
+}
+shinyApp(ui, server)
   })
 ```
 
-### observe() and observeEvent()
-
+### observe() vs. reactive()
+- `reactive()`: creates a reactive expression that can be changed over time by user inputs
 - `observe()`: creates an observer that runs whenever any of its reactive dependencies change
-  - i.e., code inside `observe()` will be re-evaluated whenever any **reactive inputs or reactive expressions** that it references get updated.
-- `observeEvent()` (observers): used when you want to perform an action in response to an event (see `input$button` below), but you don't need the result of the action to be used in the UI.
+  - i.e., code inside `observe()` will be re-evaluated whenever any **reactive inputs or reactive expressions** that it references get updated
+  - BUT we don't assign result of `observe()` to a variable, so we can't refer to it from other reactive consumers
+
 
 
 ::: {.callout-note collapse="true"}
-In this Shiny app, when the "Generate Random Number" button is clicked, a random number is generated and displayed. The number changes each time you click the button. The `observeEvent()` function is used to perform an action (generating and displaying the random number) when the button is clicked.
+Below we use a reactive expression using `reactive()` to create `squared`. This is then reused in the `observe()` function that wraps a render function `renderText()` that creates and the output element `output$text`.
+  
 :::
 
+```r
+library(shiny)
+
+ui <- fluidPage(
+  numericInput("num", "Enter a number", value = 1),
+  textOutput("text")
+)
+
+server <- function(input, output) {
+  # reactive expression
+  squared <- reactive({ 
+    input$num^2 
+  })
+  
+  # observer
+  observe({ 
+    output$text <- renderText({
+      paste0("The square of ", input$num, " is ", squared())
+    })
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+
+
+
+### Reacting on events: bindEvent()
+* `bindEvent()`: provides a straightforward API for event handling
+- `observeEvent()` (observers): used when you want to perform an action in response to an event (see `input$button` below), but you don't need the result of the action to be used in the UI
+
+::: {.callout-note collapse="true"}
+In this example, when the "Generate Random Number" button is clicked, a random number is generated, but it doesn't get displayed immediately. Instead, the `output$randomNumber` expression is bound to `input$dispButton` event with `bindEvent()`, and the result is displayed only when the "Display Random Number" button is clicked. This allows you to have more control over when the UI updates in response to changes in server-side reactive values.
+:::
 
 ```r
 library(shiny)
 
 # Define UI
 ui <- fluidPage(
-    actionButton("button", "Generate Random Number"),
+    actionButton("genButton", "Generate Random Number"),
+    actionButton("dispButton", "Display Random Number"),
     textOutput("randomNumber")
 )
 
 # Define server logic
 server <- function(input, output) {
-    observeEvent(input$button, {
-        output$randomNumber <- renderText(runif(1)) # Generate a random number when button is clicked
+    randNum <- reactiveValues(num = NULL)
+
+    observeEvent(input$genButton, {
+        randNum$num <- runif(1) # Generate a random number when genButton is clicked
     })
+    
+    output$randomNumber <- renderText({ 
+        randNum$num # Generate the reactive expression
+    }) %>% 
+    bindEvent(input$dispButton) # Binding the output$randomNumber reactive expression to dispButton
 }
 
 # Run the application 
 shinyApp(ui = ui, server = server, options = list(display.mode='showcase'))
 ```
 
-### eventReactive()
 
+
+
+
+
+### eventReactive() (skip!)
+* Alternative to `bind_event()`
 * `eventReactive()`: Similar to `reactive()`, but only re-evaluates when a certain event is triggered. Can be used in combination with `observeEvent()`.
 
 
@@ -468,7 +517,9 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server, options = list(display.mode='showcase'))
 ```
 
-### isolate()
+
+
+### isolate() (skip!)
 * `isolate()`: used to access the value of a reactive expression or input without setting up a dependency
   - useful to access the current value of an input or reactive expression, but without re-running the code when that input or expression changes
   
@@ -507,40 +558,6 @@ shinyApp(ui = ui, server = server, options = list(display.mode='showcase'))
 
 ```
 
-### bindEvent()
-* `bindEvent()`: provides a straightforward API for event handling that wraps `observe()` and `isolate()`.
-
-::: {.callout-note collapse="true"}
-In this example, when the "Generate Random Number" button is clicked, a random number is generated, but it doesn't get displayed immediately. Instead, the `output$randomNumber` expression is bound to `input$dispButton` event with `bindEvent()`, and the result is displayed only when the "Display Random Number" button is clicked. This allows you to have more control over when the UI updates in response to changes in server-side reactive values.
-:::
-
-```r
-library(shiny)
-
-# Define UI
-ui <- fluidPage(
-    actionButton("genButton", "Generate Random Number"),
-    actionButton("dispButton", "Display Random Number"),
-    textOutput("randomNumber")
-)
-
-# Define server logic
-server <- function(input, output) {
-    randNum <- reactiveValues(num = NULL)
-
-    observeEvent(input$genButton, {
-        randNum$num <- runif(1) # Generate a random number when genButton is clicked
-    })
-    
-    output$randomNumber <- renderText({ 
-        randNum$num # Generate the reactive expression
-    }) %>% 
-    bindEvent(input$dispButton) # Binding the output$randomNumber reactive expression to dispButton
-}
-
-# Run the application 
-shinyApp(ui = ui, server = server, options = list(display.mode='showcase'))
-```
 
 ### reactiveTimer() (skip!)
 * `reactiveTimer()`: used to create a reactive expression that invalidates itself after a given number of milliseconds. This can be useful for causing certain parts of your Shiny app to update on a regular interval. 
@@ -583,7 +600,7 @@ shinyApp(ui = ui, server = server)
 
 
 ## Guerry app (reactivity): Tabulate data tab
-* The Guerry app includes the following reactive functions: `reactive()`, `observe()`, `isolate()`, `bindEvent()`
+* The Guerry app includes the following reactive functions: `reactive()`, `observe()`, `isolate()`, `bindEvent()`.
 * Below the basic code underlying the Tabulate tab of our app.
   - What would the reactive graph look like for this app (how many inputs, reatives, outputs)?
   - Which reactive functions can you identify?
@@ -599,28 +616,6 @@ shinyApp(ui = ui, server = server)
 
 
 
-
-
-## Reactlog: Visualizing reactivity
-- `reactlog` can be used to visualize and explore the reactivity of a Shiny app
-- Below we do so for the Shiny app above (app is stored in a folder)
-```{r 04-server-reactive-programming-14, eval=FALSE, echo=TRUE}
-# Restart R to delete log
-.rs.restartR()
-
-library(shiny)
-library(reactlog)
-
-# tell shiny to log all reactivity
-reactlog_enable()
-# reactlog_disable()
-
-# run a shiny app
-runApp("C:/Users/Paul/Google Drive/13_SHINY_Workshop/shinyapps/guerry/states_paul/app_tab_tabulate.R")
-
-# once app has closed, display reactlog from shiny
-shiny::reactlogShow()
-```
 
 
 
@@ -704,6 +699,26 @@ To build reactive shiny apps...
 
 
 
+## Appendix: Visualizing reactivity with reactlog
+- `reactlog` can be used to visualize and explore the reactivity of a Shiny app
+- Below we do so for the Shiny app above (app is stored in a folder)
+```{r 04-server-reactive-programming-14, eval=FALSE, echo=TRUE}
+# Restart R to delete log
+.rs.restartR()
+
+library(shiny)
+library(reactlog)
+
+# tell shiny to log all reactivity
+reactlog_enable()
+# reactlog_disable()
+
+# run a shiny app
+runApp("C:/Users/Paul/Google Drive/13_SHINY_Workshop/shinyapps/guerry/states_paul/app_tab_tabulate.R")
+
+# once app has closed, display reactlog from shiny
+shiny::reactlogShow()
+```
 
 
 
@@ -714,6 +729,15 @@ To build reactive shiny apps...
 
 
 
+
+## Appendix: Imperative vs. Declarative programming and laziness
+
+- **Imperative vs. declarative programming** ([Chapter 3.3.1](https://mastering-shiny.org/basic-reactivity.html#imperative-vs-declarative-programming))
+  - **Imperative code**: "Make me a sandwich" (*"assertive" code*)
+  - **Declarative code**: "Ensure there is a sandwich in the refrigerator whenever I look inside of it" (*"passive-aggressive" code*)
+  - Shiny follows the latter principles
+- **Laziness** as strength of **declarative programming** ([Chapter 3.3.2](https://mastering-shiny.org/basic-reactivity.html#laziness))
+  - app will only ever do the minimal amount of work needed to update the output controls that you can currently see
 
 
 

@@ -232,10 +232,10 @@ shinyApp(ui, server)
 * `img()` function places an image
   - `img(src = "http://.../img-2.jpg", height = 35, width = 35)`: Load image from website or folder
 * Store image(s) locally
-    + Store in extra folder `www`
-    + `www` folder stores all sorts of additional files(images, data etc.)
+    + `www` subfolder stores all sorts of additional files(images, data etc.)
     + If working directory  = app directory create with: `dir.create("www")`
-    + e.g., `img(src = "www/guerry.jpg", width = "100%")`
+    + **IMAGES PLACED UNDER `www` SHOULD BE REFERENCES WITHOUT THE `www` FOLDER NAME**
+      + e.g., `img(src = "guerry.jpg", width = "100%")`
 
 ```{r 03-user-interface-6, cache=TRUE, eval=FALSE, include=TRUE}
 #| code-fold: true
@@ -356,9 +356,9 @@ shinyApp(ui, server)
 
 ::: {.callout-warning collapse="true"}
 
-#### Solution
+#### Solution: Using image from link
 
-```{r 03-user-interface-7, echo=TRUE, eval=FALSE, include=TRUE}
+```{r 03-user-interface-7-5, echo=TRUE, eval=FALSE, include=TRUE}
 # UI ----
 ui <- dashboardPage(
   title = "A big name in politics",
@@ -410,7 +410,68 @@ shinyApp(ui, server)
 :::
 
 
+::: {.callout-warning collapse="true"}
 
+#### Solution: Using image from www folder
+
+1. Check the directory you are in with `getwd()`.
+2. Make sure the `app.R` file you are using is saved in this directory.
+3. Use `dir.create("www")` or the buttons in Rstudio to create the `www` folder.
+4. Store the image from the [link](http://assets.schwarzenegger.com/images/img-2.jpg) in this `www` folder.
+5. Add the image name simply in the code `img(src = "img-2.jpg", width = 729, height = 423)` (see below).
+  - **IMAGES PLACED UNDER `www` SHOULD BE REFERENCES WITHOUT THE `www` FOLDER NAME**
+6. Run the app.
+
+```{r 03-user-interface-7, echo=TRUE, eval=FALSE, include=TRUE}
+# UI ----
+ui <- dashboardPage(
+  title = "A big name in politics",
+  
+  ### Header ----
+  header = dashboardHeader(
+    span(style = "display: inline-block; width: 100%;"),
+    a(
+      class = "logo",
+      href = "https://gesis.org/",
+      img(src = "gesis-logo.png", style = "height: 1.8em;")
+    ),
+    title = tagList(
+      img(src = "workshop-logo.png", width = 35, height = 35),
+      span("The Arni Dashboard", class = "brand-text")
+    )
+  ),
+  
+  ### Sidebar ----
+  sidebar = dashboardSidebar(
+    sidebarMenu(
+      menuItem(tabName = "tab_image", 
+               text = "Image section", 
+               icon = icon("image"))
+    )
+  ),
+  ### Body ----
+  body = dashboardBody(
+    tabItems( # start tabItems
+      tabItem("tab_image",
+              img(src = "img-2.jpg", 
+                  width = 729, height = 423)
+      )
+    ) # end tabItems
+  )
+) # End UI
+
+# Server ----
+
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+
+```
+
+
+
+
+:::
 
 
 
