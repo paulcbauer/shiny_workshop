@@ -295,8 +295,54 @@ shinyApp(ui, server) # <12>
 12. `shinyApp(ui, server)`: Main function to create a Shiny app. It takes as arguments the UI and server definitions.
 
 
+#### Add several images
+* Below some exemplary code to add several images, i.e., simply repeat the img() function
 
+```{r 03-user-interface-6-2, cache=TRUE, eval=FALSE, include=TRUE}
+#| code-fold: true
+#| code-summary: "Code: Adding images"
+ui <- dashboardPage(
+  title = "The Guerry Dashboard",
+  
+  ### Header ----
+  header = dashboardHeader(
+    span(style = "display: inline-block; width: 100%;"),
+    a( # <4>
+      class = "logo",
+      href = "https://gesis.org/",
+      img(src = "gesis-logo.png", style = "height: 1.8em;")
+    ),
+    title = tagList( # <5>
+      img(src = "workshop-logo.png", width = 35, height = 35),
+      span("The Guerry Dashboard", class = "brand-text")
+    )
+  ),
+  
+  ### Sidebar ----
+  sidebar = dashboardSidebar(
+    sidebarMenu(
+      menuItem(tabName = "tab_image",
+               text = "Image section", 
+               icon = icon("image"))
+    )
+  ),
+  ### Body ----
+  body = dashboardBody(
+    tabItems( 
+      tabItem("tab_image",
+              img(src = "https://journals.openedition.org/belgeo/docannexe/image/11893/img-1.jpg", width = 358, height = 476),
+                            img(src = "https://journals.openedition.org/belgeo/docannexe/image/11893/img-1.jpg", width = 358, height = 476)
+      )
+    ) # end tabItems
+  )
+) # End UI
 
+# Server ----
+
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+```
 
 
 
@@ -538,6 +584,103 @@ selectInput(
 
 
 
+::: {.callout-warning collapse="true"}
+
+#### Solution: One app with all the widgets
+
+```{r 03-user-interface-11-4-4-2, eval=FALSE, echo = TRUE}
+ui <- fluidPage(
+  textInput("text", "", placeholder = "Your name"),
+  
+  sliderInput(
+  "dates",
+  "When should we deliver?",
+  min = as.Date("2019-08-09"),
+  max = as.Date("2019-08-16"),
+  value = as.Date("2019-08-10")
+  ),
+ 
+    sliderInput("number", "Select a number:",
+              min = 0, max = 100, value = 0, 
+              step = 5, animate = TRUE),
+  
+  selectInput(
+  "breed",
+  "Select your favorite animal breed:",
+  choices =
+    list(`dogs` = list('German Shepherd', 'Bulldog', 
+                       'Labrador Retriever'),
+         `cats` = list('Persian cat', 'Bengal cat', 
+                       'Siamese Cat'))
+)
+  
+)
+server <- function(input, output, session) {
+  
+  
+}
+shinyApp(ui, server)
+```
+
+::: 
+
+
+
+::: {.callout-warning collapse="true"}
+
+#### Solution: App that displays the input values
+- Solution taken from [stackoverflow](https://stackoverflow.com/a/41035132).
+
+```{r 03-user-interface-11-4-4-2-1, eval=FALSE, echo = TRUE}
+#rm(list=ls())
+library(shiny)
+
+ui <- basicPage(
+  textInput("text", "", placeholder = "Your name"),
+  
+  sliderInput(
+    "dates",
+    "When should we deliver?",
+    min = as.Date("2019-08-09"),
+    max = as.Date("2019-08-16"),
+    value = as.Date("2019-08-10")
+  ),
+  
+  sliderInput("number", "Select a number:",
+              min = 0, max = 100, value = 0, 
+              step = 5, animate = TRUE),
+  
+  selectInput(
+    "breed",
+    "Select your favorite animal breed:",
+    choices =
+      list(`dogs` = list('German Shepherd', 'Bulldog', 
+                         'Labrador Retriever'),
+           `cats` = list('Persian cat', 'Bengal cat', 
+                         'Siamese Cat'))),
+  tableOutput('show_inputs')
+)
+server <- shinyServer(function(input, output, session){
+  
+  AllInputs <- reactive({
+    myvalues <- NULL
+    for(i in 1:length(names(input))){
+      myvalues <- as.data.frame(rbind(myvalues,(cbind(names(input)[i],input[[names(input)[i]]]))))
+    }
+    names(myvalues) <- c("User Input","Last Value")
+    myvalues
+  })
+  
+  output$show_inputs <- renderTable({
+    AllInputs()
+  })
+})
+shinyApp(ui = ui, server = server)
+```
+
+::: 
+
+
 
 ## UI: Outputs
 - Outputs in UI create placeholders that are later filled by the server function
@@ -606,12 +749,36 @@ shinyApp(ui, server)
 1.  Which of `textOutput()` and `verbatimTextOutput()` should each of the following render functions be paired with?
 
 a.  `renderPrint(summary(mtcars))`
-
 b.  `renderText("Good morning!")`
-
 c.  `renderPrint(t.test(1:5, 2:6))`
-
 d.  `renderText(str(lm(mpg ~ wt, data = mtcars)))`
+
+::: {.callout-warning collapse="true"}
+
+#### Solution
+
+```{r 03-user-interface-11-4-4-3, eval=FALSE, echo = TRUE}
+ui <- fluidPage(
+  verbatimTextOutput("mtcarsout1"),
+  br(), hr(),
+  textOutput("mtcarsout2"),
+  br(), hr(),
+  verbatimTextOutput("mtcarsout3"),
+  br(), hr(),
+  verbatimTextOutput("mtcarsout4")  
+)
+server <- function(input, output, session) {
+  output$mtcarsout1 <- renderPrint(summary(mtcars))
+  output$mtcarsout2 <- renderText("Good morning!")
+  output$mtcarsout3 <- renderPrint(t.test(1:5, 2:6))
+  output$mtcarsout4 <- renderPrint(str(lm(mpg ~ wt, data = mtcars)))
+}
+shinyApp(ui, server)
+```
+
+::: 
+
+
 
 
 
@@ -697,7 +864,7 @@ shinyApp(ui, server)
 
 
 ```{r 03-user-interface-17, cache=TRUE, eval=FALSE, include=TRUE}
-library(shinydashboard)
+library(bs4Dash)
 # UI ----
 ui <- dashboardPage(title = "My Shiny App",
 
@@ -761,7 +928,12 @@ shinyApp(ui, server)
 
 
 ## Guerry app: Introduction tab
-
+* Below is the code for the Guerry app introduction tab
+  - The code has some file dependencies that need to be deleted to run it directly
+    - e.g., `includeCSS("www/styles.css")`
+  - Images that are not accessible are simply shown as blank
+  - Most UI function simply create html tags, e.g., try `h1()` or `jumbotron()`
+  - Let's do this together!
 
 
 ```{r eval=FALSE, file="shinyapps/guerry/states_paul/app_tab_introduction.R"}

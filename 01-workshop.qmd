@@ -5,7 +5,7 @@ title: "About this workshop"
 
 ```{r functions, echo=FALSE, cache=FALSE}
 # Manual packages
- packages_manual <- c("profvis", "rsconnect", "whereami")
+ packages_manual <- c("profvis", "rsconnect", "whereami", "DT")
 
 
 # Generate package chunk
@@ -63,7 +63,7 @@ title: "About this workshop"
 
 1. Name?
 2. Affiliation? Country?
-3. Research interests/questions?
+3. What do you want to use Shiny for? (or research questions?)
 
 <!--
 Below take too long for short workshop

@@ -22,64 +22,15 @@ library(ggdark)
 library(modelsummary)
 
 
-# 2 Create theme & preload ----
-dash_theme <- create_theme(
-  bs4dash_status(
-    primary = "#58748f",
-    secondary = "#666666",
-    info = "#E6EAEE",
-    danger = "#BF616A",
-    warning = "#FF6100",
-    light = "#F4F4F2",
-    dark = "#2c2c25"
-  ),
-  bs4dash_layout(
-    font_size_root = "5rem",
-    main_bg = "#FDFDFD",
-    sidebar_width = "350px"
-  ),
-  bs4dash_sidebar_light(bg = "#F4F4F2", color = "#000"),
-  bs4dash_sidebar_dark(bg = "#2c2c25", color = "#FFF"),
-  bs4dash_color(
-  	orange = "#F06400",
-    white = "#FDFDFD",
-    black = "#000",
-    gray_600 = "#666",
-    gray_800 = "#333",
-    gray_900 = "#000",
-    blue = "#58748f"
-  ),
-  bs4dash_font(
-    family_sans_serif = "Verdana",
-    family_base = "Georgia",
-    family_monospace = "Courier New"
-  )
-)
-
-## Preloader ----
-# preloader <- list(
-#   html = tagList(spin_6(), "Loading ..."),
-#   color = "#B3DDFE"
-# )
-
-
 
 # 3 UI ----
 
 ui <- dashboardPage(
   title = "The Guerry Dashboard",
-  freshTheme = dash_theme,
-  #preloader = preloader,
+
   ## 3.1 Header ----
   header = dashboardHeader(
-    tags$style("
-      /* remove white space from header */
-      .navbar {
-        padding-top: 0em;
-        padding-bottom: 0em;
-        padding-right: 0em;
-      }
-    "),
+    
     span(style = "display: inline-block; width: 100%;"),
     a(
       class = "logo",
@@ -111,10 +62,6 @@ ui <- dashboardPage(
   ),
   ## 3.3 Body ----
   body = dashboardBody(
-    tags$head(
-      #waiter::use_waiter(),
-      includeCSS("www/styles.css")
-    ),
     tabItems(
       ### 3.1.1 Tab: Introduction ----
       tabItem(
