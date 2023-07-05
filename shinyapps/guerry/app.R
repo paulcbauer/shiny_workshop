@@ -168,14 +168,14 @@ data_guerry <- Guerry::gfrance85 %>%
   st_as_sf() %>%
   as_tibble() %>%
   st_as_sf(crs = 27572) %>%
-  mutate(Region = case_match(
+  mutate(Region = as.factor(case_match(
     Region,
     "C" ~ "Central",
     "E" ~ "East",
     "N" ~ "North",
     "S" ~ "South",
     "W" ~ "West"
-  )) %>%
+  ))) %>%
   select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>%
   select(Region:Department, all_of(names(variable_names)))
 
@@ -772,7 +772,8 @@ server <- function(input, output, session) {
     params <- mparams()
     HTML(modelsummary(
       dvnames(list(params$model)),
-      gof_omit = "AIC|BIC|Log|Adj|RMSE"
+      gof_omit = "AIC|BIC|Log|Adj|RMSE",
+      output = "html"
     ))
   })
   
