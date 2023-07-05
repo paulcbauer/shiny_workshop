@@ -87,6 +87,21 @@ Explore the COVID-19 tracker. Do you think this is a good Shiny app? If so, why?
 
 ![COVID-19 Tracker](https://raw.githubusercontent.com/eparker12/nCoV_tracker/master/www/app_image.png)
 
+## Current app state
+
+- Unlike the previous sections, we will extend the existing app code step by step
+- The code chunk below includes the current app state including the intro and table tabs
+- Quick recap:
+  - In section 3, we added an introduction tab that contains background info on the app
+  - In section 4, we added a table tab using the `DT` package
+  - In this section, we will add a tab that analyzes Guerry using all sorts of visualization
+
+```{r eval=FALSE, file="shinyapps/guerry/states/05_visualization00.R"}
+#| code-fold: true
+#| code-summary: Full code for the current app state
+```
+
+
 ## Further resources
 
 -   [Chapter "Graphics"](https://mastering-shiny.org/action-graphics.html) in Hadley Wickham's Mastering Shiny
@@ -101,9 +116,9 @@ Explore the COVID-19 tracker. Do you think this is a good Shiny app? If so, why?
 
 ## A new section for the Guerry app
 
-- To exemplify what Shiny can do with visualizations, we add a new tab to the app called "Model data"
-- The goal is to explore the relationships among Guerry variables
-- **Question**: If you think about a Shiny app that explores the relationships within a dataset, what types of visualizations come into your mind first?
+-   To exemplify what Shiny can do with visualizations, we add a new tab to the app called "Model data"
+-   The goal is to explore the relationships among Guerry variables
+-   **Question**: If you think about a Shiny app that explores the relationships within a dataset, what types of visualizations come into your mind first?
 
 ## Setting up the UI element
 
@@ -517,11 +532,10 @@ ggplotly(p) %>%
 -   Regular plotting: Interactivity and reactivity possible, but *no contextuality*
 -   Embedded plotting: Contextuality provided, but interactivity and reactivity mostly impossible (e.g. in a report or a paper)
 
-
 ## Good practices
 
 -   Appsilon's [US bee colony monitor](https://connect.appsilon.com/bee-colony/) provides an easy way to compare aggregated numbers, between-state and within-state distributions side-by-side
--   With a little bit of creativity, Shiny can be a very competent story teller (for an impressive example, take a look at John Coene's [Freedom of Press Shiny app](https://johncoene.shinyapps.io/fopi-contest/)) 
+-   With a little bit of creativity, Shiny can be a very competent story teller (for an impressive example, take a look at John Coene's [Freedom of Press Shiny app](https://johncoene.shinyapps.io/fopi-contest/))
 
 ## Extending the layout
 

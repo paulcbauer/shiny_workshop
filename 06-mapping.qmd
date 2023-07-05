@@ -59,30 +59,41 @@ data_guerry <- Guerry::gfrance85 %>%
   select(Region:Department, all_of(names(variable_names)))
 ```
 
-
 You will learn how to:
 
-- Work with spatial data
-- Create interactive maps in Shiny using Leaflet
-- Use Shiny events and proxies
+-   Work with spatial data
+-   Create interactive maps in Shiny using Leaflet
+-   Use Shiny events and proxies
 
 # Interactive maps
 
-- Mapping is a type of data visualization based on *spatial data*
-- Classic cartography relies on generalization and interpretation
-- Interactive cartography removes many limitations such as generalization and map boundaries
+-   Mapping is a type of data visualization based on *spatial data*
+-   Classic cartography relies on generalization and interpretation
+-   Interactive cartography removes many limitations such as generalization and map boundaries
 
 ![Generalization in OpenStreetMap at different scales](resources/generalization.gif)
 
-- Further resources:
-    - [Chapter 9](https://r.geocompx.org/adv-map.html) of Robin Lovelace's "Geocomputation with R"
-    - The documentation of [Leaflet for R](https://rstudio.github.io/leaflet/)
+## Current app state
+
+-   Quick recap:
+    -   In section 3, we added an introduction tab that contains background info on the app
+    -   In section 4, we added a table tab using the `DT` package
+    -   In section 5, we added a modelling tab using all sorts of visualizations
+
+```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping00.R"}
+#| code-fold: true
+#| code-summary: Full code for the current app state
+```
+
+## Further resources
+
+-   [Chapter 9](https://r.geocompx.org/adv-map.html) of Robin Lovelace's "Geocomputation with R"
+-   The documentation of [Leaflet for R](https://rstudio.github.io/leaflet/)
 
 # Basics of spatial data
 
-- Spatial data is the foundation of mapping, but what is it?
-
-- Spatial data is all data that can be explicitly linked to a spatial reference (longitude/latitude)
+-   Spatial data is the foundation of mapping, but what is it?
+-   Spatial data is all data that can be explicitly linked to a spatial reference (longitude/latitude)
 
 | val    | lon        | lat       |
 |--------|------------|-----------|
@@ -94,25 +105,25 @@ You will learn how to:
 
 ## Types of spatial data
 
-- Geography can describe the world in two ways:
-    - As spatially continuous processes (or as *raster data*)
-    - As an ensemble of individual elements (or as *vector data*)
-- Vector data is also called spatial geometries and can be divided into
-    - Points (e.g., individual events or places)
-    - Lines (e.g., streets, rivers)
-    - Polygons (e.g., buildings, districts)
+-   Geography can describe the world in two ways:
+    -   As spatially continuous processes (or as *raster data*)
+    -   As an ensemble of individual elements (or as *vector data*)
+-   Vector data is also called spatial geometries and can be divided into
+    -   Points (e.g., individual events or places)
+    -   Lines (e.g., streets, rivers)
+    -   Polygons (e.g., buildings, districts)
 
 ![The real world described by layers of raster and vector data ([Source](https://saylordotorg.github.io/text_essentials-of-geographic-information-systems/s11-02-multiple-layer-analysis.html#campbell_1.0-ch07_s02_f01))](https://saylordotorg.github.io/text_essentials-of-geographic-information-systems/section_11/ca6ce94cdd2e09a1da8aa6ec22336835.jpg){width="440"}
 
 ## Spatial data in R
 
-- In R, spatial data can be handled using various packages:
-    - `sp` (vector data) and `raster` (raster data) used to be the common packages for spatial analysis
-    - `sf` (vector data) and `terra` (raster data) are their more timely successors
-- By default, `data_guerry` is an sp object, but we converted it to an sf dataframe
-- `sf` dataframes consist of a geometry column (class `sfc`) and multiple features (i.e. non-spatial columns)
-- `sfc` geometries are list-like objects that consist of individual geometries (class `sfg`) and spatial metadata (e.g. type or dimension)
-- `sfg` objects are matrices consisting purely of coordinates
+-   In R, spatial data can be handled using various packages:
+    -   `sp` (vector data) and `raster` (raster data) used to be the common packages for spatial analysis
+    -   `sf` (vector data) and `terra` (raster data) are their more timely successors
+-   By default, `data_guerry` is an sp object, but we converted it to an sf dataframe
+-   `sf` dataframes consist of a geometry column (class `sfc`) and multiple features (i.e. non-spatial columns)
+-   `sfc` geometries are list-like objects that consist of individual geometries (class `sfg`) and spatial metadata (e.g. type or dimension)
+-   `sfg` objects are matrices consisting purely of coordinates
 
 ```{r}
 st_sf(                     # <1>
@@ -135,23 +146,23 @@ st_sf(                     # <1>
 
 ## Coordinate reference systems
 
-- All spatial data need to have a **coordinate reference system** (CRS) that locates the coordinates on the planet
-- The geodetic specifics are mostly not necessary, but it's always good to know a basic distinction
-    - **Geodetic CRS**
-        - Uses angular units (degrees) because they are based on a spheroid
-        - Usually good for global or national scale visualizations
-        - Example: WGS84 (World Geodetic System)
-    - **Projected CRS**
-        - Uses metric units (meters) because they are based on a projected model of the earth
-        - Usually good for local or regional high-precision spatial analysis and visualization
-        - Example: UTM (Universal Transversal Mercator)
+-   All spatial data need to have a **coordinate reference system** (CRS) that locates the coordinates on the planet
+-   The geodetic specifics are mostly not necessary, but it's always good to know a basic distinction
+    -   **Geodetic CRS**
+        -   Uses angular units (degrees) because they are based on a spheroid
+        -   Usually good for global or national scale visualizations
+        -   Example: WGS84 (World Geodetic System)
+    -   **Projected CRS**
+        -   Uses metric units (meters) because they are based on a projected model of the earth
+        -   Usually good for local or regional high-precision spatial analysis and visualization
+        -   Example: UTM (Universal Transversal Mercator)
 
 ![UTM (Universal Transversal Mercator) - a projected coordinate system. Each zone is a CRS.](https://upload.wikimedia.org/wikipedia/commons/e/ed/Utm-zones.jpg)
 
 ## EPSG codes
 
-- CRS can be referenced using numeric identifiers called EPSG codes
-    - EPSG database: <https://epsg.io/>, e.g. EPSG code 4326: <https://epsg.io/4326>
+-   CRS can be referenced using numeric identifiers called EPSG codes
+    -   EPSG database: <https://epsg.io/>, e.g. EPSG code 4326: <https://epsg.io/4326>
 
 | Name                                                                                      | EPSG code | Area           | Geodetic? | Use                                                       |
 |---------------|---------------|---------------|---------------|---------------|
@@ -164,18 +175,18 @@ st_sf(                     # <1>
 
 ## CRS in R
 
-- How do we work with CRS in R?
-    - Convert to an sf dataframe: [`st_as_sf`](https://r-spatial.github.io/sf/reference/st_as_sf.html)`(..., crs = 4326)`
-    - Assign a CRS to an existing sf dataframe: [`st_crs`](https://r-spatial.github.io/sf/reference/st_crs.html)`(...) <- 4326` or `st_set_crs(…, 4326)`
-    - Transform an existing CRS to a new CRS: [`st_transform`](https://r-spatial.github.io/sf/reference/st_transform.html)`(..., 4326)`
+-   How do we work with CRS in R?
+    -   Convert to an sf dataframe: [`st_as_sf`](https://r-spatial.github.io/sf/reference/st_as_sf.html)`(..., crs = 4326)`
+    -   Assign a CRS to an existing sf dataframe: [`st_crs`](https://r-spatial.github.io/sf/reference/st_crs.html)`(...) <- 4326` or `st_set_crs(…, 4326)`
+    -   Transform an existing CRS to a new CRS: [`st_transform`](https://r-spatial.github.io/sf/reference/st_transform.html)`(..., 4326)`
 
 <!-- -->
 
 ## Handling the Guerry dataset
 
-- Let us take a look back at `data_guerry` and how to handle it as a spatial dataframe
-- `Guerry::gfrance85` comes as an `sp` dataframe, that's a bit old so we have to convert it
-- The dataset also comes with an invalid CRS, so we need to fix it
+-   Let us take a look back at `data_guerry` and how to handle it as a spatial dataframe
+-   `Guerry::gfrance85` comes as an `sp` dataframe, that's a bit old so we have to convert it
+-   The dataset also comes with an invalid CRS, so we need to fix it
 
 ```{r eval=FALSE}
 data_guerry <- Guerry::gfrance85 %>% # <1>
@@ -202,10 +213,10 @@ data_guerry <- Guerry::gfrance85 %>% # <1>
 
 ## Spatial operations
 
-- For mapping the Guerry data, a nice addition is to perform spatial aggregation to compare the data across geographical levels
-- Spatial operations like spatial aggregations are one of the main advantages of spatial over regular data
-- In Guerry, we have two levels: Departments (smaller) and regions (larger)
-- In the following chunk we perform spatial aggregation *outside* of the server function
+-   For mapping the Guerry data, a nice addition is to perform spatial aggregation to compare the data across geographical levels
+-   Spatial operations like spatial aggregations are one of the main advantages of spatial over regular data
+-   In Guerry, we have two levels: Departments (smaller) and regions (larger)
+-   In the following chunk we perform spatial aggregation *outside* of the server function
 
 ```{r}
 data_guerry_region <- data_guerry %>%
@@ -227,15 +238,17 @@ data_guerry_region <- data_guerry %>%
 
 ## Guerry as spatial data
 
-- **Question:** What can we say about the Guerry dataset in terms of spatial information?
+-   **Question:** What can we say about the Guerry dataset in terms of spatial information?
 
 ```{r}
 data_guerry["Literacy"]
 ```
 
-## Exercise 1
+## Exercises
 
 ::: callout-note
+## Exercise 1
+
 Extract the `sfc` object from the `Guerry` dataset. What is the difference between `sf` and `sfc`?
 :::
 
@@ -255,9 +268,9 @@ st_geometry(data_guerry)
 `sfc` objects are representations of geospatial geometries. They contain all relevant spatial metadata but no contextual feature data
 :::
 
+::: callout-note
 ## Exercise 2
 
-::: callout-note
 Extract the fifth `sfg` object of the `sfc` object from exercise 1. What is the difference between the two?
 :::
 
@@ -278,9 +291,9 @@ geom[[1]]
 `sfc` objects have spatial metadata including the CRS which makes it possible to where the coordinates are located on the planet
 :::
 
+::: callout-note
 ## Exercise 3
 
-::: callout-note
 `data_guerry` currently consists of multi polygons. How can we convert these polygons to point geometries? Explore the [function reference](https://r-spatial.github.io/sf/reference/index.html) of the sf package and find functions (multiple answers possible) that can convert polygons to points in some way.
 :::
 
@@ -304,9 +317,11 @@ All of them return a warning! [Why might that be?](https://r-spatial.github.io/s
 Doesn't return a warning, but is random and drops all features
 :::
 
+::: callout-note
 ## Exercise 4
 
 Currently, the `Guerry` dataframe has the CRS "NTF (Paris) / Lambert zone II", which is already a good choice. What other CRS could be a good choice for accurate mapping in France?
+:::
 
 ::: {.callout-tip collapse="true"}
 Remember the UTM coordinate system! Scroll back up to see the UTM zones.
@@ -320,9 +335,11 @@ While there are many CRS that might be a good choice, one solution that we addre
 ![](https://upload.wikimedia.org/wikipedia/commons/6/61/Modified_UTM_Zones.png)
 :::
 
+::: callout-note
 ## Exercise 5
 
 Transform the `Guerry` dataframe to your new CRS from exercise 4.
+:::
 
 ::: {.callout-tip collapse="true"}
 Remember you can visit <https://epsg.io/> to look up EPSG codes.
@@ -340,19 +357,19 @@ Using the search function on [epsg.io](https://epsg.io/?q=utm+zone+31n) we can d
 
 # Interactive maps using Leaflet
 
-- R offers many solutions to mapping, some more advanced than others
+-   R offers many solutions to mapping, some more advanced than others
 
-    - [`ggplot2`](https://cloud.r-project.org/web/packages/ggplot2/) supports spatial data with functions like [`geom_sf`](https://ggplot2.tidyverse.org/reference/ggsf.html), [`coord_sf`](https://ggplot2.tidyverse.org/reference/ggsf.html) and custom ones like [`stars::geom_stars`](https://r-spatial.github.io/stars/reference/geom_stars.html)
-    - [`tmap`](https://cran.r-project.org/web/packages/tmap/) is a comprehensive framework for high-quality thematic mapping
-    - [`cartography`](https://cran.r-project.org/web/packages/cartography/index.html) and [`mapsf`](https://cran.r-project.org/web/packages/mapsf/index.html) incorporate cartography principles to move R closer to dedicated mapping software
-    - [`leaflet`](https://cran.r-project.org/web/packages/leaflet/) interfaces the Leaflet JavaScript library to create interactive map visualizations
+    -   [`ggplot2`](https://cloud.r-project.org/web/packages/ggplot2/) supports spatial data with functions like [`geom_sf`](https://ggplot2.tidyverse.org/reference/ggsf.html), [`coord_sf`](https://ggplot2.tidyverse.org/reference/ggsf.html) and custom ones like [`stars::geom_stars`](https://r-spatial.github.io/stars/reference/geom_stars.html)
+    -   [`tmap`](https://cran.r-project.org/web/packages/tmap/) is a comprehensive framework for high-quality thematic mapping
+    -   [`cartography`](https://cran.r-project.org/web/packages/cartography/index.html) and [`mapsf`](https://cran.r-project.org/web/packages/mapsf/index.html) incorporate cartography principles to move R closer to dedicated mapping software
+    -   [`leaflet`](https://cran.r-project.org/web/packages/leaflet/) interfaces the Leaflet JavaScript library to create interactive map visualizations
 
 ## Integrate Leaflet in Shiny
 
-- Leaflet in Shiny works just like any other type of visualization, we need:
-    - A UI output: [`leaflet::leafletOutput()`](https://rdrr.io/cran/leaflet/man/map-shiny.html)
-    - A rendering function: [`leaflet::renderLeaflet()`](https://rdrr.io/cran/leaflet/man/map-shiny.html)
-- In our app, we add a geographic explorer of the Guerry dataset
+-   Leaflet in Shiny works just like any other type of visualization, we need:
+    -   A UI output: [`leaflet::leafletOutput()`](https://rdrr.io/cran/leaflet/man/map-shiny.html)
+    -   A rendering function: [`leaflet::renderLeaflet()`](https://rdrr.io/cran/leaflet/man/map-shiny.html)
+-   In our app, we add a geographic explorer of the Guerry dataset
 
 ```{r eval=FALSE}
 tabItem(                       # <1>
@@ -379,11 +396,11 @@ tabItem(                       # <1>
 
 ## Leaflet workhorse
 
-- The leaflet package is centered around the workhorse [`leaflet()`](https://rdrr.io/cran/leaflet/man/leaflet.html) which creates an empty map canvas
-- Each additional function can be piped into and adds an additional mapping component (similar to `ggplot2`)
-    - [`addProviderTiles()`](https://rdrr.io/cran/leaflet/man/addProviderTiles.html) adds a base map, in this case we use four base maps that can be chosen from
-    - [`addLayersControl()`](https://rdrr.io/cran/leaflet/man/addLayersControl.html) adds a button that lets you switch between map layers
-    - [`setView()`](https://rdrr.io/cran/leaflet/man/map-methods.html) sets the center and zoom level of the initial map view
+-   The leaflet package is centered around the workhorse [`leaflet()`](https://rdrr.io/cran/leaflet/man/leaflet.html) which creates an empty map canvas
+-   Each additional function can be piped into and adds an additional mapping component (similar to `ggplot2`)
+    -   [`addProviderTiles()`](https://rdrr.io/cran/leaflet/man/addProviderTiles.html) adds a base map, in this case we use four base maps that can be chosen from
+    -   [`addLayersControl()`](https://rdrr.io/cran/leaflet/man/addLayersControl.html) adds a button that lets you switch between map layers
+    -   [`setView()`](https://rdrr.io/cran/leaflet/man/map-methods.html) sets the center and zoom level of the initial map view
 
 ```{r eval=FALSE}
 output$tab_map_map <- leaflet::renderLeaflet({                                   # <1>
@@ -413,27 +430,26 @@ output$tab_map_map <- leaflet::renderLeaflet({                                  
 #| code-summary: Full code including an empty map
 ```
 
-
 # Add data
 
-- Currently, we only show a background, but do not map the Guerry data
-- Adding data works using layer functions, for example:
-    - [`addMarkers()`](https://rdrr.io/cran/leaflet/man/map-layers.html) adds point data
-    - [`addPolylines()`](https://rdrr.io/cran/leaflet/man/map-layers.html) adds line data
-    - [`addPolygons()`](https://rdrr.io/cran/leaflet/man/map-layers.html) adds polygon data
-    - [`addRasterImage()`](https://rdrr.io/cran/leaflet/man/addRasterImage.html) adds raster data
-    - [`addLegend()`](https://rdrr.io/cran/leaflet/man/addLegend.html) adds a legend
+-   Currently, we only show a background, but do not map the Guerry data
+-   Adding data works using layer functions, for example:
+    -   [`addMarkers()`](https://rdrr.io/cran/leaflet/man/map-layers.html) adds point data
+    -   [`addPolylines()`](https://rdrr.io/cran/leaflet/man/map-layers.html) adds line data
+    -   [`addPolygons()`](https://rdrr.io/cran/leaflet/man/map-layers.html) adds polygon data
+    -   [`addRasterImage()`](https://rdrr.io/cran/leaflet/man/addRasterImage.html) adds raster data
+    -   [`addLegend()`](https://rdrr.io/cran/leaflet/man/addLegend.html) adds a legend
 
 ## Specifics of Leaflet mapping
 
-- Variables are passed using formulas (i.e. instead of `data_guerry$Literacy`, we write `~Literacy`)
-- Leaflet by default only supports WGS84 (EPSG:4326) as CRS
-- Palettes are applied using custom functions that are generated in function factories:
-    - `colorNumeric()` maps continuous values
-    - `colorBin()` bins continuous values evenly
-    - `colorQuantile()` bins continuous values based on their quantiles
-    - `colorFactor()` maps categorical values
-- `highlightOptions()` adds a nice highlight effect when hovering over a polygon
+-   Variables are passed using formulas (i.e. instead of `data_guerry$Literacy`, we write `~Literacy`)
+-   Leaflet by default only supports WGS84 (EPSG:4326) as CRS
+-   Palettes are applied using custom functions that are generated in function factories:
+    -   `colorNumeric()` maps continuous values
+    -   `colorBin()` bins continuous values evenly
+    -   `colorQuantile()` bins continuous values based on their quantiles
+    -   `colorFactor()` maps categorical values
+-   `highlightOptions()` adds a nice highlight effect when hovering over a polygon
 
 ```{r eval=FALSE}
 output$tab_map_map <- leaflet::renderLeaflet({
@@ -476,31 +492,29 @@ output$tab_map_map <- leaflet::renderLeaflet({
 6.  `fillColor` determines how the polygons should be colored. We pass a formula that contains a call to our generated function `pal()` (see point 2) that maps colors to the Literacy variable.
 7.  We can add additional parameters that control the appearance of the map, e.g. opacity, color or line thickness (weight).
 8.  `highlightOptions()` allows you to add a nice highlight effect when hovering over the polygons
-9. Using `addLegend()` we add a legend to the bottom right of the Leaflet map
+9.  Using `addLegend()` we add a legend to the bottom right of the Leaflet map
 10. `addLegend()` accepts values in the same way as `addPolygons()`: `pal` accepts the generated palette function and `values` accepts a formula containing the column name in the input dataset.
 11. Finally, `labelFormat()` allows you to change the formatting of the legend label, e.g. if you need to specify whether a number is a percentage, meters or something else
 
-![](resources/06_02.gif)
-## Full code
+![](resources/06_02.gif) \## Full code
 
 ```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping02.R"}
 #| code-fold: true
 #| code-summary: Full code including a simple Leaflet map
 ```
 
-
 # Add reactivity
 
-- Similar to chapter 5 on visualization, reactivity is the key to making maps in Shiny
-- Similar to chapter 5, reactivity is arguably the most complex part of app development!
+-   Similar to chapter 5 on visualization, reactivity is the key to making maps in Shiny
+-   Similar to chapter 5, reactivity is arguably the most complex part of app development!
 
 ## Reactive UI
 
-- In our app, we add three reactive components:
-    - `selectInput()` to select a variable to map
-    - `radioButtons()` to select an aggregation level, departments or regions
-    - `selectInput()` to select a color palette
-- Additionally, one new UI output (`tab_map_desc`) is added that describes the selected variable
+-   In our app, we add three reactive components:
+    -   `selectInput()` to select a variable to map
+    -   `radioButtons()` to select an aggregation level, departments or regions
+    -   `selectInput()` to select a color palette
+-   Additionally, one new UI output (`tab_map_desc`) is added that describes the selected variable
 
 ```{r}
 # Define selectable palettes: All sequential palettes + viridis
@@ -568,10 +582,10 @@ tabItem(
 
 ## Server side
 
-- In the server function, we have a lot to do (annotated with their respective letters in the code below):
-    - Apply the selected aggregation level
-    - Apply the selected palette
-    - Change hard code to adaptive code
+-   In the server function, we have a lot to do (annotated with their respective letters in the code below):
+    -   Apply the selected aggregation level
+    -   Apply the selected palette
+    -   Change hard code to adaptive code
 
 ```{r eval=FALSE}
 	# Select polygon based on aggregation level
@@ -646,15 +660,16 @@ tabItem(
 	})
 ```
 
-1. In a reactive expression called `poly()` we catch the selected aggregation level and decide whether to use the original `data_guerry` or the aggregated variant `data_guerry_region`.
-2. In a reactive expression called `palette()` we catch the selected palette and match it with the available palette names.
-3. We combine all inputs in a reactive expression called `params()` where we do the remaining data wrangling before the input data goes into leaflet mapping
-4. Finally, we do the mapping and replace all previously hard-coded information with our new reactive data. This includes the input dataframe which is now simply `params$poly`, the fill color which is now a formula that is pasted together from the palette function and the selected variable and finally the palette and values required for the legend.
+1.  In a reactive expression called `poly()` we catch the selected aggregation level and decide whether to use the original `data_guerry` or the aggregated variant `data_guerry_region`.
+2.  In a reactive expression called `palette()` we catch the selected palette and match it with the available palette names.
+3.  We combine all inputs in a reactive expression called `params()` where we do the remaining data wrangling before the input data goes into leaflet mapping
+4.  Finally, we do the mapping and replace all previously hard-coded information with our new reactive data. This includes the input dataframe which is now simply `params$poly`, the fill color which is now a formula that is pasted together from the palette function and the selected variable and finally the palette and values required for the legend.
 
 ![](resources/06_03.gif)
 
 ::: callout-note
 ## Exercise 6
+
 Add a marker of Paris to the Leaflet map. Add a popup that adds fun trivia information about the capital of France.
 :::
 
@@ -704,10 +719,9 @@ leaflet(data = params$poly) %>%
 ```
 :::
 
-
-
 ::: callout-note
 ## Exercise 7
+
 Change the icon of the marker from exercise 6 to an icon depicting a city and the color to red.
 :::
 
@@ -735,6 +749,7 @@ To change the color and the icon, we need to work with "awesome markers". Icons 
 
 ::: callout-note
 ## Exercise 8
+
 Set the default plotting variable to "Distance to Paris"
 :::
 
@@ -759,18 +774,18 @@ selectInput(
 
 # Add context
 
-- In the current state of the app, it's hard to know what exactly the variables represent
-- Variables have informative titles, but this is not always enough
-- In this subsection, we add additional context information to understand better what we're looking at
+-   In the current state of the app, it's hard to know what exactly the variables represent
+-   Variables have informative titles, but this is not always enough
+-   In this subsection, we add additional context information to understand better what we're looking at
 
 ## Prepare context info
 
-- As with many things, it's useful to prepare data before we use it
-- Instead of relying on large `switch()` expressions, we create a list before running the server
-- The list contains information on title, description, legend and unit
-- Each list element can be accessed using the variable name so we can access them reactively
+-   As with many things, it's useful to prepare data before we use it
+-   Instead of relying on large `switch()` expressions, we create a list before running the server
+-   The list contains information on title, description, legend and unit
+-   Each list element can be accessed using the variable name so we can access them reactively
 
-::: {.callout-tip}
+::: callout-tip
 For such large data objects, it can be a good idea to place them outside the main code file to increase readability.
 :::
 
@@ -895,10 +910,9 @@ list(
 )
 ```
 
-
 ## Add variable descriptions
 
-- To give a short description of the selected variable and their source, we add a new UI output
+-   To give a short description of the selected variable and their source, we add a new UI output
 
 ```{r eval=FALSE}
 tabItem(
@@ -950,7 +964,7 @@ tabItem(
 ) # end tabItem
 ```
 
-1. Add a UI output with the id `tab_map_desc`. This is where the variable description will go!
+1.  Add a UI output with the id `tab_map_desc`. This is where the variable description will go!
 
 ## Render context
 
@@ -1035,11 +1049,10 @@ tabItem(
 	})
 ```
 
-1. To render the UI, we call the `renderUI()` function. Here, we can just access the list we created before to access the description based on the selected variable.
-2. In the same way, we can add a title and a unit to the legend using the `title` and `labFormat` arguments in `addLegend()`
+1.  To render the UI, we call the `renderUI()` function. Here, we can just access the list we created before to access the description based on the selected variable.
+2.  In the same way, we can add a title and a unit to the legend using the `title` and `labFormat` arguments in `addLegend()`
 
-- The result is arguably nicer to look at, but certainly provides more information to understand the map we created
-
+-   The result is arguably nicer to look at, but certainly provides more information to understand the map we created
 
 ## Full code
 
@@ -1048,18 +1061,16 @@ tabItem(
 #| code-summary: Full code including a reactive Leaflet map
 ```
 
-
-
 # Add hover labels
 
-- Unlike Plotly, Leaflet does not automatically provide labels for data points
-    - Bad news: You have to do it on your own
-    - Good news: You have more freedom in designing hover labels
+-   Unlike Plotly, Leaflet does not automatically provide labels for data points
+    -   Bad news: You have to do it on your own
+    -   Good news: You have more freedom in designing hover labels
 
 ## How to add labels
 
-- Adding labels is itself not a difficult task: You can just provide the values vector we use as data input
-- Labels then contain a single value with no information as to what you're looking at
+-   Adding labels is itself not a difficult task: You can just provide the values vector we use as data input
+-   Labels then contain a single value with no information as to what you're looking at
 
 ```{r eval=FALSE}
 leaflet() %>%
@@ -1071,9 +1082,9 @@ leaflet() %>%
 
 ## Advanced label layout using HTML
 
-- This is *enough*, but not very pretty and it doesn't provide potentially important metadata like region names
-- In our app, we use a table layout containing information about region, department and variable value
-- You can create generic HTML tables using the `table` tag (`tags$table`) together with the `tr` (table row, `tags$tr`) and `td` (table data, `tags$td`)
+-   This is *enough*, but not very pretty and it doesn't provide potentially important metadata like region names
+-   In our app, we use a table layout containing information about region, department and variable value
+-   You can create generic HTML tables using the `table` tag (`tags$table`) together with the `tr` (table row, `tags$tr`) and `td` (table data, `tags$td`)
 
 ```{r}
 tags$table(             # <1>
@@ -1101,7 +1112,7 @@ tags$table(             # <1>
 
 ![](https://vertex-academy.com/tutorials/wp-content/uploads/2016/08/table.png)
 
-- In the following chunk we use `mapply()` to map region, department and variable value into a nicely aligned grid:
+-   In the following chunk we use `mapply()` to map region, department and variable value into a nicely aligned grid:
 
 ```{r eval=FALSE}
 params <- reactive({
@@ -1214,25 +1225,25 @@ params <- reactive({
 
 # Add proxies
 
-- The map already looks quite polished!
-- One more problem: Map updates!
-- Map re-renders every time an input is invalidated:
-    - Everything needs to be redrawn = slow for large datasets
-    - Map view resets with every update:
+-   The map already looks quite polished!
+-   One more problem: Map updates!
+-   Map re-renders every time an input is invalidated:
+    -   Everything needs to be redrawn = slow for large datasets
+    -   Map view resets with every update:
 
 ![](resources/06_05.gif)
 
 ## What are proxies?
 
-- Solution: Proxies
-- Proxy objects are representations of existing widgets that can manipulate widgets in place
+-   Solution: Proxies
+-   Proxy objects are representations of existing widgets that can manipulate widgets in place
 
 ## Proxies in Shiny extensions
 
-- Many Shiny extensions provide proxy functions:
-    - [`DT::dataTableProxy()`](https://rdrr.io/cran/DT/man/proxy.html)
-    - [`plotly::plotlyProxy()`](https://rdrr.io/cran/plotly/man/plotlyProxy.html)
-    - [`leaflet::leafletProxy()`](https://rdrr.io/cran/leaflet/man/leafletProxy.html)
+-   Many Shiny extensions provide proxy functions:
+    -   [`DT::dataTableProxy()`](https://rdrr.io/cran/DT/man/proxy.html)
+    -   [`plotly::plotlyProxy()`](https://rdrr.io/cran/plotly/man/plotlyProxy.html)
+    -   [`leaflet::leafletProxy()`](https://rdrr.io/cran/leaflet/man/leafletProxy.html)
 
 ## Proxy workflow
 
@@ -1245,8 +1256,8 @@ params <- reactive({
 
 ## Isolate reactive objects
 
-- To create an isolated output widget, we use the `isolate()` function from Shiny
-    - The `params()` reactive is executed only *once*, but does take a dependency
+-   To create an isolated output widget, we use the `isolate()` function from Shiny
+    -   The `params()` reactive is executed only *once*, but does take a dependency
 
 ```{r eval=FALSE}
   # Render leaflet for the first time
@@ -1291,9 +1302,9 @@ params <- reactive({
 
 ## Implement proxies
 
-- Instead, we create an observer that updates the map layers *in place*
-- First, all existing features that are to be changed are cleared
-- Second, new features are added in the usual piping manner
+-   Instead, we create an observer that updates the map layers *in place*
+-   First, all existing features that are to be changed are cleared
+-   Second, new features are added in the usual piping manner
 
 ```{r eval=FALSE}
   observe({ # <1>
@@ -1337,55 +1348,60 @@ params <- reactive({
 
 ## What changed?
 
-- The output now:
-    - Does not re-render from scratch - saving time and resources
-    - Does not reset the map - making exploration more seamless
+-   The output now:
+    -   Does not re-render from scratch - saving time and resources
+    -   Does not reset the map - making exploration more seamless
 
-![](resources/06_06.gif)
+![](resources/06_06.gif) \## Full code
+
+```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping04.R"}
+#| code-fold: true
+#| code-summary: Full code including a reactive Leaflet proxies
+```
 
 # Access Shiny events on maps
 
-- Currently the user can interact with the Leaflet map in various ways: zoom, pan, hover, ...
-- The Shiny programmer has no way of accessing what happens on the map after it is rendered
-- Solution: **reactive events!**
-- Many Shiny extensions like Leaflet allow you to observe events that happen on the map
+-   Currently the user can interact with the Leaflet map in various ways: zoom, pan, hover, ...
+-   The Shiny programmer has no way of accessing what happens on the map after it is rendered
+-   Solution: **reactive events!**
+-   Many Shiny extensions like Leaflet allow you to observe events that happen on the map
 
 ## Leaflet events
 
-- Leaflet events are accessed like so:
+-   Leaflet events are accessed like so:
 
 ::: {style="font-size: 20px;"}
 `input$<Map ID>`{style="color: red;"}`_<Object type>`{style="color: green;"}`_<Event type>`{style="color: blue;"}
 :::
 
-- Map ID refers to the ID given to the Leaflet widget, in our case this is `map_exp`
+-   Map ID refers to the ID given to the Leaflet widget, in our case this is `map_exp`
 
 ## Leaflet object types
 
-- Object type refers to a geometry type, can be one of:
-    - `marker` for points
-    - `shape` for polygons and lines
-    - `geojson` and `topojson` for data that was passed in GeoJSON or TopoJSON format
+-   Object type refers to a geometry type, can be one of:
+    -   `marker` for points
+    -   `shape` for polygons and lines
+    -   `geojson` and `topojson` for data that was passed in GeoJSON or TopoJSON format
 
 ## Leaflet event types
 
-- Event type refers to the action that is performed on the geometry, one of:
-    - `click`
-    - `mouseover`
-    - `mouseout`
+-   Event type refers to the action that is performed on the geometry, one of:
+    -   `click`
+    -   `mouseover`
+    -   `mouseout`
 
 ## Other events
 
-- Additionally, Leaflet has some more general events:
-    - `input$<Map ID>_click` triggers when the background of the map is clicked
-    - `input$<Map ID>_bounds` provides the bounding box of the current view
-    - `input$<Map ID>_zoom` provides the current zoom level
-    - `input$<Map ID>_center` provides the center point of the current view
-- **Question:** When does `input$tab_map_map_marker_click` trigger?
+-   Additionally, Leaflet has some more general events:
+    -   `input$<Map ID>_click` triggers when the background of the map is clicked
+    -   `input$<Map ID>_bounds` provides the bounding box of the current view
+    -   `input$<Map ID>_zoom` provides the current zoom level
+    -   `input$<Map ID>_center` provides the center point of the current view
+-   **Question:** When does `input$tab_map_map_marker_click` trigger?
 
 ## Events in practice
 
-- The output of these Leaflet events usually contain an ID, Latitude and Longitude:
+-   The output of these Leaflet events usually contain an ID, Latitude and Longitude:
 
 ```{r include=FALSE}
 input <- list()
@@ -1398,7 +1414,7 @@ input$tab_map_map_shape_click
 
 ## Clear objects
 
-- In the following code chunk, we add a marker whenever we click on a polygon on the Leaflet map
+-   In the following code chunk, we add a marker whenever we click on a polygon on the Leaflet map
     1.  Capture the click input
     2.  Remove previous markers
     3.  Add a new marker using the click coordinates
@@ -1421,9 +1437,9 @@ observe({
 
 ![](resources/06_07.gif)
 
-- Here, we remove all markers in order to add a new one, but we can also be more careful in deleting elements
-    - `leaflet::clear` functions remove all elements of a geometry type
-    - `leaflet::remove` functions remove one element by layer ID
+-   Here, we remove all markers in order to add a new one, but we can also be more careful in deleting elements
+    -   `leaflet::clear` functions remove all elements of a geometry type
+    -   `leaflet::remove` functions remove one element by layer ID
 
 ::: callout-note
 `leaflet::remove` functions need a layer ID to work! You can set them using the `layerId` argument in `leaflet::add` functions, e.g. `leaflet::addMarkers(..., layerId = "marker1")`
@@ -1457,11 +1473,11 @@ observe({
 ::: {.callout-note collapse="true"}
 ## Bonus for the daring
 
-- You can create your own input events with a little bit of JavaScript!
-- In the code chunk below, we add a "mousemove" event, that triggers every time the mouse is moved on the Leaflet map
-- Note the use of `htmlwidgets::onRender()` to execute a piece of JavaScript when the Leaflet widget renders
-- Note the use of `Shiny.onInputChange` to create input events
-- Further reading: [Joe Cheng - "Communicating with Shiny via JavaScript"](https://shiny.posit.co/r/articles/build/communicating-with-js/)
+-   You can create your own input events with a little bit of JavaScript!
+-   In the code chunk below, we add a "mousemove" event, that triggers every time the mouse is moved on the Leaflet map
+-   Note the use of `htmlwidgets::onRender()` to execute a piece of JavaScript when the Leaflet widget renders
+-   Note the use of `Shiny.onInputChange` to create input events
+-   Further reading: [Joe Cheng - "Communicating with Shiny via JavaScript"](https://shiny.posit.co/r/articles/build/communicating-with-js/)
 
 ```{r eval=FALSE}
 output$tab_map_map <- renderLeaflet({
@@ -1487,8 +1503,6 @@ output$tab_map_map <- renderLeaflet({
 #| code-fold: true
 #| code-summary: Full code including Shiny events
 ```
-
-
 
 ## Exercises
 

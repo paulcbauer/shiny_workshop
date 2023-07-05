@@ -30,12 +30,12 @@ You will learn how to:
 -   Add visual feedback during loading times
 -   Supplement basic CSS to do what R cannot
 
-## Theming in Shiny
+# Theming in Shiny
 
 -   Shiny apps look a bit lackluster by default - but why is that?
 -   Shiny is based on a raw form of Bootstrap by default
 
-### Bootstrap
+## Bootstrap
 
 -   [Bootstrap](https://en.wikipedia.org/wiki/Bootstrap_(front-end_framework)) is a framework containing design templates that are based on CSS, HTML and JavaScript
     -   Used by around 20% of websites
@@ -44,7 +44,7 @@ You will learn how to:
 -   Classic Shiny uses Bootstrap 3
 -   `bs4Dash`, the package we use for the Guerry dashboard, uses Bootstrap 4 (more precisely [AdminLTE 3](https://adminlte.io/))
 
-### Shiny extensions for styling
+## Shiny extensions for styling
 
 -   Shiny has some really cool extensions for amping up your UI, some of which we will address:
     -   [`bslib`](https://rstudio.github.io/bslib/) - customize bootstrap themes
@@ -53,12 +53,63 @@ You will learn how to:
     -   [`shinyWidgets`](https://cran.r-project.org/web/packages/shinyWidgets/index.html) - beautify input widgets
     -   [`shinyjs`](https://cran.r-project.org/web/packages/shinyjs/index.html) - do JavaScript magic without knowing JavaScript
 
-### Further reading
+## Further reading
 
 -   [Chapter 6](https://mastering-shiny.org/action-layout.html) of Hadley Wickham's "Mastering Shiny"
 -   [Chapter 6 to 9](https://unleash-shiny.rinterface.com/beautify-css.html) of David Granjon's "Outstanding User Interfaces with Shiny"
 
-## Inspect tool
+
+# Refresher on HTML tags
+
+* Shiny's **HTML tag functions** translate input into html code
+  - Try pasting `h2("A NEW HOPE", align = "center")` into your console
+  - `h2()` function creates `<h2></h2>` html tag
+- Common HTML tags (e.g., `⁠<div`>⁠) can be created by calling for their tag name directly (e.g., `div()`)
+- Less common tags (e.g., `⁠<article`>⁠), use the tags list collection (e.g., `tags$article()`) stored in the `tags` object
+- See [full reference for HTML tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)  
+
+
+```{r cache=TRUE, eval=FALSE, include=TRUE}
+library(bs4Dash)
+# UI ----
+ui <- dashboardPage(title = "My Shiny App",
+
+  ### Header ----
+  header = dashboardHeader(),
+
+  ### Sidebar ----
+  sidebar = dashboardSidebar(),
+
+  ### Body ----
+  body = dashboardBody(
+      h2("A NEW HOPE", align = "center"),
+              h5("It is a period of civil war.", align = "center"),
+      p("p creates a paragraph of text."),
+      tags$p("A new p() command starts a new paragraph. Supply a style attribute to change the format of the entire paragraph.", style = "font-family: 'times'; font-si16pt"),
+      strong("strong() makes bold text."),
+      em("em() creates italicized (i.e, emphasized) text."),
+      tags$hr(style="border-color:black;"),
+      tags$br(),
+      tags$line(),
+      br(),
+      code("code displays your text similar to computer code"),
+      div("div creates segments of text with a similar style. This division of text is all blue because I passed the argument 'style = color:blue' to div", style = "color:blue"),
+      br(),
+      p("span does the same thing as div, but it works with",
+        span("groups of words", style = "color:blue"),
+        "that appear inside a paragraph."))
+)
+
+
+# Server ----
+
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+```
+
+
+# Inspect tool
 
 -   Most major browsers offer an "Inspect" tool for websites
     -   Lets you manipulate single HTML elements in real time (**HTML pane**)
@@ -67,7 +118,7 @@ You will learn how to:
     -   Provides an interface to visualize where HTML elements are located on a website (**"Pick an element"**)
     -   Lets you extract colors directly from a website (**"Grab a color"**)
 
-### How to open the inspector
+## How to open the inspector
 
 1.  Visit a website (e.g. your Shiny app in a browser)
 2.  Right click somewhere (e.g. an element you want to inspect)
@@ -81,7 +132,7 @@ Also works in RStudio! Right click somewhere, then "Inspect Element"
 
 ![The Inspect tool in Firefox](resources/inspect.png)
 
-### Exploring the inspector
+## Exploring the inspector
 
 -   **Question:** From the list above, can you make out which part of the inspector does what?
     -   HTML pane
@@ -91,13 +142,13 @@ Also works in RStudio! Right click somewhere, then "Inspect Element"
     -   Grab a color
 -   Despite the complicated look, the Inspect tool can be useful for all kinds of theming endeavours
 
-## Theming with `bslib`
+# Theming with `bslib`
 
 -   The `bslib` package can be used to control the bootstrap theme configuration
 -   Bootstrap themes can be specified using the [`bs_theme()`](https://rstudio.github.io/bslib/reference/bs_theme.html) function
 -   In Shiny, we can plug `bs_theme`s in page layout such as [`fillPage()`](https://shiny.posit.co/r/reference/shiny/1.4.0/fillpage) or [`fluidPage()`](https://shiny.posit.co/r/reference/shiny/1.4.0/fluidpage)
 
-### Bootstrap versions with `bslib`
+## Bootstrap versions with `bslib`
 
 -   In the following code chunk, we create a bootstrap theme that applies the theming of the most recent Bootstrap 5 version:
 
@@ -121,7 +172,7 @@ shinyApp(ui, server)
 
 ![](resources/bs3_bs5.png)
 
-### Bootswatch
+## Bootswatch
 
 -   Other than the version, there's a lot to change in [`bs_theme()`](https://rstudio.github.io/bslib/reference/bs_theme.html)
 -   For example, we can apply one of the pre-made Bootswatch themes:
@@ -144,12 +195,12 @@ shinyApp(ui, server)
 
 ![](resources/bootswatch.png)
 
-### Exploring theming options
+## Exploring theming options
 
 -   You can try out all theming options in real time by running [`bs_theme_preview()`](https://rstudio.github.io/bslib/reference/bs_theme_preview.html)
 
 ::: callout-note
-### Exercise
+## Exercise
 
 Experiment with `bs_theme_preview()` to learn about the different arguments to `bs_theme()`. When you find a pretty theme, re-create the theme programmatically using `bs_theme()`
 :::
@@ -158,12 +209,12 @@ Experiment with `bs_theme_preview()` to learn about the different arguments to `
 The code to update the theme including all arguments is printed to the console!
 :::
 
-## Theming with `fresh`
+# Theming with `fresh`
 
 -   [`fresh`](https://dreamrs.github.io/fresh/reference/fresh.html) is an R package that can be used to theme, besides classic Shiny, dashboards like [`shinydashboard`](https://rstudio.github.io/shinydashboard/) and [`bs4Dash`](https://rinterface.github.io/bs4Dash/)
 -   [`bs4Dash`](https://rinterface.github.io/bs4Dash/) can easily be themed using the [`fresh`](https://dreamrs.github.io/fresh/reference/fresh.html) package
 
-### Adding a GESIS-like theme
+## Adding a GESIS-like theme
 
 -   Workflow:
     -   Create a theme using [`fresh::create_theme()`](https://dreamrs.github.io/fresh/reference/create_theme.html)
@@ -211,12 +262,12 @@ dash_theme <- create_theme(
 ```
 
 ::: callout-note
-### Exercise
+## Exercise
 
 Using the pipette tool from the Inspector, extract the color scheme from a website of your choice. Create a theme using the respective colors (and other theming elements) and pass it to your Shiny dashboard.
 :::
 
-## Spinners
+# Spinners
 
 -   A lack of feedback in graphical user interfaces can lead to frustration
 -   In such cases, spinners can be an elegant solution
@@ -248,7 +299,7 @@ ui <- dashboardPage(
 )
 ```
 
-## Custom styling
+# Custom styling
 
 -   Shiny apps can look good without a single line of non-R code
 -   However, to give an app the final touch, it's hard to get around CSS
@@ -259,7 +310,7 @@ ui <- dashboardPage(
 print(bs4Dash::box())
 ```
 
-### CSS
+## CSS
 
 -   [CSS](https://en.wikipedia.org/wiki/CSS) (Cascading Style Sheets) is a computer language that is used to style HTML documents
 -   HTML provides the containers, CSS styles them
@@ -286,7 +337,7 @@ browsable(div(
 ))
 ```
 
-### Classes and IDs
+## Classes and IDs
 
 -   CSS is usually defined using classes or IDs
     -   IDs are unique identifiers for a single UI elements and are specified using a hashtag `#`
@@ -310,7 +361,7 @@ browsable(div(
 ))
 ```
 
-### HTML elements and CSS
+## HTML elements and CSS
 
 -   You can change CSS properties of entire HTML elements as well:
 
@@ -363,7 +414,7 @@ browsable(div(
 
 : An incomplete list of common CSS properties
 
-### Including CSS in R
+## Including CSS in R
 
 -   CSS can either be defined using inline CSS (`tags$style`) or an external CSS file
 -   In the Guerry app, we include a CSS file which takes care of some styling:
@@ -371,14 +422,14 @@ browsable(div(
     -   Add a file called "styles.css" to that folder
     -   In R, add: `tags$head(includeCSS("www/styles.css"))` to the `dashboardBody`
 
-### Example: Removing white space
+## Example: Removing white space
 
 -   During session 6: mapping, you might have noticed a large amount of white space when making the Leaflet map
 -   Not a tragedy, but we lose quite a lot of functional space
 
 ![](resources/white_space.png)
 
-#### Diagnosis
+### Diagnosis
 
 -   Cause: `bs4Dash::box()` reserves some space in its header and body for some reason
 -   How do we know?
@@ -389,7 +440,7 @@ browsable(div(
 
 ![](resources/07_01.gif)
 
-#### Fix
+### Fix
 
 -   Bad news: We can't fix this using R alone as the values are given by AdminLTE, `bs4Dash`'s CSS framework
 -   Good news: This is a really nice use case for custom CSS styling
@@ -397,7 +448,7 @@ browsable(div(
 
 ![](resources/07_02.gif)
 
-#### Permanent fix
+### Permanent fix
 
 -   Our fix with the Inspect tool is lost as soon as we close or reload the tab
 -   To fix the padding permanently, we need to make changes to the HTML class
@@ -409,7 +460,7 @@ If you are not sure what element does what, try to hover over the element in the
 
 ![](resources/white_space_html.png)
 
-#### Embedding CSS
+### Embedding CSS
 
 -   Now that we know what properties to change and where, we can start writing CSS
 -   Either in a dedicated `styles.css` file or using `tags$style` inside the UI code, we put the following CSS lines:
@@ -424,7 +475,7 @@ If you are not sure what element does what, try to hover over the element in the
 -   In other words: For the class `card-header` and `card-body` inside the object with ID `exp_box`, set the padding to 0 pixels
 
 ::: callout-note
-### Exercise
+## Exercise
 
 Change the CSS styling of the text paragraphs in the Home tab. Create a CSS class called `par` and change font family, size, weight, type, alignment and justification
 :::
@@ -434,7 +485,7 @@ Some of the CSS properties were introduced in subsection "CSS properties", but o
 :::
 
 ::: {.callout-warning collapse="true"}
-### Solution
+## Solution
 
 Either in `styles.css` or inline, add the following CSS code:
 

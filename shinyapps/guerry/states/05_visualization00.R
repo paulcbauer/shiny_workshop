@@ -5,9 +5,7 @@ library(shinyWidgets)
 library(Guerry)
 library(sf)
 library(dplyr)
-library(plotly)
 library(GGally)
-library(datawizard)
 
 # 1 Data preparation ----
 
@@ -57,13 +55,36 @@ data_guerry_tabulate <- data_guerry %>%
   mutate(across(.cols = all_of(names(variable_names)), round, 2))
 
 
+## Prep data (Tab: Map data) ----
+data_guerry_region <- data_guerry %>%
+  group_by(Region) %>%
+  summarise(across(
+    .cols = all_of(names(variable_names)),
+    function(x) {
+      if (cur_column() %in% c("Area", "Pop1831")) {
+        sum(x)
+      } else {
+        mean(x)
+      }
+    }
+  ))
+
+## Prepare palettes ----
+## Used for mapping
+pals <- list(
+  Sequential = RColorBrewer::brewer.pal.info %>%
+    filter(category %in% "seq") %>%
+    row.names(),
+  Viridis = c("Magma", "Inferno", "Plasma", "Viridis",
+              "Cividis", "Rocket", "Mako", "Turbo")
+)
+
 ## Prepare modebar clean-up ----
 ## Used for modelling
 plotly_buttons <- c(
   "sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
   "hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
 )
-
 
 
 # 3 UI ----
@@ -204,48 +225,13 @@ ui <- dashboardPage(
         fluidRow(
           column(
             width = 6,
-            #### Inputs(s) ----
-            box(
-              width = 12,
-              title = "Select variables",
-              status = "primary",
-              selectInput(
-                "model_x",
-                label = "Select a dependent variable",
-                choices = setNames(names(variable_names), variable_names),
-                selected = "Literacy"
-              ),
-              selectizeInput(
-                "model_y",
-                label = "Select independent variables",
-                choices = setNames(names(variable_names), variable_names),
-                multiple = TRUE,
-                selected = "Commerce"
-              ),
-              checkboxInput(
-                "model_std",
-                label = "Standardize variables?",
-                value = TRUE
-              ),
-              hr(),
-              actionButton(
-                "refresh",
-                label = "Apply changes",
-                icon = icon("refresh"),
-                flat = TRUE
-              )
-            )
-          ),
-          column(
-            width = 6,
             ##### Box: Pair diagramm ----
             box(
               width = 12,
               title = "Pair diagram",
               status = "primary",
-              plotly::plotlyOutput("pairplot")
+              plotOutput("pairplot")
             )
-            # A fourth box can go here :)
           )
         )
       )
@@ -329,34 +315,8 @@ server <- function(input, output, session) {
   
   
   ## 4.2 Model data ----
-  ### Define & estimate model ----
-  dat <- reactive({
-    x <- input$model_x
-    y <- input$model_y
-    dt <- sf::st_drop_geometry(data_guerry)[c(x, y)]
-    if (input$model_std) dt <- datawizard::standardise(dt)
-    
-    dt
-  }) %>%
-    bindEvent(input$refresh, ignoreNULL = FALSE)
-  
-  ### Pair diagram ----
-  output$pairplot <- plotly::renderPlotly({
-    p <- GGally::ggpairs(dat(), axisLabels = "none")
-    
-    ggplotly(p) %>%
-      config(
-        modeBarButtonsToRemove = plotly_buttons,
-        displaylogo = FALSE,
-        toImageButtonOptions = list(
-          format = "svg",
-          filename = "guerry_plot",
-          height = NULL,
-          width = NULL
-        ),
-        scrollZoom = TRUE
-      )
-  })
+
+  # New code goes here :)
 }
 
 shinyApp(ui, server)

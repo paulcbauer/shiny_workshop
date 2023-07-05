@@ -12,15 +12,12 @@ library(RColorBrewer)
 library(viridis)
 library(leaflet)
 library(plotly)
-library(jsonlite)
 library(ggplot2)
 library(GGally)
 library(datawizard)
 library(parameters)
 library(performance)
-library(ggdark)
 library(modelsummary)
-library(see)
 
 # 1 Data preparation ----
 
@@ -152,7 +149,7 @@ variable_desc <- list(
   ),
   Area = list(
     title = "Area",
-    desc = as.character(p(tags$b("Area (1000 km^2)"), hr(), helpText("Source: Angeville (1836)"))),
+    desc = as.character(p(tags$b("Area (1000 km\u00b2)"), hr(), helpText("Source: Angeville (1836)"))),
     lgd = "Area",
     unit = " km\u00b2"
   ),
@@ -168,14 +165,14 @@ data_guerry <- Guerry::gfrance85 %>%
   st_as_sf() %>%
   as_tibble() %>%
   st_as_sf(crs = 27572) %>%
-  mutate(Region = as.factor(case_match(
+  mutate(Region = case_match(
     Region,
     "C" ~ "Central",
     "E" ~ "East",
     "N" ~ "North",
     "S" ~ "South",
     "W" ~ "West"
-  ))) %>%
+  )) %>%
   select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>%
   select(Region:Department, all_of(names(variable_names)))
 
@@ -191,15 +188,15 @@ data_guerry_tabulate <- data_guerry %>%
 data_guerry_region <- data_guerry %>%
   group_by(Region) %>%
   summarise(across(
-  .cols = all_of(names(variable_names)),
-  function(x) {
-    if (cur_column() %in% c("Area", "Pop1831")) {
-      sum(x)
-    } else {
-      mean(x)
+    .cols = all_of(names(variable_names)),
+    function(x) {
+      if (cur_column() %in% c("Area", "Pop1831")) {
+        sum(x)
+      } else {
+        mean(x)
+      }
     }
-  }
-))
+  ))
 
 ## Prepare palettes ----
 ## Used for mapping
@@ -214,49 +211,10 @@ pals <- list(
 ## Prepare modebar clean-up ----
 ## Used for modelling
 plotly_buttons <- c(
-	"sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
-	"hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
+  "sendDataToCloud", "zoom2d", "select2d", "lasso2d", "autoScale2d",
+  "hoverClosestCartesian", "hoverCompareCartesian", "resetScale2d"
 )
 
-# 2 Create theme & preload ----
-dash_theme <- create_theme(
-  bs4dash_status(
-    primary = "#58748f",
-    secondary = "#666666",
-    info = "#E6EAEE",
-    danger = "#BF616A",
-    warning = "#FF6100",
-    light = "#F4F4F2",
-    dark = "#2c2c25"
-  ),
-  bs4dash_layout(
-    font_size_root = "5rem",
-    main_bg = "#FDFDFD",
-    sidebar_width = "350px"
-  ),
-  bs4dash_sidebar_light(bg = "#F4F4F2", color = "#000"),
-  bs4dash_sidebar_dark(bg = "#2c2c25", color = "#FFF"),
-  bs4dash_color(
-  	orange = "#F06400",
-    white = "#FDFDFD",
-    black = "#000",
-    gray_600 = "#666",
-    gray_800 = "#333",
-    gray_900 = "#000",
-    blue = "#58748f"
-  ),
-  bs4dash_font(
-    family_sans_serif = "Verdana",
-    family_base = "Georgia",
-    family_monospace = "Courier New"
-  )
-)
-
-## Preloader ----
-preloader <- list(
-  html = tagList(spin_6(), "Loading ..."),
-  color = "#B3DDFE"
-)
 
 
 
@@ -264,30 +222,12 @@ preloader <- list(
 
 ui <- dashboardPage(
   title = "The Guerry Dashboard",
-  freshTheme = dash_theme,
-  preloader = preloader,
   ## 3.1 Header ----
   header = dashboardHeader(
-    tags$style("
-      /* remove white space from header */
-      .navbar {
-        padding-top: 0em;
-        padding-bottom: 0em;
-        padding-right: 0em;
-      }
-    "),
-    span(style = "display: inline-block; width: 100%;"),
-    a(
-      class = "logo",
-      href = "https://gesis.org/",
-      img(src = "gesis-logo.png", style = "height: 1.8em;")
-    ),
     title = tagList(
       img(src = "workshop-logo.png", width = 35, height = 35),
       span("The Guerry Dashboard", class = "brand-text")
-    ),
-    skin = "light",
-    sidebarIcon = tags$i(class = "fa fa-bars", style = "color: black;")
+    )
   ),
   ## 3.2 Sidebar ----
   sidebar = dashboardSidebar(
@@ -307,22 +247,18 @@ ui <- dashboardPage(
   ),
   ## 3.3 Body ----
   body = dashboardBody(
-    tags$head(
-      waiter::use_waiter(),
-      includeCSS("www/styles.css")
-    ),
     tabItems(
       ### 3.1.1 Tab: Introduction ----
       tabItem(
         tabName = "tab_intro",
         jumbotron(
-        	title = "The Guerry Dashboard",
-        	lead = "A Shiny app to explore the classic Guerry dataset.",
-        	status = "info",
-        	btnName = NULL
+          title = "The Guerry Dashboard",
+          lead = "A Shiny app to explore the classic Guerry dataset.",
+          status = "info",
+          btnName = NULL
         ),
         fluidRow(
-        	column(width = 1),
+          column(width = 1),
           column(
             width = 6,
             box(
@@ -335,7 +271,7 @@ ui <- dashboardPage(
                           moral statistics which led to the development
                           of criminology, sociology and ultimately,
                           modern social science. <br>— Wikipedia: <a href='https://en.wikipedia.org/wiki/Andr%C3%A9-Michel_Guerry'>André-Michel Guerry</a>"),
-              					 color = "primary"),
+                         color = "primary"),
               p(HTML("Andre-Michel Guerry (1833) was the first to 
               systematically collect and analyze social data 
                on such things as crime, literacy and suicide 
@@ -351,30 +287,30 @@ ui <- dashboardPage(
               	using spatial exploration and regression modelling.")),
               hr(),
               accordion(
-              	id = "accord",
-              	accordionItem(
-              		title = "References",
-              		status = "primary",
-              		solidHeader = FALSE,
-              		"The following sources are referenced in this app:",
-              		tags$ul(
-              			class = "list-style: none",
-              			style = "margin-left: -30px;",
-              			p("Angeville, A. (1836). Essai sur la Statistique de la Population française Paris: F. Doufour."),
-              			p("Guerry, A.-M. (1833). Essai sur la statistique morale de la France Paris: Crochard. English translation: Hugh P. Whitt and Victor W. Reinking, Lewiston, N.Y. : Edwin Mellen Press, 2002."),
-              			p("Parent-Duchatelet, A. (1836). De la prostitution dans la ville de Paris, 3rd ed, 1857, p. 32, 36"),
-              			p("Palsky, G. (2008). Connections and exchanges in European thematic cartography. The case of 19th century choropleth maps. Belgeo 3-4, 413-426.")
-              		)
-              	),
-              	accordionItem(
-              		title = "Details",
-              		status = "primary",
-              		solidHeader = FALSE,
-              		p("This app was created as part of a Shiny workshop held in July 2023"),
-              		p("Last update: June 2023"),
-              		p("Further information about the data can be found",
-              			a("here.", href = "https://www.datavis.ca/gallery/guerry/guerrydat.html"))
-              	)
+                id = "accord",
+                accordionItem(
+                  title = "References",
+                  status = "primary",
+                  solidHeader = FALSE,
+                  "The following sources are referenced in this app:",
+                  tags$ul(
+                    class = "list-style: none",
+                    style = "margin-left: -30px;",
+                    p("Angeville, A. (1836). Essai sur la Statistique de la Population française Paris: F. Doufour."),
+                    p("Guerry, A.-M. (1833). Essai sur la statistique morale de la France Paris: Crochard. English translation: Hugh P. Whitt and Victor W. Reinking, Lewiston, N.Y. : Edwin Mellen Press, 2002."),
+                    p("Parent-Duchatelet, A. (1836). De la prostitution dans la ville de Paris, 3rd ed, 1857, p. 32, 36"),
+                    p("Palsky, G. (2008). Connections and exchanges in European thematic cartography. The case of 19th century choropleth maps. Belgeo 3-4, 413-426.")
+                  )
+                ),
+                accordionItem(
+                  title = "Details",
+                  status = "primary",
+                  solidHeader = FALSE,
+                  p("This app was created as part of a Shiny workshop held in July 2023"),
+                  p("Last update: June 2023"),
+                  p("Further information about the data can be found",
+                    a("here.", href = "https://www.datavis.ca/gallery/guerry/guerrydat.html"))
+                )
               )
             )
           ),
@@ -523,44 +459,6 @@ ui <- dashboardPage(
         tabName = "tab_map", # must correspond to related menuItem name
         fluidRow(
           column(
-            #### Inputs(s) ----
-            width = 4, # must be between 1 and 12
-            box(
-              title = "Data selection",
-              status = "primary",
-              width = 12,
-              shinyWidgets::pickerInput(
-                "tab_map_select",
-                label = "Select a variable",
-                choices = setNames(names(variable_names), variable_names),
-                options = shinyWidgets::pickerOptions(liveSearch = TRUE)
-              ),
-              uiOutput("tab_map_desc")
-            ),
-            box(
-              title = "Map configuration",
-              status = "primary",
-              width = 12,
-              shinyWidgets::radioGroupButtons(
-                "tab_map_aggr",
-                label = "Aggregation level",
-                choices = c("Departments", "Regions"),
-                selected = "Departments",
-                individual = TRUE,
-                checkIcon = list(
-                  yes = tags$i(class = "fa fa-circle", style = "color: #58748f;"),
-                  no = tags$i(class = "fa fa-circle-o", style = "color: #58748f;")
-                )
-              ),
-              shinyWidgets::pickerInput(
-                "tab_map_pal",
-                label = "Color palette",
-                choices = pals,
-                selected = "Reds"
-              ) # end input
-            ) # end box
-          ), # end column
-          column(
             #### Output(s) ----
             width = 8,
             box(
@@ -576,15 +474,15 @@ ui <- dashboardPage(
       ) # end tabItem
     ) # end tabItems
   ),
-
+  
   ## 3.4 Footer (bottom)----
   footer = dashboardFooter(
-  	left = span(
-  		"This dashboard was created by Jonas Lieth and Paul Bauer. Find the source code",
-  		a("here.", href = "https://github.com/paulcbauer/shiny_workshop/tree/main/shinyapps/guerry"),
-  		"It is based on data from the",
-  		a("Guerry R package.", href = "https://cran.r-project.org/web/packages/Guerry/index.html")
-  	)
+    left = span(
+      "This dashboard was created by Jonas Lieth and Paul Bauer. Find the source code",
+      a("here.", href = "https://github.com/paulcbauer/shiny_workshop/tree/main/shinyapps/guerry"),
+      "It is based on data from the",
+      a("Guerry R package.", href = "https://cran.r-project.org/web/packages/Guerry/index.html")
+    )
   ),
   ## 3.5 Controlbar (top)----
   controlbar = dashboardControlbar(
@@ -606,13 +504,13 @@ server <- function(input, output, session) {
     data_table <- data_guerry_tabulate
     
     if (!is.null(var)) {
-      data_table <- data_table[, c("Region", "Department",var)]
+      data_table <- data_table[, var]
     }
-
+    
     data_table
   })
   
-
+  
   ### Create table----
   dt <- reactive({
     tab <- tab()
@@ -772,8 +670,7 @@ server <- function(input, output, session) {
     params <- mparams()
     HTML(modelsummary(
       dvnames(list(params$model)),
-      gof_omit = "AIC|BIC|Log|Adj|RMSE",
-      output = "html"
+      gof_omit = "AIC|BIC|Log|Adj|RMSE"
     ))
   })
   
@@ -818,159 +715,7 @@ server <- function(input, output, session) {
   
   ## 4.3 Map data ----
   
-  # Render description of selected variable
-  output$tab_map_desc <- renderUI({
-    HTML(variable_desc[[input$tab_map_select]]$desc)
-  })
-  
-  # Select polygon based on aggregation level
-  poly <- reactive({
-    if (identical(input$tab_map_aggr, "Regions")) {
-      data_guerry_region
-    } else {
-      data_guerry
-    }
-  })
-  
-  # Select palette based on input
-  palette <- reactive({
-    pal <- input$tab_map_pal
-    if (pal %in% pals$Viridis) {
-      pal <- viridis::viridis_pal(option = tolower(pal))(5)
-    }
-    pal
-  }) %>%
-    bindEvent(input$tab_map_pal)
-  
-  # Compile parameters for leaflet rendering
-  params <- reactive({
-    poly <- st_transform(poly(), 4326)
-    pal <- palette()
-    var <- input$tab_map_select
-
-    values <- as.formula(paste0("~", var))
-    pal <- colorNumeric(palette = pal, domain = NULL)
-    
-    reg <- poly[["Region"]]
-    dep <- poly[["Department"]]
-    val <- poly[[var]]
-    
-    if (is.null(dep)) {
-      dep <- rep(NA, nrow(poly))
-    }
-
-    # Create labels that are nicely aligned in a grid
-    labels <- mapply(
-      function(reg, dep, val) {
-        HTML(as.character(tags$table(
-          tags$tr(
-            style = "line-height: 10px",
-            tags$td(tags$b("Region: ")),
-            tags$td(reg)
-          ),
-          if (!is.na(dep)) {
-            tags$tr(
-              style = "line-height: 10px",
-              tags$td(tags$b("Department: ")),
-              tags$td(dep)
-            )
-          },
-          tags$tr(
-            style = "line-height: 10px",
-            tags$td(tags$b(paste0(variable_desc[[var]]$lgd, ": "))),
-            tags$td(round(val, 2))
-          )
-        )))
-      },
-      reg = reg, dep = dep, val = val,
-      SIMPLIFY = FALSE,
-      USE.NAMES = FALSE
-    )
-
-    list(
-      poly = poly,
-      var = var,
-      pal = pal,
-      values = values,
-      labels = labels
-    )
-  })
-  
-  # Render leaflet for the first time
-  output$tab_map_map <- leaflet::renderLeaflet({
-    # Isolate call to params() to prevent render function to be executed
-    # every time params() is invalidated. No dependency is made.
-    params <- isolate(params())
-    leaflet(data = params$poly) %>%
-      addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
-      addProviderTiles("OpenTopoMap", group = "OTM") %>%
-      addProviderTiles("Stamen.TonerLite", group = "Stamen Toner") %>%
-      addProviderTiles("GeoportailFrance.orthos", group = "Orthophotos") %>%
-      addLayersControl(baseGroups = c("OSM", "OTM",
-                                      "Stamen Toner", "Orthophotos")) %>%
-      setView(lng = 3, lat = 47, zoom = 5) %>%
-      addPolygons(
-        fillColor = as.formula(paste0("~params$pal(", params$var, ")")),
-        fillOpacity = 0.7,
-        weight = 1,
-        color = "black",
-        opacity = 0.5,
-        label = params$labels,
-        highlightOptions = highlightOptions(
-          weight = 2,
-          color = "black",
-          opacity = 0.5,
-          fillOpacity = 1,
-          bringToFront = TRUE,
-          sendToBack = TRUE
-        )
-      ) %>%
-      addLegend(
-        position = "bottomright",
-        pal = params$pal,
-        values = params$values,
-        opacity = 0.9,
-        title = variable_desc[[params$var]]$lgd,
-        labFormat = labelFormat(suffix = variable_desc[[params$var]]$unit)
-      )
-  })
-  
-  # Create a leaflet proxy. Proxies update map values without re-rendering the
-  # entire map, thus increasing performance.
-  observe({
-    params <- params()
-    leafletProxy("tab_map_map", data = params$poly) %>%
-      clearShapes() %>%
-      clearControls() %>%
-      addPolygons(
-        fillColor = as.formula(paste0("~params$pal(", params$var, ")")),
-        fillOpacity = 0.7,
-        weight = 1,
-        color = "black",
-        opacity = 0.5,
-        label = params$labels,
-        highlightOptions = highlightOptions(
-          weight = 2,
-          color = "black",
-          opacity = 0.5,
-          fillOpacity = 1,
-          bringToFront = TRUE,
-          sendToBack = TRUE
-        )
-      ) %>%
-      addLegend(
-        position = "bottomright",
-        na.label = "No data",
-        pal = params$pal,
-        values = params$values,
-        opacity = 0.9,
-        title = variable_desc[[params$var]]$lgd,
-        labFormat = labelFormat(suffix = variable_desc[[params$var]]$unit)
-      )
-  })
-  
-  
-
+  # New code goes here :)
 }
 
 shinyApp(ui, server)
