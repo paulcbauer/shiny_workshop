@@ -73,13 +73,13 @@ Sources: @Bertini2017-jq, @wickham2021mastering and @Fay2021-ta
 
 
 ### Challenges of Interactive Visual Data Analysis
-- Broadly three parts...
+- Broadly three parts... [@Bertini2017-jq]
 - **Specification (Mind &rarr; Data/Model)**: necessary to translate our questions and ideas into specifications the computer can read
   - Shiny allows non-coders to perform data analysis, but requires R knowledge to built apps
   - But even simpler tools out there
 - **Representation (Data/Model &rarr; Eyes)**
   - next step is to find a (visual) representation so users can inspect and understand them
-  - "deciding **what to visualize** is often equally, if not more, important, than deciding **how to visualize** it" [@Bertini2017-jq]
+  - "deciding **what to visualize** is often equally, if not more, important, than deciding **how to visualize** it"
   - "how fancy does a visualization need to be in order to be useful for data analysis?"
     - "most visualization problems can be solved with a handful of graphs"
   - really hard to use, tweak, and combine graphs in clever/effective/innovative ways
@@ -479,6 +479,8 @@ shinyApp(ui, server)
 - **Using/exploring other apps**: Inspect that app code, then slowly delete parts you don't need
   - Rerun app to see whether it still works after each deletion
   - if only interested in UI, delete everything in within server function: `server <- function(input, output, session) {delete everything here}`
+  - **Important**: Search for dependencies (that can sometimes be delete), e.g., search for `www` folder
+    - also image links with `src` or `png`, `jpg`
 
 
 
