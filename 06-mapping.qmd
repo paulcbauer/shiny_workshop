@@ -74,7 +74,19 @@ You will learn how to:
 
 ![Generalization in OpenStreetMap at different scales](resources/generalization.gif)
 
-- Further resources:
+## Current app state
+
+- Quick recap:
+  - In section 3, we added an introduction tab that contains background info on the app
+  - In section 4, we added a table tab using the `DT` package
+  - In section 5, we added a modelling tab using all sorts of visualizations
+
+```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping00.R"}
+#| code-fold: true
+#| code-summary: Full code for the current app state
+```
+
+## Further resources:
     - [Chapter 9](https://r.geocompx.org/adv-map.html) of Robin Lovelace's "Geocomputation with R"
     - The documentation of [Leaflet for R](https://rstudio.github.io/leaflet/)
 
