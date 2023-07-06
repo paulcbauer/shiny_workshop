@@ -1,5 +1,5 @@
 /* remove white space around maps in boxes */
-#exp_box .card-header, #exp_box .card-body {
+#tab_map_box .card-header, #tab_map_box .card-body {
   padding: 0em;
 }
 
