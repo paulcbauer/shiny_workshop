@@ -76,7 +76,7 @@ ui <- dashboardPage(
   ## 3.1 Header ----
   header = dashboardHeader(
     title = tagList(
-      img(src = "workshop-logo.png", width = 35, height = 35),
+      img(src = "../workshop-logo.png", width = 35, height = 35),
       span("The Guerry Dashboard", class = "brand-text")
     )
   ),
@@ -170,7 +170,7 @@ ui <- dashboardPage(
               title = "André Michel Guerry",
               status = "primary",
               width = 12,
-              tags$img(src = "guerry.jpg", width = "100%"),
+              tags$img(src = "../guerry.jpg", width = "100%"),
               p("Source: Palsky (2008)")
             )
           )

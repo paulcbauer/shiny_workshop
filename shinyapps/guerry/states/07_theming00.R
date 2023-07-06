@@ -216,8 +216,6 @@ plotly_buttons <- c(
 )
 
 
-
-
 # 3 UI ----
 
 ui <- dashboardPage(

@@ -94,7 +94,7 @@ ui <- dashboardPage(
   ## 3.1 Header ----
   header = dashboardHeader(
     title = tagList(
-      img(src = "workshop-logo.png", width = 35, height = 35),
+      img(src = "../workshop-logo.png", width = 35, height = 35),
       span("The Guerry Dashboard", class = "brand-text")
     )
   ),
@@ -105,7 +105,6 @@ ui <- dashboardPage(
       id = "sidebarMenu",
       menuItem(tabName = "tab_intro", text = "Introduction", icon = icon("home")),
       menuItem(tabName = "tab_tabulate", text = "Tabulate data", icon = icon("table")),
-      menuItem(tabName = "tab_model", text = "Model data", icon = icon("chart-line")),
       flat = TRUE
     ),
     minified = TRUE,
@@ -188,7 +187,7 @@ ui <- dashboardPage(
               title = "André Michel Guerry",
               status = "primary",
               width = 12,
-              tags$img(src = "guerry.jpg", width = "100%"),
+              tags$img(src = "../guerry.jpg", width = "100%"),
               p("Source: Palsky (2008)")
             )
           )
@@ -218,22 +217,6 @@ ui <- dashboardPage(
         hr(),
         #### Output(s) (Data table) ----
         DT::dataTableOutput("tab_tabulate_table")
-      ),
-      ### 3.3.3 Tab: Model data ----
-      tabItem(
-        tabName = "tab_model",
-        fluidRow(
-          column(
-            width = 6,
-            ##### Box: Pair diagramm ----
-            box(
-              width = 12,
-              title = "Pair diagram",
-              status = "primary",
-              plotOutput("pairplot")
-            )
-          )
-        )
       )
     ) # end tabItems
   ),
