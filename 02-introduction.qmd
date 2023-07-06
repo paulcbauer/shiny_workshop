@@ -462,7 +462,7 @@ knitr::include_graphics("resources/MVP.png")
   4. Close the app.
   5. Go to 1.
 
-```{r}
+```{r cache=FALSE}
 library(shiny)
 ui <- fluidPage(
   

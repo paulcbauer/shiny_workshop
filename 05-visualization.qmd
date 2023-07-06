@@ -60,7 +60,6 @@ data_guerry <- Guerry::gfrance85 %>%
   select(Region:Department, all_of(names(variable_names)))
 ```
 
-
 You will learn how to:
 
 -   Embed plots and diagrams from ggplot2 in Shiny apps
@@ -89,18 +88,17 @@ Explore the COVID-19 tracker. Do you think this is a good Shiny app? If so, why?
 
 ## Current app state
 
-- Unlike the previous sections, we will extend the existing app code step by step
-- The code chunk below includes the current app state including the intro and table tabs
-- Quick recap:
-  - In section 3, we added an introduction tab that contains background info on the app
-  - In section 4, we added a table tab using the `DT` package
-  - In this section, we will add a tab that analyzes Guerry using all sorts of visualization
+-   Unlike the previous sections, we will extend the existing app code step by step
+-   The code chunk below includes the current app state including the intro and table tabs
+-   Quick recap:
+    -   In section 3, we added an introduction tab that contains background info on the app
+    -   In section 4, we added a table tab using the `DT` package
+    -   In this section, we will add a tab that analyzes Guerry using all sorts of visualization
 
 ```{r eval=FALSE, file="shinyapps/guerry/states/05_visualization00.R"}
 #| code-fold: true
 #| code-summary: Full code for the current app state
 ```
-
 
 ## Further resources
 
@@ -146,7 +144,7 @@ model <- tabItem(              # <1>
 3.  Create a plot output widget
 
 -   The newly created tab Item has the tab name `tab_model`
--   We already created another tab item called `tab_intro`, so we can tell where our new tab item goes:
+-   We already created other tabs item called `tab_intro` and `tab_tabulate`, so we can tell where our new tab item goes:
 
 ```{r eval=FALSE}
 dashboardPage(
@@ -160,13 +158,16 @@ dashboardPage(
     id = "sidebar",                                       # <1>
     sidebarMenu(                                          # <1>
       id = "sidebarMenu",                                 # <1>
-      menuItem(tabName = "tab_intro", text = "Introduction"), # <1>
-      menuItem(tabName = "tab_model", text = "Model data")    # <1>
+      menuItem(tabName = "tab_intro", text = "Introduction", icon = icon("home")), # <1>
+      menuItem(tabName = "tab_tabulate", text = "Tabulate data", icon = icon("table")), # <1>
+      menuItem(tabName = "tab_model", text = "Model data", icon = "chart-line")    # <1>
     )
   ),
   body = dashboardBody(                                   # <2>
+    # Note: Tab contents omitted to maintain readability!
     tabItems(                                             # <2>
       tabItem(tabName = "tab_intro"),                         # <2>
+      tabItem(tabname = "tab_tabulate"),
       model                                               # <2>
     )
   )
