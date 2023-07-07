@@ -827,7 +827,9 @@ server <- function(input, output, session) {
   
   # Render leaflet for the first time
   output$tab_map_map <- leaflet::renderLeaflet({
-    params <- params()
+    # Isolate call to params() to prevent render function to be executed
+    # every time params() is invalidated. No dependency is made.
+    params <- isolate(params())
     leaflet(data = params$poly) %>%
       addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
       addProviderTiles("OpenTopoMap", group = "OTM") %>%
@@ -860,6 +862,58 @@ server <- function(input, output, session) {
         title = variable_desc[[params$var]]$lgd,
         labFormat = labelFormat(suffix = variable_desc[[params$var]]$unit)
       )
+  })
+  
+  # Create a leaflet proxy. Proxies update map values without re-rendering the
+  # entire map, thus increasing performance.
+  observe({
+    params <- params()
+    leafletProxy("tab_map_map", data = params$poly) %>%
+      clearShapes() %>%
+      clearControls() %>%
+      addPolygons(
+        fillColor = as.formula(paste0("~params$pal(", params$var, ")")),
+        fillOpacity = 0.7,
+        weight = 1,
+        color = "black",
+        opacity = 0.5,
+        label = params$labels,
+        highlightOptions = highlightOptions(
+          weight = 2,
+          color = "black",
+          opacity = 0.5,
+          fillOpacity = 1,
+          bringToFront = TRUE,
+          sendToBack = TRUE
+        )
+      ) %>%
+      addLegend(
+        position = "bottomright",
+        na.label = "No data",
+        pal = params$pal,
+        values = params$values,
+        opacity = 0.9,
+        title = variable_desc[[params$var]]$lgd,
+        labFormat = labelFormat(suffix = variable_desc[[params$var]]$unit)
+      )
+  })
+  
+  
+  # Add a new marker
+  observe({
+    click <- input$tab_map_map_shape_click
+    req(click)
+    id <- paste0(click$lng, click$lat) # <1>
+    leafletProxy("tab_map_map") %>%
+      addMarkers(lng = click$lng, lat = click$lat, layerId = id) # <2>
+  })
+  
+  # Delete an existing marker
+  observe({
+    click <- input$tab_map_map_marker_click
+    req(click)
+    leafletProxy("tab_map_map") %>%
+      removeMarker(click$id) # <3>
   })
 }
 

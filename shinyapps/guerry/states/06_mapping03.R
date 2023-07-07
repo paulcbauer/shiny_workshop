@@ -469,8 +469,7 @@ ui <- dashboardPage(
                 "tab_map_select",
                 label = "Select a variable",
                 choices = setNames(names(variable_names), variable_names)
-              ),
-              uiOutput("tab_map_desc")
+              )
             ),
             box(
               title = "Map configuration",
@@ -746,12 +745,6 @@ server <- function(input, output, session) {
   
   
   ## 4.3 Map data ----
-  
-  # Render description of selected variable
-  output$tab_map_desc <- renderUI({
-    HTML(variable_desc[[input$tab_map_select]]$desc)
-  })
-  
   # Select polygon based on aggregation level
   poly <- reactive({
     if (identical(input$tab_map_aggr, "Regions")) {
@@ -779,49 +772,12 @@ server <- function(input, output, session) {
     
     values <- as.formula(paste0("~", var))
     pal <- colorNumeric(palette = pal, domain = NULL)
-    
-    reg <- poly[["Region"]]
-    dep <- poly[["Department"]]
-    val <- poly[[var]]
-    
-    if (is.null(dep)) {
-      dep <- rep(NA, nrow(poly))
-    }
-    
-    # Create labels that are nicely aligned in a grid
-    labels <- mapply(
-      function(reg, dep, val) {
-        HTML(as.character(tags$table(
-          tags$tr(
-            style = "line-height: 10px",
-            tags$td(tags$b("Region: ")),
-            tags$td(reg)
-          ),
-          if (!is.na(dep)) {
-            tags$tr(
-              style = "line-height: 10px",
-              tags$td(tags$b("Department: ")),
-              tags$td(dep)
-            )
-          },
-          tags$tr(
-            style = "line-height: 10px",
-            tags$td(tags$b(paste0(variable_desc[[var]]$lgd, ": "))),
-            tags$td(round(val, 2))
-          )
-        )))
-      },
-      reg = reg, dep = dep, val = val,
-      SIMPLIFY = FALSE,
-      USE.NAMES = FALSE
-    )
-    
+
     list(
       poly = poly,
       var = var,
       pal = pal,
-      values = values,
-      labels = labels
+      values = values
     )
   })
   
@@ -842,7 +798,6 @@ server <- function(input, output, session) {
         weight = 1,
         color = "black",
         opacity = 0.5,
-        label = params$labels,
         highlightOptions = highlightOptions(
           weight = 2,
           color = "black",
@@ -856,9 +811,7 @@ server <- function(input, output, session) {
         position = "bottomright",
         pal = params$pal,
         values = params$values,
-        opacity = 0.9,
-        title = variable_desc[[params$var]]$lgd,
-        labFormat = labelFormat(suffix = variable_desc[[params$var]]$unit)
+        opacity = 0.9
       )
   })
 }

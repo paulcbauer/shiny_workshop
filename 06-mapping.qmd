@@ -475,8 +475,8 @@ output$tab_map_map <- leaflet::renderLeaflet({
 		) %>%                                               # <8>
 		addLegend(                                          # <9>
 			position = "bottomright",                         # <9>
-			pal = params$pal,                                 # <10>
-			values = params$values,                           # <10>
+			pal = pal,                                 # <10>
+			values = ~Literacy,                           # <10>
 			opacity = 0.9,
 			title = "Literacy",
 			labFormat = labelFormat(suffix = " %")            # <11>
@@ -496,12 +496,131 @@ output$tab_map_map <- leaflet::renderLeaflet({
 10. `addLegend()` accepts values in the same way as `addPolygons()`: `pal` accepts the generated palette function and `values` accepts a formula containing the column name in the input dataset.
 11. Finally, `labelFormat()` allows you to change the formatting of the legend label, e.g. if you need to specify whether a number is a percentage, meters or something else
 
-![](resources/06_02.gif) \## Full code
+![](resources/06_02.gif)
+
+## Full code
 
 ```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping02.R"}
 #| code-fold: true
 #| code-summary: Full code including a simple Leaflet map
 ```
+
+## Exercises
+
+::: callout-note
+## Exercise 1
+
+Classify the mapped values into deciles (i.e., ten equally sized bins).
+:::
+
+::: {.callout-tip collapse="true"}
+Consult the documentation of `?colorNumeric()`. Particularly watch out for the other three `color*` functions.
+:::
+
+::: {.callout-warning collapse="true"}
+## Solution
+
+Legend values can be binned using either the `colorBin()` or the `colorQuantile()` function. Since we want to map deciles, we need to use the `colorQuantile()` function and increase the number of bins to 10.
+
+Instead of using `colorNumeric()` to create the palette function
+
+```{r eval=FALSE}
+pal <- colorNumeric(palette = "Reds", domain = NULL)
+```
+
+... we can exchange it with `colorQuantile()`:
+
+```{r eval=FALSE}
+pal <- colorQuantile(palette = "Reds", domain = NULL, n = 10)
+```
+:::
+
+::: callout-note
+## Exercise 2
+
+Let the opacity of the polygons scale with the values of the `Commerce` variable in the Guerry dataset. Also add a label that shows the values of Literacy in the following form: "value: \<literacy value here\>".
+:::
+
+::: {.callout-tip collapse="true"}
+Remember that data columns can be specified using the `~` symbol! This also applies to entire function calls.
+
+If you are not sure about how to control opacity and labels, consult `?addPolygons()`.
+:::
+
+::: {.callout-warning collapse="true"}
+## Solution
+
+Using the Leaflet formulas, we can scale many arguments to the `add*` functions in any way we want. To scale the fill opacity using the Commerce variable, we can add `fillOpacity = ~Commerce / 100`. We divide by 100 to adjust the Commerce variable to the scale of opacity values (usually 0-1).
+
+In the same way, we can provide hover labels
+
+```{r eval=FALSE}
+  leaflet(data = st_transform(data_guerry, 4326)) %>%
+    addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
+    addProviderTiles("OpenTopoMap", group = "OTM") %>%
+    addProviderTiles("Stamen.TonerLite", group = "Stamen Toner") %>%
+    addProviderTiles("GeoportailFrance.orthos", group = "Orthophotos") %>%
+    addLayersControl(baseGroups = c("OSM", "OTM", "Stamen Toner", "Orthophotos")) %>%
+    setView(lng = 3, lat = 47, zoom = 5) %>%
+    addPolygons(
+      fillColor = ~pal(Literacy),
+      fillOpacity = ~Commerce / 100, # <1>
+      weight = 1,
+      color = "black",
+      opacity = 0.5,
+      label = ~paste0("value: ", Literacy), # <2>
+      highlightOptions = highlightOptions(
+        weight = 2,
+        color = "black",
+        opacity = 0.5,
+        fillOpacity = 1,
+        bringToFront = TRUE,
+        sendToBack = TRUE
+      )
+    ) %>%
+    addLegend(
+      position = "bottomright",
+      pal = pal,
+      values = ~Literacy,
+      opacity = 0.9,
+      title = "Literacy",
+      labFormat = labelFormat(suffix = " %")
+    )
+```
+
+1.  Scale the fill opacity using the Commerce variable. Since opacity is measured using percentages and Commerce is scaled somewhere around values of 1-100, we need to rescale Commerce by dividing it with 100.
+2.  Within a formula expression, we can put any R expression. Thus, to combine values and text, we can just use `paste0()` on them.
+:::
+
+::: callout-note
+## Exercise 3
+
+How could we go about adding a second line to the hover label that also shows the value for the `Commerce` variable? In other words, how can we add a hover label of the following form:
+
+Literacy: \<literacy value here\>
+
+Commerce: \<commerce value here\>
+
+The solution does not have to be code, ideas are also welcome!
+:::
+
+::: callout-tip
+Regular R line breaks (`\n`) don't work in Shiny. Why is that? What can we use instead (remember section 3 about HTML tags)?
+:::
+
+::: {.callout-warning collapse="true"}
+Regular R line breaks don't work, because Shiny apps are HTML documents. In section 3, we talked about HTML tags including the `br()` function producing the `<br/>` HTML tag. The code for a label with two lines could look something like this:
+
+```{r}
+leaflet() %>%
+  addPolygons(
+    ..., # rest of the arguments
+    label = ~lapply(paste0("Literacy: ", Literacy, br(), "Commerce: ", Commerce), HTML),
+  )
+```
+
+Note: If we are dealing with character vectors containing HTML, we need to wrap them in a call to `HTML()` so R knows it's dealing with HTML!
+:::
 
 # Add reactivity
 
@@ -516,7 +635,7 @@ output$tab_map_map <- leaflet::renderLeaflet({
     -   `selectInput()` to select a color palette
 -   Additionally, one new UI output (`tab_map_desc`) is added that describes the selected variable
 
-```{r}
+```{r eval=FALSE}
 # Define selectable palettes: All sequential palettes + viridis
 pals <- list(
   Sequential = RColorBrewer::brewer.pal.info %>%
@@ -582,7 +701,7 @@ tabItem(
 
 ## Server side
 
--   In the server function, we have a lot to do (annotated with their respective letters in the code below):
+-   In the server function, we have a lot to do:
     -   Apply the selected aggregation level
     -   Apply the selected palette
     -   Change hard code to adaptive code
@@ -667,20 +786,95 @@ tabItem(
 
 ![](resources/06_03.gif)
 
-::: callout-note
-## Exercise 6
+## Full code
 
-Add a marker of Paris to the Leaflet map. Add a popup that adds fun trivia information about the capital of France.
+```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping03.R"}
+#| code-fold: true
+#| code-summary: Full code including a reactive Leaflet map
+```
+
+## Exercises
+
+::: callout-note
+## Exercise 1
+
+Add a slider to the map configuration box that changes the opacity of the mapped polygons.
 :::
 
 ::: {.callout-tip collapse="true"}
-The coordinates of France are long = 2.351667, lat = 48.856667.
+You can create a slider input using `shiny::sliderInput()`
+
+Remember the workflow that we used before to implement new UI inputs:
+
+-   Create a UI widget and assign an input ID
+-   Use the input ID to access selected values on the server side
+-   Use the input value in R computations on the server side, e.g. as arguments for function calls
 :::
 
 ::: {.callout-warning collapse="true"}
 ## Solution
 
-Add a marker of Paris:
+On the UI side, we add a `sliderInput()`. The slider input has the id `tab_map_slider` and the label "Opacity". It is restricted to values between 0 and 1 to correspond to the allowed opacity values.
+
+```{r eval=FALSE}
+fluidRow(
+  column(
+    #### Inputs(s) ----
+    width = 4, # must be between 1 and 12
+    box(
+      title = "Data selection",
+      status = "primary",
+      width = 12,
+      selectInput(
+        "tab_map_select",
+        label = "Select a variable",
+        choices = setNames(names(variable_names), variable_names)
+      )
+    ),
+    box(
+      title = "Map configuration",
+      status = "primary",
+      width = 12,
+      radioButtons(
+        "tab_map_aggr",
+        label = "Aggregation level",
+        choices = c("Departments", "Regions"),
+        selected = "Departments"
+      ),
+      selectInput(
+        "tab_map_pal",
+        label = "Color palette",
+        choices = pals,
+        selected = "Reds"
+      ),
+      sliderInput(          # <1>
+        "tab_map_slider",   # <1>
+        label = "Opacity",  # <1>
+        min = 0,            # <1>
+        max = 1,            # <1>
+        value = 0.7,        # <1>
+        step = 0.05         # <1>
+      )                     # <1>
+    ) # end box
+  ), # end column
+  column(
+    #### Output(s) ----
+    width = 8,
+    box(
+      id = "tab_map_box",
+      status = "primary",
+      headerBorder = FALSE,
+      collapsible = FALSE,
+      width = 12,
+      leaflet::leafletOutput("tab_map_map", height = "800px", width = "100%")
+    ) # end box
+  ) # end column
+) # end fluidRow
+```
+
+1.  New slider input!
+
+On the server side, we then simply add the new input as an argument value for `fillOpacity` in `addPolygons()`.
 
 ```{r eval=FALSE}
 leaflet(data = params$poly) %>%
@@ -688,11 +882,12 @@ leaflet(data = params$poly) %>%
   addProviderTiles("OpenTopoMap", group = "OTM") %>%
   addProviderTiles("Stamen.TonerLite", group = "Stamen Toner") %>%
   addProviderTiles("GeoportailFrance.orthos", group = "Orthophotos") %>%
-  addLayersControl(baseGroups = c("OSM", "OTM", "Stamen Toner", "Orthophotos")) %>%
+  addLayersControl(baseGroups = c("OSM", "OTM",
+                                  "Stamen Toner", "Orthophotos")) %>%
   setView(lng = 3, lat = 47, zoom = 5) %>%
   addPolygons(
     fillColor = as.formula(paste0("~params$pal(", params$var, ")")),
-    fillOpacity = 0.7,
+    fillOpacity = input$tab_map_slider, # <1>
     weight = 1,
     color = "black",
     opacity = 0.5,
@@ -709,70 +904,14 @@ leaflet(data = params$poly) %>%
     position = "bottomright",
     pal = params$pal,
     values = params$values,
-    opacity = 0.9,
-    title = txts[[params$var]]$lgd,
-    labFormat = labelFormat(suffix = txts[[params$var]]$unit)) %>%
-  addMarkers(
-    lng = 2.351,
-    lat = 48.856,
-    popup = "When the Guerry dataset was published, around 800.000 people lived in the city of Paris")
-```
-:::
-
-::: callout-note
-## Exercise 7
-
-Change the icon of the marker from exercise 6 to an icon depicting a city and the color to red.
-:::
-
-::: {.callout-tip collapse="true"}
-To figure out how to change marker options, refer to `?makeIcon` and `?makeAwesomeIcon`.
-
-For icons, take a look at the `library` argument and the website <https://fontawesome.com/>
-:::
-
-::: {.callout-warning collapse="true"}
-## Solution
-
-To change the color and the icon, we need to work with "awesome markers". Icons can be made with the function `makeAwesomeIcon()` or `makeIcon()`. These functions support Icons from Glyphicon, Fontawesome and Ionicon.
-
-```{r eval=FALSE}
-... %>%
-  addAwesomeMarkers(
-    lng = 2.351,
-    lat = 48.856,
-    popup = "When the Guerry dataset was published, around 800.000 people lived in the city of Paris",
-    icon = makeAwesomeIcon(icon = "city", library = "fa", markerColor = "red")
+    opacity = 0.9
   )
 ```
+
+1.  The new input is used as an argument to specify the fill opacity!
 :::
 
-::: callout-note
-## Exercise 8
-
-Set the default plotting variable to "Distance to Paris"
-:::
-
-::: {.callout-tip collapse="true"}
-Remember the `selected` argument in input UI components
-:::
-
-::: {.callout-warning collapse="true"}
-## Solution
-
-To change the default values of a reactive Shiny plot, you need to change the `selected` argument of the UI input `selectInput`
-
-```{r eval=FALSE}
-selectInput(
-  "tab_map_select",
-  label = "Select a variable",
-  choices = setNames(names(variable_names), variable_names),
-  selected = "Distance"
-)
-```
-:::
-
-# Add context
+# Appendix: Add context
 
 -   In the current state of the app, it's hard to know what exactly the variables represent
 -   Variables have informative titles, but this is not always enough
@@ -913,6 +1052,7 @@ list(
 ## Add variable descriptions
 
 -   To give a short description of the selected variable and their source, we add a new UI output
+-   The UI output is called `tab_map_desc` and can hold formatted HTML output
 
 ```{r eval=FALSE}
 tabItem(
@@ -1056,12 +1196,12 @@ tabItem(
 
 ## Full code
 
-```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping03.R"}
+```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping04.R"}
 #| code-fold: true
-#| code-summary: Full code including a reactive Leaflet map
+#| code-summary: Full code including a reactive Leaflet map with context descriptions
 ```
 
-# Add hover labels
+# Appendix: Add hover labels
 
 -   Unlike Plotly, Leaflet does not automatically provide labels for data points
     -   Bad news: You have to do it on your own
@@ -1223,7 +1363,14 @@ params <- reactive({
 
 ![](resources/06_04.gif)
 
-# Add proxies
+## Full code
+
+```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping05.R"}
+#| code-fold: true
+#| code-summary: Full code including a reactive Leaflet map with pretty hover labels
+```
+
+# Appendix: Add proxies
 
 -   The map already looks quite polished!
 -   One more problem: Map updates!
@@ -1352,14 +1499,16 @@ params <- reactive({
     -   Does not re-render from scratch - saving time and resources
     -   Does not reset the map - making exploration more seamless
 
-![](resources/06_06.gif) \## Full code
+![](resources/06_06.gif)
 
-```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping04.R"}
+## Full code
+
+```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping06.R"}
 #| code-fold: true
 #| code-summary: Full code including a reactive Leaflet proxies
 ```
 
-# Access Shiny events on maps
+# Appendix: Access Shiny events on maps
 
 -   Currently the user can interact with the Leaflet map in various ways: zoom, pan, hover, ...
 -   The Shiny programmer has no way of accessing what happens on the map after it is rendered
@@ -1499,7 +1648,7 @@ output$tab_map_map <- renderLeaflet({
 
 ## Full code
 
-```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping05.R"}
+```{r eval=FALSE, file="shinyapps/guerry/states/06_mapping07.R"}
 #| code-fold: true
 #| code-summary: Full code including Shiny events
 ```
@@ -1509,7 +1658,7 @@ output$tab_map_map <- renderLeaflet({
 ::: callout-note
 ## Exercise 9
 
-When does the event `input$map_exp_shape_mouseout` send information to the server?
+When does the event `input$map_shape_mouseout` send information to the server?
 :::
 
 ::: {.callout-tip collapse="true"}

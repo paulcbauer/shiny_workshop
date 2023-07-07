@@ -459,38 +459,6 @@ ui <- dashboardPage(
         tabName = "tab_map", # must correspond to related menuItem name
         fluidRow(
           column(
-            #### Inputs(s) ----
-            width = 4, # must be between 1 and 12
-            box(
-              title = "Data selection",
-              status = "primary",
-              width = 12,
-              selectInput(
-                "tab_map_select",
-                label = "Select a variable",
-                choices = setNames(names(variable_names), variable_names)
-              ),
-              uiOutput("tab_map_desc")
-            ),
-            box(
-              title = "Map configuration",
-              status = "primary",
-              width = 12,
-              radioButtons(
-                "tab_map_aggr",
-                label = "Aggregation level",
-                choices = c("Departments", "Regions"),
-                selected = "Departments"
-              ),
-              selectInput(
-                "tab_map_pal",
-                label = "Color palette",
-                choices = pals,
-                selected = "Reds"
-              ) # end input
-            ) # end box
-          ), # end column
-          column(
             #### Output(s) ----
             width = 8,
             box(
@@ -746,103 +714,23 @@ server <- function(input, output, session) {
   
   
   ## 4.3 Map data ----
-  
-  # Render description of selected variable
-  output$tab_map_desc <- renderUI({
-    HTML(variable_desc[[input$tab_map_select]]$desc)
-  })
-  
-  # Select polygon based on aggregation level
-  poly <- reactive({
-    if (identical(input$tab_map_aggr, "Regions")) {
-      data_guerry_region
-    } else {
-      data_guerry
-    }
-  })
-  
-  # Select palette based on input
-  palette <- reactive({
-    pal <- input$tab_map_pal
-    if (pal %in% pals$Viridis) {
-      pal <- viridis::viridis_pal(option = tolower(pal))(5)
-    }
-    pal
-  }) %>%
-    bindEvent(input$tab_map_pal)
-  
-  # Compile parameters for leaflet rendering
-  params <- reactive({
-    poly <- st_transform(poly(), 4326)
-    pal <- palette()
-    var <- input$tab_map_select
-    
-    values <- as.formula(paste0("~", var))
-    pal <- colorNumeric(palette = pal, domain = NULL)
-    
-    reg <- poly[["Region"]]
-    dep <- poly[["Department"]]
-    val <- poly[[var]]
-    
-    if (is.null(dep)) {
-      dep <- rep(NA, nrow(poly))
-    }
-    
-    # Create labels that are nicely aligned in a grid
-    labels <- mapply(
-      function(reg, dep, val) {
-        HTML(as.character(tags$table(
-          tags$tr(
-            style = "line-height: 10px",
-            tags$td(tags$b("Region: ")),
-            tags$td(reg)
-          ),
-          if (!is.na(dep)) {
-            tags$tr(
-              style = "line-height: 10px",
-              tags$td(tags$b("Department: ")),
-              tags$td(dep)
-            )
-          },
-          tags$tr(
-            style = "line-height: 10px",
-            tags$td(tags$b(paste0(variable_desc[[var]]$lgd, ": "))),
-            tags$td(round(val, 2))
-          )
-        )))
-      },
-      reg = reg, dep = dep, val = val,
-      SIMPLIFY = FALSE,
-      USE.NAMES = FALSE
-    )
-    
-    list(
-      poly = poly,
-      var = var,
-      pal = pal,
-      values = values,
-      labels = labels
-    )
-  })
-  
   # Render leaflet for the first time
   output$tab_map_map <- leaflet::renderLeaflet({
-    params <- params()
-    leaflet(data = params$poly) %>%
+    pal <- colorQuantile(palette = "Reds", domain = NULL, n = 10)
+    
+    leaflet(data = st_transform(data_guerry, 4326)) %>%
       addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
       addProviderTiles("OpenTopoMap", group = "OTM") %>%
       addProviderTiles("Stamen.TonerLite", group = "Stamen Toner") %>%
       addProviderTiles("GeoportailFrance.orthos", group = "Orthophotos") %>%
-      addLayersControl(baseGroups = c("OSM", "OTM",
-                                      "Stamen Toner", "Orthophotos")) %>%
+      addLayersControl(baseGroups = c("OSM", "OTM", "Stamen Toner", "Orthophotos")) %>%
       setView(lng = 3, lat = 47, zoom = 5) %>%
       addPolygons(
-        fillColor = as.formula(paste0("~params$pal(", params$var, ")")),
+        fillColor = ~pal(Literacy),
         fillOpacity = 0.7,
         weight = 1,
         color = "black",
         opacity = 0.5,
-        label = params$labels,
         highlightOptions = highlightOptions(
           weight = 2,
           color = "black",
@@ -854,11 +742,11 @@ server <- function(input, output, session) {
       ) %>%
       addLegend(
         position = "bottomright",
-        pal = params$pal,
-        values = params$values,
+        pal = pal,
+        values = ~Literacy,
         opacity = 0.9,
-        title = variable_desc[[params$var]]$lgd,
-        labFormat = labelFormat(suffix = variable_desc[[params$var]]$unit)
+        title = "Literacy",
+        labFormat = labelFormat(suffix = " %")
       )
   })
 }

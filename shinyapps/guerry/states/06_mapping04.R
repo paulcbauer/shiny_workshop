@@ -780,56 +780,17 @@ server <- function(input, output, session) {
     values <- as.formula(paste0("~", var))
     pal <- colorNumeric(palette = pal, domain = NULL)
     
-    reg <- poly[["Region"]]
-    dep <- poly[["Department"]]
-    val <- poly[[var]]
-    
-    if (is.null(dep)) {
-      dep <- rep(NA, nrow(poly))
-    }
-    
-    # Create labels that are nicely aligned in a grid
-    labels <- mapply(
-      function(reg, dep, val) {
-        HTML(as.character(tags$table(
-          tags$tr(
-            style = "line-height: 10px",
-            tags$td(tags$b("Region: ")),
-            tags$td(reg)
-          ),
-          if (!is.na(dep)) {
-            tags$tr(
-              style = "line-height: 10px",
-              tags$td(tags$b("Department: ")),
-              tags$td(dep)
-            )
-          },
-          tags$tr(
-            style = "line-height: 10px",
-            tags$td(tags$b(paste0(variable_desc[[var]]$lgd, ": "))),
-            tags$td(round(val, 2))
-          )
-        )))
-      },
-      reg = reg, dep = dep, val = val,
-      SIMPLIFY = FALSE,
-      USE.NAMES = FALSE
-    )
-    
     list(
       poly = poly,
       var = var,
       pal = pal,
-      values = values,
-      labels = labels
+      values = values
     )
   })
   
   # Render leaflet for the first time
   output$tab_map_map <- leaflet::renderLeaflet({
-    # Isolate call to params() to prevent render function to be executed
-    # every time params() is invalidated. No dependency is made.
-    params <- isolate(params())
+    params <- params()
     leaflet(data = params$poly) %>%
       addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
       addProviderTiles("OpenTopoMap", group = "OTM") %>%
@@ -844,7 +805,6 @@ server <- function(input, output, session) {
         weight = 1,
         color = "black",
         opacity = 0.5,
-        label = params$labels,
         highlightOptions = highlightOptions(
           weight = 2,
           color = "black",
@@ -856,40 +816,6 @@ server <- function(input, output, session) {
       ) %>%
       addLegend(
         position = "bottomright",
-        pal = params$pal,
-        values = params$values,
-        opacity = 0.9,
-        title = variable_desc[[params$var]]$lgd,
-        labFormat = labelFormat(suffix = variable_desc[[params$var]]$unit)
-      )
-  })
-  
-  # Create a leaflet proxy. Proxies update map values without re-rendering the
-  # entire map, thus increasing performance.
-  observe({
-    params <- params()
-    leafletProxy("tab_map_map", data = params$poly) %>%
-      clearShapes() %>%
-      clearControls() %>%
-      addPolygons(
-        fillColor = as.formula(paste0("~params$pal(", params$var, ")")),
-        fillOpacity = 0.7,
-        weight = 1,
-        color = "black",
-        opacity = 0.5,
-        label = params$labels,
-        highlightOptions = highlightOptions(
-          weight = 2,
-          color = "black",
-          opacity = 0.5,
-          fillOpacity = 1,
-          bringToFront = TRUE,
-          sendToBack = TRUE
-        )
-      ) %>%
-      addLegend(
-        position = "bottomright",
-        na.label = "No data",
         pal = params$pal,
         values = params$values,
         opacity = 0.9,
