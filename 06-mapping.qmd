@@ -611,7 +611,7 @@ Regular R line breaks (`\n`) don't work in Shiny. Why is that? What can we use i
 ::: {.callout-warning collapse="true"}
 Regular R line breaks don't work, because Shiny apps are HTML documents. In section 3, we talked about HTML tags including the `br()` function producing the `<br/>` HTML tag. The code for a label with two lines could look something like this:
 
-```{r}
+```{r eval=FALSE}
 leaflet() %>%
   addPolygons(
     ..., # rest of the arguments
