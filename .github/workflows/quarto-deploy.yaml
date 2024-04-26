@@ -1,7 +1,13 @@
 name: quarto-deploy
 
 on: 
-  branch: [main, shiny_workshop_2024]
+  push:
+    branches:
+      - main
+      - shiny_workshop_2024
+  pull_request:
+    branches:
+      - main
 
 jobs:
   quarto-windows:
