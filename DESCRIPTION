@@ -1,0 +1,31 @@
+Package: shinyworkshop2024
+Title: Interactive Data Analysis with Shiny
+Version: 0.1
+Authors@R: person(given = "First", family = "Last", role = "aut", "cre", email = "first.last@example.com")
+URL: https://github.com/paulcbauer/shiny_workshop
+Depends: R (>= 3.1.0)
+Imports:
+  shiny
+  htmltools
+  bs4Dash
+  fresh
+  waiter
+  shinyWidgets
+  Guerry
+  sf
+  tidyr
+  dplyr
+  RColorBrewer
+  viridis
+  leaflet
+  plotly
+  jsonlite
+  ggplot2
+  GGally
+  datawizard
+  parameters
+  performance
+  ggdark
+  modelsummary
+  see
+Encoding: UTF-8
