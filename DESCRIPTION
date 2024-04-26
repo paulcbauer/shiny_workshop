@@ -5,6 +5,7 @@ Authors@R: person(given = "First", family = "Last", role = "aut", "cre", email =
 URL: https://github.com/paulcbauer/shiny_workshop
 Depends: R (>= 4.3.0)
 Imports:
+  pacman,
   shiny,
   htmltools,
   bs4Dash,
@@ -27,5 +28,11 @@ Imports:
   performance,
   ggdark,
   modelsummary,
-  see
+  see,
+  gt,
+  gtsummary,
+  gifski,
+  datasauRus,
+  gganimate,
+  reactlog
 Encoding: UTF-8
