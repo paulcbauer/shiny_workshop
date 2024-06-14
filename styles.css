@@ -1,0 +1,50 @@
+
+
+/* css styles */
+
+ul.mt-1 {
+    list-style-type: decimal;
+    counter-reset: item;
+}
+
+li.sidebar-item {
+    counter-increment: item;
+}
+
+li.sidebar-item::marker {
+    content: counter(item) " ";
+}
+
+
+h1 {
+    margin-top: 200px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: solid 1px black;
+}
+
+
+h2 {
+    margin-top: 200px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: solid 1px black;
+}
+
+
+h3 {
+    margin-top: 200px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: solid 1px black;
+
+}
+
+
+h4 {
+    margin-top: 100px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: solid 1px black;
+
+}

@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>reactlog</title>
+  <!-- <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Source+Sans+Pro&amp;subset=latin-ext" rel="stylesheet"> -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/rstudio/reactlog@main/inst/reactlog/reactlogAsset/fira-mono_source-sans-pro_latin-ext.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/rstudio/reactlog@main/inst/reactlog/reactlogAsset/reactlog.css">
+
+  <script>
+    try {
+      window.__APP_DATA__ = [
+  {
+    "action": "define",
+    "reactId": "r47",
+    "label": "Theme Counter",
+    "type": "reactiveVal",
+    "value": " num 0",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.06189
+  },
+  {
+    "action": "define",
+    "reactId": "r48",
+    "label": "output$exp_desc",
+    "type": "observer",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.10075
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx39",
+    "label": "output$exp_desc",
+    "type": "observer",
+    "prevCtxId": null,
+    "srcref": [482, 31, 483, 39, 31, 39],
+    "srcfile": "app.R",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.10095
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r48",
+    "ctxId": "ctx39",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.10103
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r48",
+    "ctxId": "ctx39",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.10109
+  },
+  {
+    "action": "define",
+    "reactId": "r49",
+    "label": "poly",
+    "type": "observable",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.10262
+  },
+  {
+    "action": "define",
+    "reactId": "r50",
+    "label": "palette",
+    "type": "observable",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.10391
+  },
+  {
+    "action": "define",
+    "reactId": "r51",
+    "label": "bindEvent(palette, input$exp_pal)",
+    "type": "observable",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.10604
+  },
+  {
+    "action": "define",
+    "reactId": "r52",
+    "label": "params",
+    "type": "observable",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.10877
+  },
+  {
+    "action": "define",
+    "reactId": "r53",
+    "label": "output$exp_map",
+    "type": "observer",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.11184
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx40",
+    "label": "output$exp_map",
+    "type": "observer",
+    "prevCtxId": null,
+    "srcref": [560, 44, 595, 7, 44, 7],
+    "srcfile": "app.R",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.11204
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r53",
+    "ctxId": "ctx40",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.11216
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r53",
+    "ctxId": "ctx40",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.11222
+  },
+  {
+    "action": "define",
+    "reactId": "r54",
+    "label": "observe({\n    params <- params()\n    leafletProxy(\"exp_map\", data = params$poly) %>% clearShapes() %>% \n        clearControls() %>% addPolygons(fillColor = as.formula(paste0(\"~params$pal(\", \n        params$var, \")\")), fillOpacity = 0.7, weight = 1...",
+    "type": "observer",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.11377
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx41",
+    "label": "observe({\n    params <- params()\n    leafletProxy(\"exp_map\", data = params$poly) %>% clearShapes() %>% \n        clearControls() %>% addPolygons(fillColor = as.formula(paste0(\"~params$pal(\", \n        params$var, \")\")), fillOpacity = 0.7, weight = 1...",
+    "type": "observer",
+    "prevCtxId": null,
+    "srcref": null,
+    "srcfile": null,
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.11391
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r54",
+    "ctxId": "ctx41",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.11398
+  },
+  {
+    "action": "asyncStart",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.11414
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r54",
+    "ctxId": "ctx41",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.11454
+  },
+  {
+    "action": "define",
+    "reactId": "r55",
+    "label": "tab",
+    "type": "observable",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.11627
+  },
+  {
+    "action": "define",
+    "reactId": "r56",
+    "label": "dt",
+    "type": "observable",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.11765
+  },
+  {
+    "action": "define",
+    "reactId": "r57",
+    "label": "output$insp_table",
+    "type": "observer",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.12041
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx42",
+    "label": "output$insp_table",
+    "type": "observer",
+    "prevCtxId": null,
+    "srcref": null,
+    "srcfile": null,
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.12062
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r57",
+    "ctxId": "ctx42",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.12069
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r57",
+    "ctxId": "ctx42",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.12074
+  },
+  {
+    "action": "define",
+    "reactId": "r58",
+    "label": "mparams",
+    "type": "observable",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.12246
+  },
+  {
+    "action": "define",
+    "reactId": "r59",
+    "label": "bindEvent(mparams, input$refresh)",
+    "type": "observable",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.12408
+  },
+  {
+    "action": "define",
+    "reactId": "r60",
+    "label": "output$pairplot",
+    "type": "observer",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.12742
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx43",
+    "label": "output$pairplot",
+    "type": "observer",
+    "prevCtxId": null,
+    "srcref": [715, 43, 741, 28, 43, 61],
+    "srcfile": "app.R",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.12758
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r60",
+    "ctxId": "ctx43",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.12765
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r60",
+    "ctxId": "ctx43",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.12771
+  },
+  {
+    "action": "define",
+    "reactId": "r61",
+    "label": "output$coefficientplot",
+    "type": "observer",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.13074
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx44",
+    "label": "output$coefficientplot",
+    "type": "observer",
+    "prevCtxId": null,
+    "srcref": [745, 42, 760, 28, 42, 61],
+    "srcfile": "app.R",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.13087
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r61",
+    "ctxId": "ctx44",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.13095
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r61",
+    "ctxId": "ctx44",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.131
+  },
+  {
+    "action": "define",
+    "reactId": "r62",
+    "label": "output$scatterplot",
+    "type": "observer",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.13457
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx45",
+    "label": "output$scatterplot",
+    "type": "observer",
+    "prevCtxId": null,
+    "srcref": [764, 38, 804, 33, 38, 33],
+    "srcfile": "app.R",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.13472
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r62",
+    "ctxId": "ctx45",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.13479
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r62",
+    "ctxId": "ctx45",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.13484
+  },
+  {
+    "action": "define",
+    "reactId": "r63",
+    "label": "output$tableregression",
+    "type": "observer",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.13743
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx46",
+    "label": "output$tableregression",
+    "type": "observer",
+    "prevCtxId": null,
+    "srcref": [808, 38, 813, 6, 38, 6],
+    "srcfile": "app.R",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.13756
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r63",
+    "ctxId": "ctx46",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.13763
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r63",
+    "ctxId": "ctx46",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.13768
+  },
+  {
+    "action": "define",
+    "reactId": "r64",
+    "label": "output$normality",
+    "type": "observer",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14056
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx47",
+    "label": "output$normality",
+    "type": "observer",
+    "prevCtxId": null,
+    "srcref": [817, 36, 825, 28, 36, 61],
+    "srcfile": "app.R",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14072
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r64",
+    "ctxId": "ctx47",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14085
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r64",
+    "ctxId": "ctx47",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14092
+  },
+  {
+    "action": "define",
+    "reactId": "r65",
+    "label": "output$outliers",
+    "type": "observer",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14368
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx48",
+    "label": "output$outliers",
+    "type": "observer",
+    "prevCtxId": null,
+    "srcref": [829, 35, 838, 28, 35, 61],
+    "srcfile": "app.R",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14381
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r65",
+    "ctxId": "ctx48",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14388
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r65",
+    "ctxId": "ctx48",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14394
+  },
+  {
+    "action": "define",
+    "reactId": "r66",
+    "label": "output$heteroskedasticity",
+    "type": "observer",
+    "value": " NULL",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14686
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx49",
+    "label": "output$heteroskedasticity",
+    "type": "observer",
+    "prevCtxId": null,
+    "srcref": [842, 45, 851, 28, 45, 61],
+    "srcfile": "app.R",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14703
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r66",
+    "ctxId": "ctx49",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.1471
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r66",
+    "ctxId": "ctx49",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14717
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx50",
+    "label": "observe({\n    params <- params()\n    leafletProxy(\"exp_map\", data = params$poly) %>% clearShapes() %>% \n        clearControls() %>% addPolygons(fillColor = as.formula(paste0(\"~params$pal(\", \n        params$var, \")\")), fillOpacity = 0.7, weight = 1...",
+    "type": "observer",
+    "prevCtxId": "ctx41",
+    "srcref": null,
+    "srcfile": null,
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14783
+  },
+  {
+    "action": "enter",
+    "reactId": "r54",
+    "ctxId": "ctx50",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14794
+  },
+  {
+    "action": "dependsOn",
+    "reactId": "r54",
+    "depOnReactId": "r52",
+    "ctxId": "ctx50",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14802
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx51",
+    "label": "params",
+    "type": "observable",
+    "prevCtxId": null,
+    "srcref": [507, 5, 507, 38, 5, 38, 507, 507],
+    "srcfile": "app.R",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14817
+  },
+  {
+    "action": "enter",
+    "reactId": "r52",
+    "ctxId": "ctx51",
+    "type": "observable",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14826
+  },
+  {
+    "action": "dependsOn",
+    "reactId": "r52",
+    "depOnReactId": "r49",
+    "ctxId": "ctx51",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14835
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx52",
+    "label": "poly",
+    "type": "observable",
+    "prevCtxId": null,
+    "srcref": [488, 5, 492, 5, 5, 5, 488, 492],
+    "srcfile": "app.R",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14849
+  },
+  {
+    "action": "enter",
+    "reactId": "r49",
+    "ctxId": "ctx52",
+    "type": "observable",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14859
+  },
+  {
+    "action": "define",
+    "reactId": "r45$exp_aggr",
+    "label": "input$exp_aggr",
+    "type": "reactiveValuesKey",
+    "value": " chr \"Departments\"",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14911
+  },
+  {
+    "action": "dependsOn",
+    "reactId": "r49",
+    "depOnReactId": "r45$exp_aggr",
+    "ctxId": "ctx52",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14935
+  },
+  {
+    "action": "exit",
+    "reactId": "r49",
+    "ctxId": "ctx52",
+    "type": "observable",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.14945
+  },
+  {
+    "action": "dependsOn",
+    "reactId": "r52",
+    "depOnReactId": "r51",
+    "ctxId": "ctx51",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.20078
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx53",
+    "label": "bindEvent(palette, input$exp_pal)",
+    "type": "observable",
+    "prevCtxId": null,
+    "srcref": null,
+    "srcfile": "",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.20102
+  },
+  {
+    "action": "enter",
+    "reactId": "r51",
+    "ctxId": "ctx53",
+    "type": "observable",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.20114
+  },
+  {
+    "action": "define",
+    "reactId": "r45$exp_pal",
+    "label": "input$exp_pal",
+    "type": "reactiveValuesKey",
+    "value": " chr \"Reds\"",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.20172
+  },
+  {
+    "action": "dependsOn",
+    "reactId": "r51",
+    "depOnReactId": "r45$exp_pal",
+    "ctxId": "ctx53",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.20196
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx54",
+    "label": "[isolate]",
+    "type": "isolate",
+    "prevCtxId": null,
+    "srcref": null,
+    "srcfile": null,
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.20219
+  },
+  {
+    "action": "isolateEnter",
+    "reactId": "r51",
+    "ctxId": "ctx54",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.2023
+  },
+  {
+    "action": "dependsOn",
+    "reactId": "r51",
+    "depOnReactId": "r45$exp_pal",
+    "ctxId": "ctx54",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.20243
+  },
+  {
+    "action": "isolateExit",
+    "reactId": "r51",
+    "ctxId": "ctx54",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.20256
+  },
+  {
+    "action": "isolateInvalidateStart",
+    "reactId": "r51",
+    "ctxId": "ctx54",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.20264
+  },
+  {
+    "action": "dependsOnRemove",
+    "reactId": "r51",
+    "depOnReactId": "r45$exp_pal",
+    "ctxId": "ctx54",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.2027
+  },
+  {
+    "action": "isolateInvalidateEnd",
+    "reactId": "r51",
+    "ctxId": "ctx54",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.2028
+  },
+  {
+    "action": "exit",
+    "reactId": "r51",
+    "ctxId": "ctx53",
+    "type": "observable",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.20288
+  },
+  {
+    "action": "define",
+    "reactId": "r45$exp_select",
+    "label": "input$exp_select",
+    "type": "reactiveValuesKey",
+    "value": " chr \"Crime_pers\"",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.20334
+  },
+  {
+    "action": "dependsOn",
+    "reactId": "r52",
+    "depOnReactId": "r45$exp_select",
+    "ctxId": "ctx51",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.20356
+  },
+  {
+    "action": "exit",
+    "reactId": "r52",
+    "ctxId": "ctx51",
+    "type": "observable",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.43382
+  },
+  {
+    "action": "exit",
+    "reactId": "r54",
+    "ctxId": "ctx50",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.46778
+  },
+  {
+    "action": "asyncStop",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200424.4679
+  },
+  {
+    "action": "idle",
+    "session": null,
+    "time": 1687200424.46839
+  },
+  {
+    "action": "asyncStart",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.56476
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx55",
+    "label": "output$exp_desc",
+    "type": "observer",
+    "prevCtxId": "ctx39",
+    "srcref": [482, 31, 483, 39, 31, 39],
+    "srcfile": "app.R",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.56588
+  },
+  {
+    "action": "enter",
+    "reactId": "r48",
+    "ctxId": "ctx55",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.56604
+  },
+  {
+    "action": "dependsOn",
+    "reactId": "r48",
+    "depOnReactId": "r45$exp_select",
+    "ctxId": "ctx55",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.56666
+  },
+  {
+    "action": "exit",
+    "reactId": "r48",
+    "ctxId": "ctx55",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.56752
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx56",
+    "label": "output$exp_map",
+    "type": "observer",
+    "prevCtxId": "ctx40",
+    "srcref": [560, 44, 595, 7, 44, 7],
+    "srcfile": "app.R",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.56783
+  },
+  {
+    "action": "enter",
+    "reactId": "r53",
+    "ctxId": "ctx56",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.56793
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx57",
+    "label": "[isolate]",
+    "type": "isolate",
+    "prevCtxId": null,
+    "srcref": null,
+    "srcfile": null,
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.56848
+  },
+  {
+    "action": "isolateEnter",
+    "reactId": "r53",
+    "ctxId": "ctx57",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.56857
+  },
+  {
+    "action": "dependsOn",
+    "reactId": "r53",
+    "depOnReactId": "r52",
+    "ctxId": "ctx57",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.56864
+  },
+  {
+    "action": "isolateExit",
+    "reactId": "r53",
+    "ctxId": "ctx57",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.56872
+  },
+  {
+    "action": "isolateInvalidateStart",
+    "reactId": "r53",
+    "ctxId": "ctx57",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.56877
+  },
+  {
+    "action": "dependsOnRemove",
+    "reactId": "r53",
+    "depOnReactId": "r52",
+    "ctxId": "ctx57",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.56881
+  },
+  {
+    "action": "isolateInvalidateEnd",
+    "reactId": "r53",
+    "ctxId": "ctx57",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.56887
+  },
+  {
+    "action": "exit",
+    "reactId": "r53",
+    "ctxId": "ctx56",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.78992
+  },
+  {
+    "action": "asyncStop",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200428.79001
+  },
+  {
+    "action": "idle",
+    "session": null,
+    "time": 1687200428.79039
+  },
+  {
+    "action": "valueChange",
+    "reactId": "r45$exp_select",
+    "value": " chr \"Crime_prop\"",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81673
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r45$exp_select",
+    "ctxId": null,
+    "type": "other",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81682
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r52",
+    "ctxId": "ctx51",
+    "type": "observable",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81696
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r54",
+    "ctxId": "ctx50",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81706
+  },
+  {
+    "action": "asyncStart",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81721
+  },
+  {
+    "action": "dependsOnRemove",
+    "reactId": "r54",
+    "depOnReactId": "r52",
+    "ctxId": "ctx50",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81755
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r54",
+    "ctxId": "ctx50",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81763
+  },
+  {
+    "action": "dependsOnRemove",
+    "reactId": "r52",
+    "depOnReactId": "r49",
+    "ctxId": "ctx51",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81767
+  },
+  {
+    "action": "dependsOnRemove",
+    "reactId": "r52",
+    "depOnReactId": "r51",
+    "ctxId": "ctx51",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81772
+  },
+  {
+    "action": "dependsOnRemove",
+    "reactId": "r52",
+    "depOnReactId": "r45$exp_select",
+    "ctxId": "ctx51",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81778
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r52",
+    "ctxId": "ctx51",
+    "type": "observable",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81783
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r48",
+    "ctxId": "ctx55",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81788
+  },
+  {
+    "action": "dependsOnRemove",
+    "reactId": "r48",
+    "depOnReactId": "r45$exp_select",
+    "ctxId": "ctx55",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81828
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r48",
+    "ctxId": "ctx55",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81834
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r45$exp_select",
+    "ctxId": null,
+    "type": "other",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81838
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx58",
+    "label": "observe({\n    params <- params()\n    leafletProxy(\"exp_map\", data = params$poly) %>% clearShapes() %>% \n        clearControls() %>% addPolygons(fillColor = as.formula(paste0(\"~params$pal(\", \n        params$var, \")\")), fillOpacity = 0.7, weight = 1...",
+    "type": "observer",
+    "prevCtxId": "ctx50",
+    "srcref": null,
+    "srcfile": null,
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81906
+  },
+  {
+    "action": "enter",
+    "reactId": "r54",
+    "ctxId": "ctx58",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81916
+  },
+  {
+    "action": "dependsOn",
+    "reactId": "r54",
+    "depOnReactId": "r52",
+    "ctxId": "ctx58",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81925
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx59",
+    "label": "params",
+    "type": "observable",
+    "prevCtxId": "ctx51",
+    "srcref": [507, 5, 507, 38, 5, 38, 507, 507],
+    "srcfile": "app.R",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.8194
+  },
+  {
+    "action": "enter",
+    "reactId": "r52",
+    "ctxId": "ctx59",
+    "type": "observable",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.81949
+  },
+  {
+    "action": "dependsOn",
+    "reactId": "r52",
+    "depOnReactId": "r49",
+    "ctxId": "ctx59",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.84091
+  },
+  {
+    "action": "dependsOn",
+    "reactId": "r52",
+    "depOnReactId": "r51",
+    "ctxId": "ctx59",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.89328
+  },
+  {
+    "action": "dependsOn",
+    "reactId": "r52",
+    "depOnReactId": "r45$exp_select",
+    "ctxId": "ctx59",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200431.89345
+  },
+  {
+    "action": "exit",
+    "reactId": "r52",
+    "ctxId": "ctx59",
+    "type": "observable",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200432.14216
+  },
+  {
+    "action": "exit",
+    "reactId": "r54",
+    "ctxId": "ctx58",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200432.17517
+  },
+  {
+    "action": "createContext",
+    "ctxId": "ctx60",
+    "label": "output$exp_desc",
+    "type": "observer",
+    "prevCtxId": "ctx55",
+    "srcref": [482, 31, 483, 39, 31, 39],
+    "srcfile": "app.R",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200432.1756
+  },
+  {
+    "action": "enter",
+    "reactId": "r48",
+    "ctxId": "ctx60",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200432.17573
+  },
+  {
+    "action": "dependsOn",
+    "reactId": "r48",
+    "depOnReactId": "r45$exp_select",
+    "ctxId": "ctx60",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200432.17646
+  },
+  {
+    "action": "exit",
+    "reactId": "r48",
+    "ctxId": "ctx60",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200432.17729
+  },
+  {
+    "action": "asyncStop",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200432.17736
+  },
+  {
+    "action": "idle",
+    "session": null,
+    "time": 1687200432.17769
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r48",
+    "ctxId": "ctx60",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200534.83988
+  },
+  {
+    "action": "dependsOnRemove",
+    "reactId": "r48",
+    "depOnReactId": "r45$exp_select",
+    "ctxId": "ctx60",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200534.84
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r48",
+    "ctxId": "ctx60",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200534.8401
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r53",
+    "ctxId": "ctx56",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200534.84024
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r53",
+    "ctxId": "ctx56",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200534.8403
+  },
+  {
+    "action": "invalidateStart",
+    "reactId": "r54",
+    "ctxId": "ctx58",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200534.84042
+  },
+  {
+    "action": "dependsOnRemove",
+    "reactId": "r54",
+    "depOnReactId": "r52",
+    "ctxId": "ctx58",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200534.84047
+  },
+  {
+    "action": "invalidateEnd",
+    "reactId": "r54",
+    "ctxId": "ctx58",
+    "type": "observer",
+    "session": "2f2ea07558d5b56cd21384421aae0015",
+    "time": 1687200534.84052
+  }
+];
+      window.__APP_TIME__ = String("TRUE").toLowerCase() === "true";
+    } catch (e) {}
+  </script>
+
+  
+  <script src="https://cdn.jsdelivr.net/gh/rstudio/reactlog@main/inst/reactlog/reactlogAsset/reactlog.js"></script>
+</head>
+
+<body>
+  <div id="bodyContent">
+    <div id="statusHeader">
+      <div id="movementButtons" style="z-index:1;">
+        <img id="prevUserMarkButton" class="navigationButton" src="https://raw.githubusercontent.com/rstudio/reactlog/main/inst/reactlog/reactlogAsset/images/prev-mark.svg" alt="Previous User Mark" title="Previous User Mark (home)" height="24" width="30">
+        <img id="prevIdleButton" class="navigationButton" src="https://raw.githubusercontent.com/rstudio/reactlog/main/inst/reactlog/reactlogAsset/images/next-idle.svg" alt="Previous idle" title="Previous idle (&#8997; &#8679; &#8592;)" height="24" width="30">
+        <img id="prevOutputCalcButton" class="navigationButton" src="https://raw.githubusercontent.com/rstudio/reactlog/main/inst/reactlog/reactlogAsset/images/prev-output-calc.svg" alt="Previous output calculation" title="Previous output calculation (&#8997; &#8592;)" height="24" width="30">
+        <img id="prevStepButton"  class="navigationButton" src="https://raw.githubusercontent.com/rstudio/reactlog/main/inst/reactlog/reactlogAsset/images/prev-step.svg"  alt="Previous step"  title="Previous step (&#8592;)"  height="24" width="30">
+        <img id="nextStepButton"  class="navigationButton" src="https://raw.githubusercontent.com/rstudio/reactlog/main/inst/reactlog/reactlogAsset/images/next-step.svg"  alt="Next step"      title="Next step (&#8594;)"      height="24" width="30">
+        <img id="nextOutputCalcButton" class="navigationButton" src="https://raw.githubusercontent.com/rstudio/reactlog/main/inst/reactlog/reactlogAsset/images/next-output-calc.svg" alt="Next output calculation"     title="Next output calculation (&#8997; &#8594;)"     height="24" width="30">
+        <img id="nextIdleButton" class="navigationButton" src="https://raw.githubusercontent.com/rstudio/reactlog/main/inst/reactlog/reactlogAsset/images/next-idle.svg" alt="Next idle"     title="Next idle (&#8997; &#8679; &#8594;)"     height="24" width="30">
+        <img id="nextUserMarkButton" class="navigationButton" src="https://raw.githubusercontent.com/rstudio/reactlog/main/inst/reactlog/reactlogAsset/images/next-mark.svg" alt="Next User Mark"     title="Next User Mark (end)"     height="24" width="30">
+      </div>
+      <div id="eventStep">Step: <span id="eventStepNum" class="monospaced-pre"></span></div>
+      <div id="eventStatus"></div>
+      <div id="eventWrapper">
+        <div id="eventTimeBlock">
+          <div id="eventTime">Time: </div>
+          <div id="eventTimeNum" class="monospaced-pre"></div>
+        </div>
+        <div id="eventSessionBlock">
+          <div id="eventSession">Session: </div>
+          <div id="eventSessionNum" class="monospaced-pre"></div>
+        </div>
+      </div>
+      <div id="filter">
+        <input id="search" type="text" size="12" placeholder="Search Labels..."/>
+      </div>
+    </div> <!-- end statusHeader -->
+
+    <div id="timeline" style="z-index:1;">
+      <div id="timeline-bg">
+        <div id="timeline-fill"></div>
+      </div>
+    </div>
+
+    <div id="content">
+      <div id="cytoWrapper">
+        <div id="cyto"></div>
+      </div>
+      <div id="legend">
+        <div class="legendRow legendRowTopMiddle"><div id="legendReady" class="legendColor"></div><div class="legendLabel">Ready</div></div>
+        <div class="legendRow legendRowTopMiddle"><div id="legendCalculating" class="legendColor"></div><div class="legendLabel">Calculating</div></div>
+        <div class="legendRow legendRowTopMiddle"><div id="legendInvalidating" class="legendColor"></div><div class="legendLabel">Invalidating</div></div>
+        <div class="legendRow" id="legendRowInvalidated"><div id="legendInvalidated" class="legendColor"></div><div class="legendLabel">Invalidated</div></div>
+        <div class="legendRow" id="legendRowFrozen" style="display:none"><div id="legendFrozen" class="legendColor"></div><div class="legendLabel">Frozen</div></div>
+      </div>
+      <div id="logEntry" style="display: none;"></div>
+    </div>
+  </div>
+</body>
+</html>

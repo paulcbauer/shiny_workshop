@@ -1,0 +1,37 @@
+/* remove white space around maps in boxes */
+#tab_map_box .card-header, #tab_map_box .card-body {
+  padding: 0em;
+}
+
+/* create a nicely aligned hover effect for logos */
+a.logo {
+  text-decoration: none;
+  background-color: transparent;
+  display: inline-flex;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+a.logo:hover {
+  background-color: #DEDED8;
+}
+
+/* text formatting */
+p.par {
+  text-indent: 10px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+a.par {
+  border-bottom: 1px solid black;
+}
+
+a.par:hover {
+  text-shadow: 0 0 0.01px black;
+  border-bottom: 2px solid black;
+}

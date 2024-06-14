@@ -1,0 +1,1026 @@
+--- 
+title: "User Interface (UI): Designing the front end"
+---
+
+- Learning outcomes: 
+  - Understand logic underlying user interfaces in Shiny
+  - Learn how to create UIs using different layouts, inputs and outputs
+  - Become familiar with UI functions such as `fluidPage()`, `dashboardPage()`, `menuItem()`, `tabItems()`, `tabsetPanel()` and `tabPanel()`
+  - Understand UI of Guerry app
+
+Sources: @wickham2021mastering [Ch. 2]
+
+
+```{r 03-user-interface-1, message=FALSE, warning=FALSE, include=FALSE}
+# namer::unname_chunks("03-user-interface.qmd")
+# namer::name_chunks("03-user-interface.qmd")
+
+# install.packages("pacman)
+pacman::p_load(knitr, quarto)
+
+```
+
+
+
+## Basics
+- Shiny encourages separation of code that generates UI (*front end*) from code that drives app's behaviour (*server/back end*).
+- Here focus on front end & tour of Shiny inputs and outputs
+  - won't stitch inputs and outputs together yet
+- primary focus on native Shiny components (contained in `Shiny` package) but vibrant community (see [awesome shiny extenstions](https://github.com/nanxstats/awesome-shiny-extensions))
+
+
+
+## UI: Layout
+- Any Shiny app consists of `ui`, `server` and `shinyApp(ui=ui, server = server)`
+  - `ui <- function()`: function is used to create UI
+    - UI then displays different inputs and outputs
+  - Shiny provides different functions that can be used to create basic layouts
+- `fluidPage()` creates the classic fluid page layout
+- `dashboardPage()` create a dashboard layout (Guerry dashboard uses that!)
+
+### fluidPage
+- `fluidPage()`: Creates most basic layout
+  - display that automatically adjusts to user's browser dimensions (smartphone!)
+  - layout consists of rows containing columns
+    - rows making sure elements appear on the same line
+    - columns define how much horizontal space elements should occupy (within a **12-unit wide grid**)
+- Below a UI with title panel and sidebar panel
+    + `titlePanel()` and `sidebarLayout()` create a basic Shiny app/layout with a sidebar
+    + `sidebarLayout()` takes two functions
+        + `sidebarPanel()`: Includes content displayed in the sidebar
+        + `mainPanel()`: Includes content displayed in the main panel
+- - `fluidRow()` and `column()`: Divide ui into rows/columns
+* **Try the code below** by pasting it into your console and running it. It will only create a user interface.
+
+```{r 03-user-interface-2, cache=TRUE, eval=FALSE, include=TRUE}
+#| code-fold: true
+#| code-summary: "Code: Creating a simple UI"
+ui <- fluidPage(
+  titlePanel("This is the title panel"),
+  
+  sidebarLayout(
+    sidebarPanel( "Title: Sidebar panel"),
+    
+    mainPanel("Title: Main panel",
+              fluidRow(
+                column(width = 4,"Column 1: Description here"),
+                column(width = 4, "Column 2: Model summary")
+                ,
+                column(width = 3, 
+                       offset = 1, 
+                       "Column 3: Model visualization")
+              )
+  )))
+
+server <- function(input, output){}
+
+shinyApp(ui=ui, server = server)
+```
+
+- Change `sidebarLayout(position = "right",...)` to position sidebar on the right
+- `navbarPage()`: Create a [multi-page user-interface](http://shiny.rstudio.com/gallery/navbar-example.html) that includes a navigation bar
+- Sometimes adding borders helps..
+
+```{r 03-user-interface-2-3, cache=TRUE, eval=FALSE, include=TRUE}
+#| code-fold: true
+#| code-summary: "Code: Adding borders for better understanding of UI"
+ui <- fluidPage(
+  titlePanel("This is the title panel"),
+  
+  sidebarLayout(
+    sidebarPanel( "Title: Sidebar panel"),
+    
+    mainPanel("Title: Main panel",
+              fluidRow(
+                column(style='border: 1px solid black',
+                       width = 4,"
+                       Column 1: Description here"),
+                column(style='border: 1px solid black',
+                       width = 4, "Column 2: Model summary")
+                ,
+                column(style='border: 1px solid black',
+                       width = 3, 
+                       offset = 1, 
+                       "Column 3: Model visualization")
+              )
+    )))
+
+server <- function(input, output){}
+
+shinyApp(ui=ui, server = server)
+
+```
+
+#### Creating panels and tabs
+
+* `tabsetPanel()` + `tabPanel()`
+    + Allows for using sidebar layout but dividing main panel into tabs
+    + Users can switch between tabs that can be used to display various outputs simultanously
+
+```{r 03-user-interface-3, cache=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage(
+  titlePanel("This is the title panel"),
+  
+  sidebarLayout(
+    sidebarPanel( "This is the sidebar panel"),
+    
+    mainPanel(
+      tabsetPanel(type = "tabs",
+                  tabPanel("3d Frequency Plot", 
+                           "Tab 1: plot here"),
+                  tabPanel("Histogram", 
+                           "Tab 2: another plot here"),
+                  tabPanel("Model Summary", 
+                           h4("Tab 3: estimation results here")),
+                  tabPanel("Data Summary", 
+                           h4("Tab 4: Variable summaries"))
+      ))))
+  
+  server <- function(input, output){}
+  
+  shinyApp(ui=ui, server = server)
+``` 
+
+
+
+
+
+
+
+
+### dashboardPage  {#sec-dashboardPage}
+- `dashboardPage()`: creates a dashboard interface (underlying Guerry app!)
+  - function contained in packages `shinydashboard` and `bs4Dash` (use `bs4Dash`^[Bootstrap 4 shinydashboard using AdminLTE3: [Website](https://rinterface.github.io/bs4Dash/)]!)
+  - `dashboardHeader()`: creates a dashboard header
+  - `dashboardSidebar()`: Creates dashboard sidebar
+    - sidebar typically contains a sidebarMenu, although it may also contain a sidebarSearchForm, or other Shiny inputs.
+  - `dashboardBody()`: creates main body typically containing boxes or tabItems
+
+```{r 03-user-interface-4, cache=TRUE, eval=FALSE, include=TRUE}
+library(bs4Dash)
+# UI ----
+ui <- dashboardPage(title = "The Guerry Dashboard",
+
+  ### Header ----
+  header = dashboardHeader(),
+
+  ### Sidebar ----
+  sidebar = dashboardSidebar(),
+
+  ### Body ----
+  body = dashboardBody()
+)
+
+# Server ----
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+```
+
+#### Creating items and tabs {#sec-dashboardPage2}
+- `?sidebarMenu()`: create sidebarMenu within dashboardSidebar
+  - `menuItem(tabName = "...", text = "...", icon = icon("table"))`: Creates one item in sidebarMenu
+- `tabItems()`: creates container for tab items
+  - `tabItem(tabName = "insp", ...)`: creates tab to put inside a tab items container
+  - can be combined with `fluidRow()` and `column()`
+  - Connection through name `tabName` argument 
+
+```{r 03-user-interface-5, cache=TRUE, eval=FALSE, include=TRUE}
+library(bs4Dash)
+# UI ----
+ui <- dashboardPage(title = "The Guerry Dashboard",
+
+  ### Header ----
+  header = dashboardHeader(
+    title = "Title here"
+  ),
+
+  ### Sidebar ----
+  sidebar = dashboardSidebar(
+    sidebarMenu(
+      menuItem(tabName = "tab_table", 
+               text = "Table data", 
+               icon = icon("table"))
+    )
+  ),
+  ### Body ----
+  body = dashboardBody(
+    tabItems( # start tabItems
+
+      tabItem(
+        tabName = "tab_table",
+        hr(), # add separation line
+        "Here we will put a table"
+      )
+      
+    ) # end tabItems
+  )
+) # End UI
+
+
+# Server ----
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+```
+
+
+
+
+
+### Images {#sec-dashboardPage3}
+* `img()` function places an image
+  - `img(src = "http://.../img-2.jpg", height = 35, width = 35)`: Load image from website or folder
+* Store image(s) locally
+    + `www` subfolder stores all sorts of additional files(images, data etc.)
+    + If working directory  = app directory create with: `dir.create("www")`
+    + **IMAGES PLACED UNDER `www` SHOULD BE REFERENCES WITHOUT THE `www` FOLDER NAME**
+      + e.g., `img(src = "guerry.jpg", width = "100%")`
+
+```{r 03-user-interface-6, cache=TRUE, eval=FALSE, include=TRUE}
+#| code-fold: true
+#| code-summary: "Code: Adding images"
+ui <- dashboardPage( # <1>
+  title = "The Guerry Dashboard",
+  
+  ### Header ----
+  header = dashboardHeader( # <2>
+    span(style = "display: inline-block; width: 100%;"), # <3>
+    a( # <4>
+      class = "logo",
+      href = "https://gesis.org/",
+      img(src = "gesis-logo.png", style = "height: 1.8em;")
+    ),
+    title = tagList( # <5>
+      img(src = "workshop-logo.png", width = 35, height = 35),
+      span("The Guerry Dashboard", class = "brand-text")
+    )
+  ),
+  
+  ### Sidebar ----
+  sidebar = dashboardSidebar( # <6>
+    sidebarMenu(
+      menuItem(tabName = "tab_image",  # <7>
+               text = "Image section", 
+               icon = icon("image"))
+    )
+  ),
+  ### Body ----
+  body = dashboardBody( # <8>
+    tabItems( # <9>
+      tabItem("tab_image", # <10>
+              img(src = "https://journals.openedition.org/belgeo/docannexe/image/11893/img-1.jpg", width = 358, height = 476)
+      )
+    ) # end tabItems
+  )
+) # End UI
+
+# Server ----
+
+server <- function(input, output, session) {} # <11>
+
+shinyApp(ui, server) # <12>
+```
+1. `dashboardPage()`: Main function to create a dashboard page layout in Shiny.
+2. `dashboardHeader()`: Function to set up the header part of the dashboard.
+3. `span()`: Function to create an HTML span element with a style attribute to control its display.
+4. `a()`: Function to create a hyperlink element ("a" HTML tag) with a specified class, href attribute (URL), and nested img (image) element.
+5. `tagList()`: Function to create an HTML list from arguments. Here it's used to group the title components together.
+6. `dashboardSidebar()`: Function to create the sidebar of the dashboard.
+7. `menuItem()`: Function to add an item to the sidebar menu.
+8. `dashboardBody()`: Function to create the body of the dashboard.
+9. `tabItems()`: Function to create tabbed content sections. The arguments are pairs of tab names and tab content.
+10. `tabItem()`: Function to create a single tab item. Its arguments are a tab name and its content.
+11. `server`: Placeholder for server logic. In this case, it's empty.
+12. `shinyApp(ui, server)`: Main function to create a Shiny app. It takes as arguments the UI and server definitions.
+
+
+#### Add several images
+* Below some exemplary code to add several images, i.e., simply repeat the img() function
+
+```{r 03-user-interface-6-2, cache=TRUE, eval=FALSE, include=TRUE}
+#| code-fold: true
+#| code-summary: "Code: Adding images"
+ui <- dashboardPage(
+  title = "The Guerry Dashboard",
+  
+  ### Header ----
+  header = dashboardHeader(
+    span(style = "display: inline-block; width: 100%;"),
+    a( # <4>
+      class = "logo",
+      href = "https://gesis.org/",
+      img(src = "gesis-logo.png", style = "height: 1.8em;")
+    ),
+    title = tagList( # <5>
+      img(src = "workshop-logo.png", width = 35, height = 35),
+      span("The Guerry Dashboard", class = "brand-text")
+    )
+  ),
+  
+  ### Sidebar ----
+  sidebar = dashboardSidebar(
+    sidebarMenu(
+      menuItem(tabName = "tab_image",
+               text = "Image section", 
+               icon = icon("image"))
+    )
+  ),
+  ### Body ----
+  body = dashboardBody(
+    tabItems( 
+      tabItem("tab_image",
+              img(src = "https://journals.openedition.org/belgeo/docannexe/image/11893/img-1.jpg", width = 358, height = 476),
+                            img(src = "https://journals.openedition.org/belgeo/docannexe/image/11893/img-1.jpg", width = 358, height = 476)
+      )
+    ) # end tabItems
+  )
+) # End UI
+
+# Server ----
+
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+```
+
+
+
+### Exercise: UI layout 
+1. Familiarize yourself and use the code in @sec-dashboardPage3.
+2. Change the website title to "A big name in politics"
+3. Change the sidebar menu title with "The Arni dashboard".
+4. Replace the image of Guerry with an image Arnold Schwarzenegger from the web, e.g., [here](http://assets.schwarzenegger.com/images/img-2.jpg).
+  - Either store the image in a `www` subfolder of your app directory or use the URL in your code.
+
+
+::: {.callout-warning collapse="true"}
+
+#### Solution: Using image from link
+
+```{r 03-user-interface-7-5, echo=TRUE, eval=FALSE, include=TRUE}
+# UI ----
+ui <- dashboardPage(
+  title = "A big name in politics",
+  
+  ### Header ----
+  header = dashboardHeader(
+    span(style = "display: inline-block; width: 100%;"),
+    a(
+      class = "logo",
+      href = "https://gesis.org/",
+      img(src = "gesis-logo.png", style = "height: 1.8em;")
+    ),
+    title = tagList(
+      img(src = "workshop-logo.png", width = 35, height = 35),
+      span("The Arni Dashboard", class = "brand-text")
+    )
+  ),
+  
+  ### Sidebar ----
+  sidebar = dashboardSidebar(
+    sidebarMenu(
+      menuItem(tabName = "tab_image", 
+               text = "Image section", 
+               icon = icon("image"))
+    )
+  ),
+  ### Body ----
+  body = dashboardBody(
+    tabItems( # start tabItems
+      tabItem("tab_image",
+              img(src = "http://assets.schwarzenegger.com/images/img-2.jpg", 
+                  width = 729, height = 423)
+      )
+    ) # end tabItems
+  )
+) # End UI
+
+# Server ----
+
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+
+```
+
+
+
+
+:::
+
+
+::: {.callout-warning collapse="true"}
+
+#### Solution: Using image from www folder
+
+1. Check the directory you are in with `getwd()`.
+2. Make sure the `app.R` file you are using is saved in this directory.
+3. Use `dir.create("www")` or the buttons in Rstudio to create the `www` folder.
+4. Store the image from the [link](http://assets.schwarzenegger.com/images/img-2.jpg) in this `www` folder.
+5. Add the image name simply in the code `img(src = "img-2.jpg", width = 729, height = 423)` (see below).
+  - **IMAGES PLACED UNDER `www` SHOULD BE REFERENCES WITHOUT THE `www` FOLDER NAME**
+6. Run the app.
+
+```{r 03-user-interface-7, echo=TRUE, eval=FALSE, include=TRUE}
+# UI ----
+ui <- dashboardPage(
+  title = "A big name in politics",
+  
+  ### Header ----
+  header = dashboardHeader(
+    span(style = "display: inline-block; width: 100%;"),
+    a(
+      class = "logo",
+      href = "https://gesis.org/",
+      img(src = "gesis-logo.png", style = "height: 1.8em;")
+    ),
+    title = tagList(
+      img(src = "workshop-logo.png", width = 35, height = 35),
+      span("The Arni Dashboard", class = "brand-text")
+    )
+  ),
+  
+  ### Sidebar ----
+  sidebar = dashboardSidebar(
+    sidebarMenu(
+      menuItem(tabName = "tab_image", 
+               text = "Image section", 
+               icon = icon("image"))
+    )
+  ),
+  ### Body ----
+  body = dashboardBody(
+    tabItems( # start tabItems
+      tabItem("tab_image",
+              img(src = "img-2.jpg", 
+                  width = 729, height = 423)
+      )
+    ) # end tabItems
+  )
+) # End UI
+
+# Server ----
+
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+
+```
+
+
+
+
+:::
+
+
+
+
+
+## UI: Inputs
+
+### UI Inputs: common structure
+- `inputId` argument:
+  - `inputId` connects front end with back end, e.g., if UI has input with ID `name`, the server function will access it with `input$name`
+  - name` = **simple string** (only letters, numbers, and underscores) and **unique**
+  - Inputs are stored in list called `input$...`
+- `label` argument: Used to create human-readable label
+- `value` argument: usually let's you set default value
+- Remaining 4-x arguments are unique to the particular input
+- Recommendation: Supply `inputId` and `label` arguments by position, and all other arguments by name
+  - Q: How would we read the following? 
+    - `sliderInput("min", "Limit (minimum)", value = 50, min = 0, max = 100)`
+
+
+
+### UI Inputs: Logic
+- Widget = Web element the user can interact with ([Shiny widget gallery](https://shiny.posit.co/r/gallery/))
+    - Users can send messages to the SERVER/Computer (e.g. "I want to choose this variable") 
+* Underlying logic is the same for all widgets
+    - User uses widget to give input
+    - Input is inserted into the functions in the SERVER
+      - `server <- function(input, output) {}`
+* `shiny` package contains many widgets
+  - Additional ones for instance in `shinyWidgets` package (e.g., `pickerInput()`)
+    
+
+
+### UI Inputs: Examples
+- You can run the code for the Shiny app below in R.
+
+```{r 03-user-interface-9, cache=TRUE, eval=FALSE, include=TRUE}
+library(shinyWidgets) # Install!
+
+animals <- c("dog", "cat", "mouse") # Predefining some categories
+
+ui <- fluidPage(
+  
+  # Free text
+  textInput("name", "What's your name?"),
+  passwordInput("password", "What's your password?"),
+  textAreaInput("story", "Tell me about yourself", rows = 3),
+  
+  # Numeric inputs
+  numericInput("num", "Number one", value = 0, min = 0, max = 100),
+  sliderInput("num2", "Number two", value = 50, min = 0, max = 100),
+  sliderInput("rng", "Range", value = c(10, 20), min = 0, max = 100),
+  
+  # Dates
+  dateInput("dob", "When were you born?"),
+  dateRangeInput("holiday", "When do you want to go on vacation next?"),
+  
+  # Limited choices
+  selectInput("state", "What's your favourite animal?", animals),
+  radioButtons("animal", "What's your favourite animal?", animals),
+  selectInput( "state", "What's your favourite animal?", animals, multiple = TRUE),
+  checkboxGroupInput("animal2", "What animals do you like?", animals),
+  pickerInput(
+    inputId = "animal3",
+    label = "What animals do you like?",
+    choices = animals
+  ),
+  
+  # Single checkbox
+  checkboxInput("cleanup", "Clean up?", value = TRUE),
+  checkboxInput("shutdown", "Shutdown?"),
+  
+  # File uploads
+  fileInput("upload", NULL),
+  
+  # Action buttons
+  actionButton("click", "Click me!"),
+  actionButton("drink", "Drink me!", icon = icon("cocktail"))
+)
+
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+```
+
+
+### Exercise(s)
+* See [Exercises 2.2.8](https://mastering-shiny.org/basic-ui.html#exercises-2).
+
+
+
+1.  When space is at a premium, it's useful to label text boxes using a placeholder that appears *inside* the text entry area.
+    How do you call `textInput()` to generate the UI in @fig-textInput below (see `?textInput`)?
+
+
+![Text input (Source: Wickham 2021)](resources/placeholder.png){#fig-textInput width=100%}
+
+
+::: {.callout-warning collapse="true"}
+
+#### Solution
+
+```{r 03-user-interface-10, echo = TRUE, out.width = NULL, message = FALSE, eval=FALSE}
+textInput("text", "", placeholder = "Your name")
+```
+
+::: 
+
+2.  Carefully read the documentation for `sliderInput()` to figure out how to create a date slider, as shown below in @fig-date-slider.
+
+
+![Date slider (Source: Wickham 2021)](resources/date-slider.png){#fig-date-slider width=100%}
+
+
+
+::: {.callout-warning collapse="true"}
+
+#### Solution
+
+```{r 03-user-interface-11-3, eval=FALSE, echo = TRUE, out.width = NULL, message = FALSE}
+sliderInput(
+  "dates",
+  "When should we deliver?",
+  min = as.Date("2019-08-09"),
+  max = as.Date("2019-08-16"),
+  value = as.Date("2019-08-10")
+)
+```
+
+::: 
+
+3.  Create a slider input to select values between 0 and 100 where the interval between each select able value on the slider is 5.
+    Then, add animation to the input widget so when the user presses play the input widget scrolls through the range automatically.
+    
+::: {.callout-warning collapse="true"}
+
+#### Solution
+
+```{r 03-user-interface-11-5, eval=FALSE, echo = TRUE, out.width = NULL, message = FALSE}
+  sliderInput("number", "Select a number:",
+              min = 0, max = 100, value = 0, 
+              step = 5, animate = TRUE)
+```
+
+:::     
+
+    
+
+4.  If you have a moderately long list in a `selectInput()`, it's useful to create sub-headings that break the list up into pieces.
+Read the documentation to figure out how. (Hint: the underlying HTML is called `<optgroup>`.)
+
+
+::: {.callout-warning collapse="true"}
+
+#### Solution
+
+```{r 03-user-interface-11-4, eval=FALSE, echo = TRUE, out.width = NULL, message = FALSE}
+selectInput(
+  "breed",
+  "Select your favorite animal breed:",
+  choices =
+    list(`dogs` = list('German Shepherd', 'Bulldog', 
+                       'Labrador Retriever'),
+         `cats` = list('Persian cat', 'Bengal cat', 
+                       'Siamese Cat'))
+)
+```
+
+::: 
+
+
+
+
+::: {.callout-warning collapse="true"}
+
+#### Solution: One app with all the widgets
+
+```{r 03-user-interface-11-4-4-2, eval=FALSE, echo = TRUE}
+ui <- fluidPage(
+  textInput("text", "", placeholder = "Your name"),
+  
+  sliderInput(
+  "dates",
+  "When should we deliver?",
+  min = as.Date("2019-08-09"),
+  max = as.Date("2019-08-16"),
+  value = as.Date("2019-08-10")
+  ),
+ 
+    sliderInput("number", "Select a number:",
+              min = 0, max = 100, value = 0, 
+              step = 5, animate = TRUE),
+  
+  selectInput(
+  "breed",
+  "Select your favorite animal breed:",
+  choices =
+    list(`dogs` = list('German Shepherd', 'Bulldog', 
+                       'Labrador Retriever'),
+         `cats` = list('Persian cat', 'Bengal cat', 
+                       'Siamese Cat'))
+)
+  
+)
+server <- function(input, output, session) {
+  
+  
+}
+shinyApp(ui, server)
+```
+
+::: 
+
+
+
+::: {.callout-warning collapse="true"}
+
+#### Solution: App that displays the input values
+- Solution taken from [stackoverflow](https://stackoverflow.com/a/41035132).
+
+```{r 03-user-interface-11-4-4-2-1, eval=FALSE, echo = TRUE}
+#rm(list=ls())
+library(shiny)
+
+ui <- basicPage(
+  textInput("text", "", placeholder = "Your name"),
+  
+  sliderInput(
+    "dates",
+    "When should we deliver?",
+    min = as.Date("2019-08-09"),
+    max = as.Date("2019-08-16"),
+    value = as.Date("2019-08-10")
+  ),
+  
+  sliderInput("number", "Select a number:",
+              min = 0, max = 100, value = 0, 
+              step = 5, animate = TRUE),
+  
+  selectInput(
+    "breed",
+    "Select your favorite animal breed:",
+    choices =
+      list(`dogs` = list('German Shepherd', 'Bulldog', 
+                         'Labrador Retriever'),
+           `cats` = list('Persian cat', 'Bengal cat', 
+                         'Siamese Cat'))),
+  tableOutput('show_inputs')
+)
+server <- shinyServer(function(input, output, session){
+  
+  AllInputs <- reactive({
+    myvalues <- NULL
+    for(i in 1:length(names(input))){
+      myvalues <- as.data.frame(rbind(myvalues,(cbind(names(input)[i],input[[names(input)[i]]]))))
+    }
+    names(myvalues) <- c("User Input","Last Value")
+    myvalues
+  })
+  
+  output$show_inputs <- renderTable({
+    AllInputs()
+  })
+})
+shinyApp(ui = ui, server = server)
+```
+
+::: 
+
+
+
+## UI: Outputs
+- Outputs in UI create placeholders that are later filled by the server function
+- Have unique ID as first argument like inputs
+  - e.g., `textOutput("text")` as ID `text` that is filled by the server
+- If UI specification creates an output with ID `text`, you'll access it in the server function with `output$text` (see below)
+- Each output function on the front end is coupled with a **render function** in the back end (server)
+- Three main types of output: text, tables, and plots
+
+### Text output
+
+```{r 03-user-interface-12, cache=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage(
+  textOutput("text"),
+  verbatimTextOutput("code")
+)
+server <- function(input, output, session) {
+  output$text <- renderText({ 
+    "Hello friend!" 
+  })
+  output$code <- renderPrint({ 
+    summary(1:10) 
+  })
+}
+shinyApp(ui, server)
+```
+
+
+
+
+### Table output
+
+```{r 03-user-interface-14, cache=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage(
+  tableOutput("static"),
+  dataTableOutput("dynamic")
+)
+server <- function(input, output, session) {
+  output$static <- renderTable(head(mtcars))
+  output$dynamic <- renderDataTable(mtcars, options = list(pageLength = 5))
+}
+shinyApp(ui, server)
+```
+
+
+### Plots output
+
+```{r 03-user-interface-15, cache=TRUE, eval=FALSE, include=TRUE}
+ui <- fluidPage(
+  plotOutput("plot", width = "400px")
+)
+server <- function(input, output, session) {
+  output$plot <- renderPlot(plot(1:5), res = 96)
+}
+shinyApp(ui, server)
+```
+
+
+
+
+
+### Exercise(s)
+* Taken from [Exercises 2.3.5](https://mastering-shiny.org/basic-ui.html#exercises-2).
+
+
+1.  Which of `textOutput()` and `verbatimTextOutput()` should each of the following render functions be paired with?
+
+a.  `renderPrint(summary(mtcars))`
+b.  `renderText("Good morning!")`
+c.  `renderPrint(t.test(1:5, 2:6))`
+d.  `renderText(str(lm(mpg ~ wt, data = mtcars)))`
+
+::: {.callout-warning collapse="true"}
+
+#### Solution
+
+```{r 03-user-interface-11-4-4-3, eval=FALSE, echo = TRUE}
+ui <- fluidPage(
+  verbatimTextOutput("mtcarsout1"),
+  br(), hr(),
+  textOutput("mtcarsout2"),
+  br(), hr(),
+  verbatimTextOutput("mtcarsout3"),
+  br(), hr(),
+  verbatimTextOutput("mtcarsout4")  
+)
+server <- function(input, output, session) {
+  output$mtcarsout1 <- renderPrint(summary(mtcars))
+  output$mtcarsout2 <- renderText("Good morning!")
+  output$mtcarsout3 <- renderPrint(t.test(1:5, 2:6))
+  output$mtcarsout4 <- renderPrint(str(lm(mpg ~ wt, data = mtcars)))
+}
+shinyApp(ui, server)
+```
+
+::: 
+
+
+
+
+
+2.  Update the options in the call to `renderDataTable()` below so that the data is displayed, but all other controls are suppress (i.e. remove the search, ordering, and filtering commands).
+    You'll need to read `?renderDataTable` and review the options at <https://datatables.net/reference/option/> or at <https://shiny.posit.co/r/gallery/widgets/datatables-options/>
+
+```{r 03-user-interface-16, eval=FALSE}
+ui <- fluidPage(
+      dataTableOutput("table")
+    )
+    server <- function(input, output, session) {
+      output$table <- renderDataTable(mtcars, options = list(pageLength = 5))
+    }
+shinyApp(ui, server)
+```
+
+
+::: {.callout-warning collapse="true"}
+
+#### Solution
+
+```{r 03-user-interface-11-4-4, eval=FALSE, echo = TRUE}
+ui <- fluidPage(
+  dataTableOutput("table")
+)
+server <- function(input, output, session) {
+  output$table <- renderDataTable(mtcars, 
+                                  options = list(pageLength = 5,
+                                                 searching = FALSE,
+                                                 paging = FALSE,
+                                                 ordering = FALSE,
+                                                 filtering = FALSE))
+}
+shinyApp(ui, server)
+```
+
+::: 
+
+
+
+
+
+### Overview of Output functions
+
+* Output functions
+    + `htmlOutput()`... creates raw HTML (!)
+    + `imageOutput()`... creates image
+    + `plotOutput()`... creates plot
+    + `plotlyOutput` ... creates plotly graph (!)
+    + `tableOutput()`... creates table
+    + `textOutput()`... creates text
+    + `uiOutput()`... creates raw HTML (!)
+    + `verbatimTextOutput()`... creates text
+    + `dataTableOutput()`... creates a data table (interactiv) (!)
+    + `leafletOutput()` ... creates leaflet map
+
+- Our Guerry app uses those marked with  (!).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## HTML tag functions
+* Shiny's **HTML tag functions** translate input into html code
+  - Try pasting `h2("A NEW HOPE", align = "center")` into your console
+  - `h2()` function creates `<h2></h2>` html tag
+- Common HTML tags (e.g., `⁠<div`>⁠) can be created by calling for their tag name directly (e.g., `div()`)
+- Less common tags (e.g., `⁠<article`>⁠), use the tags list collection (e.g., `tags$article()`) stored in the `tags` object
+  - Try `tags$` in the console
+    - `.noWS = ...` argument to remove whitespace
+- See [full reference for HTML tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)  
+- Here we just do a quick example but in [this tutorial you find more information](https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/)
+- **Exercise**: Please run the shiny app below and explore the effect of different html tags.
+
+
+```{r 03-user-interface-17, cache=TRUE, eval=FALSE, include=TRUE}
+library(bs4Dash)
+# UI ----
+ui <- dashboardPage(title = "My Shiny App",
+
+  ### Header ----
+  header = dashboardHeader(),
+
+  ### Sidebar ----
+  sidebar = dashboardSidebar(),
+
+  ### Body ----
+  body = dashboardBody(
+      h2("A NEW HOPE", align = "center"),
+              h5("It is a period of civil war.", align = "center"),
+      p("p creates a paragraph of text."),
+      tags$p("A new p() command starts a new paragraph. Supply a style attribute to change the format of the entire paragraph.", style = "font-family: 'times'; font-si16pt"),
+      strong("strong() makes bold text."),
+      em("em() creates italicized (i.e, emphasized) text."),
+      tags$hr(style="border-color:black;"),
+      tags$br(),
+      tags$line(),
+      br(),
+      code("code displays your text similar to computer code"),
+      div("div creates segments of text with a similar style. This division of text is all blue because I passed the argument 'style = color:blue' to div", style = "color:blue"),
+      br(),
+      p("span does the same thing as div, but it works with",
+        span("groups of words", style = "color:blue"),
+        "that appear inside a paragraph."))
+)
+
+
+# Server ----
+
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Guerry app: Introduction tab
+* Below is the code for the Guerry app introduction tab
+  - The code has some file dependencies that need to be deleted to run it directly
+    - e.g., `includeCSS("www/styles.css")`
+  - Images that are not accessible are simply shown as blank
+  - Most UI function simply create html tags, e.g., try `h1()` or `jumbotron()`
+  - Let's do this together!
+
+
+```{r eval=FALSE, file="shinyapps/guerry/states_paul/app_tab_introduction.R"}
+#| code-fold: true
+#| code-summary: Full R code including Shiny events
+
+```
+
+
+
+
+## Summary
+- UI Layout: `fluidPage()` and `dashBoardPage()` most common (we use the latter!)
+- Image can be included using `img(src = "...", , width = ..., height = ...)` function
+- `*Input()` functions: Used to generate input UI widgets
+  - input values are stored  in list `input$...` with particular `name`, e.g., `input$tab_tabulate_select`
+- `*Output()` functions: Used to display output, `dataTableOutput()`
+  - output is sent from server
+- Both input/output functions have IDs the connect them to the server
+- HTML tags can be used through `tags$name()` function, e.g., `tags$br()`
+- Not covered here: 
+  - **Dynamic **UI makes it possible to change UI as a function of input values
+
+
+
+
+
+
+

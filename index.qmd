@@ -1,0 +1,24 @@
+---
+title: "Workshop: Interactive Data Analysis with Shiny"
+author: "Paul C. Bauer & Jonas Lieth"
+date: last-modified
+date-format: "[Last updated:] MMM D, YYYY"
+format:
+  html:
+    include-in-header:
+      - text: |
+          <meta http-equiv="refresh" content="0; url=01-workshop.html" />
+---
+
+
+
+
+```{r cache=TRUE, include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+library(pacman)
+pacman::p_load(listviewer, ggdark, Guerry, bs4Dash)
+```
+

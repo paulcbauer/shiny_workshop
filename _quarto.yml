@@ -1,0 +1,58 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Workshop: Interactive Data Analysis with Shiny"
+  reader-mode: true
+  google-analytics: "G-BVZNWTMFX1"
+  twitter-card: true
+  site-url: https://bookdown.org/paul/shiny_workshop/
+  repo-url: https://github.com/paulcbauer/shiny_workshop/
+  repo-actions: [edit, issue]
+  sidebar:
+    title: "Interactive Data Analysis with Shiny"
+    style: "floating"
+    border: true
+    search: true
+    collapse-level: 2
+    collapse-section: 2
+    tools:
+      - icon: cursor-fill
+        href: https://training.gesis.org/?site=pDetails&child=full&pID=0x0D17F8F738B14E0991504DBF8823A002
+      - icon: github
+        href: https://github.com/paulcbauer/shiny_workshop
+      - icon: bug-fill
+        href: https://github.com/paulcbauer/shiny_workshop/issues
+    contents:
+      - 01-workshop.qmd
+      - 02-introduction.qmd
+      - 03-user-interface.qmd
+      - 04-server-reactive-programming.qmd
+      - 05-visualization.qmd
+      - 06-mapping.qmd
+      - 07-theming.qmd
+      - 08-deployment.qmd
+      - 09-guerry-app-all-code.qmd
+
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    number-sections: true
+    toc-depth: 3
+    code-annotations: hover
+    code-line-numbers: true
+    tbl-cap-location: top
+editor: 
+  mode: source
+execute:
+  cache: true
+  warning: false
+bibliography: [references.bib, packages.bib]
+tbl-cap-location: bottom
+fig-cap-location: bottom
+code-annotations: false
+

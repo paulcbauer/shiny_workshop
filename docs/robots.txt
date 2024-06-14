@@ -1,0 +1,1 @@
+Sitemap: https://bookdown.org/paul/shiny_workshop/sitemap.xml

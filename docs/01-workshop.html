@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Workshop: Interactive Data Analysis with Shiny - About this workshop</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BVZNWTMFX1"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
+</script>
+
+
+<link rel="stylesheet" href="styles.css">
+<meta name="twitter:title" content="Workshop: Interactive Data Analysis with Shiny - About this workshop">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-workshop.html">About this workshop</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Interactive Data Analysis with Shiny</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://training.gesis.org/?site=pDetails&amp;child=full&amp;pID=0x0D17F8F738B14E0991504DBF8823A002" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-cursor-fill"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop/issues" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-bug-fill"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-workshop.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">About this workshop</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-user-interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">User Interface (UI): Designing the front end</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-server-reactive-programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Server: Reactive programming</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelling and visualizing data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapping data &amp; advanced visualization</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-theming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Theming &amp; styling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-deployment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Strengthen &amp; Deploy</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-guerry-app-all-code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guerry app: All the code</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#about-us-paul-jonas" id="toc-about-us-paul-jonas" class="nav-link active" data-scroll-target="#about-us-paul-jonas"><span class="header-section-number">1</span> About us (Paul &amp; Jonas)</a></li>
+  <li><a href="#your-turn" id="toc-your-turn" class="nav-link" data-scroll-target="#your-turn"><span class="header-section-number">2</span> Your turn</a></li>
+  <li><a href="#contact-outline-dates" id="toc-contact-outline-dates" class="nav-link" data-scroll-target="#contact-outline-dates"><span class="header-section-number">3</span> Contact &amp; Outline &amp; Dates</a></li>
+  <li><a href="#material" id="toc-material" class="nav-link" data-scroll-target="#material"><span class="header-section-number">4</span> Script &amp; material</a></li>
+  <li><a href="#strategy-goals" id="toc-strategy-goals" class="nav-link" data-scroll-target="#strategy-goals"><span class="header-section-number">5</span> Strategy &amp; Goals</a></li>
+  <li><a href="#online-vs.-offline" id="toc-online-vs.-offline" class="nav-link" data-scroll-target="#online-vs.-offline"><span class="header-section-number">6</span> Online vs.&nbsp;offline</a></li>
+  <li><a href="#recommended-readings" id="toc-recommended-readings" class="nav-link" data-scroll-target="#recommended-readings"><span class="header-section-number">7</span> Recommended readings</a></li>
+  <li><a href="#software-we-will-use" id="toc-software-we-will-use" class="nav-link" data-scroll-target="#software-we-will-use"><span class="header-section-number">8</span> Software we will use</a></li>
+  <li><a href="#helpful-resources" id="toc-helpful-resources" class="nav-link" data-scroll-target="#helpful-resources"><span class="header-section-number">9</span> Helpful resources</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/01-workshop.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">About this workshop</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This document serves as slides and script for the workshop <strong><em>Interactive Data Analysis with Shiny</em></strong> taught by <a href="http://paulcbauer.eu/">Paul C. Bauer</a> <a href="https://twitter.com/p_c_bauer" class="fa fa-twitter" target="_blank"></a> and <a href="">Jonas Lieth</a> (Gesis, Mannheim, Online, 5-7th of July 2023). Original material is licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a> license. Where we draw on other authors material other licenses may apply (see references in the syllabus as well as the citations and links in the script). For potential future versions of this material see the <a href="https://github.com/paulcbauer/shiny_workshop/">github repository</a>. If you have feedback or discover errors/dead links please let us know via email (mail@paulcbauer.de/Jonas.Lieth@gesis.org) or by submitting an issue on github. And make sure to <a href="">install all the necessary packages</a> before you use the script.</p>
+<p><br><br></p>
+<section id="about-us-paul-jonas" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="about-us-paul-jonas"><span class="header-section-number">1</span> About us (Paul &amp; Jonas)</h2>
+<ul>
+<li>Paul
+<ul>
+<li>Currently <a href="https://www.mzes.uni-mannheim.de/d7/en">MZES</a> Research fellow (University of Mannheim)</li>
+<li>Previously… University of Bern (PhD, 2015), European University Institute (Postdoc, 15’-17’)</li>
+<li>My research interests: political sociology &amp; methodology [see <a href="https://scholar.google.com/citations?user=hw-b-MkAAAAJ&amp;hl=en&amp;oi=ao">Google Scholar</a>)</li>
+<li>Started R around 2009, first shiny apps ~2015 for teaching/research purposes (e.g., <a href="https://paulcbauer.shinyapps.io/transformations_of_variables/">here</a> and <a href="https://paulcbauer.shinyapps.io/visualizing-causal-scenarios/">here</a>)</li>
+<li>Contact: <code>mail@paulcbauer.de</code>; <a href="https://sites.google.com/paulcbauer.de/web/">www.paulcbauer.de</a>; <a href="https://twitter.com/p_c_bauer">Twitter</a>; <a href="https://github.com/paulcbauer">Github</a></li>
+</ul></li>
+<li>Jonas
+<ul>
+<li>Currently a research fellow at GESIS’ survey data curation (SDC) department</li>
+<li>Constantly learning about R and Shiny since 2020</li>
+<li>Interested in social geography, spatial analysis and computational text analysis</li>
+<li>Contact: <code>jonas.lieth@gesis.org</code>; GitHub: <a href="https://github.com/JsLth">JsLth</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="your-turn" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="your-turn"><span class="header-section-number">2</span> Your turn</h2>
+<ul>
+<li>Let’s check our the survey results…</li>
+</ul>
+<ol type="1">
+<li>Name?</li>
+<li>Affiliation? Country?</li>
+<li>What do you want to use Shiny for? (or research questions?)</li>
+</ol>
+<!--
+Below take too long for short workshop
+4. Previous experience with R?
+5. Why are you interested in this
+workshop?
+-->
+</section>
+<section id="contact-outline-dates" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="contact-outline-dates"><span class="header-section-number">3</span> Contact &amp; Outline &amp; Dates</h2>
+<ul>
+<li><strong>Important</strong>: 1st time we teach workshop/material</li>
+<li><strong>Course outline/content/dates:</strong> (see toc on the left)
+<ul>
+<li>Day 1: Introduction to Shiny
+<ul>
+<li>13:00 - 14:00: Welcome and Introduction (1)</li>
+<li>14:00 - 15:00: Introduction (2)</li>
+<li>15:00 - 15:30: Coffee break</li>
+<li>15:30 - 16:30: User Interface (UI): Designing the front end (1)</li>
+<li>16:30 - 17:30: User Interface (UI): Designing the front end (2) [<strong>Introduction tab</strong>]</li>
+</ul></li>
+<li>Day 2: Reactive programming
+<ul>
+<li>13:00 - 14:00: Server: Reactive programming (1)</li>
+<li>14:00 - 15:00: Server: Reactive programming (2) [<strong>Tabulate data tab</strong>]</li>
+<li>15:00 - 15:30: Coffee break</li>
+<li>15:30 - 16:30: Modelling and visualizing data (1)</li>
+<li>16:30 - 17:30: Modelling and visualizing data (2) [<strong>Modelling data tab</strong>]</li>
+</ul></li>
+<li>Day 3: Develop your app
+<ul>
+<li>13:00 - 14:00: Mapping data &amp; advanced visualization (1)</li>
+<li>14:00 - 15:00: Mapping data &amp; advanced visualization (2) [<strong>Mapping data tab</strong>]</li>
+<li>15:00 - 15:30: Coffee break</li>
+<li>15:30 - 16:30: Theming &amp; styling</li>
+<li>16:30 - 17:30: Strengthen &amp; Deploy</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="material" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="material"><span class="header-section-number">4</span> Script &amp; material</h2>
+<ul>
+<li><strong>Literature</strong>: See syllabus.</li>
+<li><strong>Website/script</strong>: https://bookdown.org/paul/shiny_workshop/
+<ul>
+<li>Find it: Google “shiny paul jonas”</li>
+<li>Document = slides + script (Zoom in/out with <code>STRG + mousewheel</code>)</li>
+<li><strong>Code</strong>: can all be found in the script</li>
+<li><strong>Data</strong>: can usually be downloaded over links in the script. If not we’ll share the files.</li>
+<li>Full screen: F11</li>
+<li><strong>Navigation</strong>: TOCs on left and right</li>
+<li>Search document (upper left)</li>
+<li>Document generated with <a href="https://quarto.org/">quarto</a></li>
+</ul></li>
+<li><strong>Motivation</strong>: Have a go-to script for participants (and ourselves!)</li>
+<li><strong>Content</strong>: Mixture of theory, lab sessions, exercises and pure code examples for discussion</li>
+</ul>
+</section>
+<section id="strategy-goals" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="strategy-goals"><span class="header-section-number">5</span> Strategy &amp; Goals</h2>
+<ul>
+<li><p><strong>Strategy</strong>: From the simple to the complex, slowly building up a complex Shiny app that includes various aspects (tabulate data, modelling and descriptive graphs, mapping)</p></li>
+<li><p><strong>Goals</strong>: By the end of the course participants will:</p>
+<ul>
+<li>know what the structure of a Shiny application looks like</li>
+<li>understand the basics of reactive programming for interactive data analysis and visualization</li>
+<li>be comfortable to use R Shiny to build their own interactive applications</li>
+<li>have learned about different ways to launch their Shiny application</li>
+</ul></li>
+</ul>
+</section>
+<section id="online-vs.-offline" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="online-vs.-offline"><span class="header-section-number">6</span> Online vs.&nbsp;offline</h2>
+<ul>
+<li><strong>Negative</strong>
+<ul>
+<li>Screen fatigue</li>
+<li>Can’t run around to check your code</li>
+<li>Less engaging, less social</li>
+<li>Voice</li>
+<li>Screen sharing &amp;less screen space than classroom</li>
+</ul></li>
+<li><strong>Positive</strong>
+<ul>
+<li>We see the Shiny app how its mostly consumed ;-) (on a screen)
+<ul>
+<li>Remember: “How is your Shiny app consumed (smartphone)?”</li>
+</ul></li>
+<li>Participation from everywhere</li>
+</ul></li>
+<li><strong>Rule(s)</strong>: Please keep your camera online if possible!
+<ul>
+<li>Distracting animals/children/partners are a welcome distraction!</li>
+<li>Yawning, leaving, looking bored etc. allowed!</li>
+<li>Use a virtual background if you like!</li>
+</ul></li>
+</ul>
+</section>
+<section id="recommended-readings" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="recommended-readings"><span class="header-section-number">7</span> Recommended readings</h2>
+<ul>
+<li><strong>Important</strong>: Our workshop does not require any prior reading.</li>
+<li>However, our schedule is primarily based on two textbooks which we generally recommend for further reading (see references on website):
+<ul>
+<li><span class="citation" data-cites="wickham2021mastering">Wickham (<a href="#ref-wickham2021mastering" role="doc-biblioref">2021</a>)</span>: Mastering Shiny: Build Interactive Apps, Reports, and Dashboards Powered by R. Accessible online at: https://mastering-shiny.org/.</li>
+<li>Fay, Colin, Rochette, Sébastien, Guyader, Vincent, and Girard, Cervan (2022): Engineering Production-Grade Shiny Apps. Accessible online at: https://engineering-shiny.org/.</li>
+</ul></li>
+</ul>
+</section>
+<section id="software-we-will-use" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="software-we-will-use"><span class="header-section-number">8</span> Software we will use</h2>
+<ul>
+<li>Open-source software! (Q: Why?)</li>
+<li>R <span class="citation" data-cites="rcoreteam2023">(<a href="#ref-rcoreteam2023" role="doc-biblioref">R Core Team 2023</a>)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>
+<ul>
+<li>only viable competitor is Python</li>
+<li>Install the necessary packages using the code below.</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># install.packages('pacman')
+library(pacman)
+p_load('gt', 'gtsummary',
+'modelsummary', 'gifski', 'png', 'datasauRus', 'ggplot2', 'gganimate', 'dplyr',
+'shiny', 'htmltools', 'bs4Dash', 'fresh', 'waiter', 'shinyWidgets', 'Guerry',
+'sf', 'tidyr', 'RColorBrewer', 'viridis', 'leaflet', 'plotly', 'jsonlite',
+'GGally', 'datawizard', 'parameters', 'performance', 'ggdark', 'reactlog',
+'profvis', 'rsconnect', 'whereami', 'DT')</code></pre>
+</div>
+</div>
+<ul>
+<li>Shiny <span class="citation" data-cites="chang2020 wickham2021mastering">(<a href="#ref-chang2020" role="doc-biblioref">Chang et al. 2022</a>; <a href="#ref-wickham2021mastering" role="doc-biblioref">Wickham 2021</a>)</span></li>
+<li>Ggplot2<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <span class="citation" data-cites="wickham2016">(<a href="#ref-wickham2016" role="doc-biblioref">Wickham 2016</a>)</span></li>
+<li>Plotly<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> <span class="citation" data-cites="sievert2020">(<a href="#ref-sievert2020" role="doc-biblioref">Sievert 2020</a>)</span></li>
+<li>Note: Ideally cite the software you use in your research especially when it is open-source (e.g., run <code>citation("ggplot2")</code>)</li>
+</ul>
+</section>
+<section id="helpful-resources" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="helpful-resources"><span class="header-section-number">9</span> Helpful resources</h2>
+<ol type="1">
+<li><a href="https://shiny.posit.co/r/gallery/#user-showcase">Shiny user showcase</a></li>
+<li><a href="https://shiny.posit.co/r/gallery/#feature-demos">Shiny feature demos</a></li>
+<li><a href="https://shiny.posit.co/r/gallery/widgets/widget-gallery/">Shiny widget gallery</a></li>
+<li><a href="https://appsilon.com/why-you-should-use-r-shiny-for-enterprise-application-development/#anchor-7">R Shiny for Enterprise Application Development: 6 Lessons for Building Shiny Apps</a></li>
+<li><a href="http://www.dimiter.eu/Visualizations.html">Shiny apps by Dimiter Toshkov</a></li>
+</ol>
+
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-chang2020" class="csl-entry" role="listitem">
+Chang, Winston, Joe Cheng, JJ Allaire, Carson Sievert, Barret Schloerke, Yihui Xie, Jeff Allen, Jonathan McPherson, Alan Dipert, and Barbara Borges. 2022. <em>Shiny: Web Application Framework for r</em>. <a href="https://CRAN.R-project.org/package=shiny">https://CRAN.R-project.org/package=shiny</a>.
+</div>
+<div id="ref-rcoreteam2023" class="csl-entry" role="listitem">
+R Core Team. 2023. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
+</div>
+<div id="ref-sievert2020" class="csl-entry" role="listitem">
+Sievert, Carson. 2020. <em>Interactive Web-Based Data Visualization with r, Plotly, and Shiny</em>. Chapman; Hall/CRC. <a href="https://plotly-r.com">https://plotly-r.com</a>.
+</div>
+<div id="ref-wickham2016" class="csl-entry" role="listitem">
+Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+<div id="ref-wickham2021mastering" class="csl-entry" role="listitem">
+———. 2021. <em>Mastering Shiny</em>. " O’Reilly Media, Inc.".
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Creators: <a href="https://www.r-project.org/contributors.html">Core contributors</a> and thousands of package authors.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Creators: https://github.com/tidyverse/ggplot2<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Creators: https://github.com/plotly/plotly.js; https://github.com/ropensci/plotly<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/bookdown\.org\/paul\/shiny_workshop\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+      for (let i=0; i<annoteTargets.length; i++) {
+        const annoteTarget = annoteTargets[i];
+        const targetCell = annoteTarget.getAttribute("data-target-cell");
+        const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+        const contentFn = () => {
+          const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          if (content) {
+            const tipContent = content.cloneNode(true);
+            tipContent.classList.add("code-annotation-tip-content");
+            return tipContent.outerHTML;
+          }
+        }
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          onShow: (instance) => {
+            selectCodeLines(instance.reference);
+            instance.reference.classList.add('code-annotation-active');
+            window.tippy.hideAll();
+          },
+          onHide: (instance) => {
+            unselectCodeLines();
+            instance.reference.classList.remove('code-annotation-active');
+          },
+          maxWidth: 300,
+          delay: [50, 0],
+          duration: [200, 0],
+          offset: [5, 10],
+          arrow: true,
+          appendTo: function(el) {
+            return el.parentElement.parentElement.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto',
+          placement: 'right',
+          popperOptions: {
+            modifiers: [
+            {
+              name: 'flip',
+              options: {
+                flipVariations: false, // true by default
+                allowedAutoPlacements: ['right'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+              },
+            },
+            {
+              name: 'preventOverflow',
+              options: {
+                mainAxis: false,
+                altAxis: false
+              }
+            }
+            ]        
+          }      
+        };
+        window.tippy(annoteTarget, config); 
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/01-workshop.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
