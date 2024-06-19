@@ -1,0 +1,57 @@
+---
+title: "Dos and donts when building your own app"
+---
+
+- Learning outcomes:
+  - Good practices for Shiny programming
+  - Typical pitfalls to watch out for
+  - Useful everyday Shiny workflows
+  
+  
+  
+## Paul
+
+### Do!
+
+#### Use Large Language Models (LLMs)
+
+
+### Dont!
+
+
+
+
+
+## Jonas
+
+### Do!
+
+#### Use the browser inspector
+
+- Browser inspectors are an extremely powerful tool that goes far beyond the scope of this workshop
+- It can be used to take a deep look at a website
+  - What colors and fonts are used?
+  - How would the Shiny app look like on different screen sizes?
+  - How would the Shiny app look like to color-blind people?
+  - How are UI elements translated to HTML and CSS?
+  - How are widths and heights translated to pixels?
+  - Which HTTP requests are sent when running the Shiny app?
+  - Does my website evoke any client-side errors?
+  - ... and a lot more
+- Every popular browser has its own implementation of an inspector
+  - [Firefox Page Inspector](https://firefox-source-docs.mozilla.org/devtools-user/page_inspector/)
+  - [Chrome DevTools](https://developer.chrome.com/docs/devtools)
+  - [Opera Web Inspector](https://dev.opera.com/extensions/testing/)
+  - [Edge Inspect Tool](https://learn.microsoft.com/en-en/microsoft-edge/devtools-guide-chromium/css/inspect)
+  - [Safari Web Inspector](https://developer.apple.com/documentation/safari-developer-tools/web-inspector)
+- Inspectors are useful for:
+  - Conveying an understanding of essential HTML and CSS
+  - Fine-tuning the UI of a Shiny app
+  - Implementing corporate designs
+- Inspectors are **excessive** if:
+  - The goal is primarily to get a functioning app
+  - Exploring a new elaborate tool beyond Shiny is a bit too much
+
+
+
+### Dont!
