@@ -1,9 +1,16 @@
 ---
 title: "Workshop: Interactive Data Analysis with Shiny"
 author: "Paul C. Bauer & Jonas Lieth"
+date: last-modified
+date-format: "[Last updated:] MMM D, YYYY"
+format:
+  html:
+    include-in-header:
+      - text: |
+          <meta http-equiv="refresh" content="0; url=01-workshop.html" />
 ---
 
-This document serves as slides and script for the workshop ***Interactive Data Analysis with Shiny*** taught by [Paul C. Bauer](http://paulcbauer.eu/) <a href='https://twitter.com/p_c_bauer' class='fa fa-twitter' target='_blank'></a> and [Jonas Lieth]() (Gesis, Mannheim, Online, 5-7th of July 2023). Original material is licensed under a [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) license. Where we draw on other authors material other licenses may apply (see references in the syllabus as well as the citations and links in the script). For potential future versions of this material see the  [github repository](https://github.com/paulcbauer/shiny_workshop/). If you have feedback or discover errors/dead links please let us know via email (mail@paulcbauer.de/Jonas.Lieth@gesis.org) or by submitting an issue on github. And make sure to [install all the necessary packages]() before you use the script.
+
 
 
 ```{r cache=TRUE, include=FALSE}
@@ -11,4 +18,7 @@ This document serves as slides and script for the workshop ***Interactive Data A
 knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
+library(pacman)
+pacman::p_load(listviewer, ggdark, Guerry, bs4Dash)
 ```
+

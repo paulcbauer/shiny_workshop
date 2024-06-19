@@ -394,7 +394,7 @@ kable(head(data_guerry[c(1,2,3,4,21,22)]))
 
 1. Install the relevant packages:
 
-```{r, cache=TRUE, eval=FALSE, include=TRUE}
+```{r chunk-1, cache=TRUE, eval=FALSE, include=TRUE}
 install.packages("shiny")
 install.packages("tidyverse")
 # Guerry package is already installed
@@ -404,7 +404,7 @@ install.packages("tidyverse")
 3. Create an rscript file in Rstudio and save it in the working directory with the name `app.R`.
 4. Copy the code below and paste it into your `app.R` script.
 
-```{r eval=FALSE, file="shinyapps/guerry/states_paul/app_tab_tabulate.R"}
+```{r chunk-2, eval=FALSE, file="shinyapps/guerry/states_paul/app_tab_tabulate.R"}
 #| code-fold: true
 #| code-summary: Code of the tabulate tab subset of the app
 
@@ -462,7 +462,7 @@ knitr::include_graphics("resources/MVP.png")
   4. Close the app.
   5. Go to 1.
 
-```{r cache=FALSE}
+```{r chunk-3, cache=FALSE, eval = FALSE}
 library(shiny)
 ui <- fluidPage(
   
