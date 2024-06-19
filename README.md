@@ -69,11 +69,11 @@ Course participants will need a computer or laptop with R (https://cran.r-projec
   <tr valign="top"><td valign="middle"><i>14:15-14:30</i></td><td valign="middle"><i>Coffee break</i></td></tr>
   <tr valign="top"><td valign="middle">14:30-16:00</td><td valign="middle">Tutorials for reactive programming II</td></tr>
   <tr valign="top"><td colspan="2" valign="middle"><b>Thursday, 25.07.</b></td></tr>
-  <tr valign="top"><td valign="middle" >10:00-11:00</td><td valign="middle">Visualization with ggplot2 and Shiny</td></tr>
+  <tr valign="top"><td valign="middle" >10:00-11:00</td><td valign="middle"><a href="https://paulcbauer.github.io/shiny_workshop/05-visualization.html">Visualization with ggplot2 and Shiny</a></td></tr>
   <tr valign="top"><td valign="middle"><i>11:00-11:15</i></td><td valign="middle"><i>Coffee break</i></td></tr>
   <tr valign="top"><td valign="middle">11:15-12:00</td><td valign="middle">Tutorials for visualization</td></tr>
   <tr valign="top"><td valign="middle"><i>12:00-13:00</i></td><td valign="middle"><i>Lunch break</i></td></tr>
-  <tr valign="top"><td valign="middle">13:00-14:15</td><td valign="middle">Testing and deployment</td></tr>
+  <tr valign="top"><td valign="middle">13:00-14:15</td><td valign="middle"><a href="https://paulcbauer.github.io/shiny_workshop/08-deployment.html">Testing and deployment</a></td></tr>
   <tr valign="top"><td valign="middle"><i>14:15-14:30</i></td><td valign="middle"><i>Coffee break</i></td></tr>
   <tr valign="top"><td valign="middle">14:30-16:00</td><td valign="middle">Tutorials for deployment</td></tr>
   <tr valign="top"><td colspan="2" valign="middle"><b>Friday, 26.07.</b></td></tr>
