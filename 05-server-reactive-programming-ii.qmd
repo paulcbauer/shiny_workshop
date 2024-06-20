@@ -1,0 +1,9 @@
+---
+title: "Server: Reactive programming II"
+---
+
+- Learning outcomes
+  - Become familiar with reactive functions and observers
+  - Understand how to change the UI reactively through updaters
+  - Control the reactive graph through events, isolation, and truthiness
+  - Let Shiny's reactive flow work for, not against you

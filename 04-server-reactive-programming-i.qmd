@@ -3,9 +3,9 @@ title: "Server: Reactive programming"
 ---
 
 - Learning outcomes:
-  - Understand logic underlying reactivity in Shiny apps
-  - Become familiar with difference reactive functions such as `reactive()` or `observe()`
-  - Explore reactivity in the Guerry app focusing on the *Tabulate data* tab
+  - Understand the logic underlying reactivity in Shiny apps
+  - Conceiving and constructing reactive graphs
+  - Implement a basic I/O structure based on reactive elements
 
 Sources: @wickham2021mastering [Ch. 3]
 

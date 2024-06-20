@@ -5,8 +5,8 @@ title: "User Interface (UI): Designing the front end"
 - Learning outcomes: 
   - Understand logic underlying user interfaces in Shiny
   - Learn how to create UIs using different layouts, inputs and outputs
-  - Become familiar with UI functions such as `fluidPage()`, `dashboardPage()`, `menuItem()`, `tabItems()`, `tabsetPanel()` and `tabPanel()`
-  - Understand UI of Guerry app
+  - Become familiar with various UI widgets
+  - Create the foundations for reactive plots, tables, and maps
 
 Sources: @wickham2021mastering [Ch. 2]
 

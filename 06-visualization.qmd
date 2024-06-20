@@ -3,69 +3,13 @@ title: "Modelling and visualizing data"
 editor: visual
 ---
 
-```{r include=FALSE}
-pacman::p_load(
-	shiny,
-	htmltools,
-	bs4Dash,
-	fresh,
-	waiter,
-	shinyWidgets,
-	Guerry,
-	sf,
-	tidyr,
-	dplyr,
-	RColorBrewer,
-	viridis,
-	leaflet,
-	plotly,
-	jsonlite
-)
-
-variable_names <- list(
-  Crime_pers = "Crime against persons",  
-  Crime_prop =  "Crime against property",  
-  Literacy = "Literacy",  
-  Donations = "Donations to the poor",  
-  Infants = "Illegitimate births",  
-  Suicides = "Suicides",  
-  Wealth = "Tax / capita",  
-  Commerce = "Commerce & Industry",  
-  Clergy = "Clergy",  
-  Crime_parents = "Crime against parents",  
-  Infanticide = "Infanticides",  
-  Donation_clergy = "Donations to the clergy",  
-  Lottery = "Wager on Royal Lottery",  
-  Desertion = "Military desertion",  
-  Instruction = "Instruction",  
-  Prostitutes = "Prostitutes",  
-  Distance = "Distance to paris",  
-  Area = "Area",  
-  Pop1831 = "Population"
-)
-
-data_guerry <- Guerry::gfrance85 %>%
-  st_as_sf() %>%
-  as_tibble() %>%
-  st_as_sf(crs = 27572) %>%
-  mutate(Region = case_match(
-    Region,
-    "C" ~ "Central",
-    "E" ~ "East",
-    "N" ~ "North",
-    "S" ~ "South",
-    "W" ~ "West"
-  )) %>%
-  select(-c("COUNT", "dept", "AVE_ID_GEO", "CODE_DEPT")) %>%
-  select(Region:Department, all_of(names(variable_names)))
-```
-
 You will learn how to:
 
--   Embed plots and diagrams from ggplot2 in Shiny apps
--   Make your plots interactive using Plotly
--   Explore issues using the power of interactive visualization dashboards
--   Visualize a regression analysis in Shiny
+- Implement and customize interactivity in plots
+- Leverage input events to fine-tune visualizations
+- Use proxies to update plots and maps on-the-fly (appendix)
+- Turn simple R plots into powerful Swiss knifes
+
 
 # Interactive visualization: The core of Shiny
 

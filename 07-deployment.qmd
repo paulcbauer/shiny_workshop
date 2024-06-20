@@ -3,11 +3,11 @@ title: "Strengthen & Deploy"
 ---
 
 
-You will learn how to:
-
--   Test the performance of your app
--   Solidify Shiny apps using logging and debugging
--   Deploy your app to a common Shiny platform
+Learning outcomes
+- Debug Shiny apps and understand them from the inside
+- Supervise and test Shiny apps for robustness (appendix)
+- Convert simple Shiny apps to static website using shinylive
+- Deploy any Shiny app to the web using shinyapps.io
 
 # Deploying Shiny apps
 
