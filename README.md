@@ -1,6 +1,8 @@
-# GESIS Workshop "Interactive Data Analysis with Shiny", July 23-26, 2024
+# Interactive Data Analysis with Shiny
 
-For the materials of the workshop, click [here](https://paulcbauer.github.io/shiny_workshop/).
+Materials for the GESIS workshop "Interactive Data Analysis with Shiny", July 23-26, 2024
+
+For the Quarto document of the workshop, click [here](https://paulcbauer.github.io/shiny_workshop/).
 
 Lecturers:
 - [Paul C. Bauer](https://paulcbauer.github.io/)
