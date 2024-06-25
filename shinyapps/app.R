@@ -47,7 +47,6 @@ ui <- fluidPage(
         "countries",
         label = "Filter by country",
         choices = unique(ess$country),
-        selected = "FR",
         multiple = TRUE
       ),
       
@@ -145,18 +144,9 @@ server <- function(input, output) {
       drop_na() %>%
       mutate(across(is.numeric, .fns = as.ordered))
 
-    xtab <- table(plot_data[c(xvar, yvar)]) %>%
-      prop.table(margin = 2) %>%
-      as_tibble() %>%
-      mutate(across(is.character, .fns = ~as.ordered(as.numeric(.x)))) %>%
-      mutate(n)
-
-    p <- ggplot(xtab) +
-      aes(x = .data[[yvar]], y = .data[[xvar]]) +
-      geom_tile(aes(fill = n), color = "black") +
-      scale_y_discrete(expand = c(0, 0)) +
-      scale_x_discrete(expand = c(0, 0)) +
-      scale_fill_viridis_c() +
+    p <- ggplot(plot_data) +
+      aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
+      geom_violin(fill = "lightblue", show.legend = FALSE) +
       theme_classic()
     plotly::ggplotly(p)
   })
