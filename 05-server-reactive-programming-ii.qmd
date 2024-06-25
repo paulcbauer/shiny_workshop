@@ -2,8 +2,100 @@
 title: "Server: Reactive programming II"
 ---
 
+```{r include=FALSE}
+library(shiny)
+```
+
+
 - Learning outcomes
   - Become familiar with reactive functions and observers
   - Understand how to change the UI reactively through updaters
   - Control the reactive graph through events, isolation, and truthiness
   - Let Shiny's reactive flow work for, not against you
+  
+  
+# Basics
+
+- In the last section, you learned about what reactivity means in Shiny
+- Recall:
+  - The programmer provides R with a "recipe"
+  - R creates an order of expressions under the hood (or "reactive graph")
+  - R executes these expressions whenever an input changes
+- So far we have worked with inputs (e.g. `input$slider`), outputs (e.g. `output$plot`), and reactive functions (e.g. `reactive(input$slider + 1)`)
+- In a Shiny app, these three elements are by far the most widely used
+- In this section, you will learn about new mechanisms to control the reactive graph:
+  - **Observers**: Reactively perform side effects
+  - **Updaters**: Change inputs
+  - **Events**: Control when reactive elements are executed
+  - **Isolation**: Sever expressions from the reactive graph
+  - **Truthiness**: Stop reactivity based on arbitrary conditions
+  
+  
+# Reactives versus observers
+
+
+
+## Reactive
+
+Reactives (`reactive()`) wrapped up:
+  - Reactives wrap an R expression to create a reactive expression
+  - They "react" to an input, i.e. are evaluated when an input changes.
+  - They are both reactive producers and consumer. They take reactive values and return a reactive value.
+  - They must be assigned to a name. They can be referred to by other reactive consumers by being called like a function.
+  - They are evaluated **lazily**, i.e. they only run if they are forced to.
+- Reactives have two clear uses:
+  - They reduce the amount of computation that needs to be done by Shiny
+  - They reduce the mental strain in trying to understand complex Shiny code
+
+
+::: {.callout-tip}
+Conceptually and technically, reactives may be compared to traditional R functions. Functional programming follows the ["rule of three"](https://en.wikipedia.org/wiki/Rule_of_three_(computer_programming)): If code would be duplicated three times, wrap it in a function. Shiny follows the rule of two. This is because reactives not only simplify code for humans but also for machines: R only evaluates reactives, if it has to. This dramatically increases performance.
+
+Also, reactives _literally_ are functions:
+
+```{r}
+is.function(reactive({}))
+```
+
+:::
+  
+
+![Simplifying reactive graphs through reactives. Updating one input only updates a single reactive updates only a single output](https://d33wubrfki0l68.cloudfront.net/7037f40071103105203cef484ca816fa0f72555f/97d14/diagrams/basic-reactivity/case-study-2.png)  
+
+  
+## Observers
+
+- Observers (`observe()`) are similar to reactives:
+  - They also take an arbitrary R expression.
+  - They also react to an input.
+- But they also carry many important differences:
+  - They are **not assigned** to a name, thus they cannot be referred to from other reactive consumers and their return value is simply discarded. This also means they are terminal nodes (reactive consumers) in the reactive graphs -- just like outputs.
+  - They are evaluated **eagerly**, i.e. they run as soon as possible.
+  - They are forgetful, i.e. they do not remember their previous action.
+- Since they are terminal nodes but do not produce a visible output, they are something between a reactive and an output
+- Their uses are manifold, but here are some examples:
+  - Logging to the R console
+  - Updating inputs (see below)
+  - Reactively changing the UI
+  - Communicating with a remote storage (e.g. a database or a cloud)
+  - Essentially everything that does not require assigning to a name
+  
+  
+::: {.callout-tip}
+Conceptually, observers may be compared to the tidyverse function [`purrr::walk`](https://www.tidyverse.org/blog/2023/05/purrr-walk-this-way/), which iterates over a list or a vector and performs "side-effects" like writing to files. Unlike `purrr::walk`, though, `observe` is probably much more common-place.
+:::
+
+```{r}
+ui <- fluidPage(
+  textInput("name", "What's your name?"),
+  textOutput("greeting"),
+)
+
+server <- function(input, output, session) {
+  observe(message(input$name))
+  output$greeting <- renderText(input$name)
+}
+
+shinyApp(ui, server)
+```
+

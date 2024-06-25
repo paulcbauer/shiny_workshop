@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -174,7 +208,18 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#basics" id="toc-basics" class="nav-link active" data-scroll-target="#basics"><span class="header-section-number">1</span> Basics</a></li>
+  <li><a href="#reactives-versus-observers" id="toc-reactives-versus-observers" class="nav-link" data-scroll-target="#reactives-versus-observers"><span class="header-section-number">2</span> Reactives versus observers</a>
+  <ul class="collapse">
+  <li><a href="#reactive" id="toc-reactive" class="nav-link" data-scroll-target="#reactive"><span class="header-section-number">2.1</span> Reactive</a></li>
+  <li><a href="#observers" id="toc-observers" class="nav-link" data-scroll-target="#observers"><span class="header-section-number">2.2</span> Observers</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/05-server-reactive-programming-ii.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -207,8 +252,121 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <li>Let Shiny’s reactive flow work for, not against you</li>
 </ul></li>
 </ul>
+<section id="basics" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Basics</h1>
+<ul>
+<li>In the last section, you learned about what reactivity means in Shiny</li>
+<li>Recall:
+<ul>
+<li>The programmer provides R with a “recipe”</li>
+<li>R creates an order of expressions under the hood (or “reactive graph”)</li>
+<li>R executes these expressions whenever an input changes</li>
+</ul></li>
+<li>So far we have worked with inputs (e.g.&nbsp;<code>input$slider</code>), outputs (e.g.&nbsp;<code>output$plot</code>), and reactive functions (e.g.&nbsp;<code>reactive(input$slider + 1)</code>)</li>
+<li>In a Shiny app, these three elements are by far the most widely used</li>
+<li>In this section, you will learn about new mechanisms to control the reactive graph:
+<ul>
+<li><strong>Observers</strong>: Reactively perform side effects</li>
+<li><strong>Updaters</strong>: Change inputs</li>
+<li><strong>Events</strong>: Control when reactive elements are executed</li>
+<li><strong>Isolation</strong>: Sever expressions from the reactive graph</li>
+<li><strong>Truthiness</strong>: Stop reactivity based on arbitrary conditions</li>
+</ul></li>
+</ul>
+</section>
+<section id="reactives-versus-observers" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Reactives versus observers</h1>
+<section id="reactive" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="reactive"><span class="header-section-number">2.1</span> Reactive</h2>
+<p>Reactives (<code>reactive()</code>) wrapped up: - Reactives wrap an R expression to create a reactive expression - They “react” to an input, i.e.&nbsp;are evaluated when an input changes. - They are both reactive producers and consumer. They take reactive values and return a reactive value. - They must be assigned to a name. They can be referred to by other reactive consumers by being called like a function. - They are evaluated <strong>lazily</strong>, i.e.&nbsp;they only run if they are forced to. - Reactives have two clear uses: - They reduce the amount of computation that needs to be done by Shiny - They reduce the mental strain in trying to understand complex Shiny code</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Conceptually and technically, reactives may be compared to traditional R functions. Functional programming follows the <a href="https://en.wikipedia.org/wiki/Rule_of_three_(computer_programming)">“rule of three”</a>: If code would be duplicated three times, wrap it in a function. Shiny follows the rule of two. This is because reactives not only simplify code for humans but also for machines: R only evaluates reactives, if it has to. This dramatically increases performance.</p>
+<p>Also, reactives <em>literally</em> are functions:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">is.function</span>(<span class="fu">reactive</span>({}))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://d33wubrfki0l68.cloudfront.net/7037f40071103105203cef484ca816fa0f72555f/97d14/diagrams/basic-reactivity/case-study-2.png" class="img-fluid figure-img"></p>
+<figcaption>Simplifying reactive graphs through reactives. Updating one input only updates a single reactive updates only a single output</figcaption>
+</figure>
+</div>
+</section>
+<section id="observers" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="observers"><span class="header-section-number">2.2</span> Observers</h2>
+<ul>
+<li>Observers (<code>observe()</code>) are similar to reactives:
+<ul>
+<li>They also take an arbitrary R expression.</li>
+<li>They also react to an input.</li>
+</ul></li>
+<li>But they also carry many important differences:
+<ul>
+<li>They are <strong>not assigned</strong> to a name, thus they cannot be referred to from other reactive consumers and their return value is simply discarded. This also means they are terminal nodes (reactive consumers) in the reactive graphs – just like outputs.</li>
+<li>They are evaluated <strong>eagerly</strong>, i.e.&nbsp;they run as soon as possible.</li>
+<li>They are forgetful, i.e.&nbsp;they do not remember their previous action.</li>
+</ul></li>
+<li>Since they are terminal nodes but do not produce a visible output, they are something between a reactive and an output</li>
+<li>Their uses are manifold, but here are some examples:
+<ul>
+<li>Logging to the R console</li>
+<li>Updating inputs (see below)</li>
+<li>Reactively changing the UI</li>
+<li>Communicating with a remote storage (e.g.&nbsp;a database or a cloud)</li>
+<li>Essentially everything that does not require assigning to a name</li>
+</ul></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Conceptually, observers may be compared to the tidyverse function <a href="https://www.tidyverse.org/blog/2023/05/purrr-walk-this-way/"><code>purrr::walk</code></a>, which iterates over a list or a vector and performs “side-effects” like writing to files. Unlike <code>purrr::walk</code>, though, <code>observe</code> is probably much more common-place.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="fu">textInput</span>(<span class="st">"name"</span>, <span class="st">"What's your name?"</span>),</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="fu">textOutput</span>(<span class="st">"greeting"</span>),</span>
+<span id="cb3-4"><a href="#cb3-4"></a>)</span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb3-7"><a href="#cb3-7"></a>  <span class="fu">observe</span>(<span class="fu">message</span>(input<span class="sc">$</span>name))</span>
+<span id="cb3-8"><a href="#cb3-8"></a>  output<span class="sc">$</span>greeting <span class="ot">&lt;-</span> <span class="fu">renderText</span>(input<span class="sc">$</span>name)</span>
+<span id="cb3-9"><a href="#cb3-9"></a>}</span>
+<span id="cb3-10"><a href="#cb3-10"></a></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-server-reactive-programming-ii_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -664,4 +822,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/05-server-reactive-programming-ii.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/05-server-reactive-programming-ii.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
