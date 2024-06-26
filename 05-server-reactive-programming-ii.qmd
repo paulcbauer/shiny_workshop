@@ -1,5 +1,7 @@
 ---
 title: "Server: Reactive programming II"
+code-annotations: hover
+code-link: true
 ---
 
 ```{r include=FALSE}
@@ -37,19 +39,20 @@ library(shiny)
 
 ## Reactive
 
-Reactives (`reactive()`) wrapped up:
+- Reactives (`reactive()`) wrapped up:
   - Reactives wrap an R expression to create a reactive expression
   - They "react" to an input, i.e. are evaluated when an input changes.
   - They are both reactive producers and consumer. They take reactive values and return a reactive value.
-  - They must be assigned to a name. They can be referred to by other reactive consumers by being called like a function.
+  - They **must be assigned** to a name. They can be referred to by other reactive consumers by being called like a function.
   - They are evaluated **lazily**, i.e. they only run if they are forced to, for example when they are called by another reactive.
+  - They are **cached**, i.e. when called back-to-back, without any dependency changing, then they return the same value twice
 - Reactives have two clear uses:
   - They reduce the amount of computation that needs to be done by Shiny
   - They reduce the mental strain in trying to understand complex Shiny code
 
 
 ::: {.callout-tip}
-Conceptually and technically, reactives may be compared to traditional R functions. Functional programming follows the ["rule of three"](https://en.wikipedia.org/wiki/Rule_of_three_(computer_programming)): If code would be duplicated three times, wrap it in a function. Shiny follows the rule of two. This is because reactives not only simplify code for humans but also for machines: R only evaluates reactives, if it has to. This can dramatically increase speed up an application.
+Conceptually and technically, reactives may be compared to traditional R functions. Functional programming follows the ["rule of three"](https://en.wikipedia.org/wiki/Rule_of_three_(computer_programming)): If code would be duplicated three times, wrap it in a function. Shiny follows the rule of two. This is because reactives not only simplify code for humans but also for machines: R only evaluates reactives if it has to. This can dramatically increase speed up an application.
 
 Also, reactives _literally_ are functions:
 
@@ -59,8 +62,12 @@ is.function(reactive({}))
 
 :::
   
+  
 
-![Simplifying reactive graphs through reactives. Updating one input only updates a single reactive updates only a single output](https://d33wubrfki0l68.cloudfront.net/7037f40071103105203cef484ca816fa0f72555f/97d14/diagrams/basic-reactivity/case-study-2.png)  
+
+| ![Reactive graph without reactives](https://d33wubrfki0l68.cloudfront.net/840574f96b31b47295cc1ec44d359c0493a6e1bb/4d300/diagrams/basic-reactivity/case-study-1.png) |   | ![Reactive graph with reactives](https://d33wubrfki0l68.cloudfront.net/7037f40071103105203cef484ca816fa0f72555f/97d14/diagrams/basic-reactivity/case-study-2.png) |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|---|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Reactive graph without reactives                                                                                                                                     |   | Reactive graph with reactives                                                                                                                                     |
 
   
 ## Observers
@@ -70,7 +77,8 @@ is.function(reactive({}))
   - They also react to an input.
 - But they also carry important differences:
   - They are **not assigned** to a name, thus they cannot be referred to from other reactive consumers and their return value is simply discarded. This also means they are terminal nodes (reactive consumers) in the reactive graphs -- just like outputs.
-  - They are evaluated **eagerly**, i.e. they run as soon as possible.
+  - They are evaluated **eagerly**, i.e. they run as soon as possible and do not wait for their dependencies.
+  - They are **forgetful**, their previous output is not cached.
 - Since they are terminal nodes but do not produce a visible output, they are something between a reactive and an output
 - Their uses are manifold, but here are some examples:
   - Logging to the R console
@@ -84,19 +92,176 @@ is.function(reactive({}))
 Conceptually, observers may be compared to the tidyverse function [`purrr::walk`](https://www.tidyverse.org/blog/2023/05/purrr-walk-this-way/), which iterates over a list or a vector and performs "side-effects" like writing to files. Unlike `purrr::walk`, though, `observe` is probably much more common-place.
 :::
 
-```{r}
+```{r, eval=FALSE}
+#| code-summary: Observers and reactives in the server function
+#| source-line-numbers: "32-36"
+# the reactive takes the inputs and produces a reactive value
+# which can be re-used in other reactive expressions
+filtered <- reactive({
+    xvar <- input$xvar
+    yvar <- input$yvar
+    range <- input$range
+    
+    # select country
+    if (!is.null(input$countries)) {
+      ess <- ess[ess$country %in% input$countries, ]
+    }
+    
+    # select variable
+    ess[c("idno", "country", xvar, yvar)]
+})
+
+# the plot output is a "reactive consumer" that takes
+# the reactive value and makes a plot out of it
+output$plot <- renderPlot({
+    xvar <- input$xvar
+    yvar <- input$yvar
+    plot_data <- filtered() %>%
+      drop_na() %>%
+      mutate(across(is.numeric, .fns = as.ordered))
+    
+    ggplot(plot_data) +
+      aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
+      geom_violin(fill = "lightblue", show.legend = FALSE) +
+      theme_classic()
+})
+
+# the observer also takes the reactive value and prints it to the console
+# it is also a reactive consumer and does not return anything
+observe({
+  print(filtered())
+})
+```
+
+```{r, eval=FALSE}
+#| code-fold: true
+#| code-summary: "Complete code"
+library(dplyr)
+library(tidyr)
+library(shiny)
+library(plotly)
+library(leaflet)
+library(haven)
+
+ess <- readRDS("data/ess_trust.rds")
+ess_geo <- readRDS("data/ess_trust_geo.rds")
+
+# UI ----
 ui <- fluidPage(
-  textInput("name", "What's your name?"),
-  textOutput("greeting"),
+  titlePanel("European Social Survey - round 10"),
+  
+  ## Sidebar ----
+  sidebarLayout(
+    sidebarPanel(
+      ### select dependent variable
+      selectInput(
+        "xvar",
+        label = "Select a dependent variable",
+        choices = c(
+          "Trust in country's parliament" = "trust_parliament",
+          "Trust in the legal system" = "trust_legal",
+          "Trust in the police" = "trust_police",
+          "Trust in politicians" = "trust_politicians",
+          "Trust in political parties" = "trust_parties",
+          "Trust in the European Parliament" = "trust_eu",
+          "Trust in the United Nations" = "trust_un"
+        )
+      ),
+      
+      ### select a variable ----
+      selectInput(
+        "yvar",
+        label = "Select an independent variable",
+        choices = c(
+          "Placement on the left-right scale" = "left_right",
+          "Age" = "age",
+          "Feeling about household's income" = "income_feeling",
+          "How often do you use the internet?" = "internet_use",
+          "How happy are you?" = "happiness"
+        )
+      ),
+      
+      ### select a country ----
+      selectizeInput(
+        "countries",
+        label = "Filter by country",
+        choices = unique(ess$country),
+        multiple = TRUE
+      )
+    ),
+    
+    ## Main panel ----
+    mainPanel(
+      tabsetPanel(
+        type = "tabs",
+        
+        ### Table tab ----
+        tabPanel(
+          title = "Table",
+          div(
+            style = "height: 600px; overflow-y: auto;",
+            tableOutput("table")
+          )
+        ),
+        
+        ### Plot tab ----
+        tabPanel(
+          title = "Histogram",
+          plotlyOutput("plot", height = 600)
+        )
+      )
+    )
+  )
 )
 
-server <- function(input, output, session) {
-  observe(message(input$name))
-  output$greeting <- renderText(input$name)
+
+# Server ----
+server <- function(input, output) {
+  # filter data ----
+  filtered <- reactive({
+    xvar <- input$xvar
+    yvar <- input$yvar
+    range <- input$range
+    
+    # select country
+    if (!is.null(input$countries)) {
+      ess <- ess[ess$country %in% input$countries, ]
+    }
+    
+    # select variable
+    ess[c("idno", "country", xvar, yvar)]
+  })
+  
+  # render table ----
+  output$table <- renderTable({
+    ess[ess$country %in% input$countries, ]
+  }, height = 400)
+  
+  # render plot ----
+  output$plot <- renderPlotly({
+    xvar <- input$xvar
+    yvar <- input$yvar
+    plot_data <- filtered() %>%
+      drop_na() %>%
+      mutate(across(is.numeric, .fns = as.ordered))
+    
+    ggplot(plot_data) +
+      aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
+      geom_violin(fill = "lightblue", show.legend = FALSE) +
+      theme_classic()
+  })
+  
+  # executes everytime `filtered()` is updated
+  # prints the filtered dataset to the console
+  observe({
+    print(filtered())
+  })
 }
 
-shinyApp(ui, server)
+shinyApp(ui = ui, server = server)
 ```
+
+
 
 # Events
 
@@ -104,22 +269,110 @@ shinyApp(ui, server)
 - For example:
   - A user clicks a button
   - The Shiny session initializes
-  - An output changes
+  - An input is updated (see below)
 - We are dealing with Shiny events all the time, but it is important to realize how to control them
 
 
 ## `bindEvent`
 
-- The `bindEvent` function binds a reactive expression to an event
+- The `bindEvent` function binds a reactive expression to one or multiple events
 - The reactive expression is evaluated if _and only if_ the event is triggered
 - `bindEvent` _locks up_ a reactive expression unless a specific event is triggered
+- You can use `bindEvent` on all sorts of reactive expressions: reactives, observers, and output renderers
 
-```{r}
+```{r, eval=FALSE}
 reactive({
   # do something
 }) %>%
   bindEvent(input$button)
 ```
 
+### Arguments to `bindEvent`
 
-## 
+- `bindEvent` takes three arguments:
+  - `ignoreNULL`: By default, an event is only an event if it is something other than `NULL`. An unpressed button is also `NULL`. If you want a plot to render before pressing that button, then ignoring `NULL` is the right choice.
+  - `ignoreInit`: By default, events are triggered when the reactive expressions are first initialized. This can be bad news for dynamically created UI elements (which are beyond this workshop). 
+  - `once`: If used on an observer, this argument can be used to destroy that observer after its first use.
+  
+### Example  
+
+- To exemplify we will add an action button, that serves the following role:
+  - If the inputs are changed, nothing should happen to the plot
+  - Only if the button is pressed, shall the plot data be recalculated
+  
+In the UI:
+
+```{r, eval=FALSE}
+#| code-summary: Adding an action button to the UI
+#| source-line-numbers: "38-43"
+sidebarPanel(
+  ### select dependent variable
+  selectInput(
+    "xvar",
+    label = "Select a dependent variable",
+    choices = c(
+      "Trust in country's parliament" = "trust_parliament",
+      "Trust in the legal system" = "trust_legal",
+      "Trust in the police" = "trust_police",
+      "Trust in politicians" = "trust_politicians",
+      "Trust in political parties" = "trust_parties",
+      "Trust in the European Parliament" = "trust_eu",
+      "Trust in the United Nations" = "trust_un"
+    )
+  ),
+  
+  ### select a variable ----
+  selectInput(
+    "yvar",
+    label = "Select an independent variable",
+    choices = c(
+      "Placement on the left-right scale" = "left_right",
+      "Age" = "age",
+      "Feeling about household's income" = "income_feeling",
+      "How often do you use the internet?" = "internet_use",
+      "How happy are you?" = "happiness"
+    )
+  ),
+  
+  ### select a country ----
+  selectizeInput(
+    "countries",
+    label = "Filter by country",
+    choices = unique(ess$country),
+    multiple = TRUE
+  ),
+  
+  actionButton( # <1> 
+    "button", # <1>
+    label = "Update parameters", # <1>
+    icon = icon("refresh") # <1>
+  ) # <1>
+)
+```
+
+1. Add an action button with the ID `button` below the other inputs
+
+
+In the server function:
+
+```{r, eval=FALSE}
+#| code-summary: Event binding on the server-side
+#| source-line-numbers: "13-14"
+filtered <- reactive({
+  xvar <- input$xvar
+  yvar <- input$yvar
+  range <- input$range
+  
+  # select country
+  if (!is.null(input$countries)) {
+    ess <- ess[ess$country %in% input$countries, ]
+  }
+  
+  # select variable
+  ess[c("idno", "country", xvar, yvar)]
+}) %>% # <1>
+  bindEvent(input$button, ignoreNULL = FALSE) # <1>
+```
+
+1. We pipe the reactive into `bindEvent` to bind it to the action button. The reactive is now executed only if the action button is pressed.
+

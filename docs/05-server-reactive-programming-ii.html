@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.3.433">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -73,19 +73,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 50,
-  "keyboard-shortcut": [
-    "f",
-    "/",
-    "s"
-  ],
-  "show-item-context": false,
+  "limit": 20,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -94,7 +89,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
-    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -113,7 +107,8 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 
 <link rel="stylesheet" href="styles.css">
 <meta name="twitter:title" content="Workshop: Interactive Data Analysis with Shiny - Server: Reactive programming II">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://d33wubrfki0l68.cloudfront.net/840574f96b31b47295cc1ec44d359c0493a6e1bb/4d300/diagrams/basic-reactivity/case-study-1.png">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar floating">
@@ -122,12 +117,12 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-server-reactive-programming-ii.html">Server: Reactive programming II</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-server-reactive-programming-ii.html">Server: Reactive programming II</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -137,14 +132,14 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Interactive Data Analysis with Shiny</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://training.gesis.org/?site=pDetails&amp;child=full&amp;pID=0x0D17F8F738B14E0991504DBF8823A002" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-cursor-fill"></i></a>
-    <a href="https://github.com/paulcbauer/shiny_workshop" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
-    <a href="https://github.com/paulcbauer/shiny_workshop/issues" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-bug-fill"></i></a>
+    <a href="https://training.gesis.org/?site=pDetails&amp;child=full&amp;pID=0x0D17F8F738B14E0991504DBF8823A002" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-cursor-fill"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop/issues" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-bug-fill"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
@@ -205,7 +200,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -218,8 +213,12 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <li><a href="#reactive" id="toc-reactive" class="nav-link" data-scroll-target="#reactive"><span class="header-section-number">2.1</span> Reactive</a></li>
   <li><a href="#observers" id="toc-observers" class="nav-link" data-scroll-target="#observers"><span class="header-section-number">2.2</span> Observers</a></li>
   </ul></li>
+  <li><a href="#events" id="toc-events" class="nav-link" data-scroll-target="#events"><span class="header-section-number">3</span> Events</a>
+  <ul class="collapse">
+  <li><a href="#bindevent" id="toc-bindevent" class="nav-link" data-scroll-target="#bindevent"><span class="header-section-number">3.1</span> <code>bindEvent</code></a></li>
+  </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/05-server-reactive-programming-ii.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/05-server-reactive-programming-ii.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -239,9 +238,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   </div>
   
 
-
 </header>
-
 
 <ul>
 <li>Learning outcomes
@@ -278,7 +275,22 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <h1 data-number="2"><span class="header-section-number">2</span> Reactives versus observers</h1>
 <section id="reactive" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="reactive"><span class="header-section-number">2.1</span> Reactive</h2>
-<p>Reactives (<code>reactive()</code>) wrapped up: - Reactives wrap an R expression to create a reactive expression - They “react” to an input, i.e.&nbsp;are evaluated when an input changes. - They are both reactive producers and consumer. They take reactive values and return a reactive value. - They must be assigned to a name. They can be referred to by other reactive consumers by being called like a function. - They are evaluated <strong>lazily</strong>, i.e.&nbsp;they only run if they are forced to. - Reactives have two clear uses: - They reduce the amount of computation that needs to be done by Shiny - They reduce the mental strain in trying to understand complex Shiny code</p>
+<ul>
+<li>Reactives (<code>reactive()</code>) wrapped up:
+<ul>
+<li>Reactives wrap an R expression to create a reactive expression</li>
+<li>They “react” to an input, i.e.&nbsp;are evaluated when an input changes.</li>
+<li>They are both reactive producers and consumer. They take reactive values and return a reactive value.</li>
+<li>They <strong>must be assigned</strong> to a name. They can be referred to by other reactive consumers by being called like a function.</li>
+<li>They are evaluated <strong>lazily</strong>, i.e.&nbsp;they only run if they are forced to, for example when they are called by another reactive.</li>
+<li>They are <strong>cached</strong>, i.e.&nbsp;when called back-to-back, without any dependency changing, then they return the same value twice</li>
+</ul></li>
+<li>Reactives have two clear uses:
+<ul>
+<li>They reduce the amount of computation that needs to be done by Shiny</li>
+<li>They reduce the mental strain in trying to understand complex Shiny code</li>
+</ul></li>
+</ul>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -289,22 +301,37 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Conceptually and technically, reactives may be compared to traditional R functions. Functional programming follows the <a href="https://en.wikipedia.org/wiki/Rule_of_three_(computer_programming)">“rule of three”</a>: If code would be duplicated three times, wrap it in a function. Shiny follows the rule of two. This is because reactives not only simplify code for humans but also for machines: R only evaluates reactives, if it has to. This dramatically increases performance.</p>
+<p>Conceptually and technically, reactives may be compared to traditional R functions. Functional programming follows the <a href="https://en.wikipedia.org/wiki/Rule_of_three_(computer_programming)">“rule of three”</a>: If code would be duplicated three times, wrap it in a function. Shiny follows the rule of two. This is because reactives not only simplify code for humans but also for machines: R only evaluates reactives if it has to. This can dramatically increase speed up an application.</p>
 <p>Also, reactives <em>literally</em> are functions:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">is.function</span>(<span class="fu">reactive</span>({}))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-2_1b1f0ffbab8f4bec1a8236f312642cfd">
+<div class="sourceCode cell-code" id="cb1" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">is.function</span>(<span class="fu">reactive</span>({}))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
+<pre data-code-line-numbers=""><code>[1] TRUE</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://d33wubrfki0l68.cloudfront.net/7037f40071103105203cef484ca816fa0f72555f/97d14/diagrams/basic-reactivity/case-study-2.png" class="img-fluid figure-img"></p>
-<figcaption>Simplifying reactive graphs through reactives. Updating one input only updates a single reactive updates only a single output</figcaption>
-</figure>
-</div>
+<table class="table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 0%">
+<col style="width: 49%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><img src="https://d33wubrfki0l68.cloudfront.net/840574f96b31b47295cc1ec44d359c0493a6e1bb/4d300/diagrams/basic-reactivity/case-study-1.png" class="img-fluid" alt="Reactive graph without reactives"></th>
+<th></th>
+<th><img src="https://d33wubrfki0l68.cloudfront.net/7037f40071103105203cef484ca816fa0f72555f/97d14/diagrams/basic-reactivity/case-study-2.png" class="img-fluid" alt="Reactive graph with reactives"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Reactive graph without reactives</td>
+<td></td>
+<td>Reactive graph with reactives</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="observers" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="observers"><span class="header-section-number">2.2</span> Observers</h2>
@@ -314,11 +341,11 @@ Tip
 <li>They also take an arbitrary R expression.</li>
 <li>They also react to an input.</li>
 </ul></li>
-<li>But they also carry many important differences:
+<li>But they also carry important differences:
 <ul>
 <li>They are <strong>not assigned</strong> to a name, thus they cannot be referred to from other reactive consumers and their return value is simply discarded. This also means they are terminal nodes (reactive consumers) in the reactive graphs – just like outputs.</li>
-<li>They are evaluated <strong>eagerly</strong>, i.e.&nbsp;they run as soon as possible.</li>
-<li>They are forgetful, i.e.&nbsp;they do not remember their previous action.</li>
+<li>They are evaluated <strong>eagerly</strong>, i.e.&nbsp;they run as soon as possible and do not wait for their dependencies.</li>
+<li>They are <strong>forgetful</strong>, their previous output is not cached.</li>
 </ul></li>
 <li>Since they are terminal nodes but do not produce a visible output, they are something between a reactive and an output</li>
 <li>Their uses are manifold, but here are some examples:
@@ -343,24 +370,281 @@ Tip
 <p>Conceptually, observers may be compared to the tidyverse function <a href="https://www.tidyverse.org/blog/2023/05/purrr-walk-this-way/"><code>purrr::walk</code></a>, which iterates over a list or a vector and performs “side-effects” like writing to files. Unlike <code>purrr::walk</code>, though, <code>observe</code> is probably much more common-place.</p>
 </div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb3-2"><a href="#cb3-2"></a>  <span class="fu">textInput</span>(<span class="st">"name"</span>, <span class="st">"What's your name?"</span>),</span>
-<span id="cb3-3"><a href="#cb3-3"></a>  <span class="fu">textOutput</span>(<span class="st">"greeting"</span>),</span>
-<span id="cb3-4"><a href="#cb3-4"></a>)</span>
-<span id="cb3-5"><a href="#cb3-5"></a></span>
-<span id="cb3-6"><a href="#cb3-6"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb3-7"><a href="#cb3-7"></a>  <span class="fu">observe</span>(<span class="fu">message</span>(input<span class="sc">$</span>name))</span>
-<span id="cb3-8"><a href="#cb3-8"></a>  output<span class="sc">$</span>greeting <span class="ot">&lt;-</span> <span class="fu">renderText</span>(input<span class="sc">$</span>name)</span>
-<span id="cb3-9"><a href="#cb3-9"></a>}</span>
-<span id="cb3-10"><a href="#cb3-10"></a></span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="05-server-reactive-programming-ii_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="cell" data-source-line-numbers="32-36" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-3_0d2cca7920b5fd9ab24a5e8195a156c0">
+<div class="sourceCode cell-code" id="cb3" data-source-line-numbers="32-36" data-code-line-numbers="32-36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># the reactive takes the inputs and produces a reactive value</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co"># which can be re-used in other reactive expressions</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb3-4"><a href="#cb3-4"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
+<span id="cb3-5"><a href="#cb3-5"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="cb3-6"><a href="#cb3-6"></a>    range <span class="ot">&lt;-</span> input<span class="sc">$</span>range</span>
+<span id="cb3-7"><a href="#cb3-7"></a>    </span>
+<span id="cb3-8"><a href="#cb3-8"></a>    <span class="co"># select country</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(input<span class="sc">$</span>countries)) {</span>
+<span id="cb3-10"><a href="#cb3-10"></a>      ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
+<span id="cb3-11"><a href="#cb3-11"></a>    }</span>
+<span id="cb3-12"><a href="#cb3-12"></a>    </span>
+<span id="cb3-13"><a href="#cb3-13"></a>    <span class="co"># select variable</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a>    ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
+<span id="cb3-15"><a href="#cb3-15"></a>})</span>
+<span id="cb3-16"><a href="#cb3-16"></a></span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="co"># the plot output is a "reactive consumer" that takes</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="co"># the reactive value and makes a plot out of it</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a>output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb3-20"><a href="#cb3-20"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
+<span id="cb3-21"><a href="#cb3-21"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="cb3-22"><a href="#cb3-22"></a>    plot_data <span class="ot">&lt;-</span> <span class="fu">filtered</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-23"><a href="#cb3-23"></a>      <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-24"><a href="#cb3-24"></a>      <span class="fu">mutate</span>(<span class="fu">across</span>(is.numeric, <span class="at">.fns =</span> as.ordered))</span>
+<span id="cb3-25"><a href="#cb3-25"></a>    </span>
+<span id="cb3-26"><a href="#cb3-26"></a>    <span class="fu">ggplot</span>(plot_data) <span class="sc">+</span></span>
+<span id="cb3-27"><a href="#cb3-27"></a>      <span class="fu">aes</span>(<span class="at">x =</span> .data[[xvar]], <span class="at">y =</span> .data[[yvar]], <span class="at">group =</span> .data[[xvar]]) <span class="sc">+</span></span>
+<span id="cb3-28"><a href="#cb3-28"></a>      <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb3-29"><a href="#cb3-29"></a>      <span class="fu">theme_classic</span>()</span>
+<span id="cb3-30"><a href="#cb3-30"></a>})</span>
+<span id="cb3-31"><a href="#cb3-31"></a></span>
+<span id="cb3-32"><a href="#cb3-32"></a><span class="co"># the observer also takes the reactive value and prints it to the console</span></span>
+<span id="cb3-33"><a href="#cb3-33"></a><span class="co"># it is also a reactive consumer and does not return anything</span></span>
+<span id="cb3-34"><a href="#cb3-34"></a><span class="fu">observe</span>({</span>
+<span id="cb3-35"><a href="#cb3-35"></a>  <span class="fu">print</span>(<span class="fu">filtered</span>())</span>
+<span id="cb3-36"><a href="#cb3-36"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-4_f524f651f040ce83541d872931783d3e">
+<details>
+<summary>Complete code</summary>
+<div class="sourceCode cell-code" id="cb4" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="fu">library</span>(haven)</span>
+<span id="cb4-7"><a href="#cb4-7"></a></span>
+<span id="cb4-8"><a href="#cb4-8"></a>ess <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/ess_trust.rds"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9"></a>ess_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/ess_trust_geo.rds"</span>)</span>
+<span id="cb4-10"><a href="#cb4-10"></a></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co"># UI ----</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb4-13"><a href="#cb4-13"></a>  <span class="fu">titlePanel</span>(<span class="st">"European Social Survey - round 10"</span>),</span>
+<span id="cb4-14"><a href="#cb4-14"></a>  </span>
+<span id="cb4-15"><a href="#cb4-15"></a>  <span class="do">## Sidebar ----</span></span>
+<span id="cb4-16"><a href="#cb4-16"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb4-17"><a href="#cb4-17"></a>    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb4-18"><a href="#cb4-18"></a>      <span class="do">### select dependent variable</span></span>
+<span id="cb4-19"><a href="#cb4-19"></a>      <span class="fu">selectInput</span>(</span>
+<span id="cb4-20"><a href="#cb4-20"></a>        <span class="st">"xvar"</span>,</span>
+<span id="cb4-21"><a href="#cb4-21"></a>        <span class="at">label =</span> <span class="st">"Select a dependent variable"</span>,</span>
+<span id="cb4-22"><a href="#cb4-22"></a>        <span class="at">choices =</span> <span class="fu">c</span>(</span>
+<span id="cb4-23"><a href="#cb4-23"></a>          <span class="st">"Trust in country's parliament"</span> <span class="ot">=</span> <span class="st">"trust_parliament"</span>,</span>
+<span id="cb4-24"><a href="#cb4-24"></a>          <span class="st">"Trust in the legal system"</span> <span class="ot">=</span> <span class="st">"trust_legal"</span>,</span>
+<span id="cb4-25"><a href="#cb4-25"></a>          <span class="st">"Trust in the police"</span> <span class="ot">=</span> <span class="st">"trust_police"</span>,</span>
+<span id="cb4-26"><a href="#cb4-26"></a>          <span class="st">"Trust in politicians"</span> <span class="ot">=</span> <span class="st">"trust_politicians"</span>,</span>
+<span id="cb4-27"><a href="#cb4-27"></a>          <span class="st">"Trust in political parties"</span> <span class="ot">=</span> <span class="st">"trust_parties"</span>,</span>
+<span id="cb4-28"><a href="#cb4-28"></a>          <span class="st">"Trust in the European Parliament"</span> <span class="ot">=</span> <span class="st">"trust_eu"</span>,</span>
+<span id="cb4-29"><a href="#cb4-29"></a>          <span class="st">"Trust in the United Nations"</span> <span class="ot">=</span> <span class="st">"trust_un"</span></span>
+<span id="cb4-30"><a href="#cb4-30"></a>        )</span>
+<span id="cb4-31"><a href="#cb4-31"></a>      ),</span>
+<span id="cb4-32"><a href="#cb4-32"></a>      </span>
+<span id="cb4-33"><a href="#cb4-33"></a>      <span class="do">### select a variable ----</span></span>
+<span id="cb4-34"><a href="#cb4-34"></a>      <span class="fu">selectInput</span>(</span>
+<span id="cb4-35"><a href="#cb4-35"></a>        <span class="st">"yvar"</span>,</span>
+<span id="cb4-36"><a href="#cb4-36"></a>        <span class="at">label =</span> <span class="st">"Select an independent variable"</span>,</span>
+<span id="cb4-37"><a href="#cb4-37"></a>        <span class="at">choices =</span> <span class="fu">c</span>(</span>
+<span id="cb4-38"><a href="#cb4-38"></a>          <span class="st">"Placement on the left-right scale"</span> <span class="ot">=</span> <span class="st">"left_right"</span>,</span>
+<span id="cb4-39"><a href="#cb4-39"></a>          <span class="st">"Age"</span> <span class="ot">=</span> <span class="st">"age"</span>,</span>
+<span id="cb4-40"><a href="#cb4-40"></a>          <span class="st">"Feeling about household's income"</span> <span class="ot">=</span> <span class="st">"income_feeling"</span>,</span>
+<span id="cb4-41"><a href="#cb4-41"></a>          <span class="st">"How often do you use the internet?"</span> <span class="ot">=</span> <span class="st">"internet_use"</span>,</span>
+<span id="cb4-42"><a href="#cb4-42"></a>          <span class="st">"How happy are you?"</span> <span class="ot">=</span> <span class="st">"happiness"</span></span>
+<span id="cb4-43"><a href="#cb4-43"></a>        )</span>
+<span id="cb4-44"><a href="#cb4-44"></a>      ),</span>
+<span id="cb4-45"><a href="#cb4-45"></a>      </span>
+<span id="cb4-46"><a href="#cb4-46"></a>      <span class="do">### select a country ----</span></span>
+<span id="cb4-47"><a href="#cb4-47"></a>      <span class="fu">selectizeInput</span>(</span>
+<span id="cb4-48"><a href="#cb4-48"></a>        <span class="st">"countries"</span>,</span>
+<span id="cb4-49"><a href="#cb4-49"></a>        <span class="at">label =</span> <span class="st">"Filter by country"</span>,</span>
+<span id="cb4-50"><a href="#cb4-50"></a>        <span class="at">choices =</span> <span class="fu">unique</span>(ess<span class="sc">$</span>country),</span>
+<span id="cb4-51"><a href="#cb4-51"></a>        <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
+<span id="cb4-52"><a href="#cb4-52"></a>      )</span>
+<span id="cb4-53"><a href="#cb4-53"></a>    ),</span>
+<span id="cb4-54"><a href="#cb4-54"></a>    </span>
+<span id="cb4-55"><a href="#cb4-55"></a>    <span class="do">## Main panel ----</span></span>
+<span id="cb4-56"><a href="#cb4-56"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb4-57"><a href="#cb4-57"></a>      <span class="fu">tabsetPanel</span>(</span>
+<span id="cb4-58"><a href="#cb4-58"></a>        <span class="at">type =</span> <span class="st">"tabs"</span>,</span>
+<span id="cb4-59"><a href="#cb4-59"></a>        </span>
+<span id="cb4-60"><a href="#cb4-60"></a>        <span class="do">### Table tab ----</span></span>
+<span id="cb4-61"><a href="#cb4-61"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb4-62"><a href="#cb4-62"></a>          <span class="at">title =</span> <span class="st">"Table"</span>,</span>
+<span id="cb4-63"><a href="#cb4-63"></a>          <span class="fu">div</span>(</span>
+<span id="cb4-64"><a href="#cb4-64"></a>            <span class="at">style =</span> <span class="st">"height: 600px; overflow-y: auto;"</span>,</span>
+<span id="cb4-65"><a href="#cb4-65"></a>            <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
+<span id="cb4-66"><a href="#cb4-66"></a>          )</span>
+<span id="cb4-67"><a href="#cb4-67"></a>        ),</span>
+<span id="cb4-68"><a href="#cb4-68"></a>        </span>
+<span id="cb4-69"><a href="#cb4-69"></a>        <span class="do">### Plot tab ----</span></span>
+<span id="cb4-70"><a href="#cb4-70"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb4-71"><a href="#cb4-71"></a>          <span class="at">title =</span> <span class="st">"Histogram"</span>,</span>
+<span id="cb4-72"><a href="#cb4-72"></a>          <span class="fu">plotlyOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
+<span id="cb4-73"><a href="#cb4-73"></a>        )</span>
+<span id="cb4-74"><a href="#cb4-74"></a>      )</span>
+<span id="cb4-75"><a href="#cb4-75"></a>    )</span>
+<span id="cb4-76"><a href="#cb4-76"></a>  )</span>
+<span id="cb4-77"><a href="#cb4-77"></a>)</span>
+<span id="cb4-78"><a href="#cb4-78"></a></span>
+<span id="cb4-79"><a href="#cb4-79"></a></span>
+<span id="cb4-80"><a href="#cb4-80"></a><span class="co"># Server ----</span></span>
+<span id="cb4-81"><a href="#cb4-81"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb4-82"><a href="#cb4-82"></a>  <span class="co"># filter data ----</span></span>
+<span id="cb4-83"><a href="#cb4-83"></a>  filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb4-84"><a href="#cb4-84"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
+<span id="cb4-85"><a href="#cb4-85"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="cb4-86"><a href="#cb4-86"></a>    range <span class="ot">&lt;-</span> input<span class="sc">$</span>range</span>
+<span id="cb4-87"><a href="#cb4-87"></a>    </span>
+<span id="cb4-88"><a href="#cb4-88"></a>    <span class="co"># select country</span></span>
+<span id="cb4-89"><a href="#cb4-89"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(input<span class="sc">$</span>countries)) {</span>
+<span id="cb4-90"><a href="#cb4-90"></a>      ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
+<span id="cb4-91"><a href="#cb4-91"></a>    }</span>
+<span id="cb4-92"><a href="#cb4-92"></a>    </span>
+<span id="cb4-93"><a href="#cb4-93"></a>    <span class="co"># select variable</span></span>
+<span id="cb4-94"><a href="#cb4-94"></a>    ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
+<span id="cb4-95"><a href="#cb4-95"></a>  })</span>
+<span id="cb4-96"><a href="#cb4-96"></a>  </span>
+<span id="cb4-97"><a href="#cb4-97"></a>  <span class="co"># render table ----</span></span>
+<span id="cb4-98"><a href="#cb4-98"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
+<span id="cb4-99"><a href="#cb4-99"></a>    ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
+<span id="cb4-100"><a href="#cb4-100"></a>  }, <span class="at">height =</span> <span class="dv">400</span>)</span>
+<span id="cb4-101"><a href="#cb4-101"></a>  </span>
+<span id="cb4-102"><a href="#cb4-102"></a>  <span class="co"># render plot ----</span></span>
+<span id="cb4-103"><a href="#cb4-103"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlotly</span>({</span>
+<span id="cb4-104"><a href="#cb4-104"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
+<span id="cb4-105"><a href="#cb4-105"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="cb4-106"><a href="#cb4-106"></a>    plot_data <span class="ot">&lt;-</span> <span class="fu">filtered</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-107"><a href="#cb4-107"></a>      <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-108"><a href="#cb4-108"></a>      <span class="fu">mutate</span>(<span class="fu">across</span>(is.numeric, <span class="at">.fns =</span> as.ordered))</span>
+<span id="cb4-109"><a href="#cb4-109"></a>    </span>
+<span id="cb4-110"><a href="#cb4-110"></a>    <span class="fu">ggplot</span>(plot_data) <span class="sc">+</span></span>
+<span id="cb4-111"><a href="#cb4-111"></a>      <span class="fu">aes</span>(<span class="at">x =</span> .data[[xvar]], <span class="at">y =</span> .data[[yvar]], <span class="at">group =</span> .data[[xvar]]) <span class="sc">+</span></span>
+<span id="cb4-112"><a href="#cb4-112"></a>      <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb4-113"><a href="#cb4-113"></a>      <span class="fu">theme_classic</span>()</span>
+<span id="cb4-114"><a href="#cb4-114"></a>  })</span>
+<span id="cb4-115"><a href="#cb4-115"></a>  </span>
+<span id="cb4-116"><a href="#cb4-116"></a>  <span class="co"># executes everytime `filtered()` is updated</span></span>
+<span id="cb4-117"><a href="#cb4-117"></a>  <span class="co"># prints the filtered dataset to the console</span></span>
+<span id="cb4-118"><a href="#cb4-118"></a>  <span class="fu">observe</span>({</span>
+<span id="cb4-119"><a href="#cb4-119"></a>    <span class="fu">print</span>(<span class="fu">filtered</span>())</span>
+<span id="cb4-120"><a href="#cb4-120"></a>  })</span>
+<span id="cb4-121"><a href="#cb4-121"></a>}</span>
+<span id="cb4-122"><a href="#cb4-122"></a></span>
+<span id="cb4-123"><a href="#cb4-123"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="events" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Events</h1>
+<ul>
+<li>We talk about an <em>event</em> when a reactive expression is triggered by another reactive expression</li>
+<li>For example:
+<ul>
+<li>A user clicks a button</li>
+<li>The Shiny session initializes</li>
+<li>An input is updated (see below)</li>
+</ul></li>
+<li>We are dealing with Shiny events all the time, but it is important to realize how to control them</li>
+</ul>
+<section id="bindevent" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="bindevent"><span class="header-section-number">3.1</span> <code>bindEvent</code></h2>
+<ul>
+<li>The <code>bindEvent</code> function binds a reactive expression to one or multiple events</li>
+<li>The reactive expression is evaluated if <em>and only if</em> the event is triggered</li>
+<li><code>bindEvent</code> <em>locks up</em> a reactive expression unless a specific event is triggered</li>
+</ul>
+<div class="cell" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-5_13efd2763ba8f87dfa48d2a90839dcb1">
+<div class="sourceCode cell-code" id="cb5" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">reactive</span>({</span>
+<span id="cb5-2"><a href="#cb5-2"></a>  <span class="co"># do something</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>}) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>  <span class="fu">bindEvent</span>(input<span class="sc">$</span>button)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>To exemplify we will add an action button, that serves the following role:
+<ul>
+<li>If the inputs are changed, nothing should happen to the plot</li>
+<li>Only if the button is pressed, shall the plot data be recalculated</li>
+</ul></li>
+</ul>
+<div class="cell" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-6_8990c1c955267e442ef11ae1fce9e121">
+<div class="sourceCode cell-code" id="annotated-cell-4" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1"></a><span class="fu">sidebarPanel</span>(</span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2"></a>  <span class="do">### select dependent variable</span></span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3"></a>  <span class="fu">selectInput</span>(</span>
+<span id="annotated-cell-4-4"><a href="#annotated-cell-4-4"></a>    <span class="st">"xvar"</span>,</span>
+<span id="annotated-cell-4-5"><a href="#annotated-cell-4-5"></a>    <span class="at">label =</span> <span class="st">"Select a dependent variable"</span>,</span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6"></a>    <span class="at">choices =</span> <span class="fu">c</span>(</span>
+<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7"></a>      <span class="st">"Trust in country's parliament"</span> <span class="ot">=</span> <span class="st">"trust_parliament"</span>,</span>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8"></a>      <span class="st">"Trust in the legal system"</span> <span class="ot">=</span> <span class="st">"trust_legal"</span>,</span>
+<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9"></a>      <span class="st">"Trust in the police"</span> <span class="ot">=</span> <span class="st">"trust_police"</span>,</span>
+<span id="annotated-cell-4-10"><a href="#annotated-cell-4-10"></a>      <span class="st">"Trust in politicians"</span> <span class="ot">=</span> <span class="st">"trust_politicians"</span>,</span>
+<span id="annotated-cell-4-11"><a href="#annotated-cell-4-11"></a>      <span class="st">"Trust in political parties"</span> <span class="ot">=</span> <span class="st">"trust_parties"</span>,</span>
+<span id="annotated-cell-4-12"><a href="#annotated-cell-4-12"></a>      <span class="st">"Trust in the European Parliament"</span> <span class="ot">=</span> <span class="st">"trust_eu"</span>,</span>
+<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13"></a>      <span class="st">"Trust in the United Nations"</span> <span class="ot">=</span> <span class="st">"trust_un"</span></span>
+<span id="annotated-cell-4-14"><a href="#annotated-cell-4-14"></a>    )</span>
+<span id="annotated-cell-4-15"><a href="#annotated-cell-4-15"></a>  ),</span>
+<span id="annotated-cell-4-16"><a href="#annotated-cell-4-16"></a>  </span>
+<span id="annotated-cell-4-17"><a href="#annotated-cell-4-17"></a>  <span class="do">### select a variable ----</span></span>
+<span id="annotated-cell-4-18"><a href="#annotated-cell-4-18"></a>  <span class="fu">selectInput</span>(</span>
+<span id="annotated-cell-4-19"><a href="#annotated-cell-4-19"></a>    <span class="st">"yvar"</span>,</span>
+<span id="annotated-cell-4-20"><a href="#annotated-cell-4-20"></a>    <span class="at">label =</span> <span class="st">"Select an independent variable"</span>,</span>
+<span id="annotated-cell-4-21"><a href="#annotated-cell-4-21"></a>    <span class="at">choices =</span> <span class="fu">c</span>(</span>
+<span id="annotated-cell-4-22"><a href="#annotated-cell-4-22"></a>      <span class="st">"Placement on the left-right scale"</span> <span class="ot">=</span> <span class="st">"left_right"</span>,</span>
+<span id="annotated-cell-4-23"><a href="#annotated-cell-4-23"></a>      <span class="st">"Age"</span> <span class="ot">=</span> <span class="st">"age"</span>,</span>
+<span id="annotated-cell-4-24"><a href="#annotated-cell-4-24"></a>      <span class="st">"Feeling about household's income"</span> <span class="ot">=</span> <span class="st">"income_feeling"</span>,</span>
+<span id="annotated-cell-4-25"><a href="#annotated-cell-4-25"></a>      <span class="st">"How often do you use the internet?"</span> <span class="ot">=</span> <span class="st">"internet_use"</span>,</span>
+<span id="annotated-cell-4-26"><a href="#annotated-cell-4-26"></a>      <span class="st">"How happy are you?"</span> <span class="ot">=</span> <span class="st">"happiness"</span></span>
+<span id="annotated-cell-4-27"><a href="#annotated-cell-4-27"></a>    )</span>
+<span id="annotated-cell-4-28"><a href="#annotated-cell-4-28"></a>  ),</span>
+<span id="annotated-cell-4-29"><a href="#annotated-cell-4-29"></a>  </span>
+<span id="annotated-cell-4-30"><a href="#annotated-cell-4-30"></a>  <span class="do">### select a country ----</span></span>
+<span id="annotated-cell-4-31"><a href="#annotated-cell-4-31"></a>  <span class="fu">selectizeInput</span>(</span>
+<span id="annotated-cell-4-32"><a href="#annotated-cell-4-32"></a>    <span class="st">"countries"</span>,</span>
+<span id="annotated-cell-4-33"><a href="#annotated-cell-4-33"></a>    <span class="at">label =</span> <span class="st">"Filter by country"</span>,</span>
+<span id="annotated-cell-4-34"><a href="#annotated-cell-4-34"></a>    <span class="at">choices =</span> <span class="fu">unique</span>(ess<span class="sc">$</span>country),</span>
+<span id="annotated-cell-4-35"><a href="#annotated-cell-4-35"></a>    <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
+<span id="annotated-cell-4-36"><a href="#annotated-cell-4-36"></a>  ),</span>
+<span id="annotated-cell-4-37"><a href="#annotated-cell-4-37"></a>  </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-38" class="code-annotation-target"><a href="#annotated-cell-4-38"></a>  <span class="fu">actionButton</span>(</span>
+<span id="annotated-cell-4-39"><a href="#annotated-cell-4-39"></a>    <span class="st">"button"</span>,</span>
+<span id="annotated-cell-4-40"><a href="#annotated-cell-4-40"></a>    <span class="at">label =</span> <span class="st">"Update parameters"</span>,</span>
+<span id="annotated-cell-4-41"><a href="#annotated-cell-4-41"></a>    <span class="at">icon =</span> <span class="fu">icon</span>(<span class="st">"refresh"</span>)</span>
+<span id="annotated-cell-4-42"><a href="#annotated-cell-4-42"></a>  )</span>
+<span id="annotated-cell-4-43"><a href="#annotated-cell-4-43"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-annotation="1" data-code-lines="38,39,40,41,42" data-code-cell="annotated-cell-4">Add an action button with the ID <code>button</code> below the other inputs</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="cell" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-7_1300a2524694c4a55a6683c159426573">
+<div class="sourceCode cell-code" id="annotated-cell-5" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1"></a>filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="annotated-cell-5-2"><a href="#annotated-cell-5-2"></a>  xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
+<span id="annotated-cell-5-3"><a href="#annotated-cell-5-3"></a>  yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="annotated-cell-5-4"><a href="#annotated-cell-5-4"></a>  range <span class="ot">&lt;-</span> input<span class="sc">$</span>range</span>
+<span id="annotated-cell-5-5"><a href="#annotated-cell-5-5"></a>  </span>
+<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6"></a>  <span class="co"># select country</span></span>
+<span id="annotated-cell-5-7"><a href="#annotated-cell-5-7"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(input<span class="sc">$</span>countries)) {</span>
+<span id="annotated-cell-5-8"><a href="#annotated-cell-5-8"></a>    ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
+<span id="annotated-cell-5-9"><a href="#annotated-cell-5-9"></a>  }</span>
+<span id="annotated-cell-5-10"><a href="#annotated-cell-5-10"></a>  </span>
+<span id="annotated-cell-5-11"><a href="#annotated-cell-5-11"></a>  <span class="co"># select variable</span></span>
+<span id="annotated-cell-5-12"><a href="#annotated-cell-5-12"></a>  ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-13" class="code-annotation-target"><a href="#annotated-cell-5-13"></a>}) <span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-5-14"><a href="#annotated-cell-5-14"></a>  <span class="fu">bindEvent</span>(input<span class="sc">$</span>button)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-annotation="1" data-code-lines="13,14" data-code-cell="annotated-cell-5">We pipe the reactive into <code>bindEvent</code> to bind it to the action button. The reactive is now executed only if the action button is pressed.</span>
+</dd>
+</dl>
 </div>
 </div>
 
@@ -448,27 +732,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/bookdown\.org\/paul\/shiny_workshop\/");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+  function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
+      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -478,17 +745,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start',
+      placement: 'bottom-start'
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -500,130 +758,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
-        }
-        return container.innerHTML
-      } else {
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(note);
-        }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
-    }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
-        }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
+      return note.innerHTML;
     });
   }
       let selectedAnnoteEl;
@@ -667,7 +802,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
-            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -693,8 +827,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-        // Handle positioning of the toggle
-    window.addEventListener(
+      // Handle positioning of the toggle
+      window.addEventListener(
       "resize",
       throttle(() => {
         elRect = undefined;
@@ -702,23 +836,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
           selectCodeLines(selectedAnnoteEl);
         }
       }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
               fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
       const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
       for (let i=0; i<annoteTargets.length; i++) {
         const annoteTarget = annoteTargets[i];
@@ -763,7 +897,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
               options: {
                 flipVariations: false, // true by default
                 allowedAutoPlacements: ['right'],
-                fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end'],
               },
             },
             {
@@ -821,5 +955,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/05-server-reactive-programming-ii.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<script src="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.js" defer="true"></script>
+</body></html>

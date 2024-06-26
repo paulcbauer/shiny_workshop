@@ -19,6 +19,5 @@ knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
 library(pacman)
-pacman::p_load(listviewer, ggdark, Guerry, bs4Dash)
 ```
 
