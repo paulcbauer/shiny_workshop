@@ -52,14 +52,13 @@ library(shiny)
 
 
 ::: {.callout-tip}
-Conceptually and technically, reactives may be compared to traditional R functions. Functional programming follows the ["rule of three"](https://en.wikipedia.org/wiki/Rule_of_three_(computer_programming)): If code would be duplicated three times, wrap it in a function. Shiny follows the rule of two. This is because reactives not only simplify code for humans but also for machines: R only evaluates reactives if it has to. This can dramatically increase speed up an application.
+Conceptually and technically, reactives may be compared to traditional R functions. Functional programming follows the ["rule of three"](https://en.wikipedia.org/wiki/Rule_of_three_(computer_programming)): If code would be duplicated three times, wrap it in a function. Shiny follows the rule of two. This is because reactives not only simplify code for humans but also for machines: R only evaluates reactives if it has to. This can dramatically speed up an application.
 
 Also, reactives _literally_ are functions:
 
 ```{r}
 is.function(reactive({}))
 ```
-
 :::
   
   
@@ -118,7 +117,7 @@ output$plot <- renderPlot({
     yvar <- input$yvar
     plot_data <- filtered() %>%
       drop_na() %>%
-      mutate(across(is.numeric, .fns = as.ordered))
+      mutate(across(where(is.numeric), .fns = as.ordered))
     
     ggplot(plot_data) +
       aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
@@ -216,7 +215,7 @@ ui <- fluidPage(
 
 
 # Server ----
-server <- function(input, output) {
+server <- function(input, output, session) {
   # filter data ----
   filtered <- reactive({
     xvar <- input$xvar
@@ -243,7 +242,7 @@ server <- function(input, output) {
     yvar <- input$yvar
     plot_data <- filtered() %>%
       drop_na() %>%
-      mutate(across(is.numeric, .fns = as.ordered))
+      mutate(across(where(is.numeric), .fns = as.ordered))
     
     ggplot(plot_data) +
       aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
@@ -290,7 +289,7 @@ reactive({
 ### Arguments to `bindEvent`
 
 - `bindEvent` takes three arguments:
-  - `ignoreNULL`: By default, an event is only an event if it is something other than `NULL`. An unpressed button is also `NULL`. If you want a plot to render before pressing that button, then ignoring `NULL` is the right choice.
+  - `ignoreNULL`: By default, every event is an event, even if it is `NULL`. An unpressed button would then also count as an event. If you need your plot to render only before pressing that button, then ignoring `NULL` is the right choice.
   - `ignoreInit`: By default, events are triggered when the reactive expressions are first initialized. This can be bad news for dynamically created UI elements (which are beyond this workshop). 
   - `once`: If used on an observer, this argument can be used to destroy that observer after its first use.
   
@@ -303,61 +302,19 @@ reactive({
 In the UI:
 
 ```{r, eval=FALSE}
-#| code-summary: Adding an action button to the UI
-#| source-line-numbers: "38-43"
-sidebarPanel(
-  ### select dependent variable
-  selectInput(
-    "xvar",
-    label = "Select a dependent variable",
-    choices = c(
-      "Trust in country's parliament" = "trust_parliament",
-      "Trust in the legal system" = "trust_legal",
-      "Trust in the police" = "trust_police",
-      "Trust in politicians" = "trust_politicians",
-      "Trust in political parties" = "trust_parties",
-      "Trust in the European Parliament" = "trust_eu",
-      "Trust in the United Nations" = "trust_un"
-    )
-  ),
-  
-  ### select a variable ----
-  selectInput(
-    "yvar",
-    label = "Select an independent variable",
-    choices = c(
-      "Placement on the left-right scale" = "left_right",
-      "Age" = "age",
-      "Feeling about household's income" = "income_feeling",
-      "How often do you use the internet?" = "internet_use",
-      "How happy are you?" = "happiness"
-    )
-  ),
-  
-  ### select a country ----
-  selectizeInput(
-    "countries",
-    label = "Filter by country",
-    choices = unique(ess$country),
-    multiple = TRUE
-  ),
-  
-  actionButton( # <1> 
-    "button", # <1>
-    label = "Update parameters", # <1>
-    icon = icon("refresh") # <1>
-  ) # <1>
+actionButton(
+  "button",
+  label = "Update parameters",
+  icon = icon("refresh")
 )
 ```
-
-1. Add an action button with the ID `button` below the other inputs
 
 
 In the server function:
 
 ```{r, eval=FALSE}
 #| code-summary: Event binding on the server-side
-#| source-line-numbers: "13-14"
+#| source-line-numbers: "13-14,22-23"
 filtered <- reactive({
   xvar <- input$xvar
   yvar <- input$yvar
@@ -370,9 +327,681 @@ filtered <- reactive({
   
   # select variable
   ess[c("idno", "country", xvar, yvar)]
-}) %>% # <1>
-  bindEvent(input$button, ignoreNULL = FALSE) # <1>
+}) %>%
+  bindEvent(input$button, ignoreNULL = FALSE)
+
+
+output$plot <- renderPlotly({
+  plot_data <- filtered() %>%
+    drop_na() %>%
+    mutate(across(where(is.numeric), .fns = as.ordered))
+  
+  xvar <- names(plot_data)[[3]]
+  yvar <- names(plot_data)[[4]]
+  
+  ggplot(plot_data) +
+    aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
+    geom_violin(fill = "lightblue", show.legend = FALSE) +
+    theme_classic()
+})
 ```
 
-1. We pipe the reactive into `bindEvent` to bind it to the action button. The reactive is now executed only if the action button is pressed.
 
+```{r, eval=FALSE}
+#| code-fold: true
+#| code-summary: "Complete code (important lines are highlighted)"
+#| source-line-numbers: "53-58,101-102,115-116,119"
+library(dplyr)
+library(tidyr)
+library(shiny)
+library(plotly)
+library(leaflet)
+library(haven)
+
+ess <- readRDS("../../../data/ess_trust.rds")
+ess_geo <- readRDS("../../../data/ess_trust_geo.rds")
+
+# UI ----
+ui <- fluidPage(
+  titlePanel("European Social Survey - round 10"),
+  
+  ## Sidebar ----
+  sidebarLayout(
+    sidebarPanel(
+      ### select dependent variable
+      selectInput(
+        "xvar",
+        label = "Select a dependent variable",
+        choices = c(
+          "Trust in country's parliament" = "trust_parliament",
+          "Trust in the legal system" = "trust_legal",
+          "Trust in the police" = "trust_police",
+          "Trust in politicians" = "trust_politicians",
+          "Trust in political parties" = "trust_parties",
+          "Trust in the European Parliament" = "trust_eu",
+          "Trust in the United Nations" = "trust_un"
+        )
+      ),
+      
+      ### select a variable ----
+      selectInput(
+        "yvar",
+        label = "Select an independent variable",
+        choices = c(
+          "Placement on the left-right scale" = "left_right",
+          "Age" = "age",
+          "Feeling about household's income" = "income_feeling",
+          "How often do you use the internet?" = "internet_use",
+          "How happy are you?" = "happiness"
+        )
+      ),
+      
+      ### select a country ----
+      selectizeInput(
+        "countries",
+        label = "Filter by country",
+        choices = unique(ess$country),
+        multiple = TRUE
+      ),
+      
+      actionButton(
+        "button",
+        label = "Update parameters",
+        icon = icon("refresh")
+      )
+    ),
+    
+    ## Main panel ----
+    mainPanel(
+      tabsetPanel(
+        type = "tabs",
+        
+        ### Table tab ----
+        tabPanel(
+          title = "Table",
+          div(
+            style = "height: 600px; overflow-y: auto;",
+            tableOutput("table")
+          )
+        ),
+        
+        ### Plot tab ----
+        tabPanel(
+          title = "Histogram",
+          plotlyOutput("plot", height = 600)
+        )
+      )
+    )
+  )
+)
+
+
+# Server ----
+server <- function(input, output, session) {
+  # filter data ----
+  filtered <- reactive({
+    xvar <- input$xvar
+    yvar <- input$yvar
+    range <- input$range
+    
+    # select country
+    if (!is.null(input$countries)) {
+      ess <- ess[ess$country %in% input$countries, ]
+    }
+    
+    # select variable
+    ess[c("idno", "country", xvar, yvar)]
+  }) %>%
+    bindEvent(input$button, ignoreNULL = FALSE)
+  
+  # render table ----
+  output$table <- renderTable({
+    ess[ess$country %in% input$countries, ]
+  }, height = 400)
+  
+  # render plot ----
+  output$plot <- renderPlotly({
+    plot_data <- filtered() %>%
+      drop_na() %>%
+      mutate(across(where(is.numeric), .fns = as.ordered))
+    
+    xvar <- names(plot_data)[[3]]
+    yvar <- names(plot_data)[[4]]
+    
+    ggplot(plot_data) +
+      aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
+      geom_violin(fill = "lightblue", show.legend = FALSE) +
+      theme_classic()
+  })
+  
+  # executes everytime `filtered()` is updated
+  # prints the filtered dataset to the console
+  observe({
+    print(filtered())
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+
+
+# Updaters
+
+- Updaters are one of the more common uses of observers
+- They update the values and appearance of input widgets
+- There are update functions for most input widgets -- and if there is not, updating becomes much more difficult
+- Some examples:
+  - [`updateSelectInput`](https://shiny.posit.co/r/reference/shiny/0.14/updateselectinput): Updating an input selection can update a palette selection to match varying data types -- continuous, categorical, divering.
+  - [`updateTabsetPanel`](https://shiny.posit.co/r/reference/shiny/0.11/updatetabsetpanel): Updating a tabset panel can automatically switch between tabs.
+  - [`updateActionButton`]((https://shiny.posit.co/r/reference/shiny/0.14/updateactionbutton)): Updating an action button can simulate a button click, without the user needing to physically click on the button.
+
+
+## Implementation
+
+- Updaters are usually found in an **observer**.
+- Because they often do not depend on any input, they are best coupled with `bindEvent`.
+- It can also be useful to combine them with `freezeReactiveValue`
+  - Updating a value triggers an event
+  - Freezing can prevent the event from triggering twice: when changing the input and when updating.
+
+```{r, eval=FALSE}
+observe({
+  freezeReactiveValue(input, "id_of_input") # <1>
+  updateSelectInput(
+    session = session, # <2>
+    inputId = "id_of_input", # <3>
+    choices = c("a", "b", "c") # <4>
+    selected = "b" # <4>
+  ) %>%
+    bindEvent(input$button) # <5>
+})
+```
+
+1. Freeze `id_of_input` to prevent it from triggering an event twice, first when clicking on the button, and second when updating the input.
+2. The `session` object of the server function has to be passed to every update function. This has no deeper meaning.
+3. The `inputId` argument takes the ID of the widget that is to be updated
+4. Every update function has different arguments to alter different parts of the input widget
+5. Bind the observer to an input that should trigger the input update
+
+
+## Example
+
+- To exemplify, we add a new slider to the app:
+
+```{r, eval=FALSE}
+sliderInput(
+  "slider",
+  label = "Select a range for the independent variable",
+  min = min(ess$left_right, na.rm = TRUE),
+  max = max(ess$left_right, na.rm = TRUE),
+  value = range(ess$left_right, na.rm = TRUE),
+  step = 1
+)
+```
+
+- Note that min, max, and value are fixed
+- ..., but the independent variable is not: we can select a different variable with a different range
+- We can thus implement an updater that dynamically updates the slider with new ranges:
+
+```{r, eval=FALSE}
+#| source-line-numbers: "1-12,23-27"
+observe({
+  yvar <- input$yvar
+  freezeReactiveValue(input, "slider")
+  updateSliderInput(
+    session = session,
+    inputId = "slider", # <1>
+    min = min(ess[[yvar]], na.rm = TRUE), # <2>
+    max = max(ess[[yvar]], na.rm = TRUE), # <2>
+    value = range(ess[[yvar]], na.rm = TRUE) # <2>
+  )
+}) %>%
+  bindEvent(input$yvar) # <3>
+
+filtered <- reactive({
+  xvar <- input$xvar
+  yvar <- input$yvar
+  
+  # select country
+  if (!is.null(input$countries)) {
+    ess <- ess[ess$country %in% input$countries, ]
+  }
+
+  # apply range
+  ess <- ess[ # <4>
+    ess[[yvar]] > input$slider[1] & # <4>
+    ess[[yvar]] < input$slider[2], # <4>
+  ] # <4>
+  
+  # select variable
+  ess[c("idno", "country", xvar, yvar)]
+})
+```
+
+1. The updater references the ID of the input that needs to change
+2. Min, max, and value are adapted to the select Y variable
+3. The updater only triggers when a new Y variable is selected
+4. The dataset is filtered according to the slider
+
+
+```{r, eval=FALSE}
+#| code-fold: true
+#| code-summary: "Complete code (important lines are highlighted)"
+#| source-line-numbers: "54-61,95,102-106,132-143"
+library(dplyr)
+library(tidyr)
+library(shiny)
+library(plotly)
+library(leaflet)
+library(haven)
+
+ess <- readRDS("../../../data/ess_trust.rds")
+ess_geo <- readRDS("../../../data/ess_trust_geo.rds")
+
+# UI ----
+ui <- fluidPage(
+  titlePanel("European Social Survey - round 10"),
+  
+  ## Sidebar ----
+  sidebarLayout(
+    sidebarPanel(
+      ### select dependent variable
+      selectInput(
+        "xvar",
+        label = "Select a dependent variable",
+        choices = c(
+          "Trust in country's parliament" = "trust_parliament",
+          "Trust in the legal system" = "trust_legal",
+          "Trust in the police" = "trust_police",
+          "Trust in politicians" = "trust_politicians",
+          "Trust in political parties" = "trust_parties",
+          "Trust in the European Parliament" = "trust_eu",
+          "Trust in the United Nations" = "trust_un"
+        )
+      ),
+      
+      ### select a variable ----
+      selectInput(
+        "yvar",
+        label = "Select an independent variable",
+        choices = c(
+          "Placement on the left-right scale" = "left_right",
+          "Age" = "age",
+          "Feeling about household's income" = "income_feeling",
+          "How often do you use the internet?" = "internet_use",
+          "How happy are you?" = "happiness"
+        )
+      ),
+      
+      ### select a country ----
+      selectizeInput(
+        "countries",
+        label = "Filter by country",
+        choices = unique(ess$country),
+        multiple = TRUE
+      ),
+      
+      sliderInput(
+        "slider",
+        label = "Select a range for the independent variable",
+        min = min(ess$left_right, na.rm = TRUE),
+        max = max(ess$left_right, na.rm = TRUE),
+        value = range(ess$left_right, na.rm = TRUE),
+        step = 1
+      )
+    ),
+    
+    ## Main panel ----
+    mainPanel(
+      tabsetPanel(
+        type = "tabs",
+        
+        ### Table tab ----
+        tabPanel(
+          title = "Table",
+          div(
+            style = "height: 600px; overflow-y: auto;",
+            tableOutput("table")
+          )
+        ),
+        
+        ### Plot tab ----
+        tabPanel(
+          title = "Histogram",
+          plotlyOutput("plot", height = 600)
+        )
+      )
+    )
+  )
+)
+
+
+# Server ----
+server <- function(input, output, session) {
+  # filter data ----
+  filtered <- reactive({
+    xvar <- input$xvar
+    yvar <- input$yvar
+    range <- input$slider
+    
+    # select country
+    if (!is.null(input$countries)) {
+      ess <- ess[ess$country %in% input$countries, ]
+    }
+
+    # apply range
+    ess <- ess[
+      ess[[yvar]] > range[1] &
+      ess[[yvar]] < range[2], 
+    ]
+    
+    # select variable
+    ess[c("idno", "country", xvar, yvar)]
+  })
+  
+  # render table ----
+  output$table <- renderTable({
+    ess[ess$country %in% input$countries, ]
+  }, height = 400)
+  
+  # render plot ----
+  output$plot <- renderPlotly({
+    plot_data <- filtered() %>%
+      drop_na() %>%
+      mutate(across(where(is.numeric), .fns = as.ordered))
+    
+    xvar <- names(plot_data)[[3]]
+    yvar <- names(plot_data)[[4]]
+
+    ggplot(plot_data) +
+      aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
+      geom_violin(fill = "lightblue", show.legend = FALSE) +
+      theme_classic()
+  })
+  
+  observe({
+    yvar <- input$yvar
+    freezeReactiveValue(input, "slider")
+    updateSliderInput(
+      session = session,
+      inputId = "slider",
+      min = min(ess[[yvar]], na.rm = TRUE),
+      max = max(ess[[yvar]], na.rm = TRUE),
+      value = range(ess[[yvar]], na.rm = TRUE)
+    )
+  }) %>%
+    bindEvent(input$yvar)
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+
+
+
+# Truthiness
+
+- Truthiness is Shiny's flavor of logical or boolean values.
+- Shiny interprets truthiness much more liberally than base R
+- Truthiness answers questions such as:
+  - Is this value missing or available?
+  - Has the user provided an answer?
+  - Has the button been clicked?
+- Concretely, a value is truthy _unless_ it is:
+  - `FALSE`
+  - `NULL`
+  - An empty character string (`""`)
+  - An empty vector (e.g. `numeric(0)`)
+  - A vector full of `NA` (e.g. `c(NA, NA, NA)`)
+  - A vector full of `NA` or `FALSE` (e.g. `c(NA, FALSE, NA)`)
+  - A try-error (e.g. `try(stop("an error"))`)
+  - An unclicked action button
+  
+```{r}
+isTruthy(NULL)
+isTruthy("")
+isTruthy(0)
+```
+
+
+## Required values (`req`)
+
+- Truthiness is useful for Shiny's `req` function
+- `req` is equivalent to `if` statements in R with two exceptions:
+  - They test for truthiness (instead of `TRUE`/`FALSE`)
+  - They raise a "silent" exception, i.e. they cancel any ongoing computation without logging or displaying an error
+- `req` is useful to stop reactive behavior when certain conditions are not met
+
+
+## Example
+
+- In our Shiny app, we can use req to cancel plotting when no country is specified
+- `selectizeInput`, which is used to select a country, returns `NULL` when no value is specified
+- Now, if we do not specify a country, the plot simply will not render
+
+```{r, eval=FALSE}
+#| source-line-numbers: "2"
+filtered <- reactive({
+  req(input$countries)
+  
+  xvar <- input$xvar
+  yvar <- input$yvar
+  range <- input$range
+  
+  # select country
+  if (!is.null(input$countries)) {
+    ess <- ess[ess$country %in% input$countries, ]
+  }
+  
+  # select variable
+  ess[c("idno", "country", xvar, yvar)]
+}) %>%
+  bindEvent(input$button, ignoreNULL = FALSE)
+```
+
+
+```{r, eval=FALSE}
+#| code-fold: true
+#| code-summary: "Complete code (important lines are highlighted)"
+#| source-line-numbers: "90"
+library(dplyr)
+library(tidyr)
+library(shiny)
+library(plotly)
+library(leaflet)
+library(haven)
+
+ess <- readRDS("../../../data/ess_trust.rds")
+ess_geo <- readRDS("../../../data/ess_trust_geo.rds")
+
+# UI ----
+ui <- fluidPage(
+  titlePanel("European Social Survey - round 10"),
+  
+  ## Sidebar ----
+  sidebarLayout(
+    sidebarPanel(
+      ### select dependent variable
+      selectInput(
+        "xvar",
+        label = "Select a dependent variable",
+        choices = c(
+          "Trust in country's parliament" = "trust_parliament",
+          "Trust in the legal system" = "trust_legal",
+          "Trust in the police" = "trust_police",
+          "Trust in politicians" = "trust_politicians",
+          "Trust in political parties" = "trust_parties",
+          "Trust in the European Parliament" = "trust_eu",
+          "Trust in the United Nations" = "trust_un"
+        )
+      ),
+      
+      ### select a variable ----
+      selectInput(
+        "yvar",
+        label = "Select an independent variable",
+        choices = c(
+          "Placement on the left-right scale" = "left_right",
+          "Age" = "age",
+          "Feeling about household's income" = "income_feeling",
+          "How often do you use the internet?" = "internet_use",
+          "How happy are you?" = "happiness"
+        )
+      ),
+      
+      ### select a country ----
+      selectizeInput(
+        "countries",
+        label = "Filter by country",
+        choices = unique(ess$country),
+        multiple = TRUE
+      ),
+      
+      actionButton(
+        "button",
+        label = "Update parameters",
+        icon = icon("refresh")
+      )
+    ),
+    
+    ## Main panel ----
+    mainPanel(
+      tabsetPanel(
+        type = "tabs",
+        
+        ### Table tab ----
+        tabPanel(
+          title = "Table",
+          div(
+            style = "height: 600px; overflow-y: auto;",
+            tableOutput("table")
+          )
+        ),
+        
+        ### Plot tab ----
+        tabPanel(
+          title = "Histogram",
+          plotlyOutput("plot", height = 600)
+        )
+      )
+    )
+  )
+)
+
+
+# Server ----
+server <- function(input, output, session) {
+  # filter data ----
+  filtered <- reactive({
+    req(input$countries)
+    
+    xvar <- input$xvar
+    yvar <- input$yvar
+    range <- input$range
+    
+    # select country
+    if (!is.null(input$countries)) {
+      ess <- ess[ess$country %in% input$countries, ]
+    }
+    
+    # select variable
+    ess[c("idno", "country", xvar, yvar)]
+  }) %>%
+    bindEvent(input$button, ignoreNULL = FALSE)
+  
+  # render table ----
+  output$table <- renderTable({
+    ess[ess$country %in% input$countries, ]
+  }, height = 400)
+  
+  # render plot ----
+  output$plot <- renderPlotly({
+    plot_data <- filtered() %>%
+      drop_na() %>%
+      mutate(across(where(is.numeric), .fns = as.ordered))
+    
+    xvar <- names(plot_data)[[3]]
+    yvar <- names(plot_data)[[4]]
+    
+    ggplot(plot_data) +
+      aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
+      geom_violin(fill = "lightblue", show.legend = FALSE) +
+      theme_classic()
+  })
+  
+  # executes everytime `filtered()` is updated
+  # prints the filtered dataset to the console
+  observe({
+    print(filtered())
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+
+
+# Other important concepts
+
+- Shiny's reactivity is easy to learn and hard to master
+- We have started with basic concepts (inputs, outputs, reactive graphs)
+- ... and ended with more advanced concepts (observers, events, updaters, truthiness)
+- Nonetheless, there is still much to be explored that reaches far beyond this workshop
+- Here we provide a non-exhaustive list of concepts, functions, and extensions that might serve useful when dealing with Shiny's reactivity
+  - A more exhaustive list was created by Shiny developer Nan Xiao: [Awesome Shiny extensions](https://github.com/nanxstats/awesome-shiny-extensions)
+- Base Shiny:
+  - Isolation
+    - Sever reactive values from the reactive graph
+    - [`isolate`](https://shiny.posit.co/r/reference/shiny/0.11/isolate.html)
+    - See also this [blog article](https://shiny.posit.co/r/articles/build/isolation/))
+  - Freezing
+    - [`freezeReactiveValue`](https://shiny.posit.co/r/reference/shiny/1.4.0/freezereactivevalue)
+    - We have introduced this briefly in the section about updaters
+    - Prevent an event from triggering until the next flush
+  - Flush events
+    - [`onFlush`](https://shiny.posit.co/r/reference/shiny/0.14/onflush)
+    - See also this [blog article](https://shiny.posit.co/r/articles/build/execution-scheduling/) about execution scheduling
+    - Execute code after / before the reactive graphs finishes / starts
+  - Caching 
+    - [`bindCache`](https://shiny.posit.co/r/reference/shiny/latest/bindcache)
+    - Temporarily store computationally intensive results to improve performance
+  - Data storage
+    - See this [blog article](https://shiny.posit.co/r/articles/build/overview/)
+    - Improve input/output of large data using local or remote databases (e.g. SQLite, Google Sheets, Dropbox, Amazon S3) 
+  - Scheduled invalidation
+    - [`invalidateLater`](https://shiny.posit.co/r/reference/shiny/latest/invalidatelater)
+    - Invalidate reactive expressions after some time has passed
+  - Input validation
+    - [`validate`](https://shiny.posit.co/r/reference/shiny/latest/validate.html)
+    - A more sophisticated alternative to `req`.
+  - Modularization
+    - Package large Shiny apps into isolated modules to increase maintainability
+    - [`moduleServer`](https://shiny.posit.co/r/reference/shiny/1.7.0/moduleserver)
+    - See also this [blog article](https://shiny.posit.co/r/articles/improve/modules/))
+  - Testing server logics
+    - [`testServer`](https://shiny.posit.co/r/reference/shiny/latest/testserver)
+    - Sets up a mocked Shiny server to use in unit tests
+    - Particularly useful for making a robust Shiny package
+    - Advanced approaches also exist, e.g. [`shinytest2`](https://github.com/rstudio/shinytest2) or [`reactor`](https://github.com/yonicd/reactor)
+  - Shiny extensions
+    - Event-based reactivity
+      - [`gargoyle`](https://cran.r-project.org/web/packages/gargoyle/)
+      - Create and trigger custom events to control the reactivity flow
+    - Shiny event tracking
+      - [`shinylogs`](https://cran.r-project.org/web/packages/shinylogs/index.html) or [`shiny.telemetry`](https://github.com/Appsilon/shiny.telemetry)
+      - Track inputs, outputs, errors and session events and optionally use them for logging
+    - Parallelization and asynchronous programming
+      - [`shiny.worker`](https://appsilon.github.io/shiny.worker/)
+      - Delegate heavy computation tasks to seperate processes to keep Shiny app responsive
+    - URL routing
+      - [`shiny.router`](https://appsilon.github.io/shiny.router/)
+      - Route to specific parts of a Shiny app by modifying the URL path
+      - Example: `https://shinyapp.com/plot` to access a plot
+    - Reactivity logging
+      - [`reactlog`](https://rstudio.github.io/reactlog/)
+      - Interactively supervise reactivity a posteriori
+    - Flame graphs
+      - [`profvis`](https://rstudio.github.io/profvis/)
+      - Interactively understand bottlenecks of a Shiny app
+      

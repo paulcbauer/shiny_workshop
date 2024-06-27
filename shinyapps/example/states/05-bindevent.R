@@ -51,10 +51,10 @@ ui <- fluidPage(
         multiple = TRUE
       ),
       
-      actionButton( # <1> 
-        "button", # <1>
-        label = "Update parameters", # <1>
-        icon = icon("refresh") # <1>
+      actionButton(
+        "button",
+        label = "Update parameters",
+        icon = icon("refresh")
       )
     ),
     
@@ -84,7 +84,7 @@ ui <- fluidPage(
 
 
 # Server ----
-server <- function(input, output) {
+server <- function(input, output, session) {
   # filter data ----
   filtered <- reactive({
     xvar <- input$xvar
@@ -98,7 +98,7 @@ server <- function(input, output) {
     
     # select variable
     ess[c("idno", "country", xvar, yvar)]
-  }) %>% # <1>
+  }) %>%
     bindEvent(input$button, ignoreNULL = FALSE)
   
   # render table ----
@@ -108,23 +108,17 @@ server <- function(input, output) {
   
   # render plot ----
   output$plot <- renderPlotly({
-    req(input$button)
-    xvar <- input$xvar
-    yvar <- input$yvar
     plot_data <- filtered() %>%
       drop_na() %>%
-      mutate(across(is.numeric, .fns = as.ordered))
+      mutate(across(where(is.numeric), .fns = as.ordered))
+    
+    xvar <- names(plot_data)[[3]]
+    yvar <- names(plot_data)[[4]]
     
     ggplot(plot_data) +
       aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
       geom_violin(fill = "lightblue", show.legend = FALSE) +
       theme_classic()
-  })
-  
-  # executes everytime `filtered()` is updated
-  # prints the filtered dataset to the console
-  observe({
-    print(filtered())
   })
 }
 

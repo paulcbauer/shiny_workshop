@@ -8,7 +8,7 @@ ui <- fluidPage(
 )
 
 # Define server logic
-server <- function(input, output) {
+server <- function(input, output, session) {
   randNum <- reactiveValues(num = NULL) # Create object to store reactiv values
   
   observeEvent(input$genButton, {

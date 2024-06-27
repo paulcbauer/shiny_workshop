@@ -78,7 +78,7 @@ ui <- fluidPage(
 
 
 # Server ----
-server <- function(input, output) {
+server <- function(input, output, session) {
   # filter data ----
   filtered <- reactive({
     xvar <- input$xvar
@@ -105,7 +105,7 @@ server <- function(input, output) {
     yvar <- input$yvar
     plot_data <- filtered() %>%
       drop_na() %>%
-      mutate(across(is.numeric, .fns = as.ordered))
+      mutate(across(where(is.numeric), .fns = as.ordered))
     
     ggplot(plot_data) +
       aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +

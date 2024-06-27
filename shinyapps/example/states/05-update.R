@@ -5,8 +5,8 @@ library(plotly)
 library(leaflet)
 library(haven)
 
-ess <- readRDS("../../data/ess_trust.rds")
-ess_geo <- readRDS("../../data/ess_trust_geo.rds")
+ess <- readRDS("../../../data/ess_trust.rds")
+ess_geo <- readRDS("../../../data/ess_trust_geo.rds")
 
 # UI ----
 ui <- fluidPage(
@@ -51,13 +51,12 @@ ui <- fluidPage(
         multiple = TRUE
       ),
       
-      ### filter values ----
       sliderInput(
-        "range",
-        label = "Set a value range",
-        min = min(ess$trust_parliament, na.rm = TRUE),
-        max = max(ess$trust_parliament, na.rm = TRUE),
-        value = range(ess$trust_parliament, na.rm = TRUE),
+        "slider",
+        label = "Select a range for the independent variable",
+        min = min(ess$left_right, na.rm = TRUE),
+        max = max(ess$left_right, na.rm = TRUE),
+        value = range(ess$left_right, na.rm = TRUE),
         step = 1
       )
     ),
@@ -80,12 +79,6 @@ ui <- fluidPage(
         tabPanel(
           title = "Histogram",
           plotlyOutput("plot", height = 600)
-        ),
-        
-        ### Map tab ----
-        tabPanel(
-          title = "Map",
-          leafletOutput("map", height = 600)
         )
       )
     )
@@ -95,112 +88,59 @@ ui <- fluidPage(
 
 # Server ----
 server <- function(input, output, session) {
-  # update slider ----
-  observe({
-    var <- na.omit(ess[[input$xvar]])
-    is_ordered <- is.ordered(var)
-    var <- as.numeric(var)
-    updateSliderInput(
-      inputId = "range",
-      min = min(var),
-      max = max(var),
-      value = range(var),
-      step = if (is_ordered) 1
-    )
-  }) %>%
-    bindEvent(input$xvar)
-  
   # filter data ----
   filtered <- reactive({
     xvar <- input$xvar
     yvar <- input$yvar
-    range <- input$range
+    range <- input$slider
     
     # select country
     if (!is.null(input$countries)) {
       ess <- ess[ess$country %in% input$countries, ]
     }
+
+    # apply range
+    ess <- ess[
+      ess[[yvar]] > range[1] &
+      ess[[yvar]] < range[2], 
+    ]
     
     # select variable
-    plot_data <- ess[c("idno", "country", xvar, yvar)]
-    
-    # apply range
-    plot_data <- plot_data[
-      plot_data[[xvar]] > range[1] &
-      plot_data[[xvar]] < range[2], 
-    ]
-    plot_data
+    ess[c("idno", "country", xvar, yvar)]
   })
   
   # render table ----
   output$table <- renderTable({
     ess[ess$country %in% input$countries, ]
   }, height = 400)
-
+  
   # render plot ----
   output$plot <- renderPlotly({
-    xvar <- input$xvar
-    yvar <- input$yvar
     plot_data <- filtered() %>%
       drop_na() %>%
       mutate(across(where(is.numeric), .fns = as.ordered))
+    
+    xvar <- names(plot_data)[[3]]
+    yvar <- names(plot_data)[[4]]
 
-    p <- ggplot(plot_data) +
+    ggplot(plot_data) +
       aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
       geom_violin(fill = "lightblue", show.legend = FALSE) +
       theme_classic()
-    plotly::ggplotly(p)
   })
   
-  # render map ----
-  output$map <- renderLeaflet({
-    var <- input$xvar
-    plot_data <- ess_geo[c("country", var)]
-    
-    # create labels with a bold title and a body
-    labels <- sprintf(
-      "<strong>%s</strong><br>%s",
-      plot_data$country,
-      plot_data[[var]]
+  observe({
+    yvar <- input$yvar
+    freezeReactiveValue(input, "slider")
+    updateSliderInput(
+      session = session,
+      inputId = "slider",
+      min = min(ess[[yvar]], na.rm = TRUE),
+      max = max(ess[[yvar]], na.rm = TRUE),
+      value = range(ess[[yvar]], na.rm = TRUE)
     )
-    labels <- lapply(labels, HTML)
-    
-    # create a palette for numerics and ordinals
-    if (is.ordered(plot_data[[var]])) {
-      pal <- colorFactor("YlOrRd", domain = NULL)
-    } else {
-      pal <- colorNumeric("YlOrRd", domain = NULL)
-    }
-    
-    # construct leaflet canvas
-    leaflet(plot_data) %>%
-      # add base map
-      addTiles() %>%
-      # add choropleths
-      addPolygons(
-        fillColor = pal(plot_data[[var]]),
-        weight = 2,
-        opacity = 1,
-        color = "white",
-        fillOpacity = 0.7,
-        # highlight polygons on hover
-        highlightOptions = highlightOptions(
-          weight = 2,
-          color = "#666",
-          fillOpacity = 0.7,
-          bringToFront = TRUE
-        ),
-        label = labels
-      ) %>%
-      # add a legend
-      addLegend(
-        position = "bottomleft",
-        pal = pal,
-        values = plot_data[[var]],
-        opacity = 0.7,
-        title = var
-      )
-  })
+  }) %>%
+    bindEvent(input$yvar)
 }
 
 shinyApp(ui = ui, server = server)

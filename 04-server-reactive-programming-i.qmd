@@ -421,7 +421,7 @@ ui <- fluidPage(
   textOutput("text")
 )
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   # reactive expression
   squared <- reactive({ 
     input$num^2 
@@ -460,7 +460,7 @@ ui <- fluidPage(
 )
 
 # Define server logic
-server <- function(input, output) {
+server <- function(input, output, session) {
     randNum <- reactiveValues(num = NULL)
 
     observeEvent(input$genButton, {
@@ -503,7 +503,7 @@ ui <- fluidPage(
 )
 
 # Define server logic
-server <- function(input, output) {
+server <- function(input, output, session) {
     randNum <- eventReactive(input$genButton, {
         runif(1) # Generate a random number when genButton is clicked
     })
@@ -539,7 +539,7 @@ ui <- fluidPage(
 )
 
 # Define server logic
-server <- function(input, output) {
+server <- function(input, output, session) {
     randNum <- reactiveValues(num = NULL) # Create object to store reactiv values
 
     observeEvent(input$genButton, {
@@ -576,7 +576,7 @@ ui <- fluidPage(
 )
 
 # Define server logic
-server <- function(input, output) {
+server <- function(input, output, session) {
   
   # Define a reactive timer with a 1000ms (1s) interval
   autoInvalidate <- reactiveTimer(1000)
@@ -653,8 +653,8 @@ shinyApp(ui = ui, server = server)
 
 
 ### Where to load things
-* Code outside ```server <- function(input, output) {}``` is run once, when you launch your app
-* Code inside ```server <- function(input, output) {}``` is run once each time a user visits your app
+* Code outside ```server <- function(input, output, session) {}``` is run once, when you launch your app
+* Code inside ```server <- function(input, output, session) {}``` is run once each time a user visits your app
 * Code inside ```render*``` functions is rerun constantly (not only when user changes widget value ( see [reactivity](https://shiny.posit.co/r/articles/build/understanding-reactivity/))
 * That means...
     + Load **Source scripts, libraries, and data** outside of ```server``` function (at the beginning)
@@ -688,7 +688,7 @@ To build reactive shiny apps...
 
 * Use `*Output` functions to place reactive objects in the UI (webpage)
 * Use `render*` functions to let R build output objects (on the server)
-    + Render functions are located in `server <- function(input, output) {...})` 
+    + Render functions are located in `server <- function(input, output, session) {...})` 
     + R expressions are surrounded by braces, `{}` in `render*` functions
     + Outputs of `render*` are saved in the `output` list, with one entry for each reactive object in your app
     + Reactivity by including an `input` values in a `render*` expression
