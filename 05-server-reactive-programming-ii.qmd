@@ -33,6 +33,14 @@ library(shiny)
   - **Truthiness**: Stop reactivity based on arbitrary conditions
   
   
+# Overview of the reactivity workflow
+
+- This workflow chart is an overview of the most important mechanisms of Shiny's server function
+- We do not address all elements on this map, but at the end of the workshop you should get the general idea of what is going on here
+
+![](resources/reactivity_workflow.svg)
+  
+  
 # Reactives versus observers
 
 
@@ -951,57 +959,75 @@ shinyApp(ui = ui, server = server)
 - Here we provide a non-exhaustive list of concepts, functions, and extensions that might serve useful when dealing with Shiny's reactivity
   - A more exhaustive list was created by Shiny developer Nan Xiao: [Awesome Shiny extensions](https://github.com/nanxstats/awesome-shiny-extensions)
 - Base Shiny:
+  - Dynamic UI
+    - Add, manipulate, and remove UI elements from the server function
+    - [`insertUI`](https://shiny.posit.co/r/reference/shiny/latest/insertui) and [`removeUI`](https://shiny.posit.co/r/reference/shiny/latest/insertui)
+    - [`shinyjs`](https://deanattali.com/shinyjs/) package for advanced control
+    - See also this [blog article](https://shiny.posit.co/r/articles/build/dynamic-ui/) on dynamic UIs
   - Isolation
     - Sever reactive values from the reactive graph
     - [`isolate`](https://shiny.posit.co/r/reference/shiny/0.11/isolate.html)
-    - See also this [blog article](https://shiny.posit.co/r/articles/build/isolation/))
+    - See also this [blog article](https://shiny.posit.co/r/articles/build/isolation/)
   - Freezing
+    - Prevent an event from triggering until the next flush
     - [`freezeReactiveValue`](https://shiny.posit.co/r/reference/shiny/1.4.0/freezereactivevalue)
     - We have introduced this briefly in the section about updaters
-    - Prevent an event from triggering until the next flush
+  - Reactive values
+    - Values or list-likes that are able to take dependencies in reactive expressions
+    - [`reactiveVal`](https://shiny.posit.co/r/reference/shiny/latest/reactiveval) and [`reactiveValues`](https://shiny.posit.co/r/reference/shiny/latest/reactivevalues)
+    - Reactive values are essentially a bare-bones version of `reactive()`, but for a short introduction, see [chapter 15.1](https://mastering-shiny.org/reactivity-objects.html#reactive-values) of Mastering Shiny
   - Flush events
+    - Execute code after / before the reactive graphs finishes / starts
     - [`onFlush`](https://shiny.posit.co/r/reference/shiny/0.14/onflush)
     - See also this [blog article](https://shiny.posit.co/r/articles/build/execution-scheduling/) about execution scheduling
-    - Execute code after / before the reactive graphs finishes / starts
   - Caching 
-    - [`bindCache`](https://shiny.posit.co/r/reference/shiny/latest/bindcache)
     - Temporarily store computationally intensive results to improve performance
+    - [`bindCache`](https://shiny.posit.co/r/reference/shiny/latest/bindcache)
   - Data storage
-    - See this [blog article](https://shiny.posit.co/r/articles/build/overview/)
     - Improve input/output of large data using local or remote databases (e.g. SQLite, Google Sheets, Dropbox, Amazon S3) 
+    - See this [blog article](https://shiny.posit.co/r/articles/build/overview/)
   - Scheduled invalidation
-    - [`invalidateLater`](https://shiny.posit.co/r/reference/shiny/latest/invalidatelater)
     - Invalidate reactive expressions after some time has passed
+    - [`invalidateLater`](https://shiny.posit.co/r/reference/shiny/latest/invalidatelater)
   - Input validation
+    - A more sophisticated alternative to `req` allowing multiple tests and more flexible conditions.
     - [`validate`](https://shiny.posit.co/r/reference/shiny/latest/validate.html)
-    - A more sophisticated alternative to `req`.
+  - Safe execution
+    - Notify the user when something gone wrong with useful error messages instead of plain R errors
+    - [`base::tryCatch`](https://rdrr.io/r/base/conditions.html) and [`base::withCallingHandlers`](https://rdrr.io/r/base/conditions.html) provide mechanisms to implement safe errors
+    - [`shinyWidgets::execute_safely`](https://dreamrs.github.io/shinyWidgets/reference/execute_safely.html) and [`shinyvalidate`](https://rstudio.github.io/shinyvalidate/index.html) are implementations found in the wild
+    - See also [chapter 6: UX Matters](https://engineering-shiny.org/ux-matters.html) of Colin Fay's Engineering Production-Grade Shiny Apps
   - Modularization
     - Package large Shiny apps into isolated modules to increase maintainability
     - [`moduleServer`](https://shiny.posit.co/r/reference/shiny/1.7.0/moduleserver)
-    - See also this [blog article](https://shiny.posit.co/r/articles/improve/modules/))
+    - See also this [blog article](https://shiny.posit.co/r/articles/improve/modules/)
   - Testing server logics
+    - Set up a mocked Shiny server to use in unit tests
     - [`testServer`](https://shiny.posit.co/r/reference/shiny/latest/testserver)
-    - Sets up a mocked Shiny server to use in unit tests
     - Particularly useful for making a robust Shiny package
     - Advanced approaches also exist, e.g. [`shinytest2`](https://github.com/rstudio/shinytest2) or [`reactor`](https://github.com/yonicd/reactor)
-  - Shiny extensions
-    - Event-based reactivity
-      - [`gargoyle`](https://cran.r-project.org/web/packages/gargoyle/)
-      - Create and trigger custom events to control the reactivity flow
-    - Shiny event tracking
-      - [`shinylogs`](https://cran.r-project.org/web/packages/shinylogs/index.html) or [`shiny.telemetry`](https://github.com/Appsilon/shiny.telemetry)
-      - Track inputs, outputs, errors and session events and optionally use them for logging
-    - Parallelization and asynchronous programming
-      - [`shiny.worker`](https://appsilon.github.io/shiny.worker/)
-      - Delegate heavy computation tasks to seperate processes to keep Shiny app responsive
-    - URL routing
-      - [`shiny.router`](https://appsilon.github.io/shiny.router/)
-      - Route to specific parts of a Shiny app by modifying the URL path
-      - Example: `https://shinyapp.com/plot` to access a plot
-    - Reactivity logging
-      - [`reactlog`](https://rstudio.github.io/reactlog/)
-      - Interactively supervise reactivity a posteriori
-    - Flame graphs
-      - [`profvis`](https://rstudio.github.io/profvis/)
-      - Interactively understand bottlenecks of a Shiny app
+  - Javascript
+    - Shiny apps can be built without ever seeing a single line of Javascript -- but Javascript can still come in handy for that last mile of customization
+    - See [chapter 17](https://engineering-shiny.org/using-javascript.html) of Engineering Production-Grade Shiny Apps and [chapter 10](https://unleash-shiny.rinterface.com/survival-kit-javascript) of Outstanding User Interfaces with Shiny for useful primers on Javascript in Shiny
+- Shiny extensions
+  - Event-based reactivity
+    - [`gargoyle`](https://cran.r-project.org/web/packages/gargoyle/)
+    - Create and trigger custom events to control the reactivity flow
+  - Shiny event tracking
+    - [`shinylogs`](https://cran.r-project.org/web/packages/shinylogs/index.html) or [`shiny.telemetry`](https://github.com/Appsilon/shiny.telemetry)
+    - Track inputs, outputs, errors and session events and optionally use them for logging
+  - Parallelization and asynchronous programming
+    - [`shiny.worker`](https://appsilon.github.io/shiny.worker/)
+    - Delegate heavy computation tasks to seperate processes to keep Shiny app responsive
+  - URL routing
+    - Route to specific parts of a Shiny app by modifying the URL path
+    - [`shiny.router`](https://appsilon.github.io/shiny.router/) and [`scenes`](https://github.com/shinyworks/scenes?tab=readme-ov-file)
+    - [`updateQueryString`](https://shiny.posit.co/r/reference/shiny/latest/updatequerystring) and [`getQueryString`](https://shiny.posit.co/r/reference/shiny/latest/getquerystring) in base Shiny
+    - Example: `https://shinyapp.com/plot` to access a plot
+  - Reactivity logging
+    - [`reactlog`](https://rstudio.github.io/reactlog/)
+    - Interactively supervise reactivity a posteriori
+  - Flame graphs
+    - [`profvis`](https://rstudio.github.io/profvis/)
+    - Interactively understand bottlenecks of a Shiny app
       

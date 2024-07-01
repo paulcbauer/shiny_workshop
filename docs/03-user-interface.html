@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -58,6 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -92,13 +93,20 @@ div.csl-indent {
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -107,6 +115,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -126,10 +135,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <link rel="stylesheet" href="styles.css">
 <meta name="twitter:title" content="Workshop: Interactive Data Analysis with Shiny - User Interface (UI): Designing the front end">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://bookdown.org/paul/shiny_workshop/resources/placeholder.png">
-<meta name="twitter:image-height" content="49">
-<meta name="twitter:image-width" content="600">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-sidebar floating">
@@ -138,12 +144,12 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-user-interface.html">User Interface (UI): Designing the front end</a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-user-interface.html">User Interface (UI): Designing the front end</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -153,14 +159,14 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Interactive Data Analysis with Shiny</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://training.gesis.org/?site=pDetails&amp;child=full&amp;pID=0x0D17F8F738B14E0991504DBF8823A002" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-cursor-fill"></i></a>
-    <a href="https://github.com/paulcbauer/shiny_workshop" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
-    <a href="https://github.com/paulcbauer/shiny_workshop/issues" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-bug-fill"></i></a>
+    <a href="https://training.gesis.org/?site=pDetails&amp;child=full&amp;pID=0x0D17F8F738B14E0991504DBF8823A002" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-cursor-fill"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop/issues" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-bug-fill"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
@@ -221,7 +227,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -255,7 +261,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <li><a href="#guerry-app-introduction-tab" id="toc-guerry-app-introduction-tab" class="nav-link" data-scroll-target="#guerry-app-introduction-tab"><span class="header-section-number">6</span> Guerry app: Introduction tab</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">7</span> Summary</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/03-user-interface.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/03-user-interface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -275,7 +281,9 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
+
 
 <ul>
 <li>Learning outcomes:
@@ -338,10 +346,10 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </ul></li>
 <li><strong>Try the code below</strong> by pasting it into your console and running it. It will only create a user interface.</li>
 </ul>
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-2_02402b4ad5b6db78cc7b7e3ed618e813">
-<details>
+<div class="cell">
+<details class="code-fold">
 <summary>Code: Creating a simple UI</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<div class="sourceCode cell-code" id="cb1" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb1-2"><a href="#cb1-2"></a>  <span class="fu">titlePanel</span>(<span class="st">"This is the title panel"</span>),</span>
 <span id="cb1-3"><a href="#cb1-3"></a>  </span>
 <span id="cb1-4"><a href="#cb1-4"></a>  <span class="fu">sidebarLayout</span>(</span>
@@ -358,7 +366,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <span id="cb1-15"><a href="#cb1-15"></a>              )</span>
 <span id="cb1-16"><a href="#cb1-16"></a>  )))</span>
 <span id="cb1-17"><a href="#cb1-17"></a></span>
-<span id="cb1-18"><a href="#cb1-18"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output){}</span>
+<span id="cb1-18"><a href="#cb1-18"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session){}</span>
 <span id="cb1-19"><a href="#cb1-19"></a></span>
 <span id="cb1-20"><a href="#cb1-20"></a><span class="fu">shinyApp</span>(<span class="at">ui=</span>ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -368,10 +376,10 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <li><code>navbarPage()</code>: Create a <a href="http://shiny.rstudio.com/gallery/navbar-example.html">multi-page user-interface</a> that includes a navigation bar</li>
 <li>Sometimes adding borders helps..</li>
 </ul>
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-2-3_27ae306e0308b429888de54eeff360e6">
-<details>
+<div class="cell">
+<details class="code-fold">
 <summary>Code: Adding borders for better understanding of UI</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<div class="sourceCode cell-code" id="cb2" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">titlePanel</span>(<span class="st">"This is the title panel"</span>),</span>
 <span id="cb2-3"><a href="#cb2-3"></a>  </span>
 <span id="cb2-4"><a href="#cb2-4"></a>  <span class="fu">sidebarLayout</span>(</span>
@@ -392,7 +400,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <span id="cb2-19"><a href="#cb2-19"></a>              )</span>
 <span id="cb2-20"><a href="#cb2-20"></a>    )))</span>
 <span id="cb2-21"><a href="#cb2-21"></a></span>
-<span id="cb2-22"><a href="#cb2-22"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output){}</span>
+<span id="cb2-22"><a href="#cb2-22"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session){}</span>
 <span id="cb2-23"><a href="#cb2-23"></a></span>
 <span id="cb2-24"><a href="#cb2-24"></a><span class="fu">shinyApp</span>(<span class="at">ui=</span>ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -406,8 +414,8 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <li>Users can switch between tabs that can be used to display various outputs simultanously</li>
 </ul></li>
 </ul>
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-3_cd17843fe23a66eee3ded04c169f4db3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb3-2"><a href="#cb3-2"></a>  <span class="fu">titlePanel</span>(<span class="st">"This is the title panel"</span>),</span>
 <span id="cb3-3"><a href="#cb3-3"></a>  </span>
 <span id="cb3-4"><a href="#cb3-4"></a>  <span class="fu">sidebarLayout</span>(</span>
@@ -425,7 +433,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <span id="cb3-16"><a href="#cb3-16"></a>                           <span class="fu">h4</span>(<span class="st">"Tab 4: Variable summaries"</span>))</span>
 <span id="cb3-17"><a href="#cb3-17"></a>      ))))</span>
 <span id="cb3-18"><a href="#cb3-18"></a>  </span>
-<span id="cb3-19"><a href="#cb3-19"></a>  server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output){}</span>
+<span id="cb3-19"><a href="#cb3-19"></a>  server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session){}</span>
 <span id="cb3-20"><a href="#cb3-20"></a>  </span>
 <span id="cb3-21"><a href="#cb3-21"></a>  <span class="fu">shinyApp</span>(<span class="at">ui=</span>ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -445,8 +453,8 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <li><code>dashboardBody()</code>: creates main body typically containing boxes or tabItems</li>
 </ul></li>
 </ul>
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-4_30997819a38b1b3f0a38c4dbdc943649">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">library</span>(bs4Dash)</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">library</span>(bs4Dash)</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="co"># UI ----</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(<span class="at">title =</span> <span class="st">"The Guerry Dashboard"</span>,</span>
 <span id="cb4-4"><a href="#cb4-4"></a></span>
@@ -479,8 +487,8 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <li>Connection through name <code>tabName</code> argument</li>
 </ul></li>
 </ul>
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-5_3cbf0a84dbf0dd385b5e12b06b25c959">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(bs4Dash)</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(bs4Dash)</span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="co"># UI ----</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(<span class="at">title =</span> <span class="st">"The Guerry Dashboard"</span>,</span>
 <span id="cb5-4"><a href="#cb5-4"></a></span>
@@ -536,10 +544,10 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </ul></li>
 </ul></li>
 </ul>
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-6_2395fb92f0d709947424a0b85c14e7aa">
-<details>
+<div class="cell">
+<details class="code-fold">
 <summary>Code: Adding images</summary>
-<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(</span>
+<div class="sourceCode cell-code" id="annotated-cell-6" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(</span>
 <span id="annotated-cell-6-2"><a href="#annotated-cell-6-2"></a>  <span class="at">title =</span> <span class="st">"The Guerry Dashboard"</span>,</span>
 <span id="annotated-cell-6-3"><a href="#annotated-cell-6-3"></a>  </span>
 <span id="annotated-cell-6-4"><a href="#annotated-cell-6-4"></a>  <span class="do">### Header ----</span></span>
@@ -584,51 +592,51 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-6"><code>dashboardPage()</code>: Main function to create a dashboard page layout in Shiny.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1"><code>dashboardPage()</code>: Main function to create a dashboard page layout in Shiny.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="5" data-code-annotation="2" data-code-cell="annotated-cell-6"><code>dashboardHeader()</code>: Function to set up the header part of the dashboard.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="2"><code>dashboardHeader()</code>: Function to set up the header part of the dashboard.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-lines="6" data-code-annotation="3" data-code-cell="annotated-cell-6"><code>span()</code>: Function to create an HTML span element with a style attribute to control its display.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="6" data-code-annotation="3"><code>span()</code>: Function to create an HTML span element with a style attribute to control its display.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-lines="7" data-code-annotation="4" data-code-cell="annotated-cell-6"><code>a()</code>: Function to create a hyperlink element (“a” HTML tag) with a specified class, href attribute (URL), and nested img (image) element.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="7" data-code-annotation="4"><code>a()</code>: Function to create a hyperlink element (“a” HTML tag) with a specified class, href attribute (URL), and nested img (image) element.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-lines="12" data-code-annotation="5" data-code-cell="annotated-cell-6"><code>tagList()</code>: Function to create an HTML list from arguments. Here it’s used to group the title components together.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="12" data-code-annotation="5"><code>tagList()</code>: Function to create an HTML list from arguments. Here it’s used to group the title components together.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-lines="19" data-code-annotation="6" data-code-cell="annotated-cell-6"><code>dashboardSidebar()</code>: Function to create the sidebar of the dashboard.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="19" data-code-annotation="6"><code>dashboardSidebar()</code>: Function to create the sidebar of the dashboard.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="7">7</dt>
 <dd>
-<span data-code-lines="21" data-code-annotation="7" data-code-cell="annotated-cell-6"><code>menuItem()</code>: Function to add an item to the sidebar menu.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="21" data-code-annotation="7"><code>menuItem()</code>: Function to add an item to the sidebar menu.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="8">8</dt>
 <dd>
-<span data-code-lines="27" data-code-annotation="8" data-code-cell="annotated-cell-6"><code>dashboardBody()</code>: Function to create the body of the dashboard.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="27" data-code-annotation="8"><code>dashboardBody()</code>: Function to create the body of the dashboard.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="9">9</dt>
 <dd>
-<span data-code-lines="28" data-code-annotation="9" data-code-cell="annotated-cell-6"><code>tabItems()</code>: Function to create tabbed content sections. The arguments are pairs of tab names and tab content.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="28" data-code-annotation="9"><code>tabItems()</code>: Function to create tabbed content sections. The arguments are pairs of tab names and tab content.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="10">10</dt>
 <dd>
-<span data-code-lines="29" data-code-annotation="10" data-code-cell="annotated-cell-6"><code>tabItem()</code>: Function to create a single tab item. Its arguments are a tab name and its content.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="29" data-code-annotation="10"><code>tabItem()</code>: Function to create a single tab item. Its arguments are a tab name and its content.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="11">11</dt>
 <dd>
-<span data-code-lines="38" data-code-annotation="11" data-code-cell="annotated-cell-6"><code>server</code>: Placeholder for server logic. In this case, it’s empty.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="38" data-code-annotation="11"><code>server</code>: Placeholder for server logic. In this case, it’s empty.</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="12">12</dt>
 <dd>
-<span data-code-lines="40" data-code-annotation="12" data-code-cell="annotated-cell-6"><code>shinyApp(ui, server)</code>: Main function to create a Shiny app. It takes as arguments the UI and server definitions.</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="40" data-code-annotation="12"><code>shinyApp(ui, server)</code>: Main function to create a Shiny app. It takes as arguments the UI and server definitions.</span>
 </dd>
 </dl>
 </div>
@@ -638,10 +646,10 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <ul>
 <li>Below some exemplary code to add several images, i.e., simply repeat the img() function</li>
 </ul>
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-6-2_2f353ae41be0609ac5640d1e8d33dc37">
-<details>
+<div class="cell">
+<details class="code-fold">
 <summary>Code: Adding images</summary>
-<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy"><code class="sourceCode r"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(</span>
+<div class="sourceCode cell-code" id="annotated-cell-7" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy"><code class="sourceCode r"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(</span>
 <span id="annotated-cell-7-2"><a href="#annotated-cell-7-2"></a>  <span class="at">title =</span> <span class="st">"The Guerry Dashboard"</span>,</span>
 <span id="annotated-cell-7-3"><a href="#annotated-cell-7-3"></a>  </span>
 <span id="annotated-cell-7-4"><a href="#annotated-cell-7-4"></a>  <span class="do">### Header ----</span></span>
@@ -689,7 +697,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <section id="exercise-ui-layout" class="level3" data-number="2.4">
 <h3 data-number="2.4" class="anchored" data-anchor-id="exercise-ui-layout"><span class="header-section-number">2.4</span> Exercise: UI layout</h3>
 <ol type="1">
-<li>Familiarize yourself and use the code in <a href="#sec-dashboardPage3">Section&nbsp;2.3</a>.</li>
+<li>Familiarize yourself and use the code in <a href="#sec-dashboardPage3" class="quarto-xref">Section&nbsp;2.3</a>.</li>
 <li>Change the website title to “A big name in politics”</li>
 <li>Change the sidebar menu title with “The Arni dashboard”.</li>
 <li>Replace the image of Guerry with an image Arnold Schwarzenegger from the web, e.g., <a href="http://assets.schwarzenegger.com/images/img-2.jpg">here</a>.</li>
@@ -709,8 +717,8 @@ Solution: Using image from link
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-7-5_b1db4a734635dc53d55ee56474c25ad5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># UI ----</span></span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># UI ----</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(</span>
 <span id="cb6-3"><a href="#cb6-3"></a>  <span class="at">title =</span> <span class="st">"A big name in politics"</span>,</span>
 <span id="cb6-4"><a href="#cb6-4"></a>  </span>
@@ -781,8 +789,8 @@ Solution: Using image from www folder
 <ol start="6" type="1">
 <li>Run the app.</li>
 </ol>
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-7_ac6aa11f9bcb9e86b5900c0ee70c1eea">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># UI ----</span></span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># UI ----</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(</span>
 <span id="cb7-3"><a href="#cb7-3"></a>  <span class="at">title =</span> <span class="st">"A big name in politics"</span>,</span>
 <span id="cb7-4"><a href="#cb7-4"></a>  </span>
@@ -865,7 +873,7 @@ Solution: Using image from www folder
 <li>User uses widget to give input</li>
 <li>Input is inserted into the functions in the SERVER
 <ul>
-<li><code>server &lt;- function(input, output) {}</code></li>
+<li><code>server &lt;- function(input, output, session) {}</code></li>
 </ul></li>
 </ul></li>
 <li><code>shiny</code> package contains many widgets
@@ -879,8 +887,8 @@ Solution: Using image from www folder
 <ul>
 <li>You can run the code for the Shiny app below in R.</li>
 </ul>
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-9_3cfca7942c5bb76e0529e15522fadcf9">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(shinyWidgets) <span class="co"># Install!</span></span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(shinyWidgets) <span class="co"># Install!</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a></span>
 <span id="cb8-3"><a href="#cb8-3"></a>animals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"dog"</span>, <span class="st">"cat"</span>, <span class="st">"mouse"</span>) <span class="co"># Predefining some categories</span></span>
 <span id="cb8-4"><a href="#cb8-4"></a></span>
@@ -934,12 +942,16 @@ Solution: Using image from www folder
 <li>See <a href="https://mastering-shiny.org/basic-ui.html#exercises-2">Exercises 2.2.8</a>.</li>
 </ul>
 <ol type="1">
-<li>When space is at a premium, it’s useful to label text boxes using a placeholder that appears <em>inside</em> the text entry area. How do you call <code>textInput()</code> to generate the UI in <a href="#fig-textInput">Figure&nbsp;1</a> below (see <code>?textInput</code>)?</li>
+<li>When space is at a premium, it’s useful to label text boxes using a placeholder that appears <em>inside</em> the text entry area. How do you call <code>textInput()</code> to generate the UI in <a href="#fig-textInput" class="quarto-xref">Figure&nbsp;1</a> below (see <code>?textInput</code>)?</li>
 </ol>
-<div id="fig-textInput" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="resources/placeholder.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;1: Text input (Source: Wickham 2021)</figcaption>
+<div id="fig-textInput" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-textInput-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="resources/placeholder.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-textInput-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Text input (Source: Wickham 2021)
+</figcaption>
 </figure>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -954,19 +966,23 @@ Solution
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-10_1153038396563fbd05dda39273f60721">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">textInput</span>(<span class="st">"text"</span>, <span class="st">""</span>, <span class="at">placeholder =</span> <span class="st">"Your name"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">textInput</span>(<span class="st">"text"</span>, <span class="st">""</span>, <span class="at">placeholder =</span> <span class="st">"Your name"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 </div>
 <ol start="2" type="1">
-<li>Carefully read the documentation for <code>sliderInput()</code> to figure out how to create a date slider, as shown below in <a href="#fig-date-slider">Figure&nbsp;2</a>.</li>
+<li>Carefully read the documentation for <code>sliderInput()</code> to figure out how to create a date slider, as shown below in <a href="#fig-date-slider" class="quarto-xref">Figure&nbsp;2</a>.</li>
 </ol>
-<div id="fig-date-slider" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="resources/date-slider.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;2: Date slider (Source: Wickham 2021)</figcaption>
+<div id="fig-date-slider" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-date-slider-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="resources/date-slider.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-date-slider-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Date slider (Source: Wickham 2021)
+</figcaption>
 </figure>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -981,8 +997,8 @@ Solution
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-11-3_5834f3da01585054c794c4e6082d574c">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">sliderInput</span>(</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">sliderInput</span>(</span>
 <span id="cb10-2"><a href="#cb10-2"></a>  <span class="st">"dates"</span>,</span>
 <span id="cb10-3"><a href="#cb10-3"></a>  <span class="st">"When should we deliver?"</span>,</span>
 <span id="cb10-4"><a href="#cb10-4"></a>  <span class="at">min =</span> <span class="fu">as.Date</span>(<span class="st">"2019-08-09"</span>),</span>
@@ -1008,8 +1024,8 @@ Solution
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-11-5_612d33303c3668ae7504583b102c6492">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>  <span class="fu">sliderInput</span>(<span class="st">"number"</span>, <span class="st">"Select a number:"</span>,</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>  <span class="fu">sliderInput</span>(<span class="st">"number"</span>, <span class="st">"Select a number:"</span>,</span>
 <span id="cb11-2"><a href="#cb11-2"></a>              <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">100</span>, <span class="at">value =</span> <span class="dv">0</span>, </span>
 <span id="cb11-3"><a href="#cb11-3"></a>              <span class="at">step =</span> <span class="dv">5</span>, <span class="at">animate =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1031,8 +1047,8 @@ Solution
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-11-4_dff9e711142fc42a08b9f801a208bb72">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">selectInput</span>(</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">selectInput</span>(</span>
 <span id="cb12-2"><a href="#cb12-2"></a>  <span class="st">"breed"</span>,</span>
 <span id="cb12-3"><a href="#cb12-3"></a>  <span class="st">"Select your favorite animal breed:"</span>,</span>
 <span id="cb12-4"><a href="#cb12-4"></a>  <span class="at">choices =</span></span>
@@ -1057,8 +1073,8 @@ Solution: One app with all the widgets
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-11-4-4-2_9cd42397be0d3b05c07bb9cf142afd44">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">textInput</span>(<span class="st">"text"</span>, <span class="st">""</span>, <span class="at">placeholder =</span> <span class="st">"Your name"</span>),</span>
 <span id="cb13-3"><a href="#cb13-3"></a>  </span>
 <span id="cb13-4"><a href="#cb13-4"></a>  <span class="fu">sliderInput</span>(</span>
@@ -1108,8 +1124,8 @@ Solution: App that displays the input values
 <ul>
 <li>Solution taken from <a href="https://stackoverflow.com/a/41035132">stackoverflow</a>.</li>
 </ul>
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-11-4-4-2-1_a0038079255736d4ae7a67f4c6bae2e4">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">#rm(list=ls())</span></span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">#rm(list=ls())</span></span>
 <span id="cb14-2"><a href="#cb14-2"></a><span class="fu">library</span>(shiny)</span>
 <span id="cb14-3"><a href="#cb14-3"></a></span>
 <span id="cb14-4"><a href="#cb14-4"></a>ui <span class="ot">&lt;-</span> <span class="fu">basicPage</span>(</span>
@@ -1173,8 +1189,8 @@ Solution: App that displays the input values
 </ul>
 <section id="text-output" class="level3" data-number="4.1">
 <h3 data-number="4.1" class="anchored" data-anchor-id="text-output"><span class="header-section-number">4.1</span> Text output</h3>
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-12_fd328634f3c400626bd0191f488fda84">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb15-2"><a href="#cb15-2"></a>  <span class="fu">textOutput</span>(<span class="st">"text"</span>),</span>
 <span id="cb15-3"><a href="#cb15-3"></a>  <span class="fu">verbatimTextOutput</span>(<span class="st">"code"</span>)</span>
 <span id="cb15-4"><a href="#cb15-4"></a>)</span>
@@ -1191,8 +1207,8 @@ Solution: App that displays the input values
 </section>
 <section id="table-output" class="level3" data-number="4.2">
 <h3 data-number="4.2" class="anchored" data-anchor-id="table-output"><span class="header-section-number">4.2</span> Table output</h3>
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-14_94d6b914708b08315f149522d53cad36">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb16-2"><a href="#cb16-2"></a>  <span class="fu">tableOutput</span>(<span class="st">"static"</span>),</span>
 <span id="cb16-3"><a href="#cb16-3"></a>  <span class="fu">dataTableOutput</span>(<span class="st">"dynamic"</span>)</span>
 <span id="cb16-4"><a href="#cb16-4"></a>)</span>
@@ -1205,8 +1221,8 @@ Solution: App that displays the input values
 </section>
 <section id="plots-output" class="level3" data-number="4.3">
 <h3 data-number="4.3" class="anchored" data-anchor-id="plots-output"><span class="header-section-number">4.3</span> Plots output</h3>
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-15_c6e33a4f1e94eb336d64949595d0e957">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb17-2"><a href="#cb17-2"></a>  <span class="fu">plotOutput</span>(<span class="st">"plot"</span>, <span class="at">width =</span> <span class="st">"400px"</span>)</span>
 <span id="cb17-3"><a href="#cb17-3"></a>)</span>
 <span id="cb17-4"><a href="#cb17-4"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
@@ -1241,8 +1257,8 @@ Solution
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-11-4-4-3_b4c81a7946e02b718bfdb0a8c32879c7">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb18-2"><a href="#cb18-2"></a>  <span class="fu">verbatimTextOutput</span>(<span class="st">"mtcarsout1"</span>),</span>
 <span id="cb18-3"><a href="#cb18-3"></a>  <span class="fu">br</span>(), <span class="fu">hr</span>(),</span>
 <span id="cb18-4"><a href="#cb18-4"></a>  <span class="fu">textOutput</span>(<span class="st">"mtcarsout2"</span>),</span>
@@ -1265,8 +1281,8 @@ Solution
 <ol start="2" type="1">
 <li>Update the options in the call to <code>renderDataTable()</code> below so that the data is displayed, but all other controls are suppress (i.e.&nbsp;remove the search, ordering, and filtering commands). You’ll need to read <code>?renderDataTable</code> and review the options at <a href="https://datatables.net/reference/option/" class="uri">https://datatables.net/reference/option/</a> or at <a href="https://shiny.posit.co/r/gallery/widgets/datatables-options/" class="uri">https://shiny.posit.co/r/gallery/widgets/datatables-options/</a></li>
 </ol>
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-16_a7d82f76c838f955277b89b4c0b19f76">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb19-2"><a href="#cb19-2"></a>      <span class="fu">dataTableOutput</span>(<span class="st">"table"</span>)</span>
 <span id="cb19-3"><a href="#cb19-3"></a>    )</span>
 <span id="cb19-4"><a href="#cb19-4"></a>    server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
@@ -1286,8 +1302,8 @@ Solution
 </div>
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-11-4-4_a2653dd8c2a3441c7ac6edf219fd2bd0">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb20-2"><a href="#cb20-2"></a>  <span class="fu">dataTableOutput</span>(<span class="st">"table"</span>)</span>
 <span id="cb20-3"><a href="#cb20-3"></a>)</span>
 <span id="cb20-4"><a href="#cb20-4"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
@@ -1345,8 +1361,8 @@ Solution
 <li>Here we just do a quick example but in <a href="https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/">this tutorial you find more information</a></li>
 <li><strong>Exercise</strong>: Please run the shiny app below and explore the effect of different html tags.</li>
 </ul>
-<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-17_f77f2c1f75c331e4ef2da7be8bc1176e">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">library</span>(bs4Dash)</span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">library</span>(bs4Dash)</span>
 <span id="cb21-2"><a href="#cb21-2"></a><span class="co"># UI ----</span></span>
 <span id="cb21-3"><a href="#cb21-3"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(<span class="at">title =</span> <span class="st">"My Shiny App"</span>,</span>
 <span id="cb21-4"><a href="#cb21-4"></a></span>
@@ -1398,10 +1414,10 @@ Solution
 <li>Let’s do this together!</li>
 </ul></li>
 </ul>
-<div class="cell" data-file="shinyapps/guerry/states_paul/app_tab_introduction.R" data-hash="03-user-interface_cache/html/unnamed-chunk-1_7ac5e1dcdd0fa378fde88ddb160fdc62">
-<details>
+<div class="cell">
+<details class="code-fold">
 <summary>Full R code including Shiny events</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">library</span>(shiny)</span>
+<div class="sourceCode cell-code" id="cb22" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">library</span>(shiny)</span>
 <span id="cb22-2"><a href="#cb22-2"></a><span class="fu">library</span>(htmltools)</span>
 <span id="cb22-3"><a href="#cb22-3"></a><span class="fu">library</span>(bs4Dash)</span>
 <span id="cb22-4"><a href="#cb22-4"></a><span class="fu">library</span>(fresh)</span>
@@ -1599,7 +1615,7 @@ Solution
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-wickham2021mastering" class="csl-entry" role="listitem">
 Wickham, Hadley. 2021. <em>Mastering Shiny</em>. " O’Reilly Media, Inc.".
 </div>
@@ -1688,10 +1704,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/bookdown\.org\/paul\/shiny_workshop\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1701,8 +1734,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1714,7 +1756,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1758,6 +1923,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1783,8 +1949,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-      // Handle positioning of the toggle
-      window.addEventListener(
+        // Handle positioning of the toggle
+    window.addEventListener(
       "resize",
       throttle(() => {
         elRect = undefined;
@@ -1792,23 +1958,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
           selectCodeLines(selectedAnnoteEl);
         }
       }, 10)
-      );
-      function throttle(fn, ms) {
-      let throttle = false;
-      let timer;
-        return (...args) => {
-          if(!throttle) { // first call gets through
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
               fn.apply(this, args);
-              throttle = true;
-          } else { // all the others get throttled
-              if(timer) clearTimeout(timer); // cancel #2
-              timer = setTimeout(() => {
-                fn.apply(this, args);
-                timer = throttle = false;
-              }, ms);
-          }
-        };
-      }
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
       for (let i=0; i<annoteTargets.length; i++) {
         const annoteTarget = annoteTargets[i];
@@ -1853,7 +2019,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
               options: {
                 flipVariations: false, // true by default
                 allowedAutoPlacements: ['right'],
-                fallbackPlacements: ['right', 'top', 'top-start', 'top-end'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
               },
             },
             {
@@ -1911,4 +2077,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/03-user-interface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.js" defer="true"></script>
 </body></html>

@@ -214,30 +214,31 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
    
   <ul>
   <li><a href="#basics" id="toc-basics" class="nav-link active" data-scroll-target="#basics"><span class="header-section-number">1</span> Basics</a></li>
-  <li><a href="#reactives-versus-observers" id="toc-reactives-versus-observers" class="nav-link" data-scroll-target="#reactives-versus-observers"><span class="header-section-number">2</span> Reactives versus observers</a>
+  <li><a href="#overview-of-the-reactivity-workflow" id="toc-overview-of-the-reactivity-workflow" class="nav-link" data-scroll-target="#overview-of-the-reactivity-workflow"><span class="header-section-number">2</span> Overview of the reactivity workflow</a></li>
+  <li><a href="#reactives-versus-observers" id="toc-reactives-versus-observers" class="nav-link" data-scroll-target="#reactives-versus-observers"><span class="header-section-number">3</span> Reactives versus observers</a>
   <ul class="collapse">
-  <li><a href="#reactive" id="toc-reactive" class="nav-link" data-scroll-target="#reactive"><span class="header-section-number">2.1</span> Reactive</a></li>
-  <li><a href="#observers" id="toc-observers" class="nav-link" data-scroll-target="#observers"><span class="header-section-number">2.2</span> Observers</a></li>
+  <li><a href="#reactive" id="toc-reactive" class="nav-link" data-scroll-target="#reactive"><span class="header-section-number">3.1</span> Reactive</a></li>
+  <li><a href="#observers" id="toc-observers" class="nav-link" data-scroll-target="#observers"><span class="header-section-number">3.2</span> Observers</a></li>
   </ul></li>
-  <li><a href="#events" id="toc-events" class="nav-link" data-scroll-target="#events"><span class="header-section-number">3</span> Events</a>
+  <li><a href="#events" id="toc-events" class="nav-link" data-scroll-target="#events"><span class="header-section-number">4</span> Events</a>
   <ul class="collapse">
-  <li><a href="#bindevent" id="toc-bindevent" class="nav-link" data-scroll-target="#bindevent"><span class="header-section-number">3.1</span> <code>bindEvent</code></a>
+  <li><a href="#bindevent" id="toc-bindevent" class="nav-link" data-scroll-target="#bindevent"><span class="header-section-number">4.1</span> <code>bindEvent</code></a>
   <ul class="collapse">
-  <li><a href="#arguments-to-bindevent" id="toc-arguments-to-bindevent" class="nav-link" data-scroll-target="#arguments-to-bindevent"><span class="header-section-number">3.1.1</span> Arguments to <code>bindEvent</code></a></li>
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">3.1.2</span> Example</a></li>
+  <li><a href="#arguments-to-bindevent" id="toc-arguments-to-bindevent" class="nav-link" data-scroll-target="#arguments-to-bindevent"><span class="header-section-number">4.1.1</span> Arguments to <code>bindEvent</code></a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">4.1.2</span> Example</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#updaters" id="toc-updaters" class="nav-link" data-scroll-target="#updaters"><span class="header-section-number">4</span> Updaters</a>
+  <li><a href="#updaters" id="toc-updaters" class="nav-link" data-scroll-target="#updaters"><span class="header-section-number">5</span> Updaters</a>
   <ul class="collapse">
-  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation"><span class="header-section-number">4.1</span> Implementation</a></li>
-  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">4.2</span> Example</a></li>
+  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation"><span class="header-section-number">5.1</span> Implementation</a></li>
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">5.2</span> Example</a></li>
   </ul></li>
-  <li><a href="#truthiness" id="toc-truthiness" class="nav-link" data-scroll-target="#truthiness"><span class="header-section-number">5</span> Truthiness</a>
+  <li><a href="#truthiness" id="toc-truthiness" class="nav-link" data-scroll-target="#truthiness"><span class="header-section-number">6</span> Truthiness</a>
   <ul class="collapse">
-  <li><a href="#required-values-req" id="toc-required-values-req" class="nav-link" data-scroll-target="#required-values-req"><span class="header-section-number">5.1</span> Required values (<code>req</code>)</a></li>
-  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="header-section-number">5.2</span> Example</a></li>
+  <li><a href="#required-values-req" id="toc-required-values-req" class="nav-link" data-scroll-target="#required-values-req"><span class="header-section-number">6.1</span> Required values (<code>req</code>)</a></li>
+  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="header-section-number">6.2</span> Example</a></li>
   </ul></li>
-  <li><a href="#other-important-concepts" id="toc-other-important-concepts" class="nav-link" data-scroll-target="#other-important-concepts"><span class="header-section-number">6</span> Other important concepts</a></li>
+  <li><a href="#other-important-concepts" id="toc-other-important-concepts" class="nav-link" data-scroll-target="#other-important-concepts"><span class="header-section-number">7</span> Other important concepts</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/05-server-reactive-programming-ii.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -294,10 +295,18 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </ul></li>
 </ul>
 </section>
-<section id="reactives-versus-observers" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Reactives versus observers</h1>
-<section id="reactive" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="reactive"><span class="header-section-number">2.1</span> Reactive</h2>
+<section id="overview-of-the-reactivity-workflow" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Overview of the reactivity workflow</h1>
+<ul>
+<li>This workflow chart is an overview of the most important mechanisms of Shiny’s server function</li>
+<li>We do not address all elements on this map, but at the end of the workshop you should get the general idea of what is going on here</li>
+</ul>
+<p><img src="resources/reactivity_workflow.svg" class="img-fluid"></p>
+</section>
+<section id="reactives-versus-observers" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Reactives versus observers</h1>
+<section id="reactive" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="reactive"><span class="header-section-number">3.1</span> Reactive</h2>
 <ul>
 <li>Reactives (<code>reactive()</code>) wrapped up:
 <ul>
@@ -356,8 +365,8 @@ Tip
 </tbody>
 </table>
 </section>
-<section id="observers" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="observers"><span class="header-section-number">2.2</span> Observers</h2>
+<section id="observers" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="observers"><span class="header-section-number">3.2</span> Observers</h2>
 <ul>
 <li>Observers (<code>observe()</code>) are similar to reactives:
 <ul>
@@ -561,8 +570,8 @@ Tip
 </div>
 </section>
 </section>
-<section id="events" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Events</h1>
+<section id="events" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Events</h1>
 <ul>
 <li>We talk about an <em>event</em> when a reactive expression is triggered by another reactive expression</li>
 <li>For example:
@@ -573,8 +582,8 @@ Tip
 </ul></li>
 <li>We are dealing with Shiny events all the time, but it is important to realize how to control them</li>
 </ul>
-<section id="bindevent" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="bindevent"><span class="header-section-number">3.1</span> <code>bindEvent</code></h2>
+<section id="bindevent" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="bindevent"><span class="header-section-number">4.1</span> <code>bindEvent</code></h2>
 <ul>
 <li>The <code>bindEvent</code> function binds a reactive expression to one or multiple events</li>
 <li>The reactive expression is evaluated if <em>and only if</em> the event is triggered</li>
@@ -587,8 +596,8 @@ Tip
 <span id="cb5-3"><a href="#cb5-3"></a>}) <span class="sc">%&gt;%</span></span>
 <span id="cb5-4"><a href="#cb5-4"></a>  <span class="fu">bindEvent</span>(input<span class="sc">$</span>button)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="arguments-to-bindevent" class="level3" data-number="3.1.1">
-<h3 data-number="3.1.1" class="anchored" data-anchor-id="arguments-to-bindevent"><span class="header-section-number">3.1.1</span> Arguments to <code>bindEvent</code></h3>
+<section id="arguments-to-bindevent" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="arguments-to-bindevent"><span class="header-section-number">4.1.1</span> Arguments to <code>bindEvent</code></h3>
 <ul>
 <li><code>bindEvent</code> takes three arguments:
 <ul>
@@ -598,8 +607,8 @@ Tip
 </ul></li>
 </ul>
 </section>
-<section id="example" class="level3" data-number="3.1.2">
-<h3 data-number="3.1.2" class="anchored" data-anchor-id="example"><span class="header-section-number">3.1.2</span> Example</h3>
+<section id="example" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="example"><span class="header-section-number">4.1.2</span> Example</h3>
 <ul>
 <li>To exemplify we will add an action button, that serves the following role:
 <ul>
@@ -786,8 +795,8 @@ Tip
 </section>
 </section>
 </section>
-<section id="updaters" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Updaters</h1>
+<section id="updaters" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Updaters</h1>
 <ul>
 <li>Updaters are one of the more common uses of observers</li>
 <li>They update the values and appearance of input widgets</li>
@@ -799,8 +808,8 @@ Tip
 <li><a href="(https://shiny.posit.co/r/reference/shiny/0.14/updateactionbutton)"><code>updateActionButton</code></a>: Updating an action button can simulate a button click, without the user needing to physically click on the button.</li>
 </ul></li>
 </ul>
-<section id="implementation" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="implementation"><span class="header-section-number">4.1</span> Implementation</h2>
+<section id="implementation" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="implementation"><span class="header-section-number">5.1</span> Implementation</h2>
 <ul>
 <li>Updaters are usually found in an <strong>observer</strong>.</li>
 <li>Because they often do not depend on any input, they are best coupled with <code>bindEvent</code>.</li>
@@ -847,8 +856,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="example-1" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="example-1"><span class="header-section-number">4.2</span> Example</h2>
+<section id="example-1" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="example-1"><span class="header-section-number">5.2</span> Example</h2>
 <ul>
 <li>To exemplify, we add a new slider to the app:</li>
 </ul>
@@ -1073,8 +1082,8 @@ Tip
 </div>
 </section>
 </section>
-<section id="truthiness" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Truthiness</h1>
+<section id="truthiness" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Truthiness</h1>
 <ul>
 <li>Truthiness is Shiny’s flavor of logical or boolean values.</li>
 <li>Shiny interprets truthiness much more liberally than base R</li>
@@ -1110,8 +1119,8 @@ Tip
 <pre data-code-line-numbers=""><code>[1] TRUE</code></pre>
 </div>
 </div>
-<section id="required-values-req" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="required-values-req"><span class="header-section-number">5.1</span> Required values (<code>req</code>)</h2>
+<section id="required-values-req" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="required-values-req"><span class="header-section-number">6.1</span> Required values (<code>req</code>)</h2>
 <ul>
 <li>Truthiness is useful for Shiny’s <code>req</code> function</li>
 <li><code>req</code> is equivalent to <code>if</code> statements in R with two exceptions:
@@ -1122,8 +1131,8 @@ Tip
 <li><code>req</code> is useful to stop reactive behavior when certain conditions are not met</li>
 </ul>
 </section>
-<section id="example-2" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="example-2"><span class="header-section-number">5.2</span> Example</h2>
+<section id="example-2" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="example-2"><span class="header-section-number">6.2</span> Example</h2>
 <ul>
 <li>In our Shiny app, we can use req to cancel plotting when no country is specified</li>
 <li><code>selectizeInput</code>, which is used to select a country, returns <code>NULL</code> when no value is specified</li>
@@ -1287,8 +1296,8 @@ Tip
 </div>
 </section>
 </section>
-<section id="other-important-concepts" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Other important concepts</h1>
+<section id="other-important-concepts" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Other important concepts</h1>
 <ul>
 <li>Shiny’s reactivity is easy to learn and hard to master</li>
 <li>We have started with basic concepts (inputs, outputs, reactive graphs)</li>
@@ -1300,56 +1309,82 @@ Tip
 </ul></li>
 <li>Base Shiny:
 <ul>
-<li>Modularization
+<li>Dynamic UI
 <ul>
-<li>Package large Shiny apps into isolated modules to increase maintainability</li>
-<li><a href="https://shiny.posit.co/r/reference/shiny/1.7.0/moduleserver"><code>moduleServer</code></a></li>
-<li>See also this <a href="https://shiny.posit.co/r/articles/improve/modules/">blog article</a>)</li>
+<li>Add, manipulate, and remove UI elements from the server function</li>
+<li><a href="https://shiny.posit.co/r/reference/shiny/latest/insertui"><code>insertUI</code></a> and <a href="https://shiny.posit.co/r/reference/shiny/latest/insertui"><code>removeUI</code></a></li>
+<li><a href="https://deanattali.com/shinyjs/"><code>shinyjs</code></a> package for advanced control</li>
+<li>See also this <a href="https://shiny.posit.co/r/articles/build/dynamic-ui/">blog article</a> on dynamic UIs</li>
 </ul></li>
 <li>Isolation
 <ul>
 <li>Sever reactive values from the reactive graph</li>
 <li><a href="https://shiny.posit.co/r/reference/shiny/0.11/isolate.html"><code>isolate</code></a></li>
-<li>See also this <a href="https://shiny.posit.co/r/articles/build/isolation/">blog article</a>)</li>
+<li>See also this <a href="https://shiny.posit.co/r/articles/build/isolation/">blog article</a></li>
 </ul></li>
 <li>Freezing
 <ul>
+<li>Prevent an event from triggering until the next flush</li>
 <li><a href="https://shiny.posit.co/r/reference/shiny/1.4.0/freezereactivevalue"><code>freezeReactiveValue</code></a></li>
 <li>We have introduced this briefly in the section about updaters</li>
-<li>Prevent an event from triggering until the next flush</li>
+</ul></li>
+<li>Reactive values
+<ul>
+<li>Values or list-likes that are able to take dependencies in reactive expressions</li>
+<li><a href="https://shiny.posit.co/r/reference/shiny/latest/reactiveval"><code>reactiveVal</code></a> and <a href="https://shiny.posit.co/r/reference/shiny/latest/reactivevalues"><code>reactiveValues</code></a></li>
+<li>Reactive values are essentially a bare-bones version of <code>reactive()</code>, but for a short introduction, see <a href="https://mastering-shiny.org/reactivity-objects.html#reactive-values">chapter 15.1</a> of Mastering Shiny</li>
 </ul></li>
 <li>Flush events
 <ul>
+<li>Execute code after / before the reactive graphs finishes / starts</li>
 <li><a href="https://shiny.posit.co/r/reference/shiny/0.14/onflush"><code>onFlush</code></a></li>
 <li>See also this <a href="https://shiny.posit.co/r/articles/build/execution-scheduling/">blog article</a> about execution scheduling</li>
-<li>Execute code after / before the reactive graphs finishes / starts</li>
 </ul></li>
 <li>Caching
 <ul>
-<li><a href="https://shiny.posit.co/r/reference/shiny/latest/bindcache"><code>bindCache</code></a></li>
 <li>Temporarily store computationally intensive results to improve performance</li>
+<li><a href="https://shiny.posit.co/r/reference/shiny/latest/bindcache"><code>bindCache</code></a></li>
 </ul></li>
 <li>Data storage
 <ul>
-<li>See this <a href="https://shiny.posit.co/r/articles/build/overview/">blog article</a></li>
 <li>Improve input/output of large data using local or remote databases (e.g.&nbsp;SQLite, Google Sheets, Dropbox, Amazon S3)</li>
+<li>See this <a href="https://shiny.posit.co/r/articles/build/overview/">blog article</a></li>
 </ul></li>
 <li>Scheduled invalidation
 <ul>
-<li><a href="https://shiny.posit.co/r/reference/shiny/latest/invalidatelater"><code>invalidateLater</code></a></li>
 <li>Invalidate reactive expressions after some time has passed</li>
+<li><a href="https://shiny.posit.co/r/reference/shiny/latest/invalidatelater"><code>invalidateLater</code></a></li>
 </ul></li>
 <li>Input validation
 <ul>
+<li>A more sophisticated alternative to <code>req</code> allowing multiple tests and more flexible conditions.</li>
 <li><a href="https://shiny.posit.co/r/reference/shiny/latest/validate.html"><code>validate</code></a></li>
-<li>A more sophisticated alternative to <code>req</code>.</li>
+</ul></li>
+<li>Safe execution
+<ul>
+<li>Notify the user when something gone wrong with useful error messages instead of plain R errors</li>
+<li><a href="https://rdrr.io/r/base/conditions.html"><code>base::tryCatch</code></a> and <a href="https://rdrr.io/r/base/conditions.html"><code>base::withCallingHandlers</code></a> provide mechanisms to implement safe errors</li>
+<li><a href="https://dreamrs.github.io/shinyWidgets/reference/execute_safely.html"><code>shinyWidgets::execute_safely</code></a> and <a href="https://rstudio.github.io/shinyvalidate/index.html"><code>shinyvalidate</code></a> are implementations found in the wild</li>
+<li>See also <a href="https://engineering-shiny.org/ux-matters.html">chapter 6: UX Matters</a> of Colin Fay’s Engineering Production-Grade Shiny Apps</li>
+</ul></li>
+<li>Modularization
+<ul>
+<li>Package large Shiny apps into isolated modules to increase maintainability</li>
+<li><a href="https://shiny.posit.co/r/reference/shiny/1.7.0/moduleserver"><code>moduleServer</code></a></li>
+<li>See also this <a href="https://shiny.posit.co/r/articles/improve/modules/">blog article</a></li>
 </ul></li>
 <li>Testing server logics
 <ul>
+<li>Set up a mocked Shiny server to use in unit tests</li>
 <li><a href="https://shiny.posit.co/r/reference/shiny/latest/testserver"><code>testServer</code></a></li>
-<li>Sets up a mocked Shiny server to use in unit tests</li>
 <li>Particularly useful for making a robust Shiny package</li>
-<li>Advanced approaches also exist, e.g.&nbsp;<a href="https://github.com/rstudio/shinytest2"><code>shinytest2</code></a> or <a href="https://github.com/yonicd/reactor"><code>creactor</code></a></li>
+<li>Advanced approaches also exist, e.g.&nbsp;<a href="https://github.com/rstudio/shinytest2"><code>shinytest2</code></a> or <a href="https://github.com/yonicd/reactor"><code>reactor</code></a></li>
+</ul></li>
+<li>Javascript
+<ul>
+<li>Shiny apps can be built without ever seeing a single line of Javascript – but Javascript can still come in handy for that last mile of customization</li>
+<li>See <a href="https://engineering-shiny.org/using-javascript.html">chapter 17</a> of Engineering Production-Grade Shiny Apps and <a href="https://unleash-shiny.rinterface.com/survival-kit-javascript">chapter 10</a> of Outstanding User Interfaces with Shiny for useful primers on Javascript in Shiny</li>
+</ul></li>
 </ul></li>
 <li>Shiny extensions
 <ul>
@@ -1370,8 +1405,9 @@ Tip
 </ul></li>
 <li>URL routing
 <ul>
-<li><a href="https://appsilon.github.io/shiny.router/"><code>shiny.router</code></a></li>
 <li>Route to specific parts of a Shiny app by modifying the URL path</li>
+<li><a href="https://appsilon.github.io/shiny.router/"><code>shiny.router</code></a> and <a href="https://github.com/shinyworks/scenes?tab=readme-ov-file"><code>scenes</code></a></li>
+<li><a href="https://shiny.posit.co/r/reference/shiny/latest/updatequerystring"><code>updateQueryString</code></a> and <a href="https://shiny.posit.co/r/reference/shiny/latest/getquerystring"><code>getQueryString</code></a> in base Shiny</li>
 <li>Example: <code>https://shinyapp.com/plot</code> to access a plot</li>
 </ul></li>
 <li>Reactivity logging
@@ -1383,7 +1419,6 @@ Tip
 <ul>
 <li><a href="https://rstudio.github.io/profvis/"><code>profvis</code></a></li>
 <li>Interactively understand bottlenecks of a Shiny app</li>
-</ul></li>
 </ul></li>
 </ul></li>
 </ul>
