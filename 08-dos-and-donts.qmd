@@ -1,5 +1,5 @@
 ---
-title: "Dos and donts when building your own app"
+title: "Good practices when building your own app"
 ---
 
 - Learning outcomes:
@@ -11,12 +11,8 @@ title: "Dos and donts when building your own app"
   
 ## Paul
 
-### Do!
+### Use Large Language Models (LLMs)
 
-#### Use Large Language Models (LLMs)
-
-
-### Dont!
 
 
 
@@ -24,9 +20,7 @@ title: "Dos and donts when building your own app"
 
 ## Jonas
 
-### Do!
-
-#### Use the browser inspector
+### Use the browser inspector
 
 - Browser inspectors are an extremely powerful tool that goes far beyond the scope of this workshop
 - It can be used to take a deep look at a website
@@ -52,6 +46,4 @@ title: "Dos and donts when building your own app"
   - The goal is primarily to get a functioning app
   - Exploring a new elaborate tool beyond Shiny is a bit too much
 
-
-
-### Dont!
+(show, don't tell!)
