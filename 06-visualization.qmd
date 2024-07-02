@@ -5,11 +5,10 @@ editor: visual
 
 You will learn how to:
 
-- Implement and customize interactivity in plots
-- Leverage input events to fine-tune visualizations
-- Use proxies to update plots and maps on-the-fly (appendix)
-- Turn simple R plots into powerful Swiss knifes
-
+-   Implement and customize interactivity in plots
+-   Leverage input events to fine-tune visualizations
+-   Use proxies to update plots and maps on-the-fly (appendix)
+-   Turn simple R plots into powerful Swiss knifes
 
 # Interactive visualization: The core of Shiny
 
@@ -28,9 +27,7 @@ You will learn how to:
 Explore the COVID-19 tracker. Do you think this is a good Shiny app? If so, why? If not, why not?
 :::
 
-![COVID-19 Tracker](https://raw.githubusercontent.com/eparker12/nCoV_tracker/master/www/app_image.png)
-
-## Current app state
+![COVID-19 Tracker](https://raw.githubusercontent.com/ Current app state
 
 -   Unlike the previous sections, we will extend the existing app code step by step
 -   The code chunk below includes the current app state including the intro and table tabs
