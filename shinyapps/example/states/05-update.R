@@ -48,6 +48,7 @@ ui <- fluidPage(
         "countries",
         label = "Filter by country",
         choices = unique(ess$country),
+        selected = "FR",
         multiple = TRUE
       ),
       
@@ -78,7 +79,7 @@ ui <- fluidPage(
         ### Plot tab ----
         tabPanel(
           title = "Histogram",
-          plotlyOutput("plot", height = 600)
+          plotOutput("plot", height = 600)
         )
       )
     )
@@ -95,9 +96,7 @@ server <- function(input, output, session) {
     range <- input$slider
     
     # select country
-    if (!is.null(input$countries)) {
-      ess <- ess[ess$country %in% input$countries, ]
-    }
+    ess <- ess[ess$country %in% input$countries, ]
 
     # apply range
     ess <- ess[
@@ -111,11 +110,11 @@ server <- function(input, output, session) {
   
   # render table ----
   output$table <- renderTable({
-    ess[ess$country %in% input$countries, ]
+    filtered()
   }, height = 400)
   
   # render plot ----
-  output$plot <- renderPlotly({
+  output$plot <- renderPlot({
     plot_data <- filtered() %>%
       drop_na() %>%
       mutate(across(where(is.numeric), .fns = as.ordered))

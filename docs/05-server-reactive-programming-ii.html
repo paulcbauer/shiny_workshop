@@ -440,18 +440,18 @@ Tip
 <span id="cb3-35"><a href="#cb3-35"></a>  <span class="fu">print</span>(<span class="fu">filtered</span>())</span>
 <span id="cb3-36"><a href="#cb3-36"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-source-line-numbers="116-120">
 <details class="code-fold">
 <summary>Complete code</summary>
-<div class="sourceCode cell-code" id="cb4" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">library</span>(dplyr)</span>
+<div class="sourceCode cell-code" id="cb4" data-source-line-numbers="116-120" data-code-line-numbers="116-120"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="fu">library</span>(tidyr)</span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="fu">library</span>(shiny)</span>
 <span id="cb4-4"><a href="#cb4-4"></a><span class="fu">library</span>(plotly)</span>
 <span id="cb4-5"><a href="#cb4-5"></a><span class="fu">library</span>(leaflet)</span>
 <span id="cb4-6"><a href="#cb4-6"></a><span class="fu">library</span>(haven)</span>
 <span id="cb4-7"><a href="#cb4-7"></a></span>
-<span id="cb4-8"><a href="#cb4-8"></a>ess <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/ess_trust.rds"</span>)</span>
-<span id="cb4-9"><a href="#cb4-9"></a>ess_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/ess_trust_geo.rds"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8"></a>ess <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../../../data/ess_trust.rds"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9"></a>ess_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../../../data/ess_trust_geo.rds"</span>)</span>
 <span id="cb4-10"><a href="#cb4-10"></a></span>
 <span id="cb4-11"><a href="#cb4-11"></a><span class="co"># UI ----</span></span>
 <span id="cb4-12"><a href="#cb4-12"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
@@ -493,79 +493,78 @@ Tip
 <span id="cb4-48"><a href="#cb4-48"></a>        <span class="st">"countries"</span>,</span>
 <span id="cb4-49"><a href="#cb4-49"></a>        <span class="at">label =</span> <span class="st">"Filter by country"</span>,</span>
 <span id="cb4-50"><a href="#cb4-50"></a>        <span class="at">choices =</span> <span class="fu">unique</span>(ess<span class="sc">$</span>country),</span>
-<span id="cb4-51"><a href="#cb4-51"></a>        <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
-<span id="cb4-52"><a href="#cb4-52"></a>      )</span>
-<span id="cb4-53"><a href="#cb4-53"></a>    ),</span>
-<span id="cb4-54"><a href="#cb4-54"></a>    </span>
-<span id="cb4-55"><a href="#cb4-55"></a>    <span class="do">## Main panel ----</span></span>
-<span id="cb4-56"><a href="#cb4-56"></a>    <span class="fu">mainPanel</span>(</span>
-<span id="cb4-57"><a href="#cb4-57"></a>      <span class="fu">tabsetPanel</span>(</span>
-<span id="cb4-58"><a href="#cb4-58"></a>        <span class="at">type =</span> <span class="st">"tabs"</span>,</span>
-<span id="cb4-59"><a href="#cb4-59"></a>        </span>
-<span id="cb4-60"><a href="#cb4-60"></a>        <span class="do">### Table tab ----</span></span>
-<span id="cb4-61"><a href="#cb4-61"></a>        <span class="fu">tabPanel</span>(</span>
-<span id="cb4-62"><a href="#cb4-62"></a>          <span class="at">title =</span> <span class="st">"Table"</span>,</span>
-<span id="cb4-63"><a href="#cb4-63"></a>          <span class="fu">div</span>(</span>
-<span id="cb4-64"><a href="#cb4-64"></a>            <span class="at">style =</span> <span class="st">"height: 600px; overflow-y: auto;"</span>,</span>
-<span id="cb4-65"><a href="#cb4-65"></a>            <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
-<span id="cb4-66"><a href="#cb4-66"></a>          )</span>
-<span id="cb4-67"><a href="#cb4-67"></a>        ),</span>
-<span id="cb4-68"><a href="#cb4-68"></a>        </span>
-<span id="cb4-69"><a href="#cb4-69"></a>        <span class="do">### Plot tab ----</span></span>
-<span id="cb4-70"><a href="#cb4-70"></a>        <span class="fu">tabPanel</span>(</span>
-<span id="cb4-71"><a href="#cb4-71"></a>          <span class="at">title =</span> <span class="st">"Histogram"</span>,</span>
-<span id="cb4-72"><a href="#cb4-72"></a>          <span class="fu">plotlyOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
-<span id="cb4-73"><a href="#cb4-73"></a>        )</span>
-<span id="cb4-74"><a href="#cb4-74"></a>      )</span>
-<span id="cb4-75"><a href="#cb4-75"></a>    )</span>
-<span id="cb4-76"><a href="#cb4-76"></a>  )</span>
-<span id="cb4-77"><a href="#cb4-77"></a>)</span>
-<span id="cb4-78"><a href="#cb4-78"></a></span>
+<span id="cb4-51"><a href="#cb4-51"></a>        <span class="at">selected =</span> <span class="st">"FR"</span>,</span>
+<span id="cb4-52"><a href="#cb4-52"></a>        <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
+<span id="cb4-53"><a href="#cb4-53"></a>      )</span>
+<span id="cb4-54"><a href="#cb4-54"></a>    ),</span>
+<span id="cb4-55"><a href="#cb4-55"></a>    </span>
+<span id="cb4-56"><a href="#cb4-56"></a>    <span class="do">## Main panel ----</span></span>
+<span id="cb4-57"><a href="#cb4-57"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb4-58"><a href="#cb4-58"></a>      <span class="fu">tabsetPanel</span>(</span>
+<span id="cb4-59"><a href="#cb4-59"></a>        <span class="at">type =</span> <span class="st">"tabs"</span>,</span>
+<span id="cb4-60"><a href="#cb4-60"></a>        </span>
+<span id="cb4-61"><a href="#cb4-61"></a>        <span class="do">### Table tab ----</span></span>
+<span id="cb4-62"><a href="#cb4-62"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb4-63"><a href="#cb4-63"></a>          <span class="at">title =</span> <span class="st">"Table"</span>,</span>
+<span id="cb4-64"><a href="#cb4-64"></a>          <span class="fu">div</span>(</span>
+<span id="cb4-65"><a href="#cb4-65"></a>            <span class="at">style =</span> <span class="st">"height: 600px; overflow-y: auto;"</span>,</span>
+<span id="cb4-66"><a href="#cb4-66"></a>            <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
+<span id="cb4-67"><a href="#cb4-67"></a>          )</span>
+<span id="cb4-68"><a href="#cb4-68"></a>        ),</span>
+<span id="cb4-69"><a href="#cb4-69"></a>        </span>
+<span id="cb4-70"><a href="#cb4-70"></a>        <span class="do">### Plot tab ----</span></span>
+<span id="cb4-71"><a href="#cb4-71"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb4-72"><a href="#cb4-72"></a>          <span class="at">title =</span> <span class="st">"Histogram"</span>,</span>
+<span id="cb4-73"><a href="#cb4-73"></a>          <span class="fu">plotOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
+<span id="cb4-74"><a href="#cb4-74"></a>        )</span>
+<span id="cb4-75"><a href="#cb4-75"></a>      )</span>
+<span id="cb4-76"><a href="#cb4-76"></a>    )</span>
+<span id="cb4-77"><a href="#cb4-77"></a>  )</span>
+<span id="cb4-78"><a href="#cb4-78"></a>)</span>
 <span id="cb4-79"><a href="#cb4-79"></a></span>
-<span id="cb4-80"><a href="#cb4-80"></a><span class="co"># Server ----</span></span>
-<span id="cb4-81"><a href="#cb4-81"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb4-82"><a href="#cb4-82"></a>  <span class="co"># filter data ----</span></span>
-<span id="cb4-83"><a href="#cb4-83"></a>  filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb4-84"><a href="#cb4-84"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
-<span id="cb4-85"><a href="#cb4-85"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
-<span id="cb4-86"><a href="#cb4-86"></a>    range <span class="ot">&lt;-</span> input<span class="sc">$</span>range</span>
-<span id="cb4-87"><a href="#cb4-87"></a>    </span>
-<span id="cb4-88"><a href="#cb4-88"></a>    <span class="co"># select country</span></span>
-<span id="cb4-89"><a href="#cb4-89"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(input<span class="sc">$</span>countries)) {</span>
-<span id="cb4-90"><a href="#cb4-90"></a>      ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
-<span id="cb4-91"><a href="#cb4-91"></a>    }</span>
-<span id="cb4-92"><a href="#cb4-92"></a>    </span>
-<span id="cb4-93"><a href="#cb4-93"></a>    <span class="co"># select variable</span></span>
-<span id="cb4-94"><a href="#cb4-94"></a>    ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
-<span id="cb4-95"><a href="#cb4-95"></a>  })</span>
-<span id="cb4-96"><a href="#cb4-96"></a>  </span>
-<span id="cb4-97"><a href="#cb4-97"></a>  <span class="co"># render table ----</span></span>
-<span id="cb4-98"><a href="#cb4-98"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
-<span id="cb4-99"><a href="#cb4-99"></a>    ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
-<span id="cb4-100"><a href="#cb4-100"></a>  }, <span class="at">height =</span> <span class="dv">400</span>)</span>
-<span id="cb4-101"><a href="#cb4-101"></a>  </span>
-<span id="cb4-102"><a href="#cb4-102"></a>  <span class="co"># render plot ----</span></span>
-<span id="cb4-103"><a href="#cb4-103"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlotly</span>({</span>
-<span id="cb4-104"><a href="#cb4-104"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
-<span id="cb4-105"><a href="#cb4-105"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
-<span id="cb4-106"><a href="#cb4-106"></a>    plot_data <span class="ot">&lt;-</span> <span class="fu">filtered</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb4-107"><a href="#cb4-107"></a>      <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb4-108"><a href="#cb4-108"></a>      <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> as.ordered))</span>
-<span id="cb4-109"><a href="#cb4-109"></a>    </span>
-<span id="cb4-110"><a href="#cb4-110"></a>    <span class="fu">ggplot</span>(plot_data) <span class="sc">+</span></span>
-<span id="cb4-111"><a href="#cb4-111"></a>      <span class="fu">aes</span>(<span class="at">x =</span> .data[[xvar]], <span class="at">y =</span> .data[[yvar]], <span class="at">group =</span> .data[[xvar]]) <span class="sc">+</span></span>
-<span id="cb4-112"><a href="#cb4-112"></a>      <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb4-113"><a href="#cb4-113"></a>      <span class="fu">theme_classic</span>()</span>
-<span id="cb4-114"><a href="#cb4-114"></a>  })</span>
-<span id="cb4-115"><a href="#cb4-115"></a>  </span>
-<span id="cb4-116"><a href="#cb4-116"></a>  <span class="co"># executes everytime `filtered()` is updated</span></span>
-<span id="cb4-117"><a href="#cb4-117"></a>  <span class="co"># prints the filtered dataset to the console</span></span>
-<span id="cb4-118"><a href="#cb4-118"></a>  <span class="fu">observe</span>({</span>
-<span id="cb4-119"><a href="#cb4-119"></a>    <span class="fu">print</span>(<span class="fu">filtered</span>())</span>
-<span id="cb4-120"><a href="#cb4-120"></a>  })</span>
-<span id="cb4-121"><a href="#cb4-121"></a>}</span>
-<span id="cb4-122"><a href="#cb4-122"></a></span>
-<span id="cb4-123"><a href="#cb4-123"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-80"><a href="#cb4-80"></a></span>
+<span id="cb4-81"><a href="#cb4-81"></a><span class="co"># Server ----</span></span>
+<span id="cb4-82"><a href="#cb4-82"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb4-83"><a href="#cb4-83"></a>  <span class="co"># filter data ----</span></span>
+<span id="cb4-84"><a href="#cb4-84"></a>  filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb4-85"><a href="#cb4-85"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
+<span id="cb4-86"><a href="#cb4-86"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="cb4-87"><a href="#cb4-87"></a>    range <span class="ot">&lt;-</span> input<span class="sc">$</span>range</span>
+<span id="cb4-88"><a href="#cb4-88"></a>    </span>
+<span id="cb4-89"><a href="#cb4-89"></a>    <span class="co"># select country</span></span>
+<span id="cb4-90"><a href="#cb4-90"></a>    ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
+<span id="cb4-91"><a href="#cb4-91"></a>    </span>
+<span id="cb4-92"><a href="#cb4-92"></a>    <span class="co"># select variable</span></span>
+<span id="cb4-93"><a href="#cb4-93"></a>    ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
+<span id="cb4-94"><a href="#cb4-94"></a>  })</span>
+<span id="cb4-95"><a href="#cb4-95"></a>  </span>
+<span id="cb4-96"><a href="#cb4-96"></a>  <span class="co"># render table ----</span></span>
+<span id="cb4-97"><a href="#cb4-97"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
+<span id="cb4-98"><a href="#cb4-98"></a>    <span class="fu">filtered</span>()</span>
+<span id="cb4-99"><a href="#cb4-99"></a>  }, <span class="at">height =</span> <span class="dv">400</span>)</span>
+<span id="cb4-100"><a href="#cb4-100"></a>  </span>
+<span id="cb4-101"><a href="#cb4-101"></a>  <span class="co"># render plot ----</span></span>
+<span id="cb4-102"><a href="#cb4-102"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb4-103"><a href="#cb4-103"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
+<span id="cb4-104"><a href="#cb4-104"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="cb4-105"><a href="#cb4-105"></a>    plot_data <span class="ot">&lt;-</span> <span class="fu">filtered</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-106"><a href="#cb4-106"></a>      <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-107"><a href="#cb4-107"></a>      <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> as.ordered))</span>
+<span id="cb4-108"><a href="#cb4-108"></a>    </span>
+<span id="cb4-109"><a href="#cb4-109"></a>    <span class="fu">ggplot</span>(plot_data) <span class="sc">+</span></span>
+<span id="cb4-110"><a href="#cb4-110"></a>      <span class="fu">aes</span>(<span class="at">x =</span> .data[[xvar]], <span class="at">y =</span> .data[[yvar]], <span class="at">group =</span> .data[[xvar]]) <span class="sc">+</span></span>
+<span id="cb4-111"><a href="#cb4-111"></a>      <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb4-112"><a href="#cb4-112"></a>      <span class="fu">theme_classic</span>()</span>
+<span id="cb4-113"><a href="#cb4-113"></a>  })</span>
+<span id="cb4-114"><a href="#cb4-114"></a>  </span>
+<span id="cb4-115"><a href="#cb4-115"></a>  <span class="co"># executes everytime `filtered()` is updated</span></span>
+<span id="cb4-116"><a href="#cb4-116"></a>  <span class="co"># prints the filtered dataset to the console</span></span>
+<span id="cb4-117"><a href="#cb4-117"></a>  <span class="fu">observe</span>({</span>
+<span id="cb4-118"><a href="#cb4-118"></a>    <span class="fu">print</span>(<span class="fu">filtered</span>())</span>
+<span id="cb4-119"><a href="#cb4-119"></a>  })</span>
+<span id="cb4-120"><a href="#cb4-120"></a>}</span>
+<span id="cb4-121"><a href="#cb4-121"></a></span>
+<span id="cb4-122"><a href="#cb4-122"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -709,87 +708,101 @@ Tip
 <span id="cb8-48"><a href="#cb8-48"></a>        <span class="st">"countries"</span>,</span>
 <span id="cb8-49"><a href="#cb8-49"></a>        <span class="at">label =</span> <span class="st">"Filter by country"</span>,</span>
 <span id="cb8-50"><a href="#cb8-50"></a>        <span class="at">choices =</span> <span class="fu">unique</span>(ess<span class="sc">$</span>country),</span>
-<span id="cb8-51"><a href="#cb8-51"></a>        <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
-<span id="cb8-52"><a href="#cb8-52"></a>      ),</span>
-<span id="cb8-53"><a href="#cb8-53"></a>      </span>
-<span id="cb8-54"><a href="#cb8-54"></a>      <span class="fu">actionButton</span>(</span>
-<span id="cb8-55"><a href="#cb8-55"></a>        <span class="st">"button"</span>,</span>
-<span id="cb8-56"><a href="#cb8-56"></a>        <span class="at">label =</span> <span class="st">"Update parameters"</span>,</span>
-<span id="cb8-57"><a href="#cb8-57"></a>        <span class="at">icon =</span> <span class="fu">icon</span>(<span class="st">"refresh"</span>)</span>
-<span id="cb8-58"><a href="#cb8-58"></a>      )</span>
-<span id="cb8-59"><a href="#cb8-59"></a>    ),</span>
-<span id="cb8-60"><a href="#cb8-60"></a>    </span>
-<span id="cb8-61"><a href="#cb8-61"></a>    <span class="do">## Main panel ----</span></span>
-<span id="cb8-62"><a href="#cb8-62"></a>    <span class="fu">mainPanel</span>(</span>
-<span id="cb8-63"><a href="#cb8-63"></a>      <span class="fu">tabsetPanel</span>(</span>
-<span id="cb8-64"><a href="#cb8-64"></a>        <span class="at">type =</span> <span class="st">"tabs"</span>,</span>
-<span id="cb8-65"><a href="#cb8-65"></a>        </span>
-<span id="cb8-66"><a href="#cb8-66"></a>        <span class="do">### Table tab ----</span></span>
-<span id="cb8-67"><a href="#cb8-67"></a>        <span class="fu">tabPanel</span>(</span>
-<span id="cb8-68"><a href="#cb8-68"></a>          <span class="at">title =</span> <span class="st">"Table"</span>,</span>
-<span id="cb8-69"><a href="#cb8-69"></a>          <span class="fu">div</span>(</span>
-<span id="cb8-70"><a href="#cb8-70"></a>            <span class="at">style =</span> <span class="st">"height: 600px; overflow-y: auto;"</span>,</span>
-<span id="cb8-71"><a href="#cb8-71"></a>            <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
-<span id="cb8-72"><a href="#cb8-72"></a>          )</span>
-<span id="cb8-73"><a href="#cb8-73"></a>        ),</span>
-<span id="cb8-74"><a href="#cb8-74"></a>        </span>
-<span id="cb8-75"><a href="#cb8-75"></a>        <span class="do">### Plot tab ----</span></span>
-<span id="cb8-76"><a href="#cb8-76"></a>        <span class="fu">tabPanel</span>(</span>
-<span id="cb8-77"><a href="#cb8-77"></a>          <span class="at">title =</span> <span class="st">"Histogram"</span>,</span>
-<span id="cb8-78"><a href="#cb8-78"></a>          <span class="fu">plotlyOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
-<span id="cb8-79"><a href="#cb8-79"></a>        )</span>
-<span id="cb8-80"><a href="#cb8-80"></a>      )</span>
-<span id="cb8-81"><a href="#cb8-81"></a>    )</span>
-<span id="cb8-82"><a href="#cb8-82"></a>  )</span>
-<span id="cb8-83"><a href="#cb8-83"></a>)</span>
-<span id="cb8-84"><a href="#cb8-84"></a></span>
-<span id="cb8-85"><a href="#cb8-85"></a></span>
-<span id="cb8-86"><a href="#cb8-86"></a><span class="co"># Server ----</span></span>
-<span id="cb8-87"><a href="#cb8-87"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb8-88"><a href="#cb8-88"></a>  <span class="co"># filter data ----</span></span>
-<span id="cb8-89"><a href="#cb8-89"></a>  filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb8-90"><a href="#cb8-90"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
-<span id="cb8-91"><a href="#cb8-91"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
-<span id="cb8-92"><a href="#cb8-92"></a>    range <span class="ot">&lt;-</span> input<span class="sc">$</span>range</span>
-<span id="cb8-93"><a href="#cb8-93"></a>    </span>
-<span id="cb8-94"><a href="#cb8-94"></a>    <span class="co"># select country</span></span>
-<span id="cb8-95"><a href="#cb8-95"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(input<span class="sc">$</span>countries)) {</span>
-<span id="cb8-96"><a href="#cb8-96"></a>      ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
-<span id="cb8-97"><a href="#cb8-97"></a>    }</span>
-<span id="cb8-98"><a href="#cb8-98"></a>    </span>
-<span id="cb8-99"><a href="#cb8-99"></a>    <span class="co"># select variable</span></span>
-<span id="cb8-100"><a href="#cb8-100"></a>    ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
-<span id="cb8-101"><a href="#cb8-101"></a>  }) <span class="sc">%&gt;%</span></span>
-<span id="cb8-102"><a href="#cb8-102"></a>    <span class="fu">bindEvent</span>(input<span class="sc">$</span>button, <span class="at">ignoreNULL =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb8-103"><a href="#cb8-103"></a>  </span>
-<span id="cb8-104"><a href="#cb8-104"></a>  <span class="co"># render table ----</span></span>
-<span id="cb8-105"><a href="#cb8-105"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
-<span id="cb8-106"><a href="#cb8-106"></a>    ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
-<span id="cb8-107"><a href="#cb8-107"></a>  }, <span class="at">height =</span> <span class="dv">400</span>)</span>
-<span id="cb8-108"><a href="#cb8-108"></a>  </span>
-<span id="cb8-109"><a href="#cb8-109"></a>  <span class="co"># render plot ----</span></span>
-<span id="cb8-110"><a href="#cb8-110"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlotly</span>({</span>
-<span id="cb8-111"><a href="#cb8-111"></a>    plot_data <span class="ot">&lt;-</span> <span class="fu">filtered</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb8-112"><a href="#cb8-112"></a>      <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb8-113"><a href="#cb8-113"></a>      <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> as.ordered))</span>
-<span id="cb8-114"><a href="#cb8-114"></a>    </span>
-<span id="cb8-115"><a href="#cb8-115"></a>    xvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">3</span>]]</span>
-<span id="cb8-116"><a href="#cb8-116"></a>    yvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">4</span>]]</span>
-<span id="cb8-117"><a href="#cb8-117"></a>    </span>
-<span id="cb8-118"><a href="#cb8-118"></a>    <span class="fu">ggplot</span>(plot_data) <span class="sc">+</span></span>
-<span id="cb8-119"><a href="#cb8-119"></a>      <span class="fu">aes</span>(<span class="at">x =</span> .data[[xvar]], <span class="at">y =</span> .data[[yvar]], <span class="at">group =</span> .data[[xvar]]) <span class="sc">+</span></span>
-<span id="cb8-120"><a href="#cb8-120"></a>      <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb8-121"><a href="#cb8-121"></a>      <span class="fu">theme_classic</span>()</span>
-<span id="cb8-122"><a href="#cb8-122"></a>  })</span>
-<span id="cb8-123"><a href="#cb8-123"></a>  </span>
-<span id="cb8-124"><a href="#cb8-124"></a>  <span class="co"># executes everytime `filtered()` is updated</span></span>
-<span id="cb8-125"><a href="#cb8-125"></a>  <span class="co"># prints the filtered dataset to the console</span></span>
-<span id="cb8-126"><a href="#cb8-126"></a>  <span class="fu">observe</span>({</span>
-<span id="cb8-127"><a href="#cb8-127"></a>    <span class="fu">print</span>(<span class="fu">filtered</span>())</span>
-<span id="cb8-128"><a href="#cb8-128"></a>  })</span>
-<span id="cb8-129"><a href="#cb8-129"></a>}</span>
-<span id="cb8-130"><a href="#cb8-130"></a></span>
-<span id="cb8-131"><a href="#cb8-131"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-51"><a href="#cb8-51"></a>        <span class="at">selected =</span> <span class="st">"FR"</span>,</span>
+<span id="cb8-52"><a href="#cb8-52"></a>        <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
+<span id="cb8-53"><a href="#cb8-53"></a>      ),</span>
+<span id="cb8-54"><a href="#cb8-54"></a>      </span>
+<span id="cb8-55"><a href="#cb8-55"></a>      <span class="fu">sliderInput</span>(</span>
+<span id="cb8-56"><a href="#cb8-56"></a>        <span class="st">"slider"</span>,</span>
+<span id="cb8-57"><a href="#cb8-57"></a>        <span class="at">label =</span> <span class="st">"Select a range for the independent variable"</span>,</span>
+<span id="cb8-58"><a href="#cb8-58"></a>        <span class="at">min =</span> <span class="fu">min</span>(ess<span class="sc">$</span>left_right, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-59"><a href="#cb8-59"></a>        <span class="at">max =</span> <span class="fu">max</span>(ess<span class="sc">$</span>left_right, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-60"><a href="#cb8-60"></a>        <span class="at">value =</span> <span class="fu">range</span>(ess<span class="sc">$</span>left_right, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-61"><a href="#cb8-61"></a>        <span class="at">step =</span> <span class="dv">1</span></span>
+<span id="cb8-62"><a href="#cb8-62"></a>      )</span>
+<span id="cb8-63"><a href="#cb8-63"></a>    ),</span>
+<span id="cb8-64"><a href="#cb8-64"></a>    </span>
+<span id="cb8-65"><a href="#cb8-65"></a>    <span class="do">## Main panel ----</span></span>
+<span id="cb8-66"><a href="#cb8-66"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb8-67"><a href="#cb8-67"></a>      <span class="fu">tabsetPanel</span>(</span>
+<span id="cb8-68"><a href="#cb8-68"></a>        <span class="at">type =</span> <span class="st">"tabs"</span>,</span>
+<span id="cb8-69"><a href="#cb8-69"></a>        </span>
+<span id="cb8-70"><a href="#cb8-70"></a>        <span class="do">### Table tab ----</span></span>
+<span id="cb8-71"><a href="#cb8-71"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb8-72"><a href="#cb8-72"></a>          <span class="at">title =</span> <span class="st">"Table"</span>,</span>
+<span id="cb8-73"><a href="#cb8-73"></a>          <span class="fu">div</span>(</span>
+<span id="cb8-74"><a href="#cb8-74"></a>            <span class="at">style =</span> <span class="st">"height: 600px; overflow-y: auto;"</span>,</span>
+<span id="cb8-75"><a href="#cb8-75"></a>            <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
+<span id="cb8-76"><a href="#cb8-76"></a>          )</span>
+<span id="cb8-77"><a href="#cb8-77"></a>        ),</span>
+<span id="cb8-78"><a href="#cb8-78"></a>        </span>
+<span id="cb8-79"><a href="#cb8-79"></a>        <span class="do">### Plot tab ----</span></span>
+<span id="cb8-80"><a href="#cb8-80"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb8-81"><a href="#cb8-81"></a>          <span class="at">title =</span> <span class="st">"Histogram"</span>,</span>
+<span id="cb8-82"><a href="#cb8-82"></a>          <span class="fu">plotOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
+<span id="cb8-83"><a href="#cb8-83"></a>        )</span>
+<span id="cb8-84"><a href="#cb8-84"></a>      )</span>
+<span id="cb8-85"><a href="#cb8-85"></a>    )</span>
+<span id="cb8-86"><a href="#cb8-86"></a>  )</span>
+<span id="cb8-87"><a href="#cb8-87"></a>)</span>
+<span id="cb8-88"><a href="#cb8-88"></a></span>
+<span id="cb8-89"><a href="#cb8-89"></a></span>
+<span id="cb8-90"><a href="#cb8-90"></a><span class="co"># Server ----</span></span>
+<span id="cb8-91"><a href="#cb8-91"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb8-92"><a href="#cb8-92"></a>  <span class="co"># filter data ----</span></span>
+<span id="cb8-93"><a href="#cb8-93"></a>  filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb8-94"><a href="#cb8-94"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
+<span id="cb8-95"><a href="#cb8-95"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="cb8-96"><a href="#cb8-96"></a>    range <span class="ot">&lt;-</span> input<span class="sc">$</span>slider</span>
+<span id="cb8-97"><a href="#cb8-97"></a>    </span>
+<span id="cb8-98"><a href="#cb8-98"></a>    <span class="co"># select country</span></span>
+<span id="cb8-99"><a href="#cb8-99"></a>    ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
+<span id="cb8-100"><a href="#cb8-100"></a></span>
+<span id="cb8-101"><a href="#cb8-101"></a>    <span class="co"># apply range</span></span>
+<span id="cb8-102"><a href="#cb8-102"></a>    ess <span class="ot">&lt;-</span> ess[</span>
+<span id="cb8-103"><a href="#cb8-103"></a>      ess[[yvar]] <span class="sc">&gt;</span> range[<span class="dv">1</span>] <span class="sc">&amp;</span></span>
+<span id="cb8-104"><a href="#cb8-104"></a>      ess[[yvar]] <span class="sc">&lt;</span> range[<span class="dv">2</span>], </span>
+<span id="cb8-105"><a href="#cb8-105"></a>    ]</span>
+<span id="cb8-106"><a href="#cb8-106"></a>    </span>
+<span id="cb8-107"><a href="#cb8-107"></a>    <span class="co"># select variable</span></span>
+<span id="cb8-108"><a href="#cb8-108"></a>    ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
+<span id="cb8-109"><a href="#cb8-109"></a>  })</span>
+<span id="cb8-110"><a href="#cb8-110"></a>  </span>
+<span id="cb8-111"><a href="#cb8-111"></a>  <span class="co"># render table ----</span></span>
+<span id="cb8-112"><a href="#cb8-112"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
+<span id="cb8-113"><a href="#cb8-113"></a>    <span class="fu">filtered</span>()</span>
+<span id="cb8-114"><a href="#cb8-114"></a>  }, <span class="at">height =</span> <span class="dv">400</span>)</span>
+<span id="cb8-115"><a href="#cb8-115"></a>  </span>
+<span id="cb8-116"><a href="#cb8-116"></a>  <span class="co"># render plot ----</span></span>
+<span id="cb8-117"><a href="#cb8-117"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb8-118"><a href="#cb8-118"></a>    plot_data <span class="ot">&lt;-</span> <span class="fu">filtered</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-119"><a href="#cb8-119"></a>      <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-120"><a href="#cb8-120"></a>      <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> as.ordered))</span>
+<span id="cb8-121"><a href="#cb8-121"></a>    </span>
+<span id="cb8-122"><a href="#cb8-122"></a>    xvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">3</span>]]</span>
+<span id="cb8-123"><a href="#cb8-123"></a>    yvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">4</span>]]</span>
+<span id="cb8-124"><a href="#cb8-124"></a></span>
+<span id="cb8-125"><a href="#cb8-125"></a>    <span class="fu">ggplot</span>(plot_data) <span class="sc">+</span></span>
+<span id="cb8-126"><a href="#cb8-126"></a>      <span class="fu">aes</span>(<span class="at">x =</span> .data[[xvar]], <span class="at">y =</span> .data[[yvar]], <span class="at">group =</span> .data[[xvar]]) <span class="sc">+</span></span>
+<span id="cb8-127"><a href="#cb8-127"></a>      <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb8-128"><a href="#cb8-128"></a>      <span class="fu">theme_classic</span>()</span>
+<span id="cb8-129"><a href="#cb8-129"></a>  })</span>
+<span id="cb8-130"><a href="#cb8-130"></a>  </span>
+<span id="cb8-131"><a href="#cb8-131"></a>  <span class="fu">observe</span>({</span>
+<span id="cb8-132"><a href="#cb8-132"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="cb8-133"><a href="#cb8-133"></a>    <span class="fu">freezeReactiveValue</span>(input, <span class="st">"slider"</span>)</span>
+<span id="cb8-134"><a href="#cb8-134"></a>    <span class="fu">updateSliderInput</span>(</span>
+<span id="cb8-135"><a href="#cb8-135"></a>      <span class="at">session =</span> session,</span>
+<span id="cb8-136"><a href="#cb8-136"></a>      <span class="at">inputId =</span> <span class="st">"slider"</span>,</span>
+<span id="cb8-137"><a href="#cb8-137"></a>      <span class="at">min =</span> <span class="fu">min</span>(ess[[yvar]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-138"><a href="#cb8-138"></a>      <span class="at">max =</span> <span class="fu">max</span>(ess[[yvar]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-139"><a href="#cb8-139"></a>      <span class="at">value =</span> <span class="fu">range</span>(ess[[yvar]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-140"><a href="#cb8-140"></a>    )</span>
+<span id="cb8-141"><a href="#cb8-141"></a>  }) <span class="sc">%&gt;%</span></span>
+<span id="cb8-142"><a href="#cb8-142"></a>    <span class="fu">bindEvent</span>(input<span class="sc">$</span>yvar)</span>
+<span id="cb8-143"><a href="#cb8-143"></a>}</span>
+<span id="cb8-144"><a href="#cb8-144"></a></span>
+<span id="cb8-145"><a href="#cb8-145"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -876,8 +889,8 @@ Tip
 <li>…, but the independent variable is not: we can select a different variable with a different range</li>
 <li>We can thus implement an updater that dynamically updates the slider with new ranges:</li>
 </ul>
-<div class="cell" data-source-line-numbers="1-12,23-27">
-<div class="sourceCode cell-code" id="annotated-cell-9" data-source-line-numbers="1-12,23-27" data-code-line-numbers="1-12,23-27"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-9-1"><a href="#annotated-cell-9-1"></a><span class="fu">observe</span>({</span>
+<div class="cell" data-source-line-numbers="1-14,26-30">
+<div class="sourceCode cell-code" id="annotated-cell-9" data-source-line-numbers="1-14,26-30" data-code-line-numbers="1-14,26-30"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-9-1"><a href="#annotated-cell-9-1"></a><span class="fu">observe</span>({</span>
 <span id="annotated-cell-9-2"><a href="#annotated-cell-9-2"></a>  yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
 <span id="annotated-cell-9-3"><a href="#annotated-cell-9-3"></a>  <span class="fu">freezeReactiveValue</span>(input, <span class="st">"slider"</span>)</span>
 <span id="annotated-cell-9-4"><a href="#annotated-cell-9-4"></a>  <span class="fu">updateSliderInput</span>(</span>
@@ -895,19 +908,17 @@ Tip
 <span id="annotated-cell-9-16"><a href="#annotated-cell-9-16"></a>  yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
 <span id="annotated-cell-9-17"><a href="#annotated-cell-9-17"></a>  </span>
 <span id="annotated-cell-9-18"><a href="#annotated-cell-9-18"></a>  <span class="co"># select country</span></span>
-<span id="annotated-cell-9-19"><a href="#annotated-cell-9-19"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(input<span class="sc">$</span>countries)) {</span>
-<span id="annotated-cell-9-20"><a href="#annotated-cell-9-20"></a>    ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
-<span id="annotated-cell-9-21"><a href="#annotated-cell-9-21"></a>  }</span>
-<span id="annotated-cell-9-22"><a href="#annotated-cell-9-22"></a></span>
-<span id="annotated-cell-9-23"><a href="#annotated-cell-9-23"></a>  <span class="co"># apply range</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="4">4</button><span id="annotated-cell-9-24" class="code-annotation-target"><a href="#annotated-cell-9-24"></a>  ess <span class="ot">&lt;-</span> ess[</span>
-<span id="annotated-cell-9-25"><a href="#annotated-cell-9-25"></a>    ess[[yvar]] <span class="sc">&gt;</span> input<span class="sc">$</span>slider[<span class="dv">1</span>] <span class="sc">&amp;</span></span>
-<span id="annotated-cell-9-26"><a href="#annotated-cell-9-26"></a>    ess[[yvar]] <span class="sc">&lt;</span> input<span class="sc">$</span>slider[<span class="dv">2</span>],</span>
-<span id="annotated-cell-9-27"><a href="#annotated-cell-9-27"></a>  ]</span>
-<span id="annotated-cell-9-28"><a href="#annotated-cell-9-28"></a>  </span>
-<span id="annotated-cell-9-29"><a href="#annotated-cell-9-29"></a>  <span class="co"># select variable</span></span>
-<span id="annotated-cell-9-30"><a href="#annotated-cell-9-30"></a>  ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
-<span id="annotated-cell-9-31"><a href="#annotated-cell-9-31"></a>})</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-9-19"><a href="#annotated-cell-9-19"></a>  ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
+<span id="annotated-cell-9-20"><a href="#annotated-cell-9-20"></a></span>
+<span id="annotated-cell-9-21"><a href="#annotated-cell-9-21"></a>  <span class="co"># apply range</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="4">4</button><span id="annotated-cell-9-22" class="code-annotation-target"><a href="#annotated-cell-9-22"></a>  ess <span class="ot">&lt;-</span> ess[</span>
+<span id="annotated-cell-9-23"><a href="#annotated-cell-9-23"></a>    ess[[yvar]] <span class="sc">&gt;</span> input<span class="sc">$</span>slider[<span class="dv">1</span>] <span class="sc">&amp;</span></span>
+<span id="annotated-cell-9-24"><a href="#annotated-cell-9-24"></a>    ess[[yvar]] <span class="sc">&lt;</span> input<span class="sc">$</span>slider[<span class="dv">2</span>],</span>
+<span id="annotated-cell-9-25"><a href="#annotated-cell-9-25"></a>  ]</span>
+<span id="annotated-cell-9-26"><a href="#annotated-cell-9-26"></a>  </span>
+<span id="annotated-cell-9-27"><a href="#annotated-cell-9-27"></a>  <span class="co"># select variable</span></span>
+<span id="annotated-cell-9-28"><a href="#annotated-cell-9-28"></a>  ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
+<span id="annotated-cell-9-29"><a href="#annotated-cell-9-29"></a>})</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
@@ -924,7 +935,7 @@ Tip
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-9" data-code-lines="24,25,26,27" data-code-annotation="4">The dataset is filtered according to the slider</span>
+<span data-code-cell="annotated-cell-9" data-code-lines="22,23,24,25" data-code-annotation="4">The dataset is filtered according to the slider</span>
 </dd>
 </dl>
 </div>
@@ -982,102 +993,101 @@ Tip
 <span id="cb10-48"><a href="#cb10-48"></a>        <span class="st">"countries"</span>,</span>
 <span id="cb10-49"><a href="#cb10-49"></a>        <span class="at">label =</span> <span class="st">"Filter by country"</span>,</span>
 <span id="cb10-50"><a href="#cb10-50"></a>        <span class="at">choices =</span> <span class="fu">unique</span>(ess<span class="sc">$</span>country),</span>
-<span id="cb10-51"><a href="#cb10-51"></a>        <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
-<span id="cb10-52"><a href="#cb10-52"></a>      ),</span>
-<span id="cb10-53"><a href="#cb10-53"></a>      </span>
-<span id="cb10-54"><a href="#cb10-54"></a>      <span class="fu">sliderInput</span>(</span>
-<span id="cb10-55"><a href="#cb10-55"></a>        <span class="st">"slider"</span>,</span>
-<span id="cb10-56"><a href="#cb10-56"></a>        <span class="at">label =</span> <span class="st">"Select a range for the independent variable"</span>,</span>
-<span id="cb10-57"><a href="#cb10-57"></a>        <span class="at">min =</span> <span class="fu">min</span>(ess<span class="sc">$</span>left_right, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb10-58"><a href="#cb10-58"></a>        <span class="at">max =</span> <span class="fu">max</span>(ess<span class="sc">$</span>left_right, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb10-59"><a href="#cb10-59"></a>        <span class="at">value =</span> <span class="fu">range</span>(ess<span class="sc">$</span>left_right, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb10-60"><a href="#cb10-60"></a>        <span class="at">step =</span> <span class="dv">1</span></span>
-<span id="cb10-61"><a href="#cb10-61"></a>      )</span>
-<span id="cb10-62"><a href="#cb10-62"></a>    ),</span>
-<span id="cb10-63"><a href="#cb10-63"></a>    </span>
-<span id="cb10-64"><a href="#cb10-64"></a>    <span class="do">## Main panel ----</span></span>
-<span id="cb10-65"><a href="#cb10-65"></a>    <span class="fu">mainPanel</span>(</span>
-<span id="cb10-66"><a href="#cb10-66"></a>      <span class="fu">tabsetPanel</span>(</span>
-<span id="cb10-67"><a href="#cb10-67"></a>        <span class="at">type =</span> <span class="st">"tabs"</span>,</span>
-<span id="cb10-68"><a href="#cb10-68"></a>        </span>
-<span id="cb10-69"><a href="#cb10-69"></a>        <span class="do">### Table tab ----</span></span>
-<span id="cb10-70"><a href="#cb10-70"></a>        <span class="fu">tabPanel</span>(</span>
-<span id="cb10-71"><a href="#cb10-71"></a>          <span class="at">title =</span> <span class="st">"Table"</span>,</span>
-<span id="cb10-72"><a href="#cb10-72"></a>          <span class="fu">div</span>(</span>
-<span id="cb10-73"><a href="#cb10-73"></a>            <span class="at">style =</span> <span class="st">"height: 600px; overflow-y: auto;"</span>,</span>
-<span id="cb10-74"><a href="#cb10-74"></a>            <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
-<span id="cb10-75"><a href="#cb10-75"></a>          )</span>
-<span id="cb10-76"><a href="#cb10-76"></a>        ),</span>
-<span id="cb10-77"><a href="#cb10-77"></a>        </span>
-<span id="cb10-78"><a href="#cb10-78"></a>        <span class="do">### Plot tab ----</span></span>
-<span id="cb10-79"><a href="#cb10-79"></a>        <span class="fu">tabPanel</span>(</span>
-<span id="cb10-80"><a href="#cb10-80"></a>          <span class="at">title =</span> <span class="st">"Histogram"</span>,</span>
-<span id="cb10-81"><a href="#cb10-81"></a>          <span class="fu">plotlyOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
-<span id="cb10-82"><a href="#cb10-82"></a>        )</span>
-<span id="cb10-83"><a href="#cb10-83"></a>      )</span>
-<span id="cb10-84"><a href="#cb10-84"></a>    )</span>
-<span id="cb10-85"><a href="#cb10-85"></a>  )</span>
-<span id="cb10-86"><a href="#cb10-86"></a>)</span>
-<span id="cb10-87"><a href="#cb10-87"></a></span>
+<span id="cb10-51"><a href="#cb10-51"></a>        <span class="at">selected =</span> <span class="st">"FR"</span>,</span>
+<span id="cb10-52"><a href="#cb10-52"></a>        <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
+<span id="cb10-53"><a href="#cb10-53"></a>      ),</span>
+<span id="cb10-54"><a href="#cb10-54"></a>      </span>
+<span id="cb10-55"><a href="#cb10-55"></a>      <span class="fu">sliderInput</span>(</span>
+<span id="cb10-56"><a href="#cb10-56"></a>        <span class="st">"slider"</span>,</span>
+<span id="cb10-57"><a href="#cb10-57"></a>        <span class="at">label =</span> <span class="st">"Select a range for the independent variable"</span>,</span>
+<span id="cb10-58"><a href="#cb10-58"></a>        <span class="at">min =</span> <span class="fu">min</span>(ess<span class="sc">$</span>left_right, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-59"><a href="#cb10-59"></a>        <span class="at">max =</span> <span class="fu">max</span>(ess<span class="sc">$</span>left_right, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-60"><a href="#cb10-60"></a>        <span class="at">value =</span> <span class="fu">range</span>(ess<span class="sc">$</span>left_right, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-61"><a href="#cb10-61"></a>        <span class="at">step =</span> <span class="dv">1</span></span>
+<span id="cb10-62"><a href="#cb10-62"></a>      )</span>
+<span id="cb10-63"><a href="#cb10-63"></a>    ),</span>
+<span id="cb10-64"><a href="#cb10-64"></a>    </span>
+<span id="cb10-65"><a href="#cb10-65"></a>    <span class="do">## Main panel ----</span></span>
+<span id="cb10-66"><a href="#cb10-66"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb10-67"><a href="#cb10-67"></a>      <span class="fu">tabsetPanel</span>(</span>
+<span id="cb10-68"><a href="#cb10-68"></a>        <span class="at">type =</span> <span class="st">"tabs"</span>,</span>
+<span id="cb10-69"><a href="#cb10-69"></a>        </span>
+<span id="cb10-70"><a href="#cb10-70"></a>        <span class="do">### Table tab ----</span></span>
+<span id="cb10-71"><a href="#cb10-71"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb10-72"><a href="#cb10-72"></a>          <span class="at">title =</span> <span class="st">"Table"</span>,</span>
+<span id="cb10-73"><a href="#cb10-73"></a>          <span class="fu">div</span>(</span>
+<span id="cb10-74"><a href="#cb10-74"></a>            <span class="at">style =</span> <span class="st">"height: 600px; overflow-y: auto;"</span>,</span>
+<span id="cb10-75"><a href="#cb10-75"></a>            <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
+<span id="cb10-76"><a href="#cb10-76"></a>          )</span>
+<span id="cb10-77"><a href="#cb10-77"></a>        ),</span>
+<span id="cb10-78"><a href="#cb10-78"></a>        </span>
+<span id="cb10-79"><a href="#cb10-79"></a>        <span class="do">### Plot tab ----</span></span>
+<span id="cb10-80"><a href="#cb10-80"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb10-81"><a href="#cb10-81"></a>          <span class="at">title =</span> <span class="st">"Histogram"</span>,</span>
+<span id="cb10-82"><a href="#cb10-82"></a>          <span class="fu">plotOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
+<span id="cb10-83"><a href="#cb10-83"></a>        )</span>
+<span id="cb10-84"><a href="#cb10-84"></a>      )</span>
+<span id="cb10-85"><a href="#cb10-85"></a>    )</span>
+<span id="cb10-86"><a href="#cb10-86"></a>  )</span>
+<span id="cb10-87"><a href="#cb10-87"></a>)</span>
 <span id="cb10-88"><a href="#cb10-88"></a></span>
-<span id="cb10-89"><a href="#cb10-89"></a><span class="co"># Server ----</span></span>
-<span id="cb10-90"><a href="#cb10-90"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb10-91"><a href="#cb10-91"></a>  <span class="co"># filter data ----</span></span>
-<span id="cb10-92"><a href="#cb10-92"></a>  filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb10-93"><a href="#cb10-93"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
-<span id="cb10-94"><a href="#cb10-94"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
-<span id="cb10-95"><a href="#cb10-95"></a>    range <span class="ot">&lt;-</span> input<span class="sc">$</span>slider</span>
-<span id="cb10-96"><a href="#cb10-96"></a>    </span>
-<span id="cb10-97"><a href="#cb10-97"></a>    <span class="co"># select country</span></span>
-<span id="cb10-98"><a href="#cb10-98"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(input<span class="sc">$</span>countries)) {</span>
-<span id="cb10-99"><a href="#cb10-99"></a>      ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
-<span id="cb10-100"><a href="#cb10-100"></a>    }</span>
-<span id="cb10-101"><a href="#cb10-101"></a></span>
-<span id="cb10-102"><a href="#cb10-102"></a>    <span class="co"># apply range</span></span>
-<span id="cb10-103"><a href="#cb10-103"></a>    ess <span class="ot">&lt;-</span> ess[</span>
-<span id="cb10-104"><a href="#cb10-104"></a>      ess[[yvar]] <span class="sc">&gt;</span> range[<span class="dv">1</span>] <span class="sc">&amp;</span></span>
-<span id="cb10-105"><a href="#cb10-105"></a>      ess[[yvar]] <span class="sc">&lt;</span> range[<span class="dv">2</span>], </span>
-<span id="cb10-106"><a href="#cb10-106"></a>    ]</span>
-<span id="cb10-107"><a href="#cb10-107"></a>    </span>
-<span id="cb10-108"><a href="#cb10-108"></a>    <span class="co"># select variable</span></span>
-<span id="cb10-109"><a href="#cb10-109"></a>    ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
-<span id="cb10-110"><a href="#cb10-110"></a>  })</span>
-<span id="cb10-111"><a href="#cb10-111"></a>  </span>
-<span id="cb10-112"><a href="#cb10-112"></a>  <span class="co"># render table ----</span></span>
-<span id="cb10-113"><a href="#cb10-113"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
-<span id="cb10-114"><a href="#cb10-114"></a>    ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
-<span id="cb10-115"><a href="#cb10-115"></a>  }, <span class="at">height =</span> <span class="dv">400</span>)</span>
-<span id="cb10-116"><a href="#cb10-116"></a>  </span>
-<span id="cb10-117"><a href="#cb10-117"></a>  <span class="co"># render plot ----</span></span>
-<span id="cb10-118"><a href="#cb10-118"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlotly</span>({</span>
-<span id="cb10-119"><a href="#cb10-119"></a>    plot_data <span class="ot">&lt;-</span> <span class="fu">filtered</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb10-120"><a href="#cb10-120"></a>      <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb10-121"><a href="#cb10-121"></a>      <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> as.ordered))</span>
-<span id="cb10-122"><a href="#cb10-122"></a>    </span>
-<span id="cb10-123"><a href="#cb10-123"></a>    xvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">3</span>]]</span>
-<span id="cb10-124"><a href="#cb10-124"></a>    yvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">4</span>]]</span>
-<span id="cb10-125"><a href="#cb10-125"></a></span>
-<span id="cb10-126"><a href="#cb10-126"></a>    <span class="fu">ggplot</span>(plot_data) <span class="sc">+</span></span>
-<span id="cb10-127"><a href="#cb10-127"></a>      <span class="fu">aes</span>(<span class="at">x =</span> .data[[xvar]], <span class="at">y =</span> .data[[yvar]], <span class="at">group =</span> .data[[xvar]]) <span class="sc">+</span></span>
-<span id="cb10-128"><a href="#cb10-128"></a>      <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb10-129"><a href="#cb10-129"></a>      <span class="fu">theme_classic</span>()</span>
-<span id="cb10-130"><a href="#cb10-130"></a>  })</span>
-<span id="cb10-131"><a href="#cb10-131"></a>  </span>
-<span id="cb10-132"><a href="#cb10-132"></a>  <span class="fu">observe</span>({</span>
-<span id="cb10-133"><a href="#cb10-133"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
-<span id="cb10-134"><a href="#cb10-134"></a>    <span class="fu">freezeReactiveValue</span>(input, <span class="st">"slider"</span>)</span>
-<span id="cb10-135"><a href="#cb10-135"></a>    <span class="fu">updateSliderInput</span>(</span>
-<span id="cb10-136"><a href="#cb10-136"></a>      <span class="at">session =</span> session,</span>
-<span id="cb10-137"><a href="#cb10-137"></a>      <span class="at">inputId =</span> <span class="st">"slider"</span>,</span>
-<span id="cb10-138"><a href="#cb10-138"></a>      <span class="at">min =</span> <span class="fu">min</span>(ess[[yvar]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb10-139"><a href="#cb10-139"></a>      <span class="at">max =</span> <span class="fu">max</span>(ess[[yvar]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb10-140"><a href="#cb10-140"></a>      <span class="at">value =</span> <span class="fu">range</span>(ess[[yvar]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb10-141"><a href="#cb10-141"></a>    )</span>
-<span id="cb10-142"><a href="#cb10-142"></a>  }) <span class="sc">%&gt;%</span></span>
-<span id="cb10-143"><a href="#cb10-143"></a>    <span class="fu">bindEvent</span>(input<span class="sc">$</span>yvar)</span>
-<span id="cb10-144"><a href="#cb10-144"></a>}</span>
-<span id="cb10-145"><a href="#cb10-145"></a></span>
-<span id="cb10-146"><a href="#cb10-146"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-89"><a href="#cb10-89"></a></span>
+<span id="cb10-90"><a href="#cb10-90"></a><span class="co"># Server ----</span></span>
+<span id="cb10-91"><a href="#cb10-91"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb10-92"><a href="#cb10-92"></a>  <span class="co"># filter data ----</span></span>
+<span id="cb10-93"><a href="#cb10-93"></a>  filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb10-94"><a href="#cb10-94"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
+<span id="cb10-95"><a href="#cb10-95"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="cb10-96"><a href="#cb10-96"></a>    range <span class="ot">&lt;-</span> input<span class="sc">$</span>slider</span>
+<span id="cb10-97"><a href="#cb10-97"></a>    </span>
+<span id="cb10-98"><a href="#cb10-98"></a>    <span class="co"># select country</span></span>
+<span id="cb10-99"><a href="#cb10-99"></a>    ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
+<span id="cb10-100"><a href="#cb10-100"></a></span>
+<span id="cb10-101"><a href="#cb10-101"></a>    <span class="co"># apply range</span></span>
+<span id="cb10-102"><a href="#cb10-102"></a>    ess <span class="ot">&lt;-</span> ess[</span>
+<span id="cb10-103"><a href="#cb10-103"></a>      ess[[yvar]] <span class="sc">&gt;</span> range[<span class="dv">1</span>] <span class="sc">&amp;</span></span>
+<span id="cb10-104"><a href="#cb10-104"></a>      ess[[yvar]] <span class="sc">&lt;</span> range[<span class="dv">2</span>], </span>
+<span id="cb10-105"><a href="#cb10-105"></a>    ]</span>
+<span id="cb10-106"><a href="#cb10-106"></a>    </span>
+<span id="cb10-107"><a href="#cb10-107"></a>    <span class="co"># select variable</span></span>
+<span id="cb10-108"><a href="#cb10-108"></a>    ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
+<span id="cb10-109"><a href="#cb10-109"></a>  })</span>
+<span id="cb10-110"><a href="#cb10-110"></a>  </span>
+<span id="cb10-111"><a href="#cb10-111"></a>  <span class="co"># render table ----</span></span>
+<span id="cb10-112"><a href="#cb10-112"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
+<span id="cb10-113"><a href="#cb10-113"></a>    <span class="fu">filtered</span>()</span>
+<span id="cb10-114"><a href="#cb10-114"></a>  }, <span class="at">height =</span> <span class="dv">400</span>)</span>
+<span id="cb10-115"><a href="#cb10-115"></a>  </span>
+<span id="cb10-116"><a href="#cb10-116"></a>  <span class="co"># render plot ----</span></span>
+<span id="cb10-117"><a href="#cb10-117"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb10-118"><a href="#cb10-118"></a>    plot_data <span class="ot">&lt;-</span> <span class="fu">filtered</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-119"><a href="#cb10-119"></a>      <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-120"><a href="#cb10-120"></a>      <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> as.ordered))</span>
+<span id="cb10-121"><a href="#cb10-121"></a>    </span>
+<span id="cb10-122"><a href="#cb10-122"></a>    xvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">3</span>]]</span>
+<span id="cb10-123"><a href="#cb10-123"></a>    yvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">4</span>]]</span>
+<span id="cb10-124"><a href="#cb10-124"></a></span>
+<span id="cb10-125"><a href="#cb10-125"></a>    <span class="fu">ggplot</span>(plot_data) <span class="sc">+</span></span>
+<span id="cb10-126"><a href="#cb10-126"></a>      <span class="fu">aes</span>(<span class="at">x =</span> .data[[xvar]], <span class="at">y =</span> .data[[yvar]], <span class="at">group =</span> .data[[xvar]]) <span class="sc">+</span></span>
+<span id="cb10-127"><a href="#cb10-127"></a>      <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb10-128"><a href="#cb10-128"></a>      <span class="fu">theme_classic</span>()</span>
+<span id="cb10-129"><a href="#cb10-129"></a>  })</span>
+<span id="cb10-130"><a href="#cb10-130"></a>  </span>
+<span id="cb10-131"><a href="#cb10-131"></a>  <span class="fu">observe</span>({</span>
+<span id="cb10-132"><a href="#cb10-132"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="cb10-133"><a href="#cb10-133"></a>    <span class="fu">freezeReactiveValue</span>(input, <span class="st">"slider"</span>)</span>
+<span id="cb10-134"><a href="#cb10-134"></a>    <span class="fu">updateSliderInput</span>(</span>
+<span id="cb10-135"><a href="#cb10-135"></a>      <span class="at">session =</span> session,</span>
+<span id="cb10-136"><a href="#cb10-136"></a>      <span class="at">inputId =</span> <span class="st">"slider"</span>,</span>
+<span id="cb10-137"><a href="#cb10-137"></a>      <span class="at">min =</span> <span class="fu">min</span>(ess[[yvar]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-138"><a href="#cb10-138"></a>      <span class="at">max =</span> <span class="fu">max</span>(ess[[yvar]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-139"><a href="#cb10-139"></a>      <span class="at">value =</span> <span class="fu">range</span>(ess[[yvar]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-140"><a href="#cb10-140"></a>    )</span>
+<span id="cb10-141"><a href="#cb10-141"></a>  }) <span class="sc">%&gt;%</span></span>
+<span id="cb10-142"><a href="#cb10-142"></a>    <span class="fu">bindEvent</span>(input<span class="sc">$</span>yvar)</span>
+<span id="cb10-143"><a href="#cb10-143"></a>}</span>
+<span id="cb10-144"><a href="#cb10-144"></a></span>
+<span id="cb10-145"><a href="#cb10-145"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -1147,14 +1157,12 @@ Tip
 <span id="cb17-6"><a href="#cb17-6"></a>  range <span class="ot">&lt;-</span> input<span class="sc">$</span>range</span>
 <span id="cb17-7"><a href="#cb17-7"></a>  </span>
 <span id="cb17-8"><a href="#cb17-8"></a>  <span class="co"># select country</span></span>
-<span id="cb17-9"><a href="#cb17-9"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(input<span class="sc">$</span>countries)) {</span>
-<span id="cb17-10"><a href="#cb17-10"></a>    ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
-<span id="cb17-11"><a href="#cb17-11"></a>  }</span>
-<span id="cb17-12"><a href="#cb17-12"></a>  </span>
-<span id="cb17-13"><a href="#cb17-13"></a>  <span class="co"># select variable</span></span>
-<span id="cb17-14"><a href="#cb17-14"></a>  ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
-<span id="cb17-15"><a href="#cb17-15"></a>}) <span class="sc">%&gt;%</span></span>
-<span id="cb17-16"><a href="#cb17-16"></a>  <span class="fu">bindEvent</span>(input<span class="sc">$</span>button, <span class="at">ignoreNULL =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-9"><a href="#cb17-9"></a>  ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
+<span id="cb17-10"><a href="#cb17-10"></a>  </span>
+<span id="cb17-11"><a href="#cb17-11"></a>  <span class="co"># select variable</span></span>
+<span id="cb17-12"><a href="#cb17-12"></a>  ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
+<span id="cb17-13"><a href="#cb17-13"></a>}) <span class="sc">%&gt;%</span></span>
+<span id="cb17-14"><a href="#cb17-14"></a>  <span class="fu">bindEvent</span>(input<span class="sc">$</span>button, <span class="at">ignoreNULL =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-source-line-numbers="90">
 <details class="code-fold">
@@ -1209,89 +1217,75 @@ Tip
 <span id="cb18-48"><a href="#cb18-48"></a>        <span class="st">"countries"</span>,</span>
 <span id="cb18-49"><a href="#cb18-49"></a>        <span class="at">label =</span> <span class="st">"Filter by country"</span>,</span>
 <span id="cb18-50"><a href="#cb18-50"></a>        <span class="at">choices =</span> <span class="fu">unique</span>(ess<span class="sc">$</span>country),</span>
-<span id="cb18-51"><a href="#cb18-51"></a>        <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
-<span id="cb18-52"><a href="#cb18-52"></a>      ),</span>
-<span id="cb18-53"><a href="#cb18-53"></a>      </span>
-<span id="cb18-54"><a href="#cb18-54"></a>      <span class="fu">actionButton</span>(</span>
-<span id="cb18-55"><a href="#cb18-55"></a>        <span class="st">"button"</span>,</span>
-<span id="cb18-56"><a href="#cb18-56"></a>        <span class="at">label =</span> <span class="st">"Update parameters"</span>,</span>
-<span id="cb18-57"><a href="#cb18-57"></a>        <span class="at">icon =</span> <span class="fu">icon</span>(<span class="st">"refresh"</span>)</span>
-<span id="cb18-58"><a href="#cb18-58"></a>      )</span>
-<span id="cb18-59"><a href="#cb18-59"></a>    ),</span>
-<span id="cb18-60"><a href="#cb18-60"></a>    </span>
-<span id="cb18-61"><a href="#cb18-61"></a>    <span class="do">## Main panel ----</span></span>
-<span id="cb18-62"><a href="#cb18-62"></a>    <span class="fu">mainPanel</span>(</span>
-<span id="cb18-63"><a href="#cb18-63"></a>      <span class="fu">tabsetPanel</span>(</span>
-<span id="cb18-64"><a href="#cb18-64"></a>        <span class="at">type =</span> <span class="st">"tabs"</span>,</span>
-<span id="cb18-65"><a href="#cb18-65"></a>        </span>
-<span id="cb18-66"><a href="#cb18-66"></a>        <span class="do">### Table tab ----</span></span>
-<span id="cb18-67"><a href="#cb18-67"></a>        <span class="fu">tabPanel</span>(</span>
-<span id="cb18-68"><a href="#cb18-68"></a>          <span class="at">title =</span> <span class="st">"Table"</span>,</span>
-<span id="cb18-69"><a href="#cb18-69"></a>          <span class="fu">div</span>(</span>
-<span id="cb18-70"><a href="#cb18-70"></a>            <span class="at">style =</span> <span class="st">"height: 600px; overflow-y: auto;"</span>,</span>
-<span id="cb18-71"><a href="#cb18-71"></a>            <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
-<span id="cb18-72"><a href="#cb18-72"></a>          )</span>
-<span id="cb18-73"><a href="#cb18-73"></a>        ),</span>
-<span id="cb18-74"><a href="#cb18-74"></a>        </span>
-<span id="cb18-75"><a href="#cb18-75"></a>        <span class="do">### Plot tab ----</span></span>
-<span id="cb18-76"><a href="#cb18-76"></a>        <span class="fu">tabPanel</span>(</span>
-<span id="cb18-77"><a href="#cb18-77"></a>          <span class="at">title =</span> <span class="st">"Histogram"</span>,</span>
-<span id="cb18-78"><a href="#cb18-78"></a>          <span class="fu">plotlyOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
-<span id="cb18-79"><a href="#cb18-79"></a>        )</span>
-<span id="cb18-80"><a href="#cb18-80"></a>      )</span>
-<span id="cb18-81"><a href="#cb18-81"></a>    )</span>
-<span id="cb18-82"><a href="#cb18-82"></a>  )</span>
-<span id="cb18-83"><a href="#cb18-83"></a>)</span>
-<span id="cb18-84"><a href="#cb18-84"></a></span>
-<span id="cb18-85"><a href="#cb18-85"></a></span>
-<span id="cb18-86"><a href="#cb18-86"></a><span class="co"># Server ----</span></span>
-<span id="cb18-87"><a href="#cb18-87"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb18-88"><a href="#cb18-88"></a>  <span class="co"># filter data ----</span></span>
-<span id="cb18-89"><a href="#cb18-89"></a>  filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb18-90"><a href="#cb18-90"></a>    <span class="fu">req</span>(input<span class="sc">$</span>countries)</span>
-<span id="cb18-91"><a href="#cb18-91"></a>    </span>
-<span id="cb18-92"><a href="#cb18-92"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
-<span id="cb18-93"><a href="#cb18-93"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
-<span id="cb18-94"><a href="#cb18-94"></a>    range <span class="ot">&lt;-</span> input<span class="sc">$</span>range</span>
-<span id="cb18-95"><a href="#cb18-95"></a>    </span>
-<span id="cb18-96"><a href="#cb18-96"></a>    <span class="co"># select country</span></span>
-<span id="cb18-97"><a href="#cb18-97"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(input<span class="sc">$</span>countries)) {</span>
-<span id="cb18-98"><a href="#cb18-98"></a>      ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
-<span id="cb18-99"><a href="#cb18-99"></a>    }</span>
-<span id="cb18-100"><a href="#cb18-100"></a>    </span>
-<span id="cb18-101"><a href="#cb18-101"></a>    <span class="co"># select variable</span></span>
-<span id="cb18-102"><a href="#cb18-102"></a>    ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
-<span id="cb18-103"><a href="#cb18-103"></a>  }) <span class="sc">%&gt;%</span></span>
-<span id="cb18-104"><a href="#cb18-104"></a>    <span class="fu">bindEvent</span>(input<span class="sc">$</span>button, <span class="at">ignoreNULL =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb18-105"><a href="#cb18-105"></a>  </span>
-<span id="cb18-106"><a href="#cb18-106"></a>  <span class="co"># render table ----</span></span>
-<span id="cb18-107"><a href="#cb18-107"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
-<span id="cb18-108"><a href="#cb18-108"></a>    ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
-<span id="cb18-109"><a href="#cb18-109"></a>  }, <span class="at">height =</span> <span class="dv">400</span>)</span>
-<span id="cb18-110"><a href="#cb18-110"></a>  </span>
-<span id="cb18-111"><a href="#cb18-111"></a>  <span class="co"># render plot ----</span></span>
-<span id="cb18-112"><a href="#cb18-112"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlotly</span>({</span>
-<span id="cb18-113"><a href="#cb18-113"></a>    plot_data <span class="ot">&lt;-</span> <span class="fu">filtered</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb18-114"><a href="#cb18-114"></a>      <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb18-115"><a href="#cb18-115"></a>      <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> as.ordered))</span>
-<span id="cb18-116"><a href="#cb18-116"></a>    </span>
-<span id="cb18-117"><a href="#cb18-117"></a>    xvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">3</span>]]</span>
-<span id="cb18-118"><a href="#cb18-118"></a>    yvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">4</span>]]</span>
-<span id="cb18-119"><a href="#cb18-119"></a>    </span>
-<span id="cb18-120"><a href="#cb18-120"></a>    <span class="fu">ggplot</span>(plot_data) <span class="sc">+</span></span>
-<span id="cb18-121"><a href="#cb18-121"></a>      <span class="fu">aes</span>(<span class="at">x =</span> .data[[xvar]], <span class="at">y =</span> .data[[yvar]], <span class="at">group =</span> .data[[xvar]]) <span class="sc">+</span></span>
-<span id="cb18-122"><a href="#cb18-122"></a>      <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb18-123"><a href="#cb18-123"></a>      <span class="fu">theme_classic</span>()</span>
-<span id="cb18-124"><a href="#cb18-124"></a>  })</span>
-<span id="cb18-125"><a href="#cb18-125"></a>  </span>
-<span id="cb18-126"><a href="#cb18-126"></a>  <span class="co"># executes everytime `filtered()` is updated</span></span>
-<span id="cb18-127"><a href="#cb18-127"></a>  <span class="co"># prints the filtered dataset to the console</span></span>
-<span id="cb18-128"><a href="#cb18-128"></a>  <span class="fu">observe</span>({</span>
-<span id="cb18-129"><a href="#cb18-129"></a>    <span class="fu">print</span>(<span class="fu">filtered</span>())</span>
-<span id="cb18-130"><a href="#cb18-130"></a>  })</span>
-<span id="cb18-131"><a href="#cb18-131"></a>}</span>
-<span id="cb18-132"><a href="#cb18-132"></a></span>
-<span id="cb18-133"><a href="#cb18-133"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-51"><a href="#cb18-51"></a>        <span class="at">selected =</span> <span class="st">"FR"</span>,</span>
+<span id="cb18-52"><a href="#cb18-52"></a>        <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
+<span id="cb18-53"><a href="#cb18-53"></a>      )</span>
+<span id="cb18-54"><a href="#cb18-54"></a>    ),</span>
+<span id="cb18-55"><a href="#cb18-55"></a>    </span>
+<span id="cb18-56"><a href="#cb18-56"></a>    <span class="do">## Main panel ----</span></span>
+<span id="cb18-57"><a href="#cb18-57"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb18-58"><a href="#cb18-58"></a>      <span class="fu">tabsetPanel</span>(</span>
+<span id="cb18-59"><a href="#cb18-59"></a>        <span class="at">type =</span> <span class="st">"tabs"</span>,</span>
+<span id="cb18-60"><a href="#cb18-60"></a>        </span>
+<span id="cb18-61"><a href="#cb18-61"></a>        <span class="do">### Table tab ----</span></span>
+<span id="cb18-62"><a href="#cb18-62"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb18-63"><a href="#cb18-63"></a>          <span class="at">title =</span> <span class="st">"Table"</span>,</span>
+<span id="cb18-64"><a href="#cb18-64"></a>          <span class="fu">div</span>(</span>
+<span id="cb18-65"><a href="#cb18-65"></a>            <span class="at">style =</span> <span class="st">"height: 600px; overflow-y: auto;"</span>,</span>
+<span id="cb18-66"><a href="#cb18-66"></a>            <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
+<span id="cb18-67"><a href="#cb18-67"></a>          )</span>
+<span id="cb18-68"><a href="#cb18-68"></a>        ),</span>
+<span id="cb18-69"><a href="#cb18-69"></a>        </span>
+<span id="cb18-70"><a href="#cb18-70"></a>        <span class="do">### Plot tab ----</span></span>
+<span id="cb18-71"><a href="#cb18-71"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb18-72"><a href="#cb18-72"></a>          <span class="at">title =</span> <span class="st">"Histogram"</span>,</span>
+<span id="cb18-73"><a href="#cb18-73"></a>          <span class="fu">plotOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
+<span id="cb18-74"><a href="#cb18-74"></a>        )</span>
+<span id="cb18-75"><a href="#cb18-75"></a>      )</span>
+<span id="cb18-76"><a href="#cb18-76"></a>    )</span>
+<span id="cb18-77"><a href="#cb18-77"></a>  )</span>
+<span id="cb18-78"><a href="#cb18-78"></a>)</span>
+<span id="cb18-79"><a href="#cb18-79"></a></span>
+<span id="cb18-80"><a href="#cb18-80"></a></span>
+<span id="cb18-81"><a href="#cb18-81"></a><span class="co"># Server ----</span></span>
+<span id="cb18-82"><a href="#cb18-82"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb18-83"><a href="#cb18-83"></a>  <span class="co"># filter data ----</span></span>
+<span id="cb18-84"><a href="#cb18-84"></a>  filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb18-85"><a href="#cb18-85"></a>    <span class="fu">req</span>(input<span class="sc">$</span>countries, <span class="at">cancelOutput =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-86"><a href="#cb18-86"></a>    </span>
+<span id="cb18-87"><a href="#cb18-87"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
+<span id="cb18-88"><a href="#cb18-88"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="cb18-89"><a href="#cb18-89"></a>    range <span class="ot">&lt;-</span> input<span class="sc">$</span>range</span>
+<span id="cb18-90"><a href="#cb18-90"></a>    </span>
+<span id="cb18-91"><a href="#cb18-91"></a>    <span class="co"># select country</span></span>
+<span id="cb18-92"><a href="#cb18-92"></a>    ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
+<span id="cb18-93"><a href="#cb18-93"></a>    </span>
+<span id="cb18-94"><a href="#cb18-94"></a>    <span class="co"># select variable</span></span>
+<span id="cb18-95"><a href="#cb18-95"></a>    ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
+<span id="cb18-96"><a href="#cb18-96"></a>  })</span>
+<span id="cb18-97"><a href="#cb18-97"></a>  </span>
+<span id="cb18-98"><a href="#cb18-98"></a>  <span class="co"># render table ----</span></span>
+<span id="cb18-99"><a href="#cb18-99"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
+<span id="cb18-100"><a href="#cb18-100"></a>    <span class="fu">filtered</span>()</span>
+<span id="cb18-101"><a href="#cb18-101"></a>  }, <span class="at">height =</span> <span class="dv">400</span>)</span>
+<span id="cb18-102"><a href="#cb18-102"></a>  </span>
+<span id="cb18-103"><a href="#cb18-103"></a>  <span class="co"># render plot ----</span></span>
+<span id="cb18-104"><a href="#cb18-104"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb18-105"><a href="#cb18-105"></a>    plot_data <span class="ot">&lt;-</span> <span class="fu">filtered</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb18-106"><a href="#cb18-106"></a>      <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb18-107"><a href="#cb18-107"></a>      <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> as.ordered))</span>
+<span id="cb18-108"><a href="#cb18-108"></a>    </span>
+<span id="cb18-109"><a href="#cb18-109"></a>    xvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">3</span>]]</span>
+<span id="cb18-110"><a href="#cb18-110"></a>    yvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">4</span>]]</span>
+<span id="cb18-111"><a href="#cb18-111"></a>    </span>
+<span id="cb18-112"><a href="#cb18-112"></a>    <span class="fu">ggplot</span>(plot_data) <span class="sc">+</span></span>
+<span id="cb18-113"><a href="#cb18-113"></a>      <span class="fu">aes</span>(<span class="at">x =</span> .data[[xvar]], <span class="at">y =</span> .data[[yvar]], <span class="at">group =</span> .data[[xvar]]) <span class="sc">+</span></span>
+<span id="cb18-114"><a href="#cb18-114"></a>      <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb18-115"><a href="#cb18-115"></a>      <span class="fu">theme_classic</span>()</span>
+<span id="cb18-116"><a href="#cb18-116"></a>  })</span>
+<span id="cb18-117"><a href="#cb18-117"></a>}</span>
+<span id="cb18-118"><a href="#cb18-118"></a></span>
+<span id="cb18-119"><a href="#cb18-119"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>

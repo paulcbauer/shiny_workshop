@@ -140,132 +140,11 @@ observe({
 })
 ```
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, file="shinyapps/example/states/05-observe.R"}
 #| code-fold: true
 #| code-summary: "Complete code"
-library(dplyr)
-library(tidyr)
-library(shiny)
-library(plotly)
-library(leaflet)
-library(haven)
+#| source-line-numbers: "116-120"
 
-ess <- readRDS("data/ess_trust.rds")
-ess_geo <- readRDS("data/ess_trust_geo.rds")
-
-# UI ----
-ui <- fluidPage(
-  titlePanel("European Social Survey - round 10"),
-  
-  ## Sidebar ----
-  sidebarLayout(
-    sidebarPanel(
-      ### select dependent variable
-      selectInput(
-        "xvar",
-        label = "Select a dependent variable",
-        choices = c(
-          "Trust in country's parliament" = "trust_parliament",
-          "Trust in the legal system" = "trust_legal",
-          "Trust in the police" = "trust_police",
-          "Trust in politicians" = "trust_politicians",
-          "Trust in political parties" = "trust_parties",
-          "Trust in the European Parliament" = "trust_eu",
-          "Trust in the United Nations" = "trust_un"
-        )
-      ),
-      
-      ### select a variable ----
-      selectInput(
-        "yvar",
-        label = "Select an independent variable",
-        choices = c(
-          "Placement on the left-right scale" = "left_right",
-          "Age" = "age",
-          "Feeling about household's income" = "income_feeling",
-          "How often do you use the internet?" = "internet_use",
-          "How happy are you?" = "happiness"
-        )
-      ),
-      
-      ### select a country ----
-      selectizeInput(
-        "countries",
-        label = "Filter by country",
-        choices = unique(ess$country),
-        multiple = TRUE
-      )
-    ),
-    
-    ## Main panel ----
-    mainPanel(
-      tabsetPanel(
-        type = "tabs",
-        
-        ### Table tab ----
-        tabPanel(
-          title = "Table",
-          div(
-            style = "height: 600px; overflow-y: auto;",
-            tableOutput("table")
-          )
-        ),
-        
-        ### Plot tab ----
-        tabPanel(
-          title = "Histogram",
-          plotlyOutput("plot", height = 600)
-        )
-      )
-    )
-  )
-)
-
-
-# Server ----
-server <- function(input, output, session) {
-  # filter data ----
-  filtered <- reactive({
-    xvar <- input$xvar
-    yvar <- input$yvar
-    range <- input$range
-    
-    # select country
-    if (!is.null(input$countries)) {
-      ess <- ess[ess$country %in% input$countries, ]
-    }
-    
-    # select variable
-    ess[c("idno", "country", xvar, yvar)]
-  })
-  
-  # render table ----
-  output$table <- renderTable({
-    ess[ess$country %in% input$countries, ]
-  }, height = 400)
-  
-  # render plot ----
-  output$plot <- renderPlotly({
-    xvar <- input$xvar
-    yvar <- input$yvar
-    plot_data <- filtered() %>%
-      drop_na() %>%
-      mutate(across(where(is.numeric), .fns = as.ordered))
-    
-    ggplot(plot_data) +
-      aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
-      geom_violin(fill = "lightblue", show.legend = FALSE) +
-      theme_classic()
-  })
-  
-  # executes everytime `filtered()` is updated
-  # prints the filtered dataset to the console
-  observe({
-    print(filtered())
-  })
-}
-
-shinyApp(ui = ui, server = server)
 ```
 
 
@@ -355,141 +234,11 @@ output$plot <- renderPlotly({
 ```
 
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, file="shinyapps/example/states/05-update.R"}
 #| code-fold: true
 #| code-summary: "Complete code (important lines are highlighted)"
 #| source-line-numbers: "53-58,101-102,115-116,119"
-library(dplyr)
-library(tidyr)
-library(shiny)
-library(plotly)
-library(leaflet)
-library(haven)
 
-ess <- readRDS("../../../data/ess_trust.rds")
-ess_geo <- readRDS("../../../data/ess_trust_geo.rds")
-
-# UI ----
-ui <- fluidPage(
-  titlePanel("European Social Survey - round 10"),
-  
-  ## Sidebar ----
-  sidebarLayout(
-    sidebarPanel(
-      ### select dependent variable
-      selectInput(
-        "xvar",
-        label = "Select a dependent variable",
-        choices = c(
-          "Trust in country's parliament" = "trust_parliament",
-          "Trust in the legal system" = "trust_legal",
-          "Trust in the police" = "trust_police",
-          "Trust in politicians" = "trust_politicians",
-          "Trust in political parties" = "trust_parties",
-          "Trust in the European Parliament" = "trust_eu",
-          "Trust in the United Nations" = "trust_un"
-        )
-      ),
-      
-      ### select a variable ----
-      selectInput(
-        "yvar",
-        label = "Select an independent variable",
-        choices = c(
-          "Placement on the left-right scale" = "left_right",
-          "Age" = "age",
-          "Feeling about household's income" = "income_feeling",
-          "How often do you use the internet?" = "internet_use",
-          "How happy are you?" = "happiness"
-        )
-      ),
-      
-      ### select a country ----
-      selectizeInput(
-        "countries",
-        label = "Filter by country",
-        choices = unique(ess$country),
-        multiple = TRUE
-      ),
-      
-      actionButton(
-        "button",
-        label = "Update parameters",
-        icon = icon("refresh")
-      )
-    ),
-    
-    ## Main panel ----
-    mainPanel(
-      tabsetPanel(
-        type = "tabs",
-        
-        ### Table tab ----
-        tabPanel(
-          title = "Table",
-          div(
-            style = "height: 600px; overflow-y: auto;",
-            tableOutput("table")
-          )
-        ),
-        
-        ### Plot tab ----
-        tabPanel(
-          title = "Histogram",
-          plotlyOutput("plot", height = 600)
-        )
-      )
-    )
-  )
-)
-
-
-# Server ----
-server <- function(input, output, session) {
-  # filter data ----
-  filtered <- reactive({
-    xvar <- input$xvar
-    yvar <- input$yvar
-    range <- input$range
-    
-    # select country
-    if (!is.null(input$countries)) {
-      ess <- ess[ess$country %in% input$countries, ]
-    }
-    
-    # select variable
-    ess[c("idno", "country", xvar, yvar)]
-  }) %>%
-    bindEvent(input$button, ignoreNULL = FALSE)
-  
-  # render table ----
-  output$table <- renderTable({
-    ess[ess$country %in% input$countries, ]
-  }, height = 400)
-  
-  # render plot ----
-  output$plot <- renderPlotly({
-    plot_data <- filtered() %>%
-      drop_na() %>%
-      mutate(across(where(is.numeric), .fns = as.ordered))
-    
-    xvar <- names(plot_data)[[3]]
-    yvar <- names(plot_data)[[4]]
-    
-    ggplot(plot_data) +
-      aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
-      geom_violin(fill = "lightblue", show.legend = FALSE) +
-      theme_classic()
-  })
-  
-  # executes everytime `filtered()` is updated
-  # prints the filtered dataset to the console
-  observe({
-    print(filtered())
-  })
-}
-
-shinyApp(ui = ui, server = server)
 ```
 
 
@@ -553,7 +302,7 @@ sliderInput(
 - We can thus implement an updater that dynamically updates the slider with new ranges:
 
 ```{r, eval=FALSE}
-#| source-line-numbers: "1-12,23-27"
+#| source-line-numbers: "1-14,26-30"
 observe({
   yvar <- input$yvar
   freezeReactiveValue(input, "slider")
@@ -572,9 +321,7 @@ filtered <- reactive({
   yvar <- input$yvar
   
   # select country
-  if (!is.null(input$countries)) {
-    ess <- ess[ess$country %in% input$countries, ]
-  }
+  ess <- ess[ess$country %in% input$countries, ]
 
   # apply range
   ess <- ess[ # <4>
@@ -593,156 +340,11 @@ filtered <- reactive({
 4. The dataset is filtered according to the slider
 
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, file="shinyapps/example/states/05-update.R"}
 #| code-fold: true
 #| code-summary: "Complete code (important lines are highlighted)"
 #| source-line-numbers: "54-61,95,102-106,132-143"
-library(dplyr)
-library(tidyr)
-library(shiny)
-library(plotly)
-library(leaflet)
-library(haven)
 
-ess <- readRDS("../../../data/ess_trust.rds")
-ess_geo <- readRDS("../../../data/ess_trust_geo.rds")
-
-# UI ----
-ui <- fluidPage(
-  titlePanel("European Social Survey - round 10"),
-  
-  ## Sidebar ----
-  sidebarLayout(
-    sidebarPanel(
-      ### select dependent variable
-      selectInput(
-        "xvar",
-        label = "Select a dependent variable",
-        choices = c(
-          "Trust in country's parliament" = "trust_parliament",
-          "Trust in the legal system" = "trust_legal",
-          "Trust in the police" = "trust_police",
-          "Trust in politicians" = "trust_politicians",
-          "Trust in political parties" = "trust_parties",
-          "Trust in the European Parliament" = "trust_eu",
-          "Trust in the United Nations" = "trust_un"
-        )
-      ),
-      
-      ### select a variable ----
-      selectInput(
-        "yvar",
-        label = "Select an independent variable",
-        choices = c(
-          "Placement on the left-right scale" = "left_right",
-          "Age" = "age",
-          "Feeling about household's income" = "income_feeling",
-          "How often do you use the internet?" = "internet_use",
-          "How happy are you?" = "happiness"
-        )
-      ),
-      
-      ### select a country ----
-      selectizeInput(
-        "countries",
-        label = "Filter by country",
-        choices = unique(ess$country),
-        multiple = TRUE
-      ),
-      
-      sliderInput(
-        "slider",
-        label = "Select a range for the independent variable",
-        min = min(ess$left_right, na.rm = TRUE),
-        max = max(ess$left_right, na.rm = TRUE),
-        value = range(ess$left_right, na.rm = TRUE),
-        step = 1
-      )
-    ),
-    
-    ## Main panel ----
-    mainPanel(
-      tabsetPanel(
-        type = "tabs",
-        
-        ### Table tab ----
-        tabPanel(
-          title = "Table",
-          div(
-            style = "height: 600px; overflow-y: auto;",
-            tableOutput("table")
-          )
-        ),
-        
-        ### Plot tab ----
-        tabPanel(
-          title = "Histogram",
-          plotlyOutput("plot", height = 600)
-        )
-      )
-    )
-  )
-)
-
-
-# Server ----
-server <- function(input, output, session) {
-  # filter data ----
-  filtered <- reactive({
-    xvar <- input$xvar
-    yvar <- input$yvar
-    range <- input$slider
-    
-    # select country
-    if (!is.null(input$countries)) {
-      ess <- ess[ess$country %in% input$countries, ]
-    }
-
-    # apply range
-    ess <- ess[
-      ess[[yvar]] > range[1] &
-      ess[[yvar]] < range[2], 
-    ]
-    
-    # select variable
-    ess[c("idno", "country", xvar, yvar)]
-  })
-  
-  # render table ----
-  output$table <- renderTable({
-    ess[ess$country %in% input$countries, ]
-  }, height = 400)
-  
-  # render plot ----
-  output$plot <- renderPlotly({
-    plot_data <- filtered() %>%
-      drop_na() %>%
-      mutate(across(where(is.numeric), .fns = as.ordered))
-    
-    xvar <- names(plot_data)[[3]]
-    yvar <- names(plot_data)[[4]]
-
-    ggplot(plot_data) +
-      aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
-      geom_violin(fill = "lightblue", show.legend = FALSE) +
-      theme_classic()
-  })
-  
-  observe({
-    yvar <- input$yvar
-    freezeReactiveValue(input, "slider")
-    updateSliderInput(
-      session = session,
-      inputId = "slider",
-      min = min(ess[[yvar]], na.rm = TRUE),
-      max = max(ess[[yvar]], na.rm = TRUE),
-      value = range(ess[[yvar]], na.rm = TRUE)
-    )
-  }) %>%
-    bindEvent(input$yvar)
-}
-
-shinyApp(ui = ui, server = server)
 ```
 
 
@@ -798,9 +400,7 @@ filtered <- reactive({
   range <- input$range
   
   # select country
-  if (!is.null(input$countries)) {
-    ess <- ess[ess$country %in% input$countries, ]
-  }
+  ess <- ess[ess$country %in% input$countries, ]
   
   # select variable
   ess[c("idno", "country", xvar, yvar)]
@@ -809,143 +409,10 @@ filtered <- reactive({
 ```
 
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, file="shinyapps/example/states/05-req.R"}
 #| code-fold: true
 #| code-summary: "Complete code (important lines are highlighted)"
 #| source-line-numbers: "90"
-library(dplyr)
-library(tidyr)
-library(shiny)
-library(plotly)
-library(leaflet)
-library(haven)
-
-ess <- readRDS("../../../data/ess_trust.rds")
-ess_geo <- readRDS("../../../data/ess_trust_geo.rds")
-
-# UI ----
-ui <- fluidPage(
-  titlePanel("European Social Survey - round 10"),
-  
-  ## Sidebar ----
-  sidebarLayout(
-    sidebarPanel(
-      ### select dependent variable
-      selectInput(
-        "xvar",
-        label = "Select a dependent variable",
-        choices = c(
-          "Trust in country's parliament" = "trust_parliament",
-          "Trust in the legal system" = "trust_legal",
-          "Trust in the police" = "trust_police",
-          "Trust in politicians" = "trust_politicians",
-          "Trust in political parties" = "trust_parties",
-          "Trust in the European Parliament" = "trust_eu",
-          "Trust in the United Nations" = "trust_un"
-        )
-      ),
-      
-      ### select a variable ----
-      selectInput(
-        "yvar",
-        label = "Select an independent variable",
-        choices = c(
-          "Placement on the left-right scale" = "left_right",
-          "Age" = "age",
-          "Feeling about household's income" = "income_feeling",
-          "How often do you use the internet?" = "internet_use",
-          "How happy are you?" = "happiness"
-        )
-      ),
-      
-      ### select a country ----
-      selectizeInput(
-        "countries",
-        label = "Filter by country",
-        choices = unique(ess$country),
-        multiple = TRUE
-      ),
-      
-      actionButton(
-        "button",
-        label = "Update parameters",
-        icon = icon("refresh")
-      )
-    ),
-    
-    ## Main panel ----
-    mainPanel(
-      tabsetPanel(
-        type = "tabs",
-        
-        ### Table tab ----
-        tabPanel(
-          title = "Table",
-          div(
-            style = "height: 600px; overflow-y: auto;",
-            tableOutput("table")
-          )
-        ),
-        
-        ### Plot tab ----
-        tabPanel(
-          title = "Histogram",
-          plotlyOutput("plot", height = 600)
-        )
-      )
-    )
-  )
-)
-
-
-# Server ----
-server <- function(input, output, session) {
-  # filter data ----
-  filtered <- reactive({
-    req(input$countries)
-    
-    xvar <- input$xvar
-    yvar <- input$yvar
-    range <- input$range
-    
-    # select country
-    if (!is.null(input$countries)) {
-      ess <- ess[ess$country %in% input$countries, ]
-    }
-    
-    # select variable
-    ess[c("idno", "country", xvar, yvar)]
-  }) %>%
-    bindEvent(input$button, ignoreNULL = FALSE)
-  
-  # render table ----
-  output$table <- renderTable({
-    ess[ess$country %in% input$countries, ]
-  }, height = 400)
-  
-  # render plot ----
-  output$plot <- renderPlotly({
-    plot_data <- filtered() %>%
-      drop_na() %>%
-      mutate(across(where(is.numeric), .fns = as.ordered))
-    
-    xvar <- names(plot_data)[[3]]
-    yvar <- names(plot_data)[[4]]
-    
-    ggplot(plot_data) +
-      aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
-      geom_violin(fill = "lightblue", show.legend = FALSE) +
-      theme_classic()
-  })
-  
-  # executes everytime `filtered()` is updated
-  # prints the filtered dataset to the console
-  observe({
-    print(filtered())
-  })
-}
-
-shinyApp(ui = ui, server = server)
 ```
 
 

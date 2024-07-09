@@ -48,6 +48,7 @@ ui <- fluidPage(
         "countries",
         label = "Filter by country",
         choices = unique(ess$country),
+        selected = "FR",
         multiple = TRUE
       ),
       
@@ -112,29 +113,26 @@ server <- function(input, output, session) {
   
   # filter data ----
   filtered <- reactive({
+    req(input$countries, cancelOutput = TRUE)
+    
     xvar <- input$xvar
     yvar <- input$yvar
     range <- input$range
     
     # select country
-    if (!is.null(input$countries)) {
-      ess <- ess[ess$country %in% input$countries, ]
-    }
+    ess <- ess[ess$country %in% input$countries, ]
     
     # select variable
-    plot_data <- ess[c("idno", "country", xvar, yvar)]
+    ess <- ess[c("idno", "country", xvar, yvar)]
     
     # apply range
-    plot_data <- plot_data[
-      plot_data[[xvar]] > range[1] &
-      plot_data[[xvar]] < range[2], 
-    ]
-    plot_data
+    ess <- ess[ess[[xvar]] > range[1] & ess[[xvar]] < range[2], ]
+    ess
   })
   
   # render table ----
   output$table <- renderTable({
-    ess[ess$country %in% input$countries, ]
+    filtered()
   }, height = 400)
 
   # render plot ----
@@ -171,7 +169,7 @@ server <- function(input, output, session) {
     } else {
       pal <- colorNumeric("YlOrRd", domain = NULL)
     }
-    
+
     # construct leaflet canvas
     leaflet(plot_data) %>%
       # add base map

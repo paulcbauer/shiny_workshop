@@ -48,13 +48,8 @@ ui <- fluidPage(
         "countries",
         label = "Filter by country",
         choices = unique(ess$country),
+        selected = "FR",
         multiple = TRUE
-      ),
-      
-      actionButton(
-        "button",
-        label = "Update parameters",
-        icon = icon("refresh")
       )
     ),
     
@@ -75,7 +70,7 @@ ui <- fluidPage(
         ### Plot tab ----
         tabPanel(
           title = "Histogram",
-          plotlyOutput("plot", height = 600)
+          plotOutput("plot", height = 600)
         )
       )
     )
@@ -87,29 +82,26 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   # filter data ----
   filtered <- reactive({
-    req(input$countries)
+    req(input$countries, cancelOutput = TRUE)
     
     xvar <- input$xvar
     yvar <- input$yvar
     range <- input$range
     
     # select country
-    if (!is.null(input$countries)) {
-      ess <- ess[ess$country %in% input$countries, ]
-    }
+    ess <- ess[ess$country %in% input$countries, ]
     
     # select variable
     ess[c("idno", "country", xvar, yvar)]
-  }) %>%
-    bindEvent(input$button, ignoreNULL = FALSE)
+  })
   
   # render table ----
   output$table <- renderTable({
-    ess[ess$country %in% input$countries, ]
+    filtered()
   }, height = 400)
   
   # render plot ----
-  output$plot <- renderPlotly({
+  output$plot <- renderPlot({
     plot_data <- filtered() %>%
       drop_na() %>%
       mutate(across(where(is.numeric), .fns = as.ordered))
