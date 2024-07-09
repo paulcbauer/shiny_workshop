@@ -1,5 +1,5 @@
 ---
-title: "Dos and donts when building your own app"
+title: "Good practices when building your own app"
 ---
 
 ```{r, include=FALSE}
@@ -49,6 +49,7 @@ library(shiny)
 - Inspectors are **excessive** if:
   - The goal is primarily to get a functioning app
   - Exploring a new elaborate tool beyond Shiny is a bit too much
+
 
 ### Organize your code
 
@@ -137,3 +138,6 @@ input,output,session
   - Supports multiple Shiny apps in one app
   - Enables testing workflows and thus more robust code
   - All R code files in one place
+=======
+(show, don't tell!)
+>>>>>>> fa21f429c79006ffd6830cf984b7fafa6f63f9a3

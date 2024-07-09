@@ -144,7 +144,7 @@ server <- function(input, output, session) {
       mutate(across(where(is.numeric), .fns = as.ordered))
 
     p <- ggplot(plot_data) +
-      aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
+      aes(x = .data[[yvar]], y = .data[[xvar]], group = .data[[yvar]]) +
       geom_violin(fill = "lightblue", show.legend = FALSE) +
       theme_classic()
     plotly::ggplotly(p)
