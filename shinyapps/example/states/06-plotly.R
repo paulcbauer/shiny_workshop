@@ -79,7 +79,7 @@ ui <- fluidPage(
         
         ### Plot tab ----
         tabPanel(
-          title = "Histogram",
+          title = "Plot",
           plotlyOutput("plot", height = 600)
         ),
         

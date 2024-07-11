@@ -49,9 +49,9 @@ This document serves as slides and script for the workshop ***Interactive Data A
 	- Contact: `mail@paulcbauer.de`; [www.paulcbauer.de](https://sites.google.com/paulcbauer.de/web/); [Twitter](https://twitter.com/p_c_bauer); [Github](https://github.com/paulcbauer)
 - Jonas
 	- Currently a research fellow at GESIS' survey data curation (SDC) department
-	- Constantly learning about R and Shiny since 2020
-	- Interested in social geography, spatial analysis and computational text analysis
-	- Contact: `jonas.lieth@gesis.org`; GitHub: [JsLth](https://github.com/JsLth)
+	- PhD student interested in social geography, spatial data science, and computational text analysis
+	- Developing R packages (e.g. [`r311`](https://github.com/JsLth/r311)) and Shiny apps  (e.g. [`gretan`](https://github.com/JsLth/gretan)) for research
+	- Contact: `jonas.lieth@gesis.org`; [Website](https://www.gesis.org/institut/ueber-uns/mitarbeitendenverzeichnis/person/Jonas.Lieth); [GitHub](https://github.com/JsLth)
 
 
 

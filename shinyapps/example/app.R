@@ -79,7 +79,7 @@ ui <- fluidPage(
         
         ### Plot tab ----
         tabPanel(
-          title = "Histogram",
+          title = "Plot",
           plotlyOutput("plot", height = 600)
         ),
         
@@ -153,30 +153,30 @@ server <- function(input, output, session) {
   # render map ----
   output$map <- renderLeaflet({
     var <- input$xvar
-    plot_data <- ess_geo[c("country", var)]
+    ess_geo <- ess_geo[c("country", var)]
     
     # create labels with a bold title and a body
     labels <- sprintf(
       "<strong>%s</strong><br>%s",
-      plot_data$country,
-      plot_data[[var]]
+      ess_geo$country,
+      ess_geo[[var]]
     )
     labels <- lapply(labels, HTML)
     
     # create a palette for numerics and ordinals
-    if (is.ordered(plot_data[[var]])) {
+    if (is.ordered(ess_geo[[var]])) {
       pal <- colorFactor("YlOrRd", domain = NULL)
     } else {
       pal <- colorNumeric("YlOrRd", domain = NULL)
     }
 
     # construct leaflet canvas
-    leaflet(plot_data) %>%
+    leaflet(ess_geo) %>%
       # add base map
       addTiles() %>%
       # add choropleths
       addPolygons(
-        fillColor = pal(plot_data[[var]]),
+        fillColor = pal(ess_geo[[var]]),
         weight = 2,
         opacity = 1,
         color = "white",
@@ -194,7 +194,7 @@ server <- function(input, output, session) {
       addLegend(
         position = "bottomleft",
         pal = pal,
-        values = plot_data[[var]],
+        values = ess_geo[[var]],
         opacity = 0.7,
         title = var
       )

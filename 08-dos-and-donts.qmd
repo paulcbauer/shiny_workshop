@@ -87,16 +87,16 @@ summarize(iris, across(where(is.numeric), geometric_mean))
   
 ```{r, eval=FALSE}
 ui<-fluidPage(selectInput("var"
-            ,"Variable"
-            ,names(mtcars))
-  ,numericInput("bins","bins",10,min= 1)
-  , plotOutput("hist"))
+            ,"Variable",names(mtcars))
+  ,numericInput("bins","bins",10,min= 1),plotOutput("hist"))
 server<-
 function(
 input,output,session
 ) {
   data<-
-    reactive(mtcars[[input$var]])
+    reactive(
+             mtcars[[input$var]]
+    )
   output$hist<-
     renderPlot(
     {hist(data()
@@ -138,6 +138,4 @@ input,output,session
   - Supports multiple Shiny apps in one app
   - Enables testing workflows and thus more robust code
   - All R code files in one place
-=======
-(show, don't tell!)
->>>>>>> fa21f429c79006ffd6830cf984b7fafa6f63f9a3
+
