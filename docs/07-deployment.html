@@ -73,6 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -151,12 +152,19 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   </ul></li>
   <li><a href="#deployment" id="toc-deployment" class="nav-link" data-scroll-target="#deployment"><span class="header-section-number">4</span> Deployment</a>
   <ul class="collapse">
-  <li><a href="#where-to-deploy" id="toc-where-to-deploy" class="nav-link" data-scroll-target="#where-to-deploy"><span class="header-section-number">4.1</span> Where to deploy</a></li>
-  <li><a href="#shinyapps.io" id="toc-shinyapps.io" class="nav-link" data-scroll-target="#shinyapps.io"><span class="header-section-number">4.2</span> shinyapps.io</a></li>
-  <li><a href="#rsconnect" id="toc-rsconnect" class="nav-link" data-scroll-target="#rsconnect"><span class="header-section-number">4.3</span> <code>rsconnect</code></a></li>
-  <li><a href="#creating-an-account" id="toc-creating-an-account" class="nav-link" data-scroll-target="#creating-an-account"><span class="header-section-number">4.4</span> Creating an account</a></li>
-  <li><a href="#connecting-r-to-shinyapps.io" id="toc-connecting-r-to-shinyapps.io" class="nav-link" data-scroll-target="#connecting-r-to-shinyapps.io"><span class="header-section-number">4.5</span> Connecting R to shinyapps.io</a></li>
-  <li><a href="#deploy" id="toc-deploy" class="nav-link" data-scroll-target="#deploy"><span class="header-section-number">4.6</span> Deploy!</a></li>
+  <li><a href="#deployment-options" id="toc-deployment-options" class="nav-link" data-scroll-target="#deployment-options"><span class="header-section-number">4.1</span> Deployment options</a></li>
+  </ul></li>
+  <li><a href="#shinylive" id="toc-shinylive" class="nav-link" data-scroll-target="#shinylive"><span class="header-section-number">5</span> Shinylive</a>
+  <ul class="collapse">
+  <li><a href="#webassembly" id="toc-webassembly" class="nav-link" data-scroll-target="#webassembly"><span class="header-section-number">5.1</span> WebAssembly</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">5.2</span> Limitations</a></li>
+  </ul></li>
+  <li><a href="#shinyapps.io" id="toc-shinyapps.io" class="nav-link" data-scroll-target="#shinyapps.io"><span class="header-section-number">6</span> shinyapps.io</a>
+  <ul class="collapse">
+  <li><a href="#rsconnect" id="toc-rsconnect" class="nav-link" data-scroll-target="#rsconnect"><span class="header-section-number">6.1</span> <code>rsconnect</code></a></li>
+  <li><a href="#creating-an-account" id="toc-creating-an-account" class="nav-link" data-scroll-target="#creating-an-account"><span class="header-section-number">6.2</span> Creating an account</a></li>
+  <li><a href="#connecting-r-to-shinyapps.io" id="toc-connecting-r-to-shinyapps.io" class="nav-link" data-scroll-target="#connecting-r-to-shinyapps.io"><span class="header-section-number">6.3</span> Connecting R to shinyapps.io</a></li>
+  <li><a href="#deploy" id="toc-deploy" class="nav-link" data-scroll-target="#deploy"><span class="header-section-number">6.4</span> Deploy!</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/07-deployment.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -237,7 +245,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <li>Simply run your app within a <code>profvis::profvis()</code> call:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">profvis</span>({<span class="fu">runApp</span>()})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">profvis</span>({<span class="fu">runApp</span>()})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -345,8 +353,8 @@ Note
 <li>The deployment of Shiny apps is restricted to servers that support Shiny apps</li>
 <li>You can either set up a custom Shiny server or use a server provider</li>
 </ul>
-<section id="where-to-deploy" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="where-to-deploy"><span class="header-section-number">4.1</span> Where to deploy</h2>
+<section id="deployment-options" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="deployment-options"><span class="header-section-number">4.1</span> Deployment options</h2>
 <table class="caption-top table">
 <caption>Shiny app hosting</caption>
 <thead>
@@ -368,20 +376,66 @@ Note
 <td><code>rsconnect</code> R package</td>
 </tr>
 <tr class="odd">
-<td><a href="https://posit.co/products/open-source/shinyserver/">Shiny Server</a></td>
+<td><a href="https://posit.co/products/open-source/shinyserver/">Shiny Server</a> / self-hosting</td>
 <td>Setting up self-hosted Shiny servers</td>
 <td>Shiny Server on a Linux server</td>
 </tr>
 <tr class="even">
-<td><a href="https://www.shinyproxy.io/">ShinyProxy</a> / <a href="https://www.heroku.com/">Heroku</a></td>
+<td><a href="https://www.shinyproxy.io/">ShinyProxy</a> / <a href="https://www.heroku.com/">Heroku</a> / <a href="https://huggingface.co/docs/hub/spaces-sdks-docker-shiny">Hugging Face</a></td>
 <td>Deployment of containerized applications</td>
 <td>Docker</td>
+</tr>
+<tr class="odd">
+<td><a href="https://posit-dev.github.io/r-shinylive/">Shinylive</a></td>
+<td>Simple applications in an embedded setting</td>
+<td>An existing static website</td>
+</tr>
+<tr class="even">
+<td>GitHub / CRAN / BioConductor</td>
+<td>Applications for researchers or developers</td>
+<td>Proficiency in R package development</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="shinyapps.io" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="shinyapps.io"><span class="header-section-number">4.2</span> shinyapps.io</h2>
+</section>
+<section id="shinylive" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Shinylive</h1>
+<ul>
+<li>Shinylive is one of Posit’s new things</li>
+<li>An application deployed with Shinylive does not need a server: It is a static website!</li>
+<li>This is possible primarily due to developments in what is called <strong>WebAssembly (wasm)</strong></li>
+</ul>
+<section id="webassembly" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="webassembly"><span class="header-section-number">5.1</span> WebAssembly</h2>
+<ul>
+<li>WebAssembly is a browser language (like JavaScript) that is very close to the hardware</li>
+<li>Wasm created a hype in the R community because it is able to run programming languages directly on the web</li>
+<li></li>
+</ul>
+</section>
+<section id="limitations" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="limitations"><span class="header-section-number">5.2</span> Limitations</h2>
+<ul>
+<li>Nothing good ever comes easy</li>
+<li>Shinylive comes with a number of limitations:
+<ul>
+<li>Can be quite slow on startup</li>
+<li>Not all R (or Python) packages are available
+<ul>
+<li>R packages need to be built for WebAssembly</li>
+<li>Only binary packages can be built</li>
+<li>You can check which packages are built for wasm <a href="https://repo.r-wasm.org/">here</a> (currently about 14,000 packages are available)</li>
+</ul></li>
+<li>Some R features do not work (e.g.&nbsp;parallelization, database connections, or system commands)</li>
+<li>Code and data are fully visible in the source code (thus not useful for sensitive data)</li>
+<li>App runs on the client machine and can thus be very slow and demanding</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="shinyapps.io" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> shinyapps.io</h1>
 <ul>
 <li>A common choice for more casual Shiny apps is shinyapps.io
 <ul>
@@ -396,9 +450,8 @@ Note
 <figcaption>Shinyapps.io plans</figcaption>
 </figure>
 </div>
-</section>
-<section id="rsconnect" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="rsconnect"><span class="header-section-number">4.3</span> <code>rsconnect</code></h2>
+<section id="rsconnect" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="rsconnect"><span class="header-section-number">6.1</span> <code>rsconnect</code></h2>
 <ul>
 <li>Both for Posit Connect and shinyapps.io you need the <a href="https://rstudio.github.io/rsconnect/"><code>rsconnect</code></a> package</li>
 <li><code>rsconnect</code> enables the communication between the Posit services and R</li>
@@ -408,8 +461,8 @@ Note
 <li><code>rsconnect</code> is built around the <a href="https://rstudio.github.io/rsconnect/reference/deployApp.html"><code>deployApp()</code></a>, <a href="https://rstudio.github.io/rsconnect/reference/deployAPI.html"><code>deployAPI()</code></a> and <a href="https://rstudio.github.io/rsconnect/reference/deployDoc.html"><code>deployDoc()</code></a> functions</li>
 </ul>
 </section>
-<section id="creating-an-account" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="creating-an-account"><span class="header-section-number">4.4</span> Creating an account</h2>
+<section id="creating-an-account" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="creating-an-account"><span class="header-section-number">6.2</span> Creating an account</h2>
 <ul>
 <li>Before being able to deploy to Shinyapps, we need an account</li>
 <li>Accounts can be created per Email or using Google, Github or Clever</li>
@@ -421,8 +474,8 @@ Note
 </figure>
 </div>
 </section>
-<section id="connecting-r-to-shinyapps.io" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="connecting-r-to-shinyapps.io"><span class="header-section-number">4.5</span> Connecting R to shinyapps.io</h2>
+<section id="connecting-r-to-shinyapps.io" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="connecting-r-to-shinyapps.io"><span class="header-section-number">6.3</span> Connecting R to shinyapps.io</h2>
 <ul>
 <li>Just with any interface, linking works using Tokens and Secrets</li>
 <li>On your shinyapps dashboard, navigate to Account -&gt; Tokens on the sidebar</li>
@@ -437,19 +490,19 @@ Note
 </figure>
 </div>
 </section>
-<section id="deploy" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="deploy"><span class="header-section-number">4.6</span> Deploy!</h2>
+<section id="deploy" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="deploy"><span class="header-section-number">6.4</span> Deploy!</h2>
 <ul>
 <li>To verify that the verification process was successful we run:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>rsconnect<span class="sc">::</span><span class="fu">accounts</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>rsconnect<span class="sc">::</span><span class="fu">accounts</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Finally, to deploy an app, we simply run <code>deployApp()</code> to deploy an <code>app.R</code> in the current working directory to shinyapps.io:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>rsconnect<span class="sc">::</span><span class="fu">deployApp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>rsconnect<span class="sc">::</span><span class="fu">deployApp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -910,4 +963,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/07-deployment.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/07-deployment.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.js" defer="true"></script>
+</body></html>

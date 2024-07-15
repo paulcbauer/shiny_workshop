@@ -2,12 +2,7 @@
 title: "Strengthen & Deploy"
 ---
 
-
-Learning outcomes
-- Debug Shiny apps and understand them from the inside
-- Supervise and test Shiny apps for robustness (appendix)
-- Convert simple Shiny apps to static website using shinylive
-- Deploy any Shiny app to the web using shinyapps.io
+Learning outcomes - Debug Shiny apps and understand them from the inside - Supervise and test Shiny apps for robustness (appendix) - Convert simple Shiny apps to static website using shinylive - Deploy any Shiny app to the web using shinyapps.io
 
 # Deploying Shiny apps
 
@@ -119,18 +114,45 @@ htmltools::tags$iframe(src = "shinyapps/guerry/guerry_reactlog.html", width = "1
 -   The deployment of Shiny apps is restricted to servers that support Shiny apps
 -   You can either set up a custom Shiny server or use a server provider
 
-## Where to deploy
+## Deployment options
 
-| Name                                                                         | Use                                      | Requirements                   |
-|-----------------------------------|-------------------|------------------|
-| [shinyapps.io](https://www.shinyapps.io/)                                    | Casual to professional applications      | `rsconnect` R package          |
-| [Posit Connect](https://posit.co/products/enterprise/connect/)               | Professional to corporate applications   | `rsconnect` R package          |
-| [Shiny Server](https://posit.co/products/open-source/shinyserver/)           | Setting up self-hosted Shiny servers     | Shiny Server on a Linux server |
-| [ShinyProxy](https://www.shinyproxy.io/) / [Heroku](https://www.heroku.com/) | Deployment of containerized applications | Docker                         |
+| Name                                                                                                                                                    | Use                                        | Requirements                         |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------|--------------------------------------|
+| [shinyapps.io](https://www.shinyapps.io/)                                                                                                               | Casual to professional applications        | `rsconnect` R package                |
+| [Posit Connect](https://posit.co/products/enterprise/connect/)                                                                                          | Professional to corporate applications     | `rsconnect` R package                |
+| [Shiny Server](https://posit.co/products/open-source/shinyserver/) / self-hosting                                                                       | Setting up self-hosted Shiny servers       | Shiny Server on a Linux server       |
+| [ShinyProxy](https://www.shinyproxy.io/) / [Heroku](https://www.heroku.com/) / [Hugging Face](https://huggingface.co/docs/hub/spaces-sdks-docker-shiny) | Deployment of containerized applications   | Docker                               |
+| [Shinylive](https://posit-dev.github.io/r-shinylive/)                                                                                                   | Simple applications in an embedded setting | An existing static website           |
+| GitHub / CRAN / BioConductor                                                                                                                            | Applications for researchers or developers | Proficiency in R package development |
 
 : Shiny app hosting
 
-## shinyapps.io
+# Shinylive
+
+-   Shinylive is one of Posit's new things
+-   An application deployed with Shinylive does not need a server: It is a static website!
+-   This is possible primarily due to developments in what is called **WebAssembly (wasm)**
+
+## WebAssembly
+
+-   WebAssembly is a browser language (like JavaScript) that is very close to the hardware
+-   Wasm created a hype in the R community because it is able to run programming languages directly on the web
+-   
+
+## Limitations
+
+-   Nothing good ever comes easy
+-   Shinylive comes with a number of limitations:
+    -   Can be quite slow on startup
+    -   Not all R (or Python) packages are available
+        -   R packages need to be built for WebAssembly
+        -   Only binary packages can be built
+        -   You can check which packages are built for wasm [here](https://repo.r-wasm.org/) (currently about 14,000 packages are available)
+    -   Some R features do not work (e.g. parallelization, database connections, or system commands)
+    -   Code and data are fully visible in the source code (thus not useful for sensitive data)
+    -   App runs on the client machine and can thus be very slow and demanding
+
+# shinyapps.io
 
 -   A common choice for more casual Shiny apps is shinyapps.io
     -   It requires not much technical knowledge to deploy
