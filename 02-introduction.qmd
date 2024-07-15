@@ -17,7 +17,7 @@ pacman::p_load(knitr, quarto, tidyverse, gganimate, kableExtra)
 Sources: @Bertini2017-jq, @wickham2021mastering and @Fay2021-ta
 
 ## Interactive data analysis
-- Part is almost exclusively based on @Bertini2017-jq.
+- Source(s): @Bertini2017-jq and others.
 
 ### Why?
 - "From Data Visualization to Interactive Data Analysis" [@Bertini2017-jq]
@@ -80,7 +80,7 @@ Sources: @Bertini2017-jq, @wickham2021mastering and @Fay2021-ta
     - **Outcome**: not only answers but also (hopefully better, more refined) questions
 
 
-### Important aspects of data analysis & Quo vadis interaction?
+### Important aspects of data analysis & quo vadis interaction?
 - **Process** not sequential but **highly iterative** (jumping back/forth between steps)
 - **Some activities exclusively human**, e.g., defining problems, generating questions, etc.
 - **Visualization only small portion** of process and effectiveness depends on other steps
@@ -256,8 +256,7 @@ ggplot(datasaurus_dozen, aes(x=x, y=y))+
 ### What is Shiny?
 
 * History of Shiny: [Joe Cheng: The Past and Future of Shiny](https://www.youtube.com/watch?v=HpqLXB_TnpI)^[Joe Cheng is the Chief Technology Officer at RStudio and was the original creator of the Shiny web framework, and continues to work on packages at the intersection of R and the web.]
-* **Popularity**: Shiny <img src="https://cranlogs.r-pkg.org/badges/shiny" alt="">
-  + Comparison: Ggplot2 <img src="https://cranlogs.r-pkg.org/badges/ggplot2" alt="">, dplyr <img src="https://cranlogs.r-pkg.org/badges/dplyr" alt="">
+* **Popularity**: Shiny <img src="https://cranlogs.r-pkg.org/badges/shiny" alt=""> (vs. Ggplot2 <img src="https://cranlogs.r-pkg.org/badges/ggplot2" alt="">, dplyr <img src="https://cranlogs.r-pkg.org/badges/dplyr" alt="">)
 * A **web application framework** for R to turn analyses into interactive web applications.. what does that mean?
   + The userinterface is a **webpage**
   + On this webpage you can manipulate things
@@ -273,7 +272,8 @@ ggplot(datasaurus_dozen, aes(x=x, y=y))+
 
 
 ### Components of a Shiny app
-* As depicted in @fig-shinycomponents, a Shiny app has **two components**, the **user interface (UI)** and the **server**, that are passed as arguments to the `shinyApp()` which creates a Shiny app object from this **ui/server pair**
+* As depicted in @fig-shinycomponents, a user interacts with a server on which the shinyapp/website is hosted
+  + A Shiny app has **two components**, the **user interface (UI)** and the **server**, that are passed as arguments to the `shinyApp()` which creates a Shiny app from this **ui/server pair**
 
 ![Source: https://hosting.analythium.io/the-anatomy-of-a-shiny-application/ (c) Analythium](resources/02-compontents-shiny-app.png){#fig-shinycomponents}
 
