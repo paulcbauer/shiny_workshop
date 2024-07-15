@@ -3,36 +3,25 @@ title: "About this workshop"
 ---
 
 
-```{r functions, echo=FALSE, cache=FALSE}
-# Manual packages
- packages_manual <- c("profvis", "rsconnect", "whereami", "DT")
+```{r dependencies, include=FALSE, cache=FALSE}
+packages <- unique(renv::dependencies()$Package)
 
+# assert that all packages are available
+loadable <- vapply(packages, FUN.VALUE = logical(1), requireNamespace)
 
-# Generate package chunk
-   file_names <- stringr::str_subset(dir(), "qmd")
-  packages_all <- NULL
-  for(i in file_names){
-  	#print(i)
-  	
-  lines_text <- readLines(i) 
-  packages <- gsub("library\\(|\\)", "",  
-                  unlist(stringr::str_extract_all(lines_text,  
-                                         "library\\([a-zA-z0-9]*\\)|p_load\\([a-zA-z0-9]*\\)"))) 
-  packages <- packages[packages!="pacman"] 
-  packages <- packages[packages!="p_load("] 
-  packages_all <- c(packages_all, packages)
-  
-  }
-  # Add manual packages
-  packages_all <- c(packages_all, packages_manual)
-  
-  # Clean up
-  packages <- paste("# install.packages('pacman')", "library(pacman)", "p_load('", paste(unique(packages_all), collapse="', '"), "')",sep="") 
-  packages <- stringr::str_wrap(packages, width = 80) 
-  packages <- gsub("install.packages\\('pacman'\\)", "install.packages\\('pacman'\\)\n", packages) 
-  packages <- gsub("library\\(pacman\\)", "library\\(pacman\\)\n", packages)
+# install missing dependencies
+if (!all(loadable)) {
+  pak::pkg_install(packages[!loadable])
+}
 
+exclude <- c(
+  "pander", "stringr", "renv", "rmarkdown", "knitr", "htmlwidgets",
+  "rnaturalearthdata", "smoothr", "readr", "tidyr", "dplyr", "ggplot2"
+)
+packages <- sort(setdiff(packages, exclude))
 ```
+
+
 
 
 
@@ -192,9 +181,19 @@ workshop?
   - only viable competitor is Python
   - Install the necessary packages using the code below.
 
-```{r workshop-1, echo=FALSE, comment=NA, cache=FALSE}
+```{r workshop-1, echo=FALSE, results='asis', cache=FALSE}
 options(width = 300)
-cat(packages)
+
+# format pacman string
+pkg_fmt <- paste0(
+  "pacman::p_load(c(\n",
+  paste(paste("  ", packages), collapse = ",\n"),
+  "\n))"
+)
+
+pkg_fmt <- sprintf("```{r}\n%s\n```", pkg_fmt)
+
+pander::pander(pkg_fmt)
 ```
 
 - Shiny [@chang2020; @wickham2021mastering]

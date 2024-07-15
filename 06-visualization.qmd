@@ -3,8 +3,7 @@ title: "Modelling and visualizing data"
 ---
 
 ```{r, include=FALSE}
-library(dplyr)
-library(ggplot2)
+library(tidyverse)
 library(plotly)
 library(leaflet)
 library(htmltools)

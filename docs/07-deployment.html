@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.3.433">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -80,13 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 50,
-  "keyboard-shortcut": [
-    "f",
-    "/",
-    "s"
-  ],
-  "show-item-context": false,
+  "limit": 20,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -95,7 +89,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
-    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -115,15 +108,108 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <link rel="stylesheet" href="styles.css">
 <meta name="twitter:title" content="Workshop: Interactive Data Analysis with Shiny - Strengthen &amp; Deploy">
 <meta name="twitter:description" content="">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bookdown.org/paul/shiny_workshop/resources/shiny_browser.png">
+<meta name="twitter:image-height" content="81">
+<meta name="twitter:image-width" content="974">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body>
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-deployment.html">Strengthen &amp; Deploy</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Interactive Data Analysis with Shiny</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://training.gesis.org/?site=pDetails&amp;child=full&amp;pID=0x0D17F8F738B14E0991504DBF8823A002" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-cursor-fill"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop/issues" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-bug-fill"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-workshop.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About this workshop</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-user-interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">User Interface (UI): Designing the front end</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-server-reactive-programming-i.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Server: Reactive programming</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-server-reactive-programming-ii.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Server: Reactive programming II</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelling and visualizing data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-deployment.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Strengthen &amp; Deploy</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-dos-and-donts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good practices when building your own app</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -156,18 +242,15 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   </ul></li>
   <li><a href="#shinylive" id="toc-shinylive" class="nav-link" data-scroll-target="#shinylive"><span class="header-section-number">5</span> Shinylive</a>
   <ul class="collapse">
-  <li><a href="#webassembly" id="toc-webassembly" class="nav-link" data-scroll-target="#webassembly"><span class="header-section-number">5.1</span> WebAssembly</a></li>
-  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">5.2</span> Limitations</a></li>
-  </ul></li>
-  <li><a href="#shinyapps.io" id="toc-shinyapps.io" class="nav-link" data-scroll-target="#shinyapps.io"><span class="header-section-number">6</span> shinyapps.io</a>
-  <ul class="collapse">
-  <li><a href="#rsconnect" id="toc-rsconnect" class="nav-link" data-scroll-target="#rsconnect"><span class="header-section-number">6.1</span> <code>rsconnect</code></a></li>
-  <li><a href="#creating-an-account" id="toc-creating-an-account" class="nav-link" data-scroll-target="#creating-an-account"><span class="header-section-number">6.2</span> Creating an account</a></li>
-  <li><a href="#connecting-r-to-shinyapps.io" id="toc-connecting-r-to-shinyapps.io" class="nav-link" data-scroll-target="#connecting-r-to-shinyapps.io"><span class="header-section-number">6.3</span> Connecting R to shinyapps.io</a></li>
-  <li><a href="#deploy" id="toc-deploy" class="nav-link" data-scroll-target="#deploy"><span class="header-section-number">6.4</span> Deploy!</a></li>
+  <li><a href="#whats-so-cool-about-shinylive" id="toc-whats-so-cool-about-shinylive" class="nav-link" data-scroll-target="#whats-so-cool-about-shinylive"><span class="header-section-number">5.1</span> Whats so cool about Shinylive?</a></li>
+  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages"><span class="header-section-number">5.2</span> R packages</a></li>
+  <li><a href="#other-limitations" id="toc-other-limitations" class="nav-link" data-scroll-target="#other-limitations"><span class="header-section-number">5.3</span> Other Limitations</a></li>
+  <li><a href="#downloading-assets" id="toc-downloading-assets" class="nav-link" data-scroll-target="#downloading-assets"><span class="header-section-number">5.4</span> Downloading assets</a></li>
+  <li><a href="#creating-the-app" id="toc-creating-the-app" class="nav-link" data-scroll-target="#creating-the-app"><span class="header-section-number">5.5</span> Creating the app</a></li>
+  <li><a href="#embed-shinylive-in-quarto" id="toc-embed-shinylive-in-quarto" class="nav-link" data-scroll-target="#embed-shinylive-in-quarto"><span class="header-section-number">5.6</span> Embed Shinylive in Quarto</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/07-deployment.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/07-deployment.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -187,9 +270,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   </div>
   
 
-
 </header>
-
 
 <p>Learning outcomes - Debug Shiny apps and understand them from the inside - Supervise and test Shiny apps for robustness (appendix) - Convert simple Shiny apps to static website using shinylive - Deploy any Shiny app to the web using shinyapps.io</p>
 <section id="deploying-shiny-apps" class="level1" data-number="1">
@@ -244,7 +325,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <ul>
 <li>Simply run your app within a <code>profvis::profvis()</code> call:</li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-1_2d4cf9ba8feba7293abf16f189b426b6">
 <div class="sourceCode cell-code" id="cb1" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">profvis</span>({<span class="fu">runApp</span>()})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -264,7 +345,7 @@ Note
 <li>Then, perform some tasks in the Shiny app</li>
 <li>Close the app, and an HTML file will open that looks something like below:</li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-2_8e1926d167ddfa297038044669cf52b2">
 <div class="cell-output-display">
 <iframe src="shinyapps/guerry/guerry_profvis.html" width="100%" height="800px"></iframe>
 </div>
@@ -293,7 +374,7 @@ Note
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="resources/shiny_browser.png" class="img-fluid figure-img"></p>
-<figcaption>Accessing <code>input</code> in Shiny browser call</figcaption>
+<figcaption class="figure-caption">Accessing <code>input</code> in Shiny browser call</figcaption>
 </figure>
 </div>
 </section>
@@ -314,13 +395,13 @@ Note
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="resources/shiny_logger.png" class="img-fluid figure-img"></p>
-<figcaption>Logs from <code>logger</code></figcaption>
+<figcaption class="figure-caption">Logs from <code>logger</code></figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="resources/shiny_whereami.png" class="img-fluid figure-img"></p>
-<figcaption>Logs from <code>whereami</code></figcaption>
+<figcaption class="figure-caption">Logs from <code>whereami</code></figcaption>
 </figure>
 </div>
 </section>
@@ -339,7 +420,7 @@ Note
 <li><p>Run <a href="https://shiny.posit.co/r/reference/shiny/1.3.1/reactlog.html"><code>shiny::reactlogShow()</code></a> or <a href="https://rstudio.github.io/reactlog/reference/reactlog_show.html"><code>reactlog::reactlog_show()</code></a> after closing the app</p></li>
 <li><p>Alternatively, press <code>Strg + F3</code> while the app is running</p></li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-3_50c413e0e2c9288b072e0f3b45f73ea9">
 <div class="cell-output-display">
 <iframe src="shinyapps/guerry/guerry_reactlog.html" width="100%" height="500px"></iframe>
 </div>
@@ -355,7 +436,7 @@ Note
 </ul>
 <section id="deployment-options" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="deployment-options"><span class="header-section-number">4.1</span> Deployment options</h2>
-<table class="caption-top table">
+<table class="table">
 <caption>Shiny app hosting</caption>
 <thead>
 <tr class="header">
@@ -402,107 +483,183 @@ Note
 <section id="shinylive" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Shinylive</h1>
 <ul>
-<li>Shinylive is one of Posit’s new things</li>
+<li><a href="https://posit-dev.github.io/r-shinylive/">Shinylive</a> is one of Posit’s new things</li>
 <li>An application deployed with Shinylive does not need a server: It is a static website!</li>
-<li>This is possible primarily due to developments in what is called <strong>WebAssembly (wasm)</strong></li>
+<li>This is possible primarily due to developments in what is called <a href="https://en.wikipedia.org/wiki/WebAssembly"><strong>WebAssembly</strong></a> <strong>(Wasm)</strong></li>
+<li>If you are interested in the magic behind Shinylive and Wasm, check out Joe Cheng’s talk at posit::conf(2023)</li>
 </ul>
-<section id="webassembly" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="webassembly"><span class="header-section-number">5.1</span> WebAssembly</h2>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/j1M6YyU2ZX8?si=LKNEUV8I2IEZaP8r" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
+</iframe>
+<section id="whats-so-cool-about-shinylive" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="whats-so-cool-about-shinylive"><span class="header-section-number">5.1</span> Whats so cool about Shinylive?</h2>
 <ul>
-<li>WebAssembly is a browser language (like JavaScript) that is very close to the hardware</li>
-<li>Wasm created a hype in the R community because it is able to run programming languages directly on the web</li>
-<li></li>
+<li>You can simply embed your Shiny app:
+<ul>
+<li>In your personal website</li>
+<li>In your Quarto/RMarkdown document</li>
+<li>In your package documentation</li>
+<li>In another Shiny app (do try this at home)</li>
+</ul></li>
 </ul>
 </section>
-<section id="limitations" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="limitations"><span class="header-section-number">5.2</span> Limitations</h2>
+<section id="r-packages" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="r-packages"><span class="header-section-number">5.2</span> R packages</h2>
 <ul>
-<li>Nothing good ever comes easy</li>
-<li>Shinylive comes with a number of limitations:
+<li><p>Running R in the web is powered by the <a href="https://docs.r-wasm.org/webr/latest/">WebR framework</a></p></li>
+<li><p>Not all R (or Python) packages are available in WebR</p>
+<ul>
+<li>R packages need to be built for wasm</li>
+<li>If a package’s dependency cannot be built for wasm, it is not usable</li>
+<li>Only binary packages can be built</li>
+<li>Some features simply do not work:
+<ul>
+<li><code>system()</code> or any other system commands</li>
+<li>Database connections</li>
+<li>Parallelization</li>
+</ul></li>
+</ul></li>
+<li><p>You can check which packages are built for wasm <a href="https://repo.r-wasm.org/">here</a> (currently about 14,000 packages are available)</p></li>
+</ul>
+</section>
+<section id="other-limitations" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="other-limitations"><span class="header-section-number">5.3</span> Other Limitations</h2>
 <ul>
 <li>Can be quite slow on startup</li>
-<li>Not all R (or Python) packages are available
-<ul>
-<li>R packages need to be built for WebAssembly</li>
-<li>Only binary packages can be built</li>
-<li>You can check which packages are built for wasm <a href="https://repo.r-wasm.org/">here</a> (currently about 14,000 packages are available)</li>
-</ul></li>
-<li>Some R features do not work (e.g.&nbsp;parallelization, database connections, or system commands)</li>
 <li>Code and data are fully visible in the source code (thus not useful for sensitive data)</li>
 <li>App runs on the client machine and can thus be very slow and demanding</li>
+<li>The framework is in early development and its usage is not always the most user-friendly</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="resources/shinylive-error.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">A common Shinylive error</figcaption>
+</figure>
+</div>
+</section>
+<section id="downloading-assets" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="downloading-assets"><span class="header-section-number">5.4</span> Downloading assets</h2>
+<ul>
+<li><p>Shinylive is actually a library of web assets that run R in the background</p></li>
+<li><p>The <code>shinylive</code> package needs these assets to turn a Shiny app into HTML code</p></li>
+</ul>
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-5_48d86a94592863f960b57e04a4546563">
+<div class="sourceCode cell-code" id="cb2" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(shinylive)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">assets_ensure</span>()</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">assets_info</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="creating-the-app" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="creating-the-app"><span class="header-section-number">5.5</span> Creating the app</h2>
+<ul>
+<li>The <code>export</code> function creates a new directory, installs all WebR packages, and provides all asset files used to</li>
+</ul>
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-6_bfdbbc3ec0d0e05296a75624b2fb0fde">
+<div class="sourceCode cell-code" id="cb3" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">export</span>(<span class="st">"shinyapps/example"</span>, <span class="at">destdir =</span> <span class="st">"shinyapps/example/shinylive"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="embed-shinylive-in-quarto" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="embed-shinylive-in-quarto"><span class="header-section-number">5.6</span> Embed Shinylive in Quarto</h2>
+<ul>
+<li>Quarto supports Shinylive through the <code>shinylive</code> extension</li>
+</ul>
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-7_cacff4b1a52615b5ae270cb647ba7a6d">
+<div class="sourceCode cell-code" id="cb4" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>quarto<span class="sc">::</span><span class="fu">quarto_add_extension</span>(<span class="st">"quarto-ext/shinylive"</span>, <span class="at">no_prompt =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre data-code-line-numbers=""><code>[2K[G
+[&gt;] Downloading
+
+(|) Unzipping
+(/) Unzipping
+(-) Unzipping
+(\) Unzipping
+(|) Unzipping
+(/) Unzipping
+(-) Unzipping
+(\) Unzipping
+(|) Unzipping
+(/) Unzipping
+(-) Unzipping
+(\) Unzipping
+(|) Unzipping
+(/) Unzipping[2K[G
+[&gt;] Unzipping
+    Found 1 extension.
+
+The following changes will be made:
+Embedded Shinylive applications   [No Change]    (filter)
+
+[2K[G
+[&gt;] Extension installation complete.
+Learn more about this extension at https://www.github.com/quarto-ext/shinylive</code></pre>
+</div>
+</div>
+<ul>
+<li>In the YAML header, specify the <code>filters</code> keyword</li>
+</ul>
+<pre data-code-line-numbers=""><code>filters:
+  - shinylive</code></pre>
+<ul>
+<li><p>Shinylive code chunks must be marked with <code>shinylive-r</code> or <code>shinylive-python</code></p></li>
+<li><p>Four additional options are defined:</p>
+<ul>
+<li><p><code>standalone</code> specifies that the code chunk contains an entire app</p></li>
+<li><p><code>components</code> specifies whether to show a code editor next to the rendered app</p></li>
+<li><p><code>layout</code> specifies whether to show the components vertically or horizontally aligned</p></li>
+<li><p><code>viewerHeight</code> specifies the height of the app viewer in pixels</p></li>
 </ul></li>
 </ul>
-</section>
-</section>
-<section id="shinyapps.io" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> shinyapps.io</h1>
-<ul>
-<li>A common choice for more casual Shiny apps is shinyapps.io
-<ul>
-<li>It requires not much technical knowledge to deploy</li>
-<li>It does not require a pre-existing infrastructure (e.g., a server)</li>
-<li>It offers a free plan</li>
-</ul></li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="resources/shinyapps_plans.png" class="img-fluid figure-img"></p>
-<figcaption>Shinyapps.io plans</figcaption>
-</figure>
-</div>
-<section id="rsconnect" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="rsconnect"><span class="header-section-number">6.1</span> <code>rsconnect</code></h2>
-<ul>
-<li>Both for Posit Connect and shinyapps.io you need the <a href="https://rstudio.github.io/rsconnect/"><code>rsconnect</code></a> package</li>
-<li><code>rsconnect</code> enables the communication between the Posit services and R</li>
-</ul>
-<!-- -->
-<ul>
-<li><code>rsconnect</code> is built around the <a href="https://rstudio.github.io/rsconnect/reference/deployApp.html"><code>deployApp()</code></a>, <a href="https://rstudio.github.io/rsconnect/reference/deployAPI.html"><code>deployAPI()</code></a> and <a href="https://rstudio.github.io/rsconnect/reference/deployDoc.html"><code>deployDoc()</code></a> functions</li>
-</ul>
-</section>
-<section id="creating-an-account" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="creating-an-account"><span class="header-section-number">6.2</span> Creating an account</h2>
-<ul>
-<li>Before being able to deploy to Shinyapps, we need an account</li>
-<li>Accounts can be created per Email or using Google, Github or Clever</li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="resources/shinyapps_signup.png" class="img-fluid figure-img"></p>
-<figcaption>Shinyapps.io sign-up</figcaption>
-</figure>
-</div>
-</section>
-<section id="connecting-r-to-shinyapps.io" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="connecting-r-to-shinyapps.io"><span class="header-section-number">6.3</span> Connecting R to shinyapps.io</h2>
-<ul>
-<li>Just with any interface, linking works using Tokens and Secrets</li>
-<li>On your shinyapps dashboard, navigate to Account -&gt; Tokens on the sidebar</li>
-<li>Click on “Add Token”</li>
-<li>Click on “Show” next to your newly created token</li>
-<li>Paste the code into your console and execute</li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="resources/shinyapps_token.png" class="img-fluid figure-img"></p>
-<figcaption>Shinyapps token to connect with <code>rsconnect</code></figcaption>
-</figure>
-</div>
-</section>
-<section id="deploy" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="deploy"><span class="header-section-number">6.4</span> Deploy!</h2>
-<ul>
-<li>To verify that the verification process was successful we run:</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>rsconnect<span class="sc">::</span><span class="fu">accounts</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>```{shinylive-r, file=“shinyapps/example/app.R”} #| standalone: true #| components: [editor, viewer] #| layout: vertical #| viewerHeight: 400</p>
+<pre data-code-line-numbers=""><code>
+# shinyapps.io
+
+-   A common choice for more casual Shiny apps is shinyapps.io
+    -   It requires not much technical knowledge to deploy
+    -   It does not require a pre-existing infrastructure (e.g., a server)
+    -   It offers a free plan
+
+![Shinyapps.io plans](resources/shinyapps_plans.png)
+
+## `rsconnect`
+
+-   Both for Posit Connect and shinyapps.io you need the [`rsconnect`](https://rstudio.github.io/rsconnect/) package
+-   `rsconnect` enables the communication between the Posit services and R
+
+&lt;!-- --&gt;
+
+-   `rsconnect` is built around the [`deployApp()`](https://rstudio.github.io/rsconnect/reference/deployApp.html), [`deployAPI()`](https://rstudio.github.io/rsconnect/reference/deployAPI.html) and [`deployDoc()`](https://rstudio.github.io/rsconnect/reference/deployDoc.html) functions
+
+## Creating an account
+
+-   Before being able to deploy to Shinyapps, we need an account
+-   Accounts can be created per Email or using Google, Github or Clever
+
+![Shinyapps.io sign-up](resources/shinyapps_signup.png)
+
+## Connecting R to shinyapps.io
+
+-   Just with any interface, linking works using Tokens and Secrets
+-   On your shinyapps dashboard, navigate to Account -\&gt; Tokens on the sidebar
+-   Click on "Add Token"
+-   Click on "Show" next to your newly created token
+-   Paste the code into your console and execute
+
+![Shinyapps token to connect with `rsconnect`](resources/shinyapps_token.png)
+
+## Deploy!
+
+-   To verify that the verification process was successful we run:
+
+
+::: {.cell hash='07-deployment_cache/html/unnamed-chunk-8_a67f9f2d12dfdf61745aacf04c0db166'}
+
+```{.r .cell-code}
+rsconnect::accounts()</code></pre>
+<p>:::</p>
 <ul>
 <li>Finally, to deploy an app, we simply run <code>deployApp()</code> to deploy an <code>app.R</code> in the current working directory to shinyapps.io:</li>
 </ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>rsconnect<span class="sc">::</span><span class="fu">deployApp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-9_6ddfa7f67d0a6aec6de9f4f622b3bac5">
+<div class="sourceCode cell-code" id="cb8" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>rsconnect<span class="sc">::</span><span class="fu">deployApp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -589,27 +746,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/bookdown\.org\/paul\/shiny_workshop\/");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+  function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
+      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -619,17 +759,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start',
+      placement: 'bottom-start'
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -641,130 +772,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
-        }
-        return container.innerHTML
-      } else {
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(note);
-        }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
-    }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
-        }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
+      return note.innerHTML;
     });
   }
       let selectedAnnoteEl;
@@ -808,7 +816,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
-            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -834,8 +841,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-        // Handle positioning of the toggle
-    window.addEventListener(
+      // Handle positioning of the toggle
+      window.addEventListener(
       "resize",
       throttle(() => {
         elRect = undefined;
@@ -843,23 +850,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
           selectCodeLines(selectedAnnoteEl);
         }
       }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
               fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
       const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
       for (let i=0; i<annoteTargets.length; i++) {
         const annoteTarget = annoteTargets[i];
@@ -904,7 +911,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
               options: {
                 flipVariations: false, // true by default
                 allowedAutoPlacements: ['right'],
-                fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end'],
               },
             },
             {
@@ -962,6 +969,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/07-deployment.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.js" defer="true"></script>
+<script src="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.js" defer="true"></script>
 </body></html>

@@ -14,7 +14,7 @@ Sources: @wickham2021mastering [Ch. 3]
 # namer::name_chunks("04-server-reactive-programming.qmd")
 
 # install.packages("pacman)
-pacman::p_load(knitr, quarto, tidyverse, flair)
+pacman::p_load(knitr, quarto, tidyverse)
 ```
 
 
@@ -607,7 +607,7 @@ shinyApp(ui = ui, server = server)
 
 
 
-```{r eval=FALSE, file="shinyapps/guerry/states_paul/app_tab_tabulate.R"}
+```{r eval=FALSE}
 #| code-fold: true
 #| code-summary: R code underlying tabulate tab
 

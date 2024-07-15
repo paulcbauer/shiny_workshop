@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://bookdown.org/paul/shiny_workshop/index.html</loc>
-    <lastmod>2024-06-27T10:21:53.820Z</lastmod>
+    <lastmod>2024-07-15T14:54:10.202Z</lastmod>
   </url>
   <url>
     <loc>https://bookdown.org/paul/shiny_workshop/09-guerry-app-all-code.html</loc>
@@ -22,7 +22,7 @@
   </url>
   <url>
     <loc>https://bookdown.org/paul/shiny_workshop/01-workshop.html</loc>
-    <lastmod>2024-07-11T22:00:43.208Z</lastmod>
+    <lastmod>2024-07-15T14:54:18.461Z</lastmod>
   </url>
   <url>
     <loc>https://bookdown.org/paul/shiny_workshop/02-introduction.html</loc>
@@ -50,11 +50,11 @@
   </url>
   <url>
     <loc>https://bookdown.org/paul/shiny_workshop/06-visualization.html</loc>
-    <lastmod>2024-07-14T22:48:14.988Z</lastmod>
+    <lastmod>2024-07-15T14:48:07.065Z</lastmod>
   </url>
   <url>
     <loc>https://bookdown.org/paul/shiny_workshop/07-deployment.html</loc>
-    <lastmod>2024-07-14T22:50:13.465Z</lastmod>
+    <lastmod>2024-07-15T14:48:12.790Z</lastmod>
   </url>
   <url>
     <loc>https://bookdown.org/paul/shiny_workshop/06-visualization (1).html</loc>
@@ -66,6 +66,6 @@
   </url>
   <url>
     <loc>https://bookdown.org/paul/shiny_workshop/04-server-reactive-programming-i.html</loc>
-    <lastmod>2024-06-27T15:29:05.129Z</lastmod>
+    <lastmod>2024-07-15T14:47:48.990Z</lastmod>
   </url>
 </urlset>
