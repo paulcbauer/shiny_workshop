@@ -15,16 +15,16 @@ library(shiny)
   
   
   
-## Paul
+# Paul
 
-### Use Large Language Models (LLMs)
-
-
+## Use Large Language Models (LLMs)
 
 
-## Jonas
 
-### Use the browser inspector
+
+# Jonas
+
+## Use the browser inspector
 
 - Browser inspectors are an extremely powerful tool that goes far beyond the scope of this workshop
 - It can be used to take a deep look at a website
@@ -36,12 +36,21 @@ library(shiny)
   - Which HTTP requests are sent when running the Shiny app?
   - Does my website evoke any client-side errors?
   - ... and a lot more
+
+### Browser inspectors in the wild
+
 - Every popular browser has its own implementation of an inspector
   - [Firefox Page Inspector](https://firefox-source-docs.mozilla.org/devtools-user/page_inspector/)
   - [Chrome DevTools](https://developer.chrome.com/docs/devtools)
   - [Opera Web Inspector](https://dev.opera.com/extensions/testing/)
   - [Edge Inspect Tool](https://learn.microsoft.com/en-en/microsoft-edge/devtools-guide-chromium/css/inspect)
   - [Safari Web Inspector](https://developer.apple.com/documentation/safari-developer-tools/web-inspector)
+
+![Simulating an iPad view using the Firefox Page Inspector](resources/firefox-inspect.png)
+  
+
+### Pros and Cons  
+
 - Inspectors are useful for:
   - Conveying an understanding of essential HTML and CSS
   - Fine-tuning the UI of a Shiny app
@@ -51,7 +60,7 @@ library(shiny)
   - Exploring a new elaborate tool beyond Shiny is a bit too much
 
 
-### Organize your code
+## Organize your code
 
 - Shiny code becomes messy **really** quick!
 - It is even more important than in normal code to keep code clean and tidy
@@ -61,9 +70,7 @@ library(shiny)
   - Programming with organized code is much faster and much more fun
 
 
-#### What does code organisation entail?
-
-##### Functional programming
+### Functional programming
 - Wrap code in functions if:
   - It is repeated more than two times
   - It is complex and might profit from abstraction
@@ -80,7 +87,7 @@ geometric_mean <- function(x) exp(mean(log(x)))
 summarize(iris, across(where(is.numeric), geometric_mean))
 ```
   
-##### Stick to a style guide
+### Stick to a style guide
 - Adopting a consistent coding style drastically improves readability for yourself and contributors
 - The [styler](https://styler.r-lib.org/) and [lintr](https://lintr.r-lib.org/) packages automatically check your code for style inconsistencies, bad practictes, and possible syntactic/semantic errors
 - The following code is valid, but deciphering what's going on might take a while
@@ -106,7 +113,7 @@ input,output,session
 ```
 
   
-##### Annotate your code
+### Annotate your code
 
 - Even in smaller apps, Shiny code is multiple hundred lines long
 - RStudio annotations can help navigate large R code files
@@ -121,14 +128,14 @@ input,output,session
   
   ![Example of an RStudio outline](resources/rstudio_toc.png)
   
-##### Modularize your Shiny code
+### Modularize your Shiny code
 - If your Shiny app is divided into multiple tabs or sections, it might make sense to wrap it into modules
 - By modularizing, you divide a large Shiny app into multiple smaller pieces that are isolated from each other
 - Modularization is a very advanced topic and there is an [entire chapter in Mastering Shiny](https://mastering-shiny.org/scaling-modules.html) -- but it is good to know that it's possible
   
 ![Example of a modularized app](https://d33wubrfki0l68.cloudfront.net/3d9a229fec717ef7bfda8e17a9c9d4fdc66b8b08/953f7/diagrams/scaling-modules/after.png)
   
-##### Build your Shiny app as a package
+### Build your Shiny app as a package
 - This tip is particularly useful for larger apps
 - The idea is to build a robust scaffold around the Shiny app
 - A number of R packages specialize on this task: [Rhino](https://appsilon.github.io/rhino/) [golem](https://thinkr-open.github.io/golem/), and [leprechaun](https://leprechaun.opifex.org/)

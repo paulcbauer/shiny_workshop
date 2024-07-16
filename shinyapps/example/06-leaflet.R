@@ -1,12 +1,11 @@
-library(dplyr)
-library(tidyr)
+library(tidyverse)
 library(shiny)
 library(plotly)
 library(leaflet)
 library(haven)
 
-ess <- readRDS("data/ess_trust.rds")
-ess_geo <- readRDS("data/ess_trust_geo.rds")
+ess <- readRDS("ess_trust.rds")
+ess_geo <- readRDS("ess_trust_geo.rds")
 
 # UI ----
 ui <- fluidPage(

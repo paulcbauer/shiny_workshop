@@ -1436,15 +1436,15 @@ ess_geo <- readRDS("data/ess_trust_geo.rds")
 pal <- colorBin("YlOrRd", domain = ess_geo$trust_eu)
 
 leaflet(ess_geo) %>%
-    addTiles() %>%
-    setView(13, 45, 5) %>%
-    addPolygons(
-        fillColor = ~pal(trust_eu)
-    ) %>%
-    addLegend(
-        pal = pal,
-        values = ~trust_eu
-    )
+  addTiles() %>%
+  setView(13, 45, 5) %>%
+  addPolygons(
+    fillColor = ~pal(trust_eu)
+  ) %>%
+  addLegend(
+    pal = pal,
+    values = ~trust_eu
+  )
 ```
 :::
 
@@ -1595,6 +1595,91 @@ output$gmap <- renderLeaflet({
 :::
 
 ### Plot events
+
+::: callout-note
+#### Exercise 3.1
+
+Taking the code below, implement a proxy of the Leaflet map, that is, whenever the map is updated update the map proxy (`leafletProxy()`) instead of re-rendering the map. What are the advantages of updating the map using a proxy?
+
+Note that you need to isolate `input$xvar` in `renderLeaflet()`. This step is necessary in order to render the leaflet map exactly once. You can isolate an input by typing `isolate(input$xvar)`. Isolation severs an input from the reactive graph.
+
+```{r, eval=FALSE, file="shinyapps/example/states/06-exercise3_1.R"}
+#| code-fold: true
+#| code-summary: "Code for exercise 3.1"
+
+```
+:::
+
+::: {.callout-tip collapse="true"}
+The workflow to update the map using a proxy is the following:
+
+1. Render the map once using `renderLeaflet()`
+2. Everytime the map is updated (by changing `input$xvar`), trigger an observer
+3. The observer changes `leafletProxy("map")`
+4. Using the proxy, clear all polygons and add the updated polygons
+
+You can clear the existing polygons and the legend using the `leaflet::clearShapes()` and `leaflet::clearControls()` functions.
+:::
+
+::: {.callout-warning collapse="true"}
+#### Solution 3.1
+
+A solution for exercise 3.1 is presented in the collapsed code chunk below. A proxy is implemented by first rendering the map once through `renderLeaflet` and then triggering an observer each time the map is updated. The observer contains a call to `leafletProxy` which updates the map in place instead of re-rendering.
+
+Although the proxy does not serve any important purpose in this case, there are two key advantages which can be observed in the result:
+
+1. The map becomes much snappier, that means the updates are shown much faster than before
+2. The map view does not reset when the map updates. You can preserve the pan position and zoom level
+
+These advantages might be irrelevant in this scenario, but can come in handy in more specific use cases.
+
+
+```{r, eval=FALSE, file="shinyapps/example/states/06-exercise3_1_solution.R"}
+#| code-fold: true
+#| code-summary: "Complete solution code"
+#| source-line-numbers: "42,78-111"
+```
+:::
+
+
+::: callout-note
+#### Exercise 3.2
+
+Taking the code from exercise 3.1, add a proxy that adds small blue dots when clicking anywhere on one of the polygons.
+:::
+
+
+::: {.callout-tip collapse="true"}
+The proxy should only be triggered in case of a specific plot event. How can this plot event be accessed?
+
+To add a blue dot, see the [`addCircleMarkers`](https://rstudio.github.io/leaflet/reference/map-layers.html) function.
+:::
+
+
+
+
+
+
+::: callout-note
+#### Exercise 3.3
+
+So far, we have only talked about plot events in Leaflet. Taking the code below, implement an observer that prints the current plot coordinates every time the plot legend is double-clicked. Use plotly's [`event_data()`](https://rdrr.io/cran/plotly/man/event_data.html) function.
+
+```{r, eval=FALSE, file="shinyapps/example/states/06-exercise3_2.R"}
+#| code-fold: true
+#| code-summary: "Code for exercise 3.3"
+```
+:::
+
+
+::: {.callout-warning collapse="true"}
+#### Solution 3.3
+
+A solution for exercise 3.2 is presented in the collapsed code chunk below. 
+
+:::
+
+
 
 ### Beyond plotly and leaflet
 
