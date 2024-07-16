@@ -31,6 +31,7 @@ website:
       - 04-server-reactive-programming-i.qmd
       - 05-server-reactive-programming-ii.qmd
       - 06-visualization.qmd
+      - 07-deployment.qmd
       - 08-dos-and-donts.qmd
 
 
@@ -56,4 +57,5 @@ code-annotations: false
 filters:
   - quarto
   - line-highlight
+  - shinylive
 

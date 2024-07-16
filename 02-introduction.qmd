@@ -238,7 +238,7 @@ datasaurus_dozen <- datasaurus_dozen %>%
 
 
 ggplot(datasaurus_dozen, aes(x=x, y=y))+
-  geom_point()+
+  geom_point() +
   theme_minimal() +
   geom_text(x = 90, y = 85, aes(label = label)) +
   #geom_text(x = 80, y = 95, label=as.character(round(mean(~x),2))) +
@@ -369,7 +369,7 @@ install.packages("tidyverse")
 3. Create an rscript file in Rstudio and save it in the working directory with the name `app.R`.
 4. Copy the code below and paste it into your `app.R` script (UPDATE).
 
-```{r chunk-2, eval=FALSE, file="shinyapps/guerry/states_paul/app_tab_tabulate.R"}
+```{r chunk-2, eval=FALSE}
 #| code-fold: true
 #| code-summary: Code of the tabulate tab subset of the app
 

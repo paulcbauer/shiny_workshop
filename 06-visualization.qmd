@@ -3,14 +3,16 @@ title: "Modelling and visualizing data"
 ---
 
 ```{r, include=FALSE}
-library(dplyr)
-library(ggplot2)
+library(tidyverse)
 library(plotly)
 library(leaflet)
 library(htmltools)
 library(listviewer)
 library(htmlwidgets)
 library(haven)
+
+ess <- readRDS("data/ess_trust.rds")
+ess_geo <- readRDS("data/ess_trust_geo.rds")
 ```
 
 You will learn how to:
@@ -32,7 +34,7 @@ You will learn how to:
 -   Examples of these concepts can be seen in many Shiny apps, one example is Edward Parker's [COVID-19 tracker](https://vac-lshtm.shinyapps.io/ncov_tracker/)
 
 ::: callout-note
-Exercise
+#### Question
 
 Explore the COVID-19 tracker. Do you think this is a good Shiny app? If so, why? If not, why not?
 :::
@@ -81,6 +83,88 @@ Explore the COVID-19 tracker. Do you think this is a good Shiny app? If so, why?
 -   You need two things: `plotOutput()` (or similar) in the UI and `renderPlot()` (or similar) in the server function
     -   [`plotOutput()`](https://shiny.posit.co/r/reference/shiny/1.7.4/plotoutput) creates the empty element in the UI where the plot will go
     -   [`renderPlot()`](https://shiny.posit.co/r/reference/shiny/1.7.4/renderplot) renders the plot and updates the UI element every time a reactive dependency is invalidated
+
+## Data masking
+
+-   Data masking means that function arguments are not evaluated traditionally, but captured or "defused" for later use
+-   This strategy is employed by many functions for plotting or creating tables including the tidyverse (also called "tidy evaluation")
+-   In a practical sense, this means you can specify string values such as column names as you would variables
+-   To learn more about data masking in Shiny, see [chapter 20](https://adv-r.hadley.nz/evaluation.html) of Advanced R and [chapter 12](https://mastering-shiny.org/action-tidy.html#action-tidy) of Mastering Shiny
+
+```{r, eval=FALSE}
+# NSE as "tidy evaluation"
+ess %>%
+  summarize(mean = mean(trust_eu))
+
+# NSE in base R
+subset(ess, select = trust_eu)
+with(ess, sum(trust_eu))
+```
+
+### Why is data masking a problem?
+
+-   Data masks are a little tricky to handle in higher levels of abstraction, i.e. functions or reactive expressions
+-   In such cases, we do not need one specific variable, but a dynamically changing variable
+
+```{r, error=TRUE}
+plot_df <- function(df, var) {
+  ggplot(df) +
+    aes(x = var) +
+    geom_histogram()
+}
+
+plot_df(ess, "trust_eu")
+```
+
+### Strategy 1: Use tidy pronouns
+
+-   Tidyverse functions that feature tidy evaluation support the `.data` and `.env` pronouns
+-   The `.data` pronoun is a representation of the original data which can be used in a masked environment
+-   See also the [reference](https://rlang.r-lib.org/reference/dot-data.html) of `rlang`
+
+```{r, eval=FALSE}
+plot_df <- function(df, var) {
+  ggplot(df) +
+    aes(x = .data[[var]]) +
+    geom_histogram()
+}
+
+plot_df(ess, "trust_eu")
+```
+
+### Strategy 2: Convert strings to expressions
+
+-   Sometimes, masked expressions can simply be constructed as strings
+-   One example are formulas (e.g. in `lm(y ~ x1 + x2)`)
+-   The `as.formula` function can create formula objects manually
+
+```{r, eval=FALSE}
+linreg <- function(df, y, x) {
+  fm <- paste(y, "~", paste(x, collapse = " + "))
+  fm <- as.formula(fm)
+  lm(fm, data = df)
+}
+
+linreg(ess, y = "trust_eu", x = c("age", "left_right"))
+```
+
+### Strategy 3: Change names
+
+-   In case of poorly implemented data masking, no tools are available to inject variables
+-   One strategy to overcome such situations could be to simply change the object names
+
+```{r, eval=FALSE}
+plot_df <- function(df, var) {
+  df <- df[, var]
+  names(df) <- "x"
+
+  ggplot(df) +
+    aes(x = x) +
+    geom_histogram()
+}
+
+plot_df(ess, "trust_eu")
+```
 
 ## Interactivity
 
@@ -528,54 +612,49 @@ output$map <- renderLeaflet({
 #| source-line-numbers: "86-90,153-201"
 ```
 
-
 ## Reactivity
 
-- We already covered Shiny's reactivity quite extensively
-- Recall:
-  - A user changes an input
-  - The server processes that input
-  - The UI updates
-- It turns out, most plotting systems in Shiny support what we will call "plot events"
-
+-   We already covered Shiny's reactivity quite extensively
+-   Recall:
+    -   A user changes an input
+    -   The server processes that input
+    -   The UI updates
+-   It turns out, most plotting systems in Shiny support what we will call "plot events"
 
 ### Plot events
 
-- A plot event is triggered by a widget if a user interacts with it
-- In a sense, plot events are a cross-over of interactivity and reactivity
-- A plot event is hidden, i.e. it does not have to be explicitly defined in the UI -- it's just created automatically on the go.
-- By far not all widgets define plot events, but the most important plotting frameworks do:
-  - `plotly` defines a plethora of plot events through the `event_data` function
-  - `leaflet` automatically creates a number of plot events for each map
-  - Even basic plotting supports plot events through additional arguments to `plotOutput`
-- To illustrate plot events, we will use `leaflet` events
-
+-   A plot event is triggered by a widget if a user interacts with it
+-   In a sense, plot events are a cross-over of interactivity and reactivity
+-   A plot event is hidden, i.e. it does not have to be explicitly defined in the UI -- it's just created automatically on the go.
+-   By far not all widgets define plot events, but the most important plotting frameworks do:
+    -   `plotly` defines a plethora of plot events through the `event_data` function
+    -   `leaflet` automatically creates a number of plot events for each map
+    -   Even basic plotting supports plot events through additional arguments to `plotOutput`
+-   To illustrate plot events, we will use `leaflet` events
 
 ### Leaflet's plot events
 
-- Leaflet events are accessed like so:
+-   Leaflet events are accessed like so:
 
 ::: {style="font-size: 20px;"}
 `input$<Map ID>`{style="color: red;"}`_<Object type>`{style="color: green;"}`_<Event type>`{style="color: blue;"}
 :::
 
-- Map ID refers to the input ID given to the leaflet map
+-   Map ID refers to the input ID given to the leaflet map
 
 #### Leaflet object types
 
-- "Object type" refers to the geometry, which can be one of:
-  - `marker` for points
-  - `shape` for polygons and lines
-  - `geojson` and `topojson` for data that was passed in GeoJSON or TopoJSON format
-
+-   "Object type" refers to the geometry, which can be one of:
+    -   `marker` for points
+    -   `shape` for polygons and lines
+    -   `geojson` and `topojson` for data that was passed in GeoJSON or TopoJSON format
 
 #### Leaflet event types
 
-- "Event type" refers to the action that is performed on the geometry to trigger the event, one of:
-  - `click`
-  - `mouseover`
-  - `mouseout`
-
+-   "Event type" refers to the action that is performed on the geometry to trigger the event, one of:
+    -   `click`
+    -   `mouseover`
+    -   `mouseout`
 
 #### Other events
 
@@ -585,26 +664,20 @@ output$map <- renderLeaflet({
     -   `input$<Map ID>_zoom` provides the current zoom level
     -   `input$<Map ID>_center` provides the center point of the current view
 
-
-
 ## Proxies
 
-- Similar to plot events, most Shiny plotting frameworks implement what is called proxies
-- A proxy is a representation of an existing widget
-- Such proxies can be manipulated _in place_, i.e. they do not need to be re-rendered
-
+-   Similar to plot events, most Shiny plotting frameworks implement what is called proxies
+-   A proxy is a representation of an existing widget
+-   Such proxies can be manipulated *in place*, i.e. they do not need to be re-rendered
 
 ### Proxies in Shiny frameworks
 
+-   Many Shiny extensions provide proxy functions:
+    -   [`DT::dataTableProxy()`](https://rdrr.io/cran/DT/man/proxy.html)
+    -   [`plotly::plotlyProxy()`](https://rdrr.io/cran/plotly/man/plotlyProxy.html)
+    -   [`leaflet::leafletProxy()`](https://rstudio.github.io/leaflet/reference/leafletProxy.html)
 
-- Many Shiny extensions provide proxy functions:
-  - [`DT::dataTableProxy()`](https://rdrr.io/cran/DT/man/proxy.html)
-  - [`plotly::plotlyProxy()`](https://rdrr.io/cran/plotly/man/plotlyProxy.html)
-  - [`leaflet::leafletProxy()`](https://rstudio.github.io/leaflet/reference/leafletProxy.html)
-  
-  
 ### Proxy workflow
-
 
 1.  Initialize an isolated output widget (i.e., no dependencies) / `isolate()`
 2.  Create an observer that updates input dependencies / `observe()`
@@ -613,30 +686,35 @@ output$map <- renderLeaflet({
 
 ![Reactive graph for proxies](resources/proxies.svg)
 
-
 ### Manipulating proxies
 
-- Proxies are best combined with functions that add to, remove to, or clear a widget
-- The following table summarizes these functions
+-   Proxies are best combined with functions that add to, remove to, or clear a widget
+-   The following table summarizes these functions
 
-Category       | Add functions                                                  | Remove          | Clear
--------------- | -------------------------------------------------------------- | --------------- | ---------------
-tile           | `addTiles()`, `addProviderTiles()`                             | `removeTiles()` | `clearTiles()`
-marker         | `addMarkers()`, `addCircleMarkers()`                           | `removeMarker()`| `clearMarkers()`
-shape          | `addPolygons()`, `addPolylines()`, `addCircles()`, `addRectangles()` | `removeShape()`  | `clearShapes()`
-geojson        | `addGeoJSON()`                                                 | `removeGeoJSON()` | `clearGeoJSON()`
-topojson       | `addTopoJSON()`                                                | `removeTopoJSON()` | `clearTopoJSON()`
-control        | `addControl()`                                                 | `removeControl()` | `clearControls()`
-
++----------+----------------------------------------------------------------------+--------------------+-------------------+
+| Category | Add functions                                                        | Remove             | Clear             |
++==========+======================================================================+====================+===================+
+| tile     | `addTiles()`, `addProviderTiles()`                                   | `removeTiles()`    | `clearTiles()`    |
++----------+----------------------------------------------------------------------+--------------------+-------------------+
+| marker   | `addMarkers()`, `addCircleMarkers()`                                 | `removeMarker()`   | `clearMarkers()`  |
++----------+----------------------------------------------------------------------+--------------------+-------------------+
+| shape    | `addPolygons()`, `addPolylines()`, `addCircles()`, `addRectangles()` | `removeShape()`    | `clearShapes()`   |
++----------+----------------------------------------------------------------------+--------------------+-------------------+
+| geojson  | `addGeoJSON()`                                                       | `removeGeoJSON()`  | `clearGeoJSON()`  |
++----------+----------------------------------------------------------------------+--------------------+-------------------+
+| topojson | `addTopoJSON()`                                                      | `removeTopoJSON()` | `clearTopoJSON()` |
++----------+----------------------------------------------------------------------+--------------------+-------------------+
+| control  | `addControl()`                                                       | `removeControl()`  | `clearControls()` |
++----------+----------------------------------------------------------------------+--------------------+-------------------+
 
 ### Synthesis: Plot events, proxies, and plot manipulation
 
-- Proxies unleash their potential when combined with plot events and plot manipulation:
-- This combination allows users to manipulate plots themselves (e.g. adding or removing elements)
-- The following example makes use of all three concepts to create a map that can add and remove simple markers
-  - Plot events: `input$map_click` and `input$map_marker_click` to register where markers should be added and removed
-  - `leafletProxy("map")`: A proxy is needed to manipulate the map without resetting the view
-  - `addMarkers` and `removeMarker` to add and remove markers
+-   Proxies unleash their potential when combined with plot events and plot manipulation:
+-   This combination allows users to manipulate plots themselves (e.g. adding or removing elements)
+-   The following example makes use of all three concepts to create a map that can add and remove simple markers
+    -   Plot events: `input$map_click` and `input$map_marker_click` to register where markers should be added and removed
+    -   `leafletProxy("map")`: A proxy is needed to manipulate the map without resetting the view
+    -   `addMarkers` and `removeMarker` to add and remove markers
 
 ```{r, eval=FALSE}
 ui <- fluidPage(
@@ -672,10 +750,9 @@ server <- function(input, output, session) {
 runApp(shinyApp(ui, server))
 ```
 
-1. Render the leaflet map once. Note that the render function does not take any dependencies and is thus only run once.
-2. Add a marker every time the map is clicked somewhere. Note that the marker is added not to a new map, but to a proxy of the map that is already rendered.
-3. Remove a marker that is clicked. Note how the observer is only triggered when a marker is clicked, i.e. when `input$map_marker_click` is triggered.
-
+1.  Render the leaflet map once. Note that the render function does not take any dependencies and is thus only run once.
+2.  Add a marker every time the map is clicked somewhere. Note that the marker is added not to a new map, but to a proxy of the map that is already rendered.
+3.  Remove a marker that is clicked. Note how the observer is only triggered when a marker is clicked, i.e. when `input$map_marker_click` is triggered.
 
 ## Exercise session
 
@@ -1061,6 +1138,462 @@ output$hist <- renderPlotly({
 
 ### Leaflet
 
+::: callout-note
+#### Exercise 2.1
+
+Add a new tab to the app. Add an output canvas to the UI and a render function to the server function such that the new tab is able to display an interactive leaflet widget.
+:::
+
+::: {.callout-warning collapse="true"}
+#### Solution 2.1
+
+In the UI, add a new `tabPanel()` to the `tabsetPanel()`.
+
+```{r, eval=FALSE}
+#| source-line-numbers: "26-30"
+mainPanel(
+  tabsetPanel(
+    type = "tabs",
+    
+    ### Table tab ----
+    tabPanel(
+      title = "Table",
+      div(
+        style = "height: 600px; overflow-y: auto;",
+        tableOutput("table")
+      )
+    ),
+    
+    ### Plot tab ----
+    tabPanel(
+      title = "Plot",
+      plotlyOutput("plot", height = 600)
+    ),
+    
+    ### Map tab ----
+    tabPanel(
+      title = "Map",
+      leafletOutput("map", height = 600)
+    ),
+
+    ### New tab ----
+    tabPanel(
+      title = "Countries",
+      leafletOutput("countrymap", height = 600)
+    )
+  )
+)
+```
+
+In the server function, add `renderLeaflet` and assign it to the output object.
+
+```{r, eval=FALSE}
+output$hist <- renderLeaflet({
+
+})
+```
+
+```{r, eval=FALSE}
+#| code-fold: true
+#| code-summary: "Complete code (important lines are highlighted)"
+#| source-line-numbers: "92-96,209-211"
+library(dplyr)
+library(tidyr)
+library(shiny)
+library(plotly)
+library(leaflet)
+library(haven)
+
+ess <- readRDS("data/ess_trust.rds")
+ess_geo <- readRDS("data/ess_trust_geo.rds")
+
+# UI ----
+ui <- fluidPage(
+  titlePanel("European Social Survey - round 10"),
+  
+  ## Sidebar ----
+  sidebarLayout(
+    sidebarPanel(
+      ### select dependent variable
+      selectInput(
+        "xvar",
+        label = "Select a dependent variable",
+        choices = c(
+          "Trust in country's parliament" = "trust_parliament",
+          "Trust in the legal system" = "trust_legal",
+          "Trust in the police" = "trust_police",
+          "Trust in politicians" = "trust_politicians",
+          "Trust in political parties" = "trust_parties",
+          "Trust in the European Parliament" = "trust_eu",
+          "Trust in the United Nations" = "trust_un"
+        )
+      ),
+      
+      ### select a variable ----
+      selectInput(
+        "yvar",
+        label = "Select an independent variable",
+        choices = c(
+          "Placement on the left-right scale" = "left_right",
+          "Age" = "age",
+          "Feeling about household's income" = "income_feeling",
+          "How often do you use the internet?" = "internet_use",
+          "How happy are you?" = "happiness"
+        )
+      ),
+      
+      ### select a country ----
+      selectizeInput(
+        "countries",
+        label = "Filter by country",
+        choices = unique(ess$country),
+        selected = "FR",
+        multiple = TRUE
+      ),
+      
+      ### filter values ----
+      sliderInput(
+        "range",
+        label = "Set a value range",
+        min = min(ess$trust_parliament, na.rm = TRUE),
+        max = max(ess$trust_parliament, na.rm = TRUE),
+        value = range(ess$trust_parliament, na.rm = TRUE),
+        step = 1
+      )
+    ),
+    
+    ## Main panel ----
+    mainPanel(
+      tabsetPanel(
+        type = "tabs",
+        
+        ### Table tab ----
+        tabPanel(
+          title = "Table",
+          div(
+            style = "height: 600px; overflow-y: auto;",
+            tableOutput("table")
+          )
+        ),
+        
+        ### Plot tab ----
+        tabPanel(
+          title = "Plot",
+          plotlyOutput("plot", height = 600)
+        ),
+        
+        ### Map tab ----
+        tabPanel(
+          title = "Map",
+          leafletOutput("map", height = 600)
+        ),
+
+        ### New tab ----
+        tabPanel(
+          title = "Histogram",
+          leafletOutput("hist", height = 600)
+        )
+      )
+    )
+  )
+)
+
+
+# Server ----
+server <- function(input, output, session) {
+  # update slider ----
+  observe({
+    var <- na.omit(ess[[input$xvar]])
+    is_ordered <- is.ordered(var)
+    var <- as.numeric(var)
+    updateSliderInput(
+      inputId = "range",
+      min = min(var),
+      max = max(var),
+      value = range(var),
+      step = if (is_ordered) 1
+    )
+  }) %>%
+    bindEvent(input$xvar)
+  
+  # filter data ----
+  filtered <- reactive({
+    req(input$countries, cancelOutput = TRUE)
+    
+    xvar <- input$xvar
+    yvar <- input$yvar
+    range <- input$range
+    
+    # select country
+    ess <- ess[ess$country %in% input$countries, ]
+    
+    # select variable
+    ess <- ess[c("idno", "country", xvar, yvar)]
+    
+    # apply range
+    ess <- ess[ess[[xvar]] > range[1] & ess[[xvar]] < range[2], ]
+    ess
+  })
+  
+  # render table ----
+  output$table <- renderTable({
+    filtered()
+  }, height = 400)
+  
+  # render plot ----
+  output$plot <- renderPlotly({
+    xvar <- input$xvar
+    yvar <- input$yvar
+    plot_data <- filtered() %>%
+      drop_na() %>%
+      mutate(across(where(is.numeric), .fns = as.ordered))
+    
+    p <- ggplot(plot_data) +
+      aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
+      geom_violin(fill = "lightblue", show.legend = FALSE) +
+      theme_classic()
+    ggplotly(p)
+  })
+  
+  # render map ----
+  output$map <- renderLeaflet({
+    var <- input$xvar
+    ess_geo <- ess_geo[c("country", var)]
+    
+    # create labels with a bold title and a body
+    labels <- sprintf(
+      "<strong>%s</strong><br>%s",
+      ess_geo$country,
+      ess_geo[[var]]
+    )
+    labels <- lapply(labels, HTML)
+    
+    # create a palette for numerics and ordinals
+    if (is.ordered(ess_geo[[var]])) {
+      pal <- colorFactor("YlOrRd", domain = NULL)
+    } else {
+      pal <- colorNumeric("YlOrRd", domain = NULL)
+    }
+    
+    # construct leaflet canvas
+    leaflet(ess_geo) %>%
+      # add base map
+      addTiles() %>%
+      # add choropleths
+      addPolygons(
+        fillColor = pal(ess_geo[[var]]),
+        weight = 2,
+        opacity = 1,
+        color = "white",
+        fillOpacity = 0.7,
+        # highlight polygons on hover
+        highlightOptions = highlightOptions(
+          weight = 2,
+          color = "#666",
+          fillOpacity = 0.7,
+          bringToFront = TRUE
+        ),
+        label = labels
+      ) %>%
+      # add a legend
+      addLegend(
+        position = "bottomleft",
+        pal = pal,
+        values = ess_geo[[var]],
+        opacity = 0.7,
+        title = var
+      )
+  })
+  
+  output$hist <- renderLeaflet({
+    
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+:::
+
+::: callout-note
+#### Exercise 2.2
+
+In section 4, we added an interactive map showing the average of the ESS dataset across Europe. For this exercise, create an interactive map that maps one of the trust variables using a binned scale. Add a basemap, polygons, a legend, and set the default view on Southeastern Europe.
+:::
+
+::: {.callout-warning collapse="true"}
+#### Solution 2.2
+
+-   `colorBin` creates a binned palette function to use in Leaflet. The `domain` argument must be passed, else the legend will be empty
+-   `addTiles` adds an OpenStreetMap basemap
+-   `setView` zooms in to a specific location
+-   `addPolygons` adds polygon data to the map
+    -   The `fillColor` argument takes a vector of colors which can be created using the `pal` palette function
+-   `addLegend` adds the legend
+
+```{r}
+ess_geo <- readRDS("data/ess_trust_geo.rds")
+
+pal <- colorBin("YlOrRd", domain = ess_geo$trust_eu)
+
+leaflet(ess_geo) %>%
+    addTiles() %>%
+    setView(13, 45, 5) %>%
+    addPolygons(
+        fillColor = ~pal(trust_eu)
+    ) %>%
+    addLegend(
+        pal = pal,
+        values = ~trust_eu
+    )
+```
+:::
+
+::: callout-note
+#### Exercise 2.3
+
+Customize the map from exercise 2.2 according to the following requests:
+
+-   Increase the fill opacity to 60%
+-   Replace the polygon borders with small, opaque, black lines
+-   Replace the OpenStreetMap basemap with a Stamen basemap
+-   Add a small blue dot where GESIS Mannheim is (Longitude: 8.46°, Latitude: 49.48°)
+-   Move the legend to the bottomleft and make it opaque
+:::
+
+::: {.callout-warning collapse="true"}
+#### Solution 2.3
+
+-   Fill opacity is controlled with the `fillOpacity` argument to `addPolygons`
+-   Border size is controlled with the `weight` argument
+-   Border opacity is controlled with the `opacity` argument
+-   Border color is controlled with the `color` argument
+-   Basemaps from known providers can be added with the `addProviderTiles` function
+-   Dots can be added with the `addCircleMarkers` function
+    -   To control color and size, you can use the `color`, `fillOpacity`, `opacity`, and `radius` arguments
+-   Legend positioning is controlled with the `position` argument of `addLegend`
+
+```{r}
+pal <- colorBin("YlOrRd", domain = ess_geo$trust_eu)
+
+leaflet(ess_geo) %>%
+    addProviderTiles("Stadia.StamenTerrain") %>%
+    setView(13, 45, 5) %>%
+    addPolygons(
+      fillColor = ~pal(trust_eu),
+      color = "black",
+      opacity = 1,
+      weight = 1,
+      fillOpacity = 0.6
+    ) %>%
+    addLegend(
+      pal = pal,
+      values = ~trust_eu,
+      position = "bottomright",
+      opacity = 1
+    ) %>%
+    addCircleMarkers(
+      lng = 8.46,
+      lat = 49.48,
+      color = "blue",
+      fillOpacity = 1,
+      opacity = 1,
+      radius = 3
+    )
+```
+:::
+
+::: callout-note
+#### Exercise 2.4
+
+In section 4, we added labels that appear when hovering over a polygon. In this exercise, add labels that appear when clicking on the GESIS marker from the last exercise. The label should read "This is **GESIS** in Mannheim, DE" (incl. formatting).
+:::
+
+::: {.callout-warning collapse="true"}
+#### Solution 2.3
+
+```{r}
+pal <- colorBin("YlOrRd", domain = ess_geo$trust_eu)
+popup <- HTML("This is <strong>GESIS</strong> in Mannheim, DE")
+
+leaflet(ess_geo) %>%
+    addProviderTiles("Stadia.StamenTerrain") %>%
+    setView(13, 45, 5) %>%
+    addPolygons(
+      fillColor = ~pal(trust_eu),
+      color = "black",
+      opacity = 1,
+      weight = 1,
+      fillOpacity = 0.6
+    ) %>%
+    addLegend(
+      pal = pal,
+      values = ~trust_eu,
+      position = "bottomright",
+      opacity = 1
+    ) %>%
+    addCircleMarkers(
+      lng = 8.46,
+      lat = 49.48,
+      color = "blue",
+      fillOpacity = 1,
+      opacity = 1,
+      radius = 3,
+      popup = popup
+    )
+```
+:::
+
+::: callout-note
+#### Exercise 2.5
+
+Implement the leafelt map from exercise 2.2 to 2.4 in the Shiny app. Instead of plotting a single static variable, link the histogram to the input selector for the dependent variable (`input$xvar`) such that choosing a different trust variable updates the histogram.
+:::
+
+::: {.callout-warning collapse="true"}
+#### Solution 2.5
+
+```{r, eval=FALSE, results='asis'}
+output$gmap <- renderLeaflet({
+  xvar <- input$xvar
+  pal <- colorBin("YlOrRd", domain = ess_geo[[xvar]])
+  popup <- HTML("This is <strong>GESIS</strong> in Mannheim, DE")
+
+  leaflet(ess_geo) %>%
+    addProviderTiles("Stadia.StamenTerrain") %>%
+    setView(13, 45, 5) %>%
+    addPolygons(
+      fillColor = pal(ess_geo[[xvar]]),
+      color = "black",
+      opacity = 1,
+      weight = 1,
+      fillOpacity = 0.6
+    ) %>%
+    addLegend(
+      pal = pal,
+      values = ess_geo[[xvar]],
+      position = "bottomright",
+      opacity = 1
+    ) %>%
+    addCircleMarkers(
+      lng = 8.46,
+      lat = 49.48,
+      color = "blue",
+      fillOpacity = 1,
+      opacity = 1,
+      radius = 3,
+      popup = popup
+    )
+})
+```
+
+```{r, eval=FALSE, file="shinyapps/example/states/06-exercise2.R"}
+#| code-fold: true
+#| code-summary: "Complete code (important lines are highlighted)"
+#| source-line-numbers: "92-96,209-240"
+
+```
+:::
+
 ### Plot events
 
 ### Beyond plotly and leaflet
@@ -1076,12 +1609,12 @@ Thinking back to the list of Javascript libraries for interactive plotting in se
 
 Add a new tab to the app. Replicate the violin plots from section 3 as boxplots using an R interface of your choice.
 
-Note that not all plotting libraries support violin and boxplots to the same degree. 
+Note that not all plotting libraries support violin and boxplots to the same degree.
 :::
-
 
 ::: {.callout-warning collapse="true"}
 #### Example solution 4.2
+
 An example solution with the `highcharter` package:
 
 ```{r, eval=FALSE, file="shinyapps/example/states/06-exercise4_highcharts.R"}

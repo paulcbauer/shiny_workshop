@@ -73,6 +73,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.css" rel="stylesheet">
+<meta name="shinylive:serviceworker_dir" content=".">
+<script src="site_libs/quarto-contrib/shinylive-0.2.3/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="site_libs/quarto-contrib/shinylive-0.2.3/shinylive/run-python-blocks.js" type="module"></script>
+<link href="site_libs/quarto-contrib/shinylive-0.2.3/shinylive/shinylive.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -117,12 +123,102 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <meta name="twitter:card" content="summary">
 </head>
 
-<body>
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-deployment.html">Strengthen &amp; Deploy</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Interactive Data Analysis with Shiny</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://training.gesis.org/?site=pDetails&amp;child=full&amp;pID=0x0D17F8F738B14E0991504DBF8823A002" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-cursor-fill"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop/issues" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-bug-fill"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-workshop.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About this workshop</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-user-interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">User Interface (UI): Designing the front end</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-server-reactive-programming-i.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Server: Reactive programming</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-server-reactive-programming-ii.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Server: Reactive programming II</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelling and visualizing data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-deployment.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Strengthen &amp; Deploy</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-dos-and-donts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Good practices when building your own app</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -151,12 +247,23 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   </ul></li>
   <li><a href="#deployment" id="toc-deployment" class="nav-link" data-scroll-target="#deployment"><span class="header-section-number">4</span> Deployment</a>
   <ul class="collapse">
-  <li><a href="#where-to-deploy" id="toc-where-to-deploy" class="nav-link" data-scroll-target="#where-to-deploy"><span class="header-section-number">4.1</span> Where to deploy</a></li>
-  <li><a href="#shinyapps.io" id="toc-shinyapps.io" class="nav-link" data-scroll-target="#shinyapps.io"><span class="header-section-number">4.2</span> shinyapps.io</a></li>
-  <li><a href="#rsconnect" id="toc-rsconnect" class="nav-link" data-scroll-target="#rsconnect"><span class="header-section-number">4.3</span> <code>rsconnect</code></a></li>
-  <li><a href="#creating-an-account" id="toc-creating-an-account" class="nav-link" data-scroll-target="#creating-an-account"><span class="header-section-number">4.4</span> Creating an account</a></li>
-  <li><a href="#connecting-r-to-shinyapps.io" id="toc-connecting-r-to-shinyapps.io" class="nav-link" data-scroll-target="#connecting-r-to-shinyapps.io"><span class="header-section-number">4.5</span> Connecting R to shinyapps.io</a></li>
-  <li><a href="#deploy" id="toc-deploy" class="nav-link" data-scroll-target="#deploy"><span class="header-section-number">4.6</span> Deploy!</a></li>
+  <li><a href="#deployment-options" id="toc-deployment-options" class="nav-link" data-scroll-target="#deployment-options"><span class="header-section-number">4.1</span> Deployment options</a></li>
+  </ul></li>
+  <li><a href="#shinylive" id="toc-shinylive" class="nav-link" data-scroll-target="#shinylive"><span class="header-section-number">5</span> Shinylive</a>
+  <ul class="collapse">
+  <li><a href="#whats-so-cool-about-shinylive" id="toc-whats-so-cool-about-shinylive" class="nav-link" data-scroll-target="#whats-so-cool-about-shinylive"><span class="header-section-number">5.1</span> Whats so cool about Shinylive?</a></li>
+  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages"><span class="header-section-number">5.2</span> R packages</a></li>
+  <li><a href="#other-limitations" id="toc-other-limitations" class="nav-link" data-scroll-target="#other-limitations"><span class="header-section-number">5.3</span> Other Limitations</a></li>
+  <li><a href="#downloading-assets" id="toc-downloading-assets" class="nav-link" data-scroll-target="#downloading-assets"><span class="header-section-number">5.4</span> Downloading assets</a></li>
+  <li><a href="#creating-the-app" id="toc-creating-the-app" class="nav-link" data-scroll-target="#creating-the-app"><span class="header-section-number">5.5</span> Creating the app</a></li>
+  <li><a href="#embed-shinylive-in-quarto" id="toc-embed-shinylive-in-quarto" class="nav-link" data-scroll-target="#embed-shinylive-in-quarto"><span class="header-section-number">5.6</span> Embed Shinylive in Quarto</a></li>
+  </ul></li>
+  <li><a href="#shinyapps.io" id="toc-shinyapps.io" class="nav-link" data-scroll-target="#shinyapps.io"><span class="header-section-number">6</span> shinyapps.io</a>
+  <ul class="collapse">
+  <li><a href="#rsconnect" id="toc-rsconnect" class="nav-link" data-scroll-target="#rsconnect"><span class="header-section-number">6.1</span> <code>rsconnect</code></a></li>
+  <li><a href="#creating-an-account" id="toc-creating-an-account" class="nav-link" data-scroll-target="#creating-an-account"><span class="header-section-number">6.2</span> Creating an account</a></li>
+  <li><a href="#connecting-r-to-shinyapps.io" id="toc-connecting-r-to-shinyapps.io" class="nav-link" data-scroll-target="#connecting-r-to-shinyapps.io"><span class="header-section-number">6.3</span> Connecting R to shinyapps.io</a></li>
+  <li><a href="#deploy" id="toc-deploy" class="nav-link" data-scroll-target="#deploy"><span class="header-section-number">6.4</span> Deploy!</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/07-deployment.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -237,7 +344,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <li>Simply run your app within a <code>profvis::profvis()</code> call:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">profvis</span>({<span class="fu">runApp</span>()})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">profvis</span>({<span class="fu">runApp</span>()})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -345,8 +452,8 @@ Note
 <li>The deployment of Shiny apps is restricted to servers that support Shiny apps</li>
 <li>You can either set up a custom Shiny server or use a server provider</li>
 </ul>
-<section id="where-to-deploy" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="where-to-deploy"><span class="header-section-number">4.1</span> Where to deploy</h2>
+<section id="deployment-options" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="deployment-options"><span class="header-section-number">4.1</span> Deployment options</h2>
 <table class="caption-top table">
 <caption>Shiny app hosting</caption>
 <thead>
@@ -368,20 +475,350 @@ Note
 <td><code>rsconnect</code> R package</td>
 </tr>
 <tr class="odd">
-<td><a href="https://posit.co/products/open-source/shinyserver/">Shiny Server</a></td>
+<td><a href="https://posit.co/products/open-source/shinyserver/">Shiny Server</a> / self-hosting</td>
 <td>Setting up self-hosted Shiny servers</td>
 <td>Shiny Server on a Linux server</td>
 </tr>
 <tr class="even">
-<td><a href="https://www.shinyproxy.io/">ShinyProxy</a> / <a href="https://www.heroku.com/">Heroku</a></td>
+<td><a href="https://www.shinyproxy.io/">ShinyProxy</a> / <a href="https://www.heroku.com/">Heroku</a> / <a href="https://huggingface.co/docs/hub/spaces-sdks-docker-shiny">Hugging Face</a></td>
 <td>Deployment of containerized applications</td>
 <td>Docker</td>
+</tr>
+<tr class="odd">
+<td><a href="https://posit-dev.github.io/r-shinylive/">Shinylive</a></td>
+<td>Simple applications in an embedded setting</td>
+<td>An existing static website</td>
+</tr>
+<tr class="even">
+<td>GitHub / CRAN / BioConductor</td>
+<td>Applications for researchers or developers</td>
+<td>Proficiency in R package development</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="shinyapps.io" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="shinyapps.io"><span class="header-section-number">4.2</span> shinyapps.io</h2>
+</section>
+<section id="shinylive" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Shinylive</h1>
+<ul>
+<li><a href="https://posit-dev.github.io/r-shinylive/">Shinylive</a> is one of Posit’s new things</li>
+<li>An application deployed with Shinylive does not need a server: It is a static website!</li>
+<li>This is possible primarily due to developments in what is called <a href="https://en.wikipedia.org/wiki/WebAssembly"><strong>WebAssembly</strong></a> <strong>(Wasm)</strong></li>
+<li>If you are interested in the magic behind Shinylive and Wasm, check out Joe Cheng’s talk at posit::conf(2023)</li>
+</ul>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/j1M6YyU2ZX8?si=LKNEUV8I2IEZaP8r" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
+</iframe>
+<section id="whats-so-cool-about-shinylive" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="whats-so-cool-about-shinylive"><span class="header-section-number">5.1</span> Whats so cool about Shinylive?</h2>
+<ul>
+<li>You can simply embed your Shiny app:
+<ul>
+<li>In your personal website</li>
+<li>In your Quarto/RMarkdown document</li>
+<li>In your package documentation</li>
+<li>In another Shiny app (do try this at home)</li>
+</ul></li>
+</ul>
+</section>
+<section id="r-packages" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="r-packages"><span class="header-section-number">5.2</span> R packages</h2>
+<ul>
+<li>Running R in the web is powered by the <a href="https://docs.r-wasm.org/webr/latest/">WebR framework</a></li>
+<li>Not all R (or Python) packages are available in WebR
+<ul>
+<li>R packages need to be built for wasm</li>
+<li>If a package’s dependency cannot be built for wasm, it is not usable</li>
+<li>Only binary packages can be built</li>
+<li>Some features simply do not work:
+<ul>
+<li><code>system()</code> or any other system commands</li>
+<li>Database connections</li>
+<li>Parallelization</li>
+</ul></li>
+</ul></li>
+<li>You can check which packages are built for wasm <a href="https://repo.r-wasm.org/">here</a> (currently about 14,000 packages are available)</li>
+</ul>
+</section>
+<section id="other-limitations" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="other-limitations"><span class="header-section-number">5.3</span> Other Limitations</h2>
+<ul>
+<li>Can be quite slow on startup</li>
+<li>Code and data are fully visible in the source code (thus not useful for sensitive data)</li>
+<li>App runs on the client machine and can thus be very slow and demanding</li>
+<li>The framework is in early development and its usage is not always the most user-friendly</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="resources/shinylive-error.png" class="img-fluid figure-img"></p>
+<figcaption>A common Shinylive error</figcaption>
+</figure>
+</div>
+</section>
+<section id="downloading-assets" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="downloading-assets"><span class="header-section-number">5.4</span> Downloading assets</h2>
+<ul>
+<li>Shinylive is actually a library of web assets that run R in the background</li>
+<li>The <code>shinylive</code> package needs these assets to turn a Shiny app into HTML code</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(shinylive)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">assets_ensure</span>()</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">assets_info</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre data-code-line-numbers=""><code>shinylive R package version:  0.1.1
+shinylive web assets version: 0.2.3
+
+Local cached shinylive asset dir:
+    C:\Users\PC\AppData\Local\shinylive\shinylive\Cache
+
+Installed assets:
+    C:/Users/PC/AppData/Local/shinylive/shinylive/Cache/shinylive-0.2.3</code></pre>
+</div>
+</div>
+</section>
+<section id="creating-the-app" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="creating-the-app"><span class="header-section-number">5.5</span> Creating the app</h2>
+<ul>
+<li>The <code>export</code> function creates a new directory, installs all WebR packages, and provides all asset files used to</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">export</span>(<span class="st">"shinyapps/example"</span>, <span class="at">destdir =</span> <span class="st">"shinyapps/example/shinylive"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="embed-shinylive-in-quarto" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="embed-shinylive-in-quarto"><span class="header-section-number">5.6</span> Embed Shinylive in Quarto</h2>
+<ul>
+<li>Quarto supports Shinylive through the <code>shinylive</code> extension</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>quarto<span class="sc">::</span><span class="fu">quarto_add_extension</span>(<span class="st">"quarto-ext/shinylive"</span>, <span class="at">no_prompt =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>In the YAML header, specify the <code>filters</code> keyword</li>
+</ul>
+<pre data-code-line-numbers=""><code>filters:
+  - shinylive</code></pre>
+<ul>
+<li>Shinylive code chunks must be marked with <code>shinylive-r</code> or <code>shinylive-python</code></li>
+<li>Four additional options are defined:
+<ul>
+<li><code>standalone</code> specifies that the code chunk contains an entire app</li>
+<li><code>components</code> specifies whether to show a code editor next to the rendered app</li>
+<li><code>layout</code> specifies whether to show the components vertically or horizontally aligned</li>
+<li><code>viewerHeight</code> specifies the height of the app viewer in pixels</li>
+</ul></li>
+</ul>
+<pre class="shinylive-r" data-code-line-numbers="" data-engine="r"><code>#| standalone: true
+#| components: [editor, viewer]
+#| layout: vertical
+#| viewerHeight: 400
+library(tidyverse)
+library(shiny)
+library(plotly)
+library(leaflet)
+library(haven)
+
+ess &lt;- readRDS("states/data/ess_trust.rds")
+ess_geo &lt;- readRDS("states/data/ess_trust_geo.rds")
+
+# UI ----
+ui &lt;- fluidPage(
+  titlePanel("European Social Survey - round 10"),
+  
+  ## Sidebar ----
+  sidebarLayout(
+    sidebarPanel(
+      ### select dependent variable
+      selectInput(
+        "xvar",
+        label = "Select a dependent variable",
+        choices = c(
+          "Trust in country's parliament" = "trust_parliament",
+          "Trust in the legal system" = "trust_legal",
+          "Trust in the police" = "trust_police",
+          "Trust in politicians" = "trust_politicians",
+          "Trust in political parties" = "trust_parties",
+          "Trust in the European Parliament" = "trust_eu",
+          "Trust in the United Nations" = "trust_un"
+        )
+      ),
+      
+      ### select a variable ----
+      selectInput(
+        "yvar",
+        label = "Select an independent variable",
+        choices = c(
+          "Placement on the left-right scale" = "left_right",
+          "Age" = "age",
+          "Feeling about household's income" = "income_feeling",
+          "How often do you use the internet?" = "internet_use",
+          "How happy are you?" = "happiness"
+        )
+      ),
+      
+      ### select a country ----
+      selectizeInput(
+        "countries",
+        label = "Filter by country",
+        choices = unique(ess$country),
+        selected = "FR",
+        multiple = TRUE
+      ),
+      
+      ### filter values ----
+      sliderInput(
+        "range",
+        label = "Set a value range",
+        min = min(ess$trust_parliament, na.rm = TRUE),
+        max = max(ess$trust_parliament, na.rm = TRUE),
+        value = range(ess$trust_parliament, na.rm = TRUE),
+        step = 1
+      )
+    ),
+    
+    ## Main panel ----
+    mainPanel(
+      tabsetPanel(
+        type = "tabs",
+        
+        ### Table tab ----
+        tabPanel(
+          title = "Table",
+          div(
+            style = "height: 600px; overflow-y: auto;",
+            tableOutput("table")
+          )
+        ),
+        
+        ### Plot tab ----
+        tabPanel(
+          title = "Plot",
+          plotlyOutput("plot", height = 600)
+        ),
+        
+        ### Map tab ----
+        tabPanel(
+          title = "Map",
+          leafletOutput("map", height = 600)
+        )
+      )
+    )
+  )
+)
+
+
+# Server ----
+server &lt;- function(input, output, session) {
+  # update slider ----
+  observe({
+    var &lt;- na.omit(ess[[input$xvar]])
+    is_ordered &lt;- is.ordered(var)
+    var &lt;- as.numeric(var)
+    updateSliderInput(
+      inputId = "range",
+      min = min(var),
+      max = max(var),
+      value = range(var),
+      step = if (is_ordered) 1
+    )
+  }) %&gt;%
+    bindEvent(input$xvar)
+  
+  # filter data ----
+  filtered &lt;- reactive({
+    req(input$countries, cancelOutput = TRUE)
+    
+    xvar &lt;- input$xvar
+    yvar &lt;- input$yvar
+    range &lt;- input$range
+    
+    # select country
+    ess &lt;- ess[ess$country %in% input$countries, ]
+    
+    # select variable
+    ess &lt;- ess[c("idno", "country", xvar, yvar)]
+    
+    # apply range
+    ess &lt;- ess[ess[[xvar]] &gt; range[1] &amp; ess[[xvar]] &lt; range[2], ]
+    ess
+  })
+  
+  # render table ----
+  output$table &lt;- renderTable({
+    filtered()
+  }, height = 400)
+
+  # render plot ----
+  output$plot &lt;- renderPlotly({
+    xvar &lt;- input$xvar
+    yvar &lt;- input$yvar
+    plot_data &lt;- filtered() %&gt;%
+      drop_na() %&gt;%
+      mutate(across(where(is.numeric), .fns = as.ordered))
+
+    p &lt;- ggplot(plot_data) +
+      aes(x = .data[[yvar]], y = .data[[xvar]], group = .data[[yvar]]) +
+      geom_violin(fill = "lightblue", show.legend = FALSE) +
+      theme_classic()
+    plotly::ggplotly(p)
+  })
+  
+  # render map ----
+  output$map &lt;- renderLeaflet({
+    var &lt;- input$xvar
+    ess_geo &lt;- ess_geo[c("country", var)]
+    
+    # create labels with a bold title and a body
+    labels &lt;- sprintf(
+      "&lt;strong&gt;%s&lt;/strong&gt;&lt;br&gt;%s",
+      ess_geo$country,
+      ess_geo[[var]]
+    )
+    labels &lt;- lapply(labels, HTML)
+    
+    # create a palette for numerics and ordinals
+    if (is.ordered(ess_geo[[var]])) {
+      pal &lt;- colorFactor("YlOrRd", domain = NULL)
+    } else {
+      pal &lt;- colorNumeric("YlOrRd", domain = NULL)
+    }
+
+    # construct leaflet canvas
+    leaflet(ess_geo) %&gt;%
+      # add base map
+      addTiles() %&gt;%
+      # add choropleths
+      addPolygons(
+        fillColor = pal(ess_geo[[var]]),
+        weight = 2,
+        opacity = 1,
+        color = "white",
+        fillOpacity = 0.7,
+        # highlight polygons on hover
+        highlightOptions = highlightOptions(
+          weight = 2,
+          color = "#666",
+          fillOpacity = 0.7,
+          bringToFront = TRUE
+        ),
+        label = labels
+      ) %&gt;%
+      # add a legend
+      addLegend(
+        position = "bottomleft",
+        pal = pal,
+        values = ess_geo[[var]],
+        opacity = 0.7,
+        title = var
+      )
+  })
+}
+
+shinyApp(ui = ui, server = server)</code></pre>
+</section>
+</section>
+<section id="shinyapps.io" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> shinyapps.io</h1>
 <ul>
 <li>A common choice for more casual Shiny apps is shinyapps.io
 <ul>
@@ -396,9 +833,8 @@ Note
 <figcaption>Shinyapps.io plans</figcaption>
 </figure>
 </div>
-</section>
-<section id="rsconnect" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="rsconnect"><span class="header-section-number">4.3</span> <code>rsconnect</code></h2>
+<section id="rsconnect" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="rsconnect"><span class="header-section-number">6.1</span> <code>rsconnect</code></h2>
 <ul>
 <li>Both for Posit Connect and shinyapps.io you need the <a href="https://rstudio.github.io/rsconnect/"><code>rsconnect</code></a> package</li>
 <li><code>rsconnect</code> enables the communication between the Posit services and R</li>
@@ -408,8 +844,8 @@ Note
 <li><code>rsconnect</code> is built around the <a href="https://rstudio.github.io/rsconnect/reference/deployApp.html"><code>deployApp()</code></a>, <a href="https://rstudio.github.io/rsconnect/reference/deployAPI.html"><code>deployAPI()</code></a> and <a href="https://rstudio.github.io/rsconnect/reference/deployDoc.html"><code>deployDoc()</code></a> functions</li>
 </ul>
 </section>
-<section id="creating-an-account" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="creating-an-account"><span class="header-section-number">4.4</span> Creating an account</h2>
+<section id="creating-an-account" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="creating-an-account"><span class="header-section-number">6.2</span> Creating an account</h2>
 <ul>
 <li>Before being able to deploy to Shinyapps, we need an account</li>
 <li>Accounts can be created per Email or using Google, Github or Clever</li>
@@ -421,8 +857,8 @@ Note
 </figure>
 </div>
 </section>
-<section id="connecting-r-to-shinyapps.io" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="connecting-r-to-shinyapps.io"><span class="header-section-number">4.5</span> Connecting R to shinyapps.io</h2>
+<section id="connecting-r-to-shinyapps.io" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="connecting-r-to-shinyapps.io"><span class="header-section-number">6.3</span> Connecting R to shinyapps.io</h2>
 <ul>
 <li>Just with any interface, linking works using Tokens and Secrets</li>
 <li>On your shinyapps dashboard, navigate to Account -&gt; Tokens on the sidebar</li>
@@ -437,19 +873,19 @@ Note
 </figure>
 </div>
 </section>
-<section id="deploy" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="deploy"><span class="header-section-number">4.6</span> Deploy!</h2>
+<section id="deploy" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="deploy"><span class="header-section-number">6.4</span> Deploy!</h2>
 <ul>
 <li>To verify that the verification process was successful we run:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>rsconnect<span class="sc">::</span><span class="fu">accounts</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>rsconnect<span class="sc">::</span><span class="fu">accounts</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Finally, to deploy an app, we simply run <code>deployApp()</code> to deploy an <code>app.R</code> in the current working directory to shinyapps.io:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>rsconnect<span class="sc">::</span><span class="fu">deployApp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>rsconnect<span class="sc">::</span><span class="fu">deployApp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -910,4 +1346,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/07-deployment.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/07-deployment.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.js" defer="true"></script>
+</body></html>

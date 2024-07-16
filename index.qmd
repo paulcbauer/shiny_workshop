@@ -16,7 +16,7 @@ format:
 ```{r cache=TRUE, include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+  unique(renv::dependencies()$Package), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
 library(pacman)
 ```

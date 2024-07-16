@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -186,6 +220,12 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./07-deployment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Strengthen &amp; Deploy</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./08-dos-and-donts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Good practices when building your own app</span></a>
   </div>
@@ -241,11 +281,17 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <ul>
 <li>Paul
 <ul>
-<li>Currently <a href="https://www.mzes.uni-mannheim.de/d7/en">MZES</a> Research fellow (University of Mannheim)</li>
-<li>Previously… University of Bern (PhD, 2015), European University Institute (Postdoc, 15’-17’)</li>
-<li>My research interests: political sociology &amp; methodology [see <a href="https://scholar.google.com/citations?user=hw-b-MkAAAAJ&amp;hl=en&amp;oi=ao">Google Scholar</a>)</li>
-<li>Started R around 2009, first shiny apps ~2015 for teaching/research purposes (e.g., <a href="https://paulcbauer.shinyapps.io/transformations_of_variables/">here</a> and <a href="https://paulcbauer.shinyapps.io/visualizing-causal-scenarios/">here</a>)</li>
-<li>Contact: <code>mail@paulcbauer.de</code>; <a href="https://sites.google.com/paulcbauer.de/web/">www.paulcbauer.de</a>; <a href="https://twitter.com/p_c_bauer">Twitter</a>; <a href="https://github.com/paulcbauer">Github</a></li>
+<li>Instructor at University of Freiburg (Department of politics), Postdoc at LMU Munich (statistics department, Frauke Kreuter), External fellow at <a href="https://www.mzes.uni-mannheim.de/d7/en">MZES</a></li>
+<li>Previously
+<ul>
+<li>PhD at the <a href="http://www.unibe.ch/index_eng.html">University of Bern</a></li>
+<li>research/postdoctoral fellow at the <a href="https://www.mzes.uni-mannheim.de/d7/en">MZES</a>, the <a href="https://www.eui.eu/">EUI</a> (Florence, Italy)</li>
+</ul></li>
+<li>My <a href="https://sites.google.com/view/paulcbauer/publications">research</a> (<a href="https://scholar.google.ch/citations?user=hw-b-MkAAAAJ&amp;hl=en">Google Scholar</a>, <a href="https://github.com/paulcbauer">Github</a>)
+<ul>
+<li><strong>Substantive</strong>: Political sociology &amp; comparative politics (Trust, polarization, social media, fake news)</li>
+<li><strong>Methods/data</strong>: Causal inference, experiments, text data, data visualization, machine learning, big data (Google trends, Twitter)</li>
+</ul></li>
 </ul></li>
 <li>Jonas
 <ul>
@@ -386,19 +432,31 @@ workshop?
 <li>Install the necessary packages using the code below.</li>
 </ul></li>
 </ul>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre data-code-line-numbers=""><code># install.packages('pacman')
-library(pacman)
-p_load('gt', 'gtsummary',
-'modelsummary', 'gifski', 'png', 'datasauRus', 'ggplot2', 'gganimate', 'dplyr',
-'shiny', 'htmltools', 'bs4Dash', 'fresh', 'waiter', 'shinyWidgets', 'Guerry',
-'sf', 'tidyr', 'RColorBrewer', 'viridis', 'leaflet', 'plotly', 'jsonlite',
-'GGally', 'datawizard', 'parameters', 'performance', 'ggdark', 'reactlog',
-'tidyverse', 'listviewer', 'htmlwidgets', 'haven', 'profvis', 'rsconnect',
-'whereami', 'DT')</code></pre>
-</div>
-</div>
+<div class="sourceCode" id="cb1" data-code-line-numbers=""><pre class="sourceCode numberSource {r} number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href="#cb1-1"></a>pacman::p_load(c(</span>
+<span id="cb1-2"><a href="#cb1-2"></a>   apexcharter,</span>
+<span id="cb1-3"><a href="#cb1-3"></a>   datasauRus,</span>
+<span id="cb1-4"><a href="#cb1-4"></a>   gganimate,</span>
+<span id="cb1-5"><a href="#cb1-5"></a>   gifski,</span>
+<span id="cb1-6"><a href="#cb1-6"></a>   gt,</span>
+<span id="cb1-7"><a href="#cb1-7"></a>   gtsummary,</span>
+<span id="cb1-8"><a href="#cb1-8"></a>   haven,</span>
+<span id="cb1-9"><a href="#cb1-9"></a>   highcharter,</span>
+<span id="cb1-10"><a href="#cb1-10"></a>   htmltools,</span>
+<span id="cb1-11"><a href="#cb1-11"></a>   kableExtra,</span>
+<span id="cb1-12"><a href="#cb1-12"></a>   leaflet,</span>
+<span id="cb1-13"><a href="#cb1-13"></a>   listviewer,</span>
+<span id="cb1-14"><a href="#cb1-14"></a>   modelsummary,</span>
+<span id="cb1-15"><a href="#cb1-15"></a>   pacman,</span>
+<span id="cb1-16"><a href="#cb1-16"></a>   pak,</span>
+<span id="cb1-17"><a href="#cb1-17"></a>   plotly,</span>
+<span id="cb1-18"><a href="#cb1-18"></a>   png,</span>
+<span id="cb1-19"><a href="#cb1-19"></a>   quarto,</span>
+<span id="cb1-20"><a href="#cb1-20"></a>   sf,</span>
+<span id="cb1-21"><a href="#cb1-21"></a>   shiny,</span>
+<span id="cb1-22"><a href="#cb1-22"></a>   shinydashboard,</span>
+<span id="cb1-23"><a href="#cb1-23"></a>   shinylive,</span>
+<span id="cb1-24"><a href="#cb1-24"></a>   tidyverse</span>
+<span id="cb1-25"><a href="#cb1-25"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Shiny <span class="citation" data-cites="chang2020 wickham2021mastering">(<a href="#ref-chang2020" role="doc-biblioref">Chang et al. 2022</a>; <a href="#ref-wickham2021mastering" role="doc-biblioref">Wickham 2021</a>)</span></li>
 <li>Ggplot2<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <span class="citation" data-cites="wickham2016">(<a href="#ref-wickham2016" role="doc-biblioref">Wickham 2016</a>)</span></li>

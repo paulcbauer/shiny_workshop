@@ -2,12 +2,17 @@
 title: "Strengthen & Deploy"
 ---
 
+```{r, include=FALSE}
+library(profvis)
+library(reactlog)
+library(shinylive)
+library(httpuv)
+library(rsconnect)
+```
 
-Learning outcomes
-- Debug Shiny apps and understand them from the inside
-- Supervise and test Shiny apps for robustness (appendix)
-- Convert simple Shiny apps to static website using shinylive
-- Deploy any Shiny app to the web using shinyapps.io
+
+
+Learning outcomes - Debug Shiny apps and understand them from the inside - Supervise and test Shiny apps for robustness (appendix) - Convert simple Shiny apps to static website using shinylive - Deploy any Shiny app to the web using shinyapps.io
 
 # Deploying Shiny apps
 
@@ -119,18 +124,329 @@ htmltools::tags$iframe(src = "shinyapps/guerry/guerry_reactlog.html", width = "1
 -   The deployment of Shiny apps is restricted to servers that support Shiny apps
 -   You can either set up a custom Shiny server or use a server provider
 
-## Where to deploy
+## Deployment options
 
-| Name                                                                         | Use                                      | Requirements                   |
-|-----------------------------------|-------------------|------------------|
-| [shinyapps.io](https://www.shinyapps.io/)                                    | Casual to professional applications      | `rsconnect` R package          |
-| [Posit Connect](https://posit.co/products/enterprise/connect/)               | Professional to corporate applications   | `rsconnect` R package          |
-| [Shiny Server](https://posit.co/products/open-source/shinyserver/)           | Setting up self-hosted Shiny servers     | Shiny Server on a Linux server |
-| [ShinyProxy](https://www.shinyproxy.io/) / [Heroku](https://www.heroku.com/) | Deployment of containerized applications | Docker                         |
+| Name                                                                                                                                                    | Use                                        | Requirements                         |
+|------------------------------------------|---------------|---------------|
+| [shinyapps.io](https://www.shinyapps.io/)                                                                                                               | Casual to professional applications        | `rsconnect` R package                |
+| [Posit Connect](https://posit.co/products/enterprise/connect/)                                                                                          | Professional to corporate applications     | `rsconnect` R package                |
+| [Shiny Server](https://posit.co/products/open-source/shinyserver/) / self-hosting                                                                       | Setting up self-hosted Shiny servers       | Shiny Server on a Linux server       |
+| [ShinyProxy](https://www.shinyproxy.io/) / [Heroku](https://www.heroku.com/) / [Hugging Face](https://huggingface.co/docs/hub/spaces-sdks-docker-shiny) | Deployment of containerized applications   | Docker                               |
+| [Shinylive](https://posit-dev.github.io/r-shinylive/)                                                                                                   | Simple applications in an embedded setting | An existing static website           |
+| GitHub / CRAN / BioConductor                                                                                                                            | Applications for researchers or developers | Proficiency in R package development |
 
 : Shiny app hosting
 
-## shinyapps.io
+# Shinylive
+
+-   [Shinylive](https://posit-dev.github.io/r-shinylive/) is one of Posit's new things
+-   An application deployed with Shinylive does not need a server: It is a static website!
+-   This is possible primarily due to developments in what is called [**WebAssembly**](https://en.wikipedia.org/wiki/WebAssembly) **(Wasm)**
+-   If you are interested in the magic behind Shinylive and Wasm, check out Joe Cheng's talk at posit::conf(2023)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/j1M6YyU2ZX8?si=LKNEUV8I2IEZaP8r" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+
+</iframe>
+
+## Whats so cool about Shinylive?
+
+-   You can simply embed your Shiny app:
+    -   In your personal website
+    -   In your Quarto/RMarkdown document
+    -   In your package documentation
+    -   In another Shiny app (do try this at home)
+
+## R packages
+
+-   Running R in the web is powered by the [WebR framework](https://docs.r-wasm.org/webr/latest/)
+-   Not all R (or Python) packages are available in WebR
+    -   R packages need to be built for wasm
+    -   If a package's dependency cannot be built for wasm, it is not usable
+    -   Only binary packages can be built
+    -   Some features simply do not work:
+        -   `system()` or any other system commands
+        -   Database connections
+        -   Parallelization
+-   You can check which packages are built for wasm [here](https://repo.r-wasm.org/) (currently about 14,000 packages are available)
+
+```{r, include=FALSE}
+knitr::include_url("https://repo.r-wasm.org/")
+```
+
+## Other Limitations
+
+-   Can be quite slow on startup
+-   Code and data are fully visible in the source code (thus not useful for sensitive data)
+-   App runs on the client machine and can thus be very slow and demanding
+-   The framework is in early development and its usage is not always the most user-friendly
+
+![A common Shinylive error](resources/shinylive-error.png)
+
+## Downloading assets
+
+-   Shinylive is actually a library of web assets that run R in the background
+-   The `shinylive` package needs these assets to turn a Shiny app into HTML code
+
+```{r}
+library(shinylive)
+assets_ensure()
+assets_info()
+```
+
+## Creating the app
+
+-   The `export` function creates a new directory, installs all WebR packages, and provides all asset files used to
+
+```{r, eval=FALSE}
+export("shinyapps/example", destdir = "shinyapps/example/shinylive")
+```
+
+-   In theory, the resulting HTML document can now simply be opened
+-   In practice, however, the HTML document must be opened on a static server, e.g. using the `httpuv` package:
+
+```{r, eval=FALSE}
+httpuv::runStaticServer("shinyapps/example/shinylive")
+```
+
+
+
+## Embed Shinylive in Quarto
+
+-   Quarto supports Shinylive through the `shinylive` extension
+
+```{r, eval=FALSE}
+quarto::quarto_add_extension("quarto-ext/shinylive", no_prompt = TRUE)
+```
+
+-   In the YAML header, specify the `filters` keyword
+
+```         
+filters:
+  - shinylive
+```
+
+-   Shinylive code chunks must be marked with `shinylive-r` or `shinylive-python`
+-   Four additional options are defined:
+    -   `standalone` specifies that the code chunk contains an entire app
+    -   `components` specifies whether to show a code editor next to the rendered app
+    -   `layout` specifies whether to show the components vertically or horizontally aligned
+    -   `viewerHeight` specifies the height of the app viewer in pixels
+
+
+
+```{shinylive-r}
+#| standalone: true
+#| components: [editor, viewer]
+#| layout: vertical
+#| viewerHeight: 400
+library(tidyverse)
+library(shiny)
+library(plotly)
+library(leaflet)
+library(haven)
+
+ess <- readRDS("states/data/ess_trust.rds")
+ess_geo <- readRDS("states/data/ess_trust_geo.rds")
+
+# UI ----
+ui <- fluidPage(
+  titlePanel("European Social Survey - round 10"),
+  
+  ## Sidebar ----
+  sidebarLayout(
+    sidebarPanel(
+      ### select dependent variable
+      selectInput(
+        "xvar",
+        label = "Select a dependent variable",
+        choices = c(
+          "Trust in country's parliament" = "trust_parliament",
+          "Trust in the legal system" = "trust_legal",
+          "Trust in the police" = "trust_police",
+          "Trust in politicians" = "trust_politicians",
+          "Trust in political parties" = "trust_parties",
+          "Trust in the European Parliament" = "trust_eu",
+          "Trust in the United Nations" = "trust_un"
+        )
+      ),
+      
+      ### select a variable ----
+      selectInput(
+        "yvar",
+        label = "Select an independent variable",
+        choices = c(
+          "Placement on the left-right scale" = "left_right",
+          "Age" = "age",
+          "Feeling about household's income" = "income_feeling",
+          "How often do you use the internet?" = "internet_use",
+          "How happy are you?" = "happiness"
+        )
+      ),
+      
+      ### select a country ----
+      selectizeInput(
+        "countries",
+        label = "Filter by country",
+        choices = unique(ess$country),
+        selected = "FR",
+        multiple = TRUE
+      ),
+      
+      ### filter values ----
+      sliderInput(
+        "range",
+        label = "Set a value range",
+        min = min(ess$trust_parliament, na.rm = TRUE),
+        max = max(ess$trust_parliament, na.rm = TRUE),
+        value = range(ess$trust_parliament, na.rm = TRUE),
+        step = 1
+      )
+    ),
+    
+    ## Main panel ----
+    mainPanel(
+      tabsetPanel(
+        type = "tabs",
+        
+        ### Table tab ----
+        tabPanel(
+          title = "Table",
+          div(
+            style = "height: 600px; overflow-y: auto;",
+            tableOutput("table")
+          )
+        ),
+        
+        ### Plot tab ----
+        tabPanel(
+          title = "Plot",
+          plotlyOutput("plot", height = 600)
+        ),
+        
+        ### Map tab ----
+        tabPanel(
+          title = "Map",
+          leafletOutput("map", height = 600)
+        )
+      )
+    )
+  )
+)
+
+
+# Server ----
+server <- function(input, output, session) {
+  # update slider ----
+  observe({
+    var <- na.omit(ess[[input$xvar]])
+    is_ordered <- is.ordered(var)
+    var <- as.numeric(var)
+    updateSliderInput(
+      inputId = "range",
+      min = min(var),
+      max = max(var),
+      value = range(var),
+      step = if (is_ordered) 1
+    )
+  }) %>%
+    bindEvent(input$xvar)
+  
+  # filter data ----
+  filtered <- reactive({
+    req(input$countries, cancelOutput = TRUE)
+    
+    xvar <- input$xvar
+    yvar <- input$yvar
+    range <- input$range
+    
+    # select country
+    ess <- ess[ess$country %in% input$countries, ]
+    
+    # select variable
+    ess <- ess[c("idno", "country", xvar, yvar)]
+    
+    # apply range
+    ess <- ess[ess[[xvar]] > range[1] & ess[[xvar]] < range[2], ]
+    ess
+  })
+  
+  # render table ----
+  output$table <- renderTable({
+    filtered()
+  }, height = 400)
+
+  # render plot ----
+  output$plot <- renderPlotly({
+    xvar <- input$xvar
+    yvar <- input$yvar
+    plot_data <- filtered() %>%
+      drop_na() %>%
+      mutate(across(where(is.numeric), .fns = as.ordered))
+
+    p <- ggplot(plot_data) +
+      aes(x = .data[[yvar]], y = .data[[xvar]], group = .data[[yvar]]) +
+      geom_violin(fill = "lightblue", show.legend = FALSE) +
+      theme_classic()
+    plotly::ggplotly(p)
+  })
+  
+  # render map ----
+  output$map <- renderLeaflet({
+    var <- input$xvar
+    ess_geo <- ess_geo[c("country", var)]
+    
+    # create labels with a bold title and a body
+    labels <- sprintf(
+      "<strong>%s</strong><br>%s",
+      ess_geo$country,
+      ess_geo[[var]]
+    )
+    labels <- lapply(labels, HTML)
+    
+    # create a palette for numerics and ordinals
+    if (is.ordered(ess_geo[[var]])) {
+      pal <- colorFactor("YlOrRd", domain = NULL)
+    } else {
+      pal <- colorNumeric("YlOrRd", domain = NULL)
+    }
+
+    # construct leaflet canvas
+    leaflet(ess_geo) %>%
+      # add base map
+      addTiles() %>%
+      # add choropleths
+      addPolygons(
+        fillColor = pal(ess_geo[[var]]),
+        weight = 2,
+        opacity = 1,
+        color = "white",
+        fillOpacity = 0.7,
+        # highlight polygons on hover
+        highlightOptions = highlightOptions(
+          weight = 2,
+          color = "#666",
+          fillOpacity = 0.7,
+          bringToFront = TRUE
+        ),
+        label = labels
+      ) %>%
+      # add a legend
+      addLegend(
+        position = "bottomleft",
+        pal = pal,
+        values = ess_geo[[var]],
+        opacity = 0.7,
+        title = var
+      )
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+
+
+# shinyapps.io
 
 -   A common choice for more casual Shiny apps is shinyapps.io
     -   It requires not much technical knowledge to deploy
