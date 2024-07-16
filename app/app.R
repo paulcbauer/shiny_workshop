@@ -4,8 +4,8 @@ library(plotly)
 library(leaflet)
 library(haven)
 
-ess <- readRDS("ess_trust.rds")
-ess_geo <- readRDS("ess_trust_geo.rds")
+ess <- readRDS("states/data/ess_trust.rds")
+ess_geo <- readRDS("states/data/ess_trust_geo.rds")
 
 # UI ----
 ui <- fluidPage(
