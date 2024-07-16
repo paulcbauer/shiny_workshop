@@ -10,6 +10,9 @@ library(htmltools)
 library(listviewer)
 library(htmlwidgets)
 library(haven)
+
+ess <- readRDS("data/ess_trust.rds")
+ess_geo <- readRDS("data/ess_trust_geo.rds")
 ```
 
 You will learn how to:
@@ -162,8 +165,6 @@ plot_df <- function(df, var) {
 
 plot_df(ess, "trust_eu")
 ```
-
-
 
 ## Interactivity
 

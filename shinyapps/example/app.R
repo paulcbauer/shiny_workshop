@@ -1,5 +1,4 @@
-library(dplyr)
-library(tidyr)
+library(tidyverse)
 library(shiny)
 library(plotly)
 library(leaflet)

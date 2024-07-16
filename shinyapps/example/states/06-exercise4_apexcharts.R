@@ -4,6 +4,7 @@ library(shiny)
 library(plotly)
 library(leaflet)
 library(haven)
+library(apexcharter)
 
 ess <- readRDS("data/ess_trust.rds")
 ess_geo <- readRDS("data/ess_trust_geo.rds")

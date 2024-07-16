@@ -975,7 +975,7 @@ shinyApp(ui, server)
   - Let's do this together!
 
 
-```{r eval=FALSE, file="shinyapps/guerry/states_paul/app_tab_introduction.R"}
+```{r eval=FALSE}
 #| code-fold: true
 #| code-summary: Full R code including Shiny events
 
