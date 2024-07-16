@@ -41,12 +41,14 @@ This document serves as slides and script for the workshop ***Interactive Data A
 <br><br>
 
 ## About us (Paul & Jonas)
-- Paul
-	- Currently [MZES](https://www.mzes.uni-mannheim.de/d7/en) Research fellow (University of Mannheim)
-	- Previously... University of Bern (PhD, 2015), European University Institute (Postdoc, 15'-17')
-	- My research interests: political sociology & methodology [see [Google Scholar](https://scholar.google.com/citations?user=hw-b-MkAAAAJ&hl=en&oi=ao))
-	- Started R around 2009, first shiny apps ~2015 for teaching/research purposes (e.g., [here](https://paulcbauer.shinyapps.io/transformations_of_variables/) and [here](https://paulcbauer.shinyapps.io/visualizing-causal-scenarios/))
-	- Contact: `mail@paulcbauer.de`; [www.paulcbauer.de](https://sites.google.com/paulcbauer.de/web/); [Twitter](https://twitter.com/p_c_bauer); [Github](https://github.com/paulcbauer)
+- Paul	
+  + Instructor at University of Freiburg (Department of politics), Postdoc at LMU Munich (statistics department, Frauke Kreuter), External fellow at [MZES](https://www.mzes.uni-mannheim.de/d7/en)
+  + Previously
+    + PhD at the [University of Bern](http://www.unibe.ch/index_eng.html)
+    + research/postdoctoral fellow at the [MZES](https://www.mzes.uni-mannheim.de/d7/en), the [EUI](https://www.eui.eu/) (Florence, Italy)
+  + My [research](https://sites.google.com/view/paulcbauer/publications) ([Google Scholar](https://scholar.google.ch/citations?user=hw-b-MkAAAAJ&hl=en), [Github](https://github.com/paulcbauer))
+    + **Substantive**: Political sociology & comparative politics (Trust, polarization, social media, fake news)
+    + **Methods/data**: Causal inference, experiments, text data, data visualization, machine learning, big data (Google trends, Twitter)
 - Jonas
 	- Currently a research fellow at GESIS' survey data curation (SDC) department
 	- PhD student interested in social geography, spatial data science, and computational text analysis
