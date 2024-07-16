@@ -8,7 +8,7 @@ title: "User Interface (UI): Designing the front end"
   - Become familiar with various UI widgets
   - Create the foundations for reactive plots, tables, and maps
 
-Sources: @wickham2021mastering [Ch. 2]
+Source(s): @wickham2021mastering [Ch. 2]
 
 
 ```{r 03-user-interface-1, message=FALSE, warning=FALSE, include=FALSE}
@@ -23,12 +23,12 @@ pacman::p_load(knitr, quarto)
 
 
 ## Basics
-- Shiny encourages separation of code that generates UI (*front end*) from code that drives app's behaviour (*server/back end*).
+- Shiny encourages separation of code that generates **UI (*front end*)** from code that drives **app's behaviour (*server/back end*)**.
 - Here focus on front end & tour of Shiny inputs and outputs
   - won't stitch inputs and outputs together yet
 - primary focus on native Shiny components (contained in `Shiny` package) but vibrant community (see [awesome shiny extenstions](https://github.com/nanxstats/awesome-shiny-extensions))
 
-
+![](resources/reactivity_workflow_simplified.svg)
 
 ## UI: Layout
 - Any Shiny app consists of `ui`, `server` and `shinyApp(ui=ui, server = server)`
@@ -38,19 +38,19 @@ pacman::p_load(knitr, quarto)
 - `fluidPage()` creates the classic fluid page layout
 - `dashboardPage()` create a dashboard layout (Guerry dashboard uses that!)
 
-### fluidPage
+### fluidPage (1)
 - `fluidPage()`: Creates most basic layout
   - display that automatically adjusts to user's browser dimensions (smartphone!)
   - layout consists of rows containing columns
     - rows making sure elements appear on the same line
-    - columns define how much horizontal space elements should occupy (within a **12-unit wide grid**)
-- Below a UI with title panel and sidebar panel
+    - columns define usage of horizontal space (within a **12-unit wide grid**)
+- **UI with title panel and sidebar panel**
     + `titlePanel()` and `sidebarLayout()` create a basic Shiny app/layout with a sidebar
     + `sidebarLayout()` takes two functions
         + `sidebarPanel()`: Includes content displayed in the sidebar
         + `mainPanel()`: Includes content displayed in the main panel
-- - `fluidRow()` and `column()`: Divide ui into rows/columns
-* **Try the code below** by pasting it into your console and running it. It will only create a user interface.
+    + `fluidRow()` and `column()`: Divide ui into rows/columns
+* **Try code below** by pasting it into your console and running it
 
 ```{r 03-user-interface-2, cache=TRUE, eval=FALSE, include=TRUE}
 #| code-fold: true
@@ -77,8 +77,8 @@ server <- function(input, output, session){}
 shinyApp(ui=ui, server = server)
 ```
 
+### fluidPage (2)
 - Change `sidebarLayout(position = "right",...)` to position sidebar on the right
-- `navbarPage()`: Create a [multi-page user-interface](http://shiny.rstudio.com/gallery/navbar-example.html) that includes a navigation bar
 - Sometimes adding borders helps..
 
 ```{r 03-user-interface-2-3, cache=TRUE, eval=FALSE, include=TRUE}
@@ -111,11 +111,12 @@ shinyApp(ui=ui, server = server)
 
 ```
 
-#### Creating panels and tabs
+
+### fluidPage (3): Creating panels and tabs
 
 * `tabsetPanel()` + `tabPanel()`
     + Allows for using sidebar layout but dividing main panel into tabs
-    + Users can switch between tabs that can be used to display various outputs simultanously
+    + Users can switch between tabs that show different outputs
 
 ```{r 03-user-interface-3, cache=TRUE, eval=FALSE, include=TRUE}
 ui <- fluidPage(
@@ -148,8 +149,9 @@ ui <- fluidPage(
 
 
 
-### dashboardPage  {#sec-dashboardPage}
-- `dashboardPage()`: creates a dashboard interface (underlying Guerry app!)
+### dashboardPage (1)  {#sec-dashboardPage}
+- Alternative to `fluidPage()`
+- `dashboardPage()`: creates a dashboard interface
   - function contained in packages `shinydashboard` and `bs4Dash` (use `bs4Dash`^[Bootstrap 4 shinydashboard using AdminLTE3: [Website](https://rinterface.github.io/bs4Dash/)]!)
   - `dashboardHeader()`: creates a dashboard header
   - `dashboardSidebar()`: Creates dashboard sidebar
@@ -159,16 +161,16 @@ ui <- fluidPage(
 ```{r 03-user-interface-4, cache=TRUE, eval=FALSE, include=TRUE}
 library(bs4Dash)
 # UI ----
-ui <- dashboardPage(title = "The Guerry Dashboard",
-
-  ### Header ----
-  header = dashboardHeader(),
-
-  ### Sidebar ----
-  sidebar = dashboardSidebar(),
-
-  ### Body ----
-  body = dashboardBody()
+ui <- dashboardPage(title = "The ESS shiny app",
+                    
+                    ### Header ----
+                    header = dashboardHeader("Add title here"),
+                    
+                    ### Sidebar ----
+                    sidebar = dashboardSidebar("Sidebar menu"),
+                    
+                    ### Body ----
+                    body = dashboardBody("Main body")
 )
 
 # Server ----
@@ -177,7 +179,7 @@ server <- function(input, output, session) {}
 shinyApp(ui, server)
 ```
 
-#### Creating items and tabs {#sec-dashboardPage2}
+### dashboardPage (2): Adding items and tabs {#sec-dashboardPage2}
 - `?sidebarMenu()`: create sidebarMenu within dashboardSidebar
   - `menuItem(tabName = "...", text = "...", icon = icon("table"))`: Creates one item in sidebarMenu
 - `tabItems()`: creates container for tab items
@@ -188,7 +190,7 @@ shinyApp(ui, server)
 ```{r 03-user-interface-5, cache=TRUE, eval=FALSE, include=TRUE}
 library(bs4Dash)
 # UI ----
-ui <- dashboardPage(title = "The Guerry Dashboard",
+ui <- dashboardPage(title = "The ESS shiny app",
 
   ### Header ----
   header = dashboardHeader(
@@ -234,26 +236,22 @@ shinyApp(ui, server)
 * Store image(s) locally
     + `www` subfolder stores all sorts of additional files(images, data etc.)
     + If working directory  = app directory create with: `dir.create("www")`
-    + **IMAGES PLACED UNDER `www` SHOULD BE REFERENCES WITHOUT THE `www` FOLDER NAME**
+    + **Images place in folder `www` can be referenced without the `www` folder name/path**
       + e.g., `img(src = "guerry.jpg", width = "100%")`
 
 ```{r 03-user-interface-6, cache=TRUE, eval=FALSE, include=TRUE}
 #| code-fold: true
 #| code-summary: "Code: Adding images"
 ui <- dashboardPage( # <1>
-  title = "The Guerry Dashboard",
+  title = "The ESS shiny app",
   
   ### Header ----
   header = dashboardHeader( # <2>
     span(style = "display: inline-block; width: 100%;"), # <3>
-    a( # <4>
+    a(  # <4>
       class = "logo",
-      href = "https://gesis.org/",
-      img(src = "gesis-logo.png", style = "height: 1.8em;")
-    ),
-    title = tagList( # <5>
-      img(src = "workshop-logo.png", width = 35, height = 35),
-      span("The Guerry Dashboard", class = "brand-text")
+      href = "https://www.gesis.org",
+      img(src = "https://www.gesis.org/typo3conf/ext/gesis_web_ext/Resources/Public/webpack/dist/img/logo_gesis_en.svg", style = "height: 1.8em;")
     )
   ),
   
@@ -295,6 +293,8 @@ shinyApp(ui, server) # <12>
 12. `shinyApp(ui, server)`: Main function to create a Shiny app. It takes as arguments the UI and server definitions.
 
 
+
+
 #### Add several images
 * Below some exemplary code to add several images, i.e., simply repeat the img() function
 
@@ -302,21 +302,10 @@ shinyApp(ui, server) # <12>
 #| code-fold: true
 #| code-summary: "Code: Adding images"
 ui <- dashboardPage(
-  title = "The Guerry Dashboard",
+  title = "The ESS shiny app",
   
   ### Header ----
-  header = dashboardHeader(
-    span(style = "display: inline-block; width: 100%;"),
-    a( # <4>
-      class = "logo",
-      href = "https://gesis.org/",
-      img(src = "gesis-logo.png", style = "height: 1.8em;")
-    ),
-    title = tagList( # <5>
-      img(src = "workshop-logo.png", width = 35, height = 35),
-      span("The Guerry Dashboard", class = "brand-text")
-    )
-  ),
+  header = dashboardHeader("The ESS shiny app"),
   
   ### Sidebar ----
   sidebar = dashboardSidebar(
@@ -366,13 +355,7 @@ ui <- dashboardPage(
   ### Header ----
   header = dashboardHeader(
     span(style = "display: inline-block; width: 100%;"),
-    a(
-      class = "logo",
-      href = "https://gesis.org/",
-      img(src = "gesis-logo.png", style = "height: 1.8em;")
-    ),
     title = tagList(
-      img(src = "workshop-logo.png", width = 35, height = 35),
       span("The Arni Dashboard", class = "brand-text")
     )
   ),
@@ -419,7 +402,7 @@ shinyApp(ui, server)
 3. Use `dir.create("www")` or the buttons in Rstudio to create the `www` folder.
 4. Store the image from the [link](http://assets.schwarzenegger.com/images/img-2.jpg) in this `www` folder.
 5. Add the image name simply in the code `img(src = "img-2.jpg", width = 729, height = 423)` (see below).
-  - **IMAGES PLACED UNDER `www` SHOULD BE REFERENCES WITHOUT THE `www` FOLDER NAME**
+  - **IMAGES PLACED UNDER `www` CAN BE REFERENCED WITHOUT THE `www` FOLDER NAME**
 6. Run the app.
 
 ```{r 03-user-interface-7, echo=TRUE, eval=FALSE, include=TRUE}
@@ -430,13 +413,7 @@ ui <- dashboardPage(
   ### Header ----
   header = dashboardHeader(
     span(style = "display: inline-block; width: 100%;"),
-    a(
-      class = "logo",
-      href = "https://gesis.org/",
-      img(src = "gesis-logo.png", style = "height: 1.8em;")
-    ),
     title = tagList(
-      img(src = "workshop-logo.png", width = 35, height = 35),
       span("The Arni Dashboard", class = "brand-text")
     )
   ),
@@ -480,16 +457,16 @@ shinyApp(ui, server)
 ## UI: Inputs
 
 ### UI Inputs: common structure
-- `inputId` argument:
-  - `inputId` connects front end with back end, e.g., if UI has input with ID `name`, the server function will access it with `input$name`
-  - name` = **simple string** (only letters, numbers, and underscores) and **unique**
-  - Inputs are stored in list called `input$...`
-- `label` argument: Used to create human-readable label
-- `value` argument: usually let's you set default value
-- Remaining 4-x arguments are unique to the particular input
+- `textInput(inputId = "username", label = "Enter your username", value = "Write here")`
+    - `inputId` connects front end with back end, e.g., if UI has input with ID `name`, the server function will access it with `input$name`
+      - name` = **simple string** (only letters, numbers, and underscores) and **unique**
+  - `label` argument: Used to create human-readable label
+  - `value` argument: usually let's you set default value
+- Inputs are stored in list called `input$...`
+- Remaining 4+ arguments are unique to the particular input
 - Recommendation: Supply `inputId` and `label` arguments by position, and all other arguments by name
-  - Q: How would we read the following? 
-    - `sliderInput("min", "Limit (minimum)", value = 50, min = 0, max = 100)`
+- Q: How would we read the following? 
+  - `sliderInput("min", "Limit (minimum)", value = 50, min = 0, max = 100)`
 
 
 
@@ -501,12 +478,12 @@ shinyApp(ui, server)
     - Input is inserted into the functions in the SERVER
       - `server <- function(input, output, session) {}`
 * `shiny` package contains many widgets
-  - Additional ones for instance in `shinyWidgets` package (e.g., `pickerInput()`)
+  - Additional ones in other packages (e.g., `pickerInput()` in `shinyWidgets` package)
     
 
 
-### UI Inputs: Examples
-- You can run the code for the Shiny app below in R.
+### UI Inputs: Exercise
+- Read the code below. Can you guess what kind of inputs the various input functions create?
 
 ```{r 03-user-interface-9, cache=TRUE, eval=FALSE, include=TRUE}
 library(shinyWidgets) # Install!
@@ -558,7 +535,7 @@ shinyApp(ui, server)
 ```
 
 
-### Exercise(s)
+### Addigional exercise(s)
 * See [Exercises 2.2.8](https://mastering-shiny.org/basic-ui.html#exercises-2).
 
 
@@ -744,6 +721,7 @@ shinyApp(ui = ui, server = server)
 
 
 ## UI: Outputs
+- HIER WEITER!!
 - Outputs in UI create placeholders that are later filled by the server function
 - Have unique ID as first argument like inputs
   - e.g., `textOutput("text")` as ID `text` that is filled by the server
