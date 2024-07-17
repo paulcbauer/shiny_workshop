@@ -38,7 +38,6 @@ This schedule is mostly a **suggestion**! Depending on the type of app you are b
 ## European social survey - wave 9
 
 -   We used this dataset alongside the workshop
--   You can find
 -   It contains data on political trust, political spectrum, demographics, internet use, happiness, and income
 -   The dataset contains `haven` labels which help understand the scales of each variables
 -   Base information:
@@ -61,7 +60,7 @@ readRDS("data/ess_trust.rds")
 -   Datamap:
 
 | Column              | Description                                                                                                                                                                                     |
-|-------------|----------------------------------------------------------|
+|----------------|--------------------------------------------------------|
 | `idno`              | Respondent ID                                                                                                                                                                                   |
 | `country`           | Country ID                                                                                                                                                                                      |
 | `internet_use`      | People can use the internet on different devices such as computers, tablets and smartphones. How often do you use the internet on these or any other devices, whether for work or personal use? |
@@ -98,7 +97,7 @@ guerry
 -   Datamap:
 
 | Column            | Description                                                                                            |
-|---------------|--------------------------------------------------------|
+|-----------------|-------------------------------------------------------|
 | `dept`            | Department ID                                                                                          |
 | `region`          | Region of France (‘N’=’North’, ‘S’=’South’, ‘E’=’East’, ‘W’=’West’, ‘C’=’Central’)                     |
 | `department`      | Department name                                                                                        |
