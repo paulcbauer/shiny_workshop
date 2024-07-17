@@ -72,7 +72,7 @@ Explore the COVID-19 tracker. Do you think this is a good Shiny app? If so, why?
     -   Augment the violin plot
     -   Add an interactive map
 
-```{r test, eval=FALSE, file="shinyapps/example/states/06-base.R"}
+```{r test, eval=FALSE, file="shinyapps/example/06-base.R"}
 #| code-fold: true
 #| code-summary: Full code for the current app state
 ```
@@ -373,7 +373,7 @@ output$plot <- renderPlotly({
 })
 ```
 
-```{r, eval=FALSE, file="shinyapps/example/states/06-plotly.R"}
+```{r, eval=FALSE, file="shinyapps/example/06-plotly.R"}
 #| code-fold: true
 #| code-summary: "Complete code (important lines are highlighted)"
 #| source-line-numbers: "83,146,150"
@@ -606,7 +606,7 @@ output$map <- renderLeaflet({
 })
 ```
 
-```{r, eval=FALSE, file="shinyapps/example/states/06-leaflet.R"}
+```{r, eval=FALSE, file="shinyapps/example/06-leaflet.R"}
 #| code-fold: true
 #| code-summary: "Complete code (important lines are highlighted)"
 #| source-line-numbers: "86-90,153-201"
@@ -1128,7 +1128,7 @@ output$hist <- renderPlotly({
 })
 ```
 
-```{r, eval=FALSE, file="shinyapps/example/states/06-exercise1.R"}
+```{r, eval=FALSE, file="shinyapps/example/06-exercise1.R"}
 #| code-fold: true
 #| code-summary: "Complete code (important lines are highlighted)"
 #| source-line-numbers: "92-96,209-225"
@@ -1586,7 +1586,7 @@ output$gmap <- renderLeaflet({
 })
 ```
 
-```{r, eval=FALSE, file="shinyapps/example/states/06-exercise2.R"}
+```{r, eval=FALSE, file="shinyapps/example/06-exercise2.R"}
 #| code-fold: true
 #| code-summary: "Complete code (important lines are highlighted)"
 #| source-line-numbers: "92-96,209-240"
@@ -1603,7 +1603,7 @@ Taking the code below, implement a proxy of the Leaflet map, that is, whenever t
 
 Note that you need to isolate `input$xvar` in `renderLeaflet()`. This step is necessary in order to render the leaflet map exactly once. You can isolate an input by typing `isolate(input$xvar)`. Isolation severs an input from the reactive graph.
 
-```{r, eval=FALSE, file="shinyapps/example/states/06-exercise3_1.R"}
+```{r, eval=FALSE, file="shinyapps/example/06-exercise3_1.R"}
 #| code-fold: true
 #| code-summary: "Code for exercise 3.1"
 
@@ -1634,7 +1634,7 @@ Although the proxy does not serve any important purpose in this case, there are 
 These advantages might be irrelevant in this scenario, but can come in handy in more specific use cases.
 
 
-```{r, eval=FALSE, file="shinyapps/example/states/06-exercise3_1_solution.R"}
+```{r, eval=FALSE, file="shinyapps/example/06-exercise3_1_solution.R"}
 #| code-fold: true
 #| code-summary: "Complete solution code"
 #| source-line-numbers: "42,78-111"
@@ -1665,7 +1665,7 @@ To add a blue dot, see the [`addCircleMarkers`](https://rstudio.github.io/leafle
 
 So far, we have only talked about plot events in Leaflet. Taking the code below, implement an observer that prints the current plot coordinates every time the plot legend is double-clicked. Use plotly's [`event_data()`](https://rdrr.io/cran/plotly/man/event_data.html) function.
 
-```{r, eval=FALSE, file="shinyapps/example/states/06-exercise3_2.R"}
+```{r, eval=FALSE, file="shinyapps/example/06-exercise3_3.R"}
 #| code-fold: true
 #| code-summary: "Code for exercise 3.3"
 ```
@@ -1702,7 +1702,7 @@ Note that not all plotting libraries support violin and boxplots to the same deg
 
 An example solution with the `highcharter` package:
 
-```{r, eval=FALSE, file="shinyapps/example/states/06-exercise4_highcharts.R"}
+```{r, eval=FALSE, file="shinyapps/example/06-exercise4_highcharts.R"}
 #| code-fold: true
 #| code-summary: "Complete code (important lines are highlighted)"
 #| source-line-numbers: "92-96,209-236"
@@ -1710,7 +1710,7 @@ An example solution with the `highcharter` package:
 
 An example solution with the `apexcharter` package:
 
-```{r, eval=FALSE, file="shinyapps/example/states/06-exercise4_apexcharts.R"}
+```{r, eval=FALSE, file="shinyapps/example/06-exercise4_apexcharts.R"}
 #| code-fold: true
 #| code-summary: "Complete code (important lines are highlighted)"
 #| source-line-numbers: "92-96,209-218"

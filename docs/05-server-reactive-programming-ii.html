@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.3.433">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -80,13 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 50,
-  "keyboard-shortcut": [
-    "f",
-    "/",
-    "s"
-  ],
-  "show-item-context": false,
+  "limit": 20,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -95,7 +89,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
-    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -114,7 +107,8 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 
 <link rel="stylesheet" href="styles.css">
 <meta name="twitter:title" content="Workshop: Interactive Data Analysis with Shiny - Server: Reactive programming II">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bookdown.org/paul/shiny_workshop/resources/reactivity_workflow.svg">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar floating">
@@ -123,12 +117,12 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-server-reactive-programming-ii.html">Server: Reactive programming II</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-server-reactive-programming-ii.html">Server: Reactive programming II</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -138,14 +132,14 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Interactive Data Analysis with Shiny</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://training.gesis.org/?site=pDetails&amp;child=full&amp;pID=0x0D17F8F738B14E0991504DBF8823A002" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-cursor-fill"></i></a>
-    <a href="https://github.com/paulcbauer/shiny_workshop" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
-    <a href="https://github.com/paulcbauer/shiny_workshop/issues" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-bug-fill"></i></a>
+    <a href="https://training.gesis.org/?site=pDetails&amp;child=full&amp;pID=0x0D17F8F738B14E0991504DBF8823A002" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-cursor-fill"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop/issues" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-bug-fill"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
@@ -199,14 +193,32 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./07-deployment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Strengthen &amp; Deploy</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./08-dos-and-donts.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Dos and donts when building your own app</span></a>
+ <span class="menu-text">Good practices when building your own app</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-build-your-own.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Build your own app</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-full-code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Example app: Full code</span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -240,7 +252,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   </ul></li>
   <li><a href="#other-important-concepts" id="toc-other-important-concepts" class="nav-link" data-scroll-target="#other-important-concepts"><span class="header-section-number">7</span> Other important concepts</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/05-server-reactive-programming-ii.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/05-server-reactive-programming-ii.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -260,9 +272,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   </div>
   
 
-
 </header>
-
 
 <ul>
 <li>Learning outcomes
@@ -335,7 +345,7 @@ Tip
 <div class="callout-body-container callout-body">
 <p>Conceptually and technically, reactives may be compared to traditional R functions. Functional programming follows the <a href="https://en.wikipedia.org/wiki/Rule_of_three_(computer_programming)">“rule of three”</a>: If code would be duplicated three times, wrap it in a function. Shiny follows the rule of two. This is because reactives not only simplify code for humans but also for machines: R only evaluates reactives if it has to. This can dramatically speed up an application.</p>
 <p>Also, reactives <em>literally</em> are functions:</p>
-<div class="cell">
+<div class="cell" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-2_1b1f0ffbab8f4bec1a8236f312642cfd">
 <div class="sourceCode cell-code" id="cb1" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">is.function</span>(<span class="fu">reactive</span>({}))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre data-code-line-numbers=""><code>[1] TRUE</code></pre>
@@ -343,7 +353,7 @@ Tip
 </div>
 </div>
 </div>
-<table class="caption-top table">
+<table class="table">
 <colgroup>
 <col style="width: 50%">
 <col style="width: 0%">
@@ -402,7 +412,7 @@ Tip
 <p>Conceptually, observers may be compared to the tidyverse function <a href="https://www.tidyverse.org/blog/2023/05/purrr-walk-this-way/"><code>purrr::walk</code></a>, which iterates over a list or a vector and performs “side-effects” like writing to files. Unlike <code>purrr::walk</code>, though, <code>observe</code> is probably much more common-place.</p>
 </div>
 </div>
-<div class="cell" data-source-line-numbers="32-36">
+<div class="cell" data-source-line-numbers="32-36" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-3_f665d18b44a150df758150fd08fcc0c8">
 <div class="sourceCode cell-code" id="cb3" data-source-line-numbers="32-36" data-code-line-numbers="32-36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># the reactive takes the inputs and produces a reactive value</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="co"># which can be re-used in other reactive expressions</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a>filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
@@ -440,8 +450,8 @@ Tip
 <span id="cb3-35"><a href="#cb3-35"></a>  <span class="fu">print</span>(<span class="fu">filtered</span>())</span>
 <span id="cb3-36"><a href="#cb3-36"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-source-line-numbers="116-120">
-<details class="code-fold">
+<div class="cell" data-file="shinyapps/example/05-observe.R" data-source-line-numbers="116-120" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-4_d615b53ec03b65692ff213b74ec6e5ce">
+<details>
 <summary>Complete code</summary>
 <div class="sourceCode cell-code" id="cb4" data-source-line-numbers="116-120" data-code-line-numbers="116-120"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="fu">library</span>(tidyr)</span>
@@ -450,8 +460,8 @@ Tip
 <span id="cb4-5"><a href="#cb4-5"></a><span class="fu">library</span>(leaflet)</span>
 <span id="cb4-6"><a href="#cb4-6"></a><span class="fu">library</span>(haven)</span>
 <span id="cb4-7"><a href="#cb4-7"></a></span>
-<span id="cb4-8"><a href="#cb4-8"></a>ess <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../../../data/ess_trust.rds"</span>)</span>
-<span id="cb4-9"><a href="#cb4-9"></a>ess_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../../../data/ess_trust_geo.rds"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8"></a>ess <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"ess_trust.rds"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9"></a>ess_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"ess_trust_geo.rds"</span>)</span>
 <span id="cb4-10"><a href="#cb4-10"></a></span>
 <span id="cb4-11"><a href="#cb4-11"></a><span class="co"># UI ----</span></span>
 <span id="cb4-12"><a href="#cb4-12"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
@@ -514,7 +524,7 @@ Tip
 <span id="cb4-69"><a href="#cb4-69"></a>        </span>
 <span id="cb4-70"><a href="#cb4-70"></a>        <span class="do">### Plot tab ----</span></span>
 <span id="cb4-71"><a href="#cb4-71"></a>        <span class="fu">tabPanel</span>(</span>
-<span id="cb4-72"><a href="#cb4-72"></a>          <span class="at">title =</span> <span class="st">"Histogram"</span>,</span>
+<span id="cb4-72"><a href="#cb4-72"></a>          <span class="at">title =</span> <span class="st">"Plot"</span>,</span>
 <span id="cb4-73"><a href="#cb4-73"></a>          <span class="fu">plotOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
 <span id="cb4-74"><a href="#cb4-74"></a>        )</span>
 <span id="cb4-75"><a href="#cb4-75"></a>      )</span>
@@ -589,7 +599,7 @@ Tip
 <li><code>bindEvent</code> <em>locks up</em> a reactive expression unless a specific event is triggered</li>
 <li>You can use <code>bindEvent</code> on all sorts of reactive expressions: reactives, observers, and output renderers</li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-5_13efd2763ba8f87dfa48d2a90839dcb1">
 <div class="sourceCode cell-code" id="cb5" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">reactive</span>({</span>
 <span id="cb5-2"><a href="#cb5-2"></a>  <span class="co"># do something</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a>}) <span class="sc">%&gt;%</span></span>
@@ -616,7 +626,7 @@ Tip
 </ul></li>
 </ul>
 <p>In the UI:</p>
-<div class="cell">
+<div class="cell" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-6_2da1eb2417bb9095fbe4ca42aa1636f4">
 <div class="sourceCode cell-code" id="cb6" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">actionButton</span>(</span>
 <span id="cb6-2"><a href="#cb6-2"></a>  <span class="st">"button"</span>,</span>
 <span id="cb6-3"><a href="#cb6-3"></a>  <span class="at">label =</span> <span class="st">"Update parameters"</span>,</span>
@@ -624,7 +634,7 @@ Tip
 <span id="cb6-5"><a href="#cb6-5"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the server function:</p>
-<div class="cell" data-source-line-numbers="13-14,22-23">
+<div class="cell" data-source-line-numbers="13-14,22-23" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-7_8f00f12df7b45b6a55715f86be1f03f7">
 <div class="sourceCode cell-code" id="cb7" data-source-line-numbers="13-14,22-23" data-code-line-numbers="13-14,22-23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
 <span id="cb7-2"><a href="#cb7-2"></a>  xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
 <span id="cb7-3"><a href="#cb7-3"></a>  yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
@@ -655,8 +665,8 @@ Tip
 <span id="cb7-28"><a href="#cb7-28"></a>    <span class="fu">theme_classic</span>()</span>
 <span id="cb7-29"><a href="#cb7-29"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-source-line-numbers="53-58,101-102,115-116,119">
-<details class="code-fold">
+<div class="cell" data-file="shinyapps/example/05-update.R" data-source-line-numbers="53-58,101-102,115-116,119" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-8_fbd2ee99f40efb5db37c82e7eaf19458">
+<details>
 <summary>Complete code (important lines are highlighted)</summary>
 <div class="sourceCode cell-code" id="cb8" data-source-line-numbers="53-58,101-102,115-116,119" data-code-line-numbers="53-58,101-102,115-116,119"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="fu">library</span>(tidyr)</span>
@@ -665,8 +675,8 @@ Tip
 <span id="cb8-5"><a href="#cb8-5"></a><span class="fu">library</span>(leaflet)</span>
 <span id="cb8-6"><a href="#cb8-6"></a><span class="fu">library</span>(haven)</span>
 <span id="cb8-7"><a href="#cb8-7"></a></span>
-<span id="cb8-8"><a href="#cb8-8"></a>ess <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../../../data/ess_trust.rds"</span>)</span>
-<span id="cb8-9"><a href="#cb8-9"></a>ess_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../../../data/ess_trust_geo.rds"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8"></a>ess <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"ess_trust.rds"</span>)</span>
+<span id="cb8-9"><a href="#cb8-9"></a>ess_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"ess_trust_geo.rds"</span>)</span>
 <span id="cb8-10"><a href="#cb8-10"></a></span>
 <span id="cb8-11"><a href="#cb8-11"></a><span class="co"># UI ----</span></span>
 <span id="cb8-12"><a href="#cb8-12"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
@@ -738,7 +748,7 @@ Tip
 <span id="cb8-78"><a href="#cb8-78"></a>        </span>
 <span id="cb8-79"><a href="#cb8-79"></a>        <span class="do">### Plot tab ----</span></span>
 <span id="cb8-80"><a href="#cb8-80"></a>        <span class="fu">tabPanel</span>(</span>
-<span id="cb8-81"><a href="#cb8-81"></a>          <span class="at">title =</span> <span class="st">"Histogram"</span>,</span>
+<span id="cb8-81"><a href="#cb8-81"></a>          <span class="at">title =</span> <span class="st">"Plot"</span>,</span>
 <span id="cb8-82"><a href="#cb8-82"></a>          <span class="fu">plotOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
 <span id="cb8-83"><a href="#cb8-83"></a>        )</span>
 <span id="cb8-84"><a href="#cb8-84"></a>      )</span>
@@ -818,7 +828,7 @@ Tip
 <ul>
 <li><a href="https://shiny.posit.co/r/reference/shiny/0.14/updateselectinput"><code>updateSelectInput</code></a>: Updating an input selection can update a palette selection to match varying data types – continuous, categorical, divering.</li>
 <li><a href="https://shiny.posit.co/r/reference/shiny/0.11/updatetabsetpanel"><code>updateTabsetPanel</code></a>: Updating a tabset panel can automatically switch between tabs.</li>
-<li><a href="(https://shiny.posit.co/r/reference/shiny/0.14/updateactionbutton)"><code>updateActionButton</code></a>: Updating an action button can simulate a button click, without the user needing to physically click on the button.</li>
+<li><a href="https://shiny.posit.co/r/reference/shiny/0.14/updateactionbutton"><code>updateActionButton</code></a>: Updating an action button can simulate a button click, without the user needing to physically click on the button.</li>
 </ul></li>
 </ul>
 <section id="implementation" class="level2" data-number="5.1">
@@ -832,7 +842,7 @@ Tip
 <li>Freezing can prevent the event from triggering twice: when changing the input and when updating.</li>
 </ul></li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-9_3c4a11b6b250c39962c7da98a7c3ffa1">
 <div class="sourceCode cell-code" id="annotated-cell-7" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1"></a><span class="fu">observe</span>({</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-2" class="code-annotation-target"><a href="#annotated-cell-7-2"></a>  <span class="fu">freezeReactiveValue</span>(input, <span class="st">"id_of_input"</span>)</span>
 <span id="annotated-cell-7-3"><a href="#annotated-cell-7-3"></a>  <span class="fu">updateSelectInput</span>(</span>
@@ -847,23 +857,23 @@ Tip
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="2" data-code-annotation="1">Freeze <code>id_of_input</code> to prevent it from triggering an event twice, first when clicking on the button, and second when updating the input.</span>
+<span data-code-lines="2" data-code-annotation="1" data-code-cell="annotated-cell-7">Freeze <code>id_of_input</code> to prevent it from triggering an event twice, first when clicking on the button, and second when updating the input.</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="4" data-code-annotation="2">The <code>session</code> object of the server function has to be passed to every update function. This has no deeper meaning.</span>
+<span data-code-lines="4" data-code-annotation="2" data-code-cell="annotated-cell-7">The <code>session</code> object of the server function has to be passed to every update function. This has no deeper meaning.</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="5" data-code-annotation="3">The <code>inputId</code> argument takes the ID of the widget that is to be updated</span>
+<span data-code-lines="5" data-code-annotation="3" data-code-cell="annotated-cell-7">The <code>inputId</code> argument takes the ID of the widget that is to be updated</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="6,7" data-code-annotation="4">Every update function has different arguments to alter different parts of the input widget</span>
+<span data-code-lines="6,7" data-code-annotation="4" data-code-cell="annotated-cell-7">Every update function has different arguments to alter different parts of the input widget</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="9" data-code-annotation="5">Bind the observer to an input that should trigger the input update</span>
+<span data-code-lines="9" data-code-annotation="5" data-code-cell="annotated-cell-7">Bind the observer to an input that should trigger the input update</span>
 </dd>
 </dl>
 </div>
@@ -874,7 +884,7 @@ Tip
 <ul>
 <li>To exemplify, we add a new slider to the app:</li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-10_e0af8a472bb8c936e20f6502a5bdba82">
 <div class="sourceCode cell-code" id="cb9" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">sliderInput</span>(</span>
 <span id="cb9-2"><a href="#cb9-2"></a>  <span class="st">"slider"</span>,</span>
 <span id="cb9-3"><a href="#cb9-3"></a>  <span class="at">label =</span> <span class="st">"Select a range for the independent variable"</span>,</span>
@@ -889,7 +899,7 @@ Tip
 <li>…, but the independent variable is not: we can select a different variable with a different range</li>
 <li>We can thus implement an updater that dynamically updates the slider with new ranges:</li>
 </ul>
-<div class="cell" data-source-line-numbers="1-14,26-30">
+<div class="cell" data-source-line-numbers="1-14,26-30" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-11_7215d31c73cdb69a8d560c2428e08862">
 <div class="sourceCode cell-code" id="annotated-cell-9" data-source-line-numbers="1-14,26-30" data-code-line-numbers="1-14,26-30"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-9-1"><a href="#annotated-cell-9-1"></a><span class="fu">observe</span>({</span>
 <span id="annotated-cell-9-2"><a href="#annotated-cell-9-2"></a>  yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
 <span id="annotated-cell-9-3"><a href="#annotated-cell-9-3"></a>  <span class="fu">freezeReactiveValue</span>(input, <span class="st">"slider"</span>)</span>
@@ -923,25 +933,25 @@ Tip
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-9" data-code-lines="6" data-code-annotation="1">The updater references the ID of the input that needs to change</span>
+<span data-code-lines="6" data-code-annotation="1" data-code-cell="annotated-cell-9">The updater references the ID of the input that needs to change</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-9" data-code-lines="7,8,9" data-code-annotation="2">Min, max, and value are adapted to the select Y variable</span>
+<span data-code-lines="7,8,9" data-code-annotation="2" data-code-cell="annotated-cell-9">Min, max, and value are adapted to the select Y variable</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-9" data-code-lines="12" data-code-annotation="3">The updater only triggers when a new Y variable is selected</span>
+<span data-code-lines="12" data-code-annotation="3" data-code-cell="annotated-cell-9">The updater only triggers when a new Y variable is selected</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-9" data-code-lines="22,23,24,25" data-code-annotation="4">The dataset is filtered according to the slider</span>
+<span data-code-lines="22,23,24,25" data-code-annotation="4" data-code-cell="annotated-cell-9">The dataset is filtered according to the slider</span>
 </dd>
 </dl>
 </div>
 </div>
-<div class="cell" data-source-line-numbers="54-61,95,102-106,132-143">
-<details class="code-fold">
+<div class="cell" data-file="shinyapps/example/05-update.R" data-source-line-numbers="54-61,95,102-106,132-143" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-12_6aafb2671b888e3d44370e714b72c77e">
+<details>
 <summary>Complete code (important lines are highlighted)</summary>
 <div class="sourceCode cell-code" id="cb10" data-source-line-numbers="54-61,95,102-106,132-143" data-code-line-numbers="54-61,95,102-106,132-143"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="fu">library</span>(tidyr)</span>
@@ -950,8 +960,8 @@ Tip
 <span id="cb10-5"><a href="#cb10-5"></a><span class="fu">library</span>(leaflet)</span>
 <span id="cb10-6"><a href="#cb10-6"></a><span class="fu">library</span>(haven)</span>
 <span id="cb10-7"><a href="#cb10-7"></a></span>
-<span id="cb10-8"><a href="#cb10-8"></a>ess <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../../../data/ess_trust.rds"</span>)</span>
-<span id="cb10-9"><a href="#cb10-9"></a>ess_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../../../data/ess_trust_geo.rds"</span>)</span>
+<span id="cb10-8"><a href="#cb10-8"></a>ess <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"ess_trust.rds"</span>)</span>
+<span id="cb10-9"><a href="#cb10-9"></a>ess_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"ess_trust_geo.rds"</span>)</span>
 <span id="cb10-10"><a href="#cb10-10"></a></span>
 <span id="cb10-11"><a href="#cb10-11"></a><span class="co"># UI ----</span></span>
 <span id="cb10-12"><a href="#cb10-12"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
@@ -1023,7 +1033,7 @@ Tip
 <span id="cb10-78"><a href="#cb10-78"></a>        </span>
 <span id="cb10-79"><a href="#cb10-79"></a>        <span class="do">### Plot tab ----</span></span>
 <span id="cb10-80"><a href="#cb10-80"></a>        <span class="fu">tabPanel</span>(</span>
-<span id="cb10-81"><a href="#cb10-81"></a>          <span class="at">title =</span> <span class="st">"Histogram"</span>,</span>
+<span id="cb10-81"><a href="#cb10-81"></a>          <span class="at">title =</span> <span class="st">"Plot"</span>,</span>
 <span id="cb10-82"><a href="#cb10-82"></a>          <span class="fu">plotOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
 <span id="cb10-83"><a href="#cb10-83"></a>        )</span>
 <span id="cb10-84"><a href="#cb10-84"></a>      )</span>
@@ -1115,7 +1125,7 @@ Tip
 <li>An unclicked action button</li>
 </ul></li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-13_2e58cf49d7691821f0cfca9775a2cef8">
 <div class="sourceCode cell-code" id="cb11" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">isTruthy</span>(<span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre data-code-line-numbers=""><code>[1] FALSE</code></pre>
@@ -1148,7 +1158,7 @@ Tip
 <li><code>selectizeInput</code>, which is used to select a country, returns <code>NULL</code> when no value is specified</li>
 <li>Now, if we do not specify a country, the plot simply will not render</li>
 </ul>
-<div class="cell" data-source-line-numbers="2">
+<div class="cell" data-source-line-numbers="2" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-14_1151c67a9243b59726f8df0ec9cc98ac">
 <div class="sourceCode cell-code" id="cb17" data-source-line-numbers="2" data-code-line-numbers="2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
 <span id="cb17-2"><a href="#cb17-2"></a>  <span class="fu">req</span>(input<span class="sc">$</span>countries)</span>
 <span id="cb17-3"><a href="#cb17-3"></a>  </span>
@@ -1164,8 +1174,8 @@ Tip
 <span id="cb17-13"><a href="#cb17-13"></a>}) <span class="sc">%&gt;%</span></span>
 <span id="cb17-14"><a href="#cb17-14"></a>  <span class="fu">bindEvent</span>(input<span class="sc">$</span>button, <span class="at">ignoreNULL =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-source-line-numbers="90">
-<details class="code-fold">
+<div class="cell" data-file="shinyapps/example/05-req.R" data-source-line-numbers="90" data-hash="05-server-reactive-programming-ii_cache/html/unnamed-chunk-15_ca3a1cc46f00f5b5e8cabb6b99c3dd66">
+<details>
 <summary>Complete code (important lines are highlighted)</summary>
 <div class="sourceCode cell-code" id="cb18" data-source-line-numbers="90" data-code-line-numbers="90"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb18-2"><a href="#cb18-2"></a><span class="fu">library</span>(tidyr)</span>
@@ -1174,8 +1184,8 @@ Tip
 <span id="cb18-5"><a href="#cb18-5"></a><span class="fu">library</span>(leaflet)</span>
 <span id="cb18-6"><a href="#cb18-6"></a><span class="fu">library</span>(haven)</span>
 <span id="cb18-7"><a href="#cb18-7"></a></span>
-<span id="cb18-8"><a href="#cb18-8"></a>ess <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../../../data/ess_trust.rds"</span>)</span>
-<span id="cb18-9"><a href="#cb18-9"></a>ess_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../../../data/ess_trust_geo.rds"</span>)</span>
+<span id="cb18-8"><a href="#cb18-8"></a>ess <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"ess_trust.rds"</span>)</span>
+<span id="cb18-9"><a href="#cb18-9"></a>ess_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"ess_trust_geo.rds"</span>)</span>
 <span id="cb18-10"><a href="#cb18-10"></a></span>
 <span id="cb18-11"><a href="#cb18-11"></a><span class="co"># UI ----</span></span>
 <span id="cb18-12"><a href="#cb18-12"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
@@ -1238,7 +1248,7 @@ Tip
 <span id="cb18-69"><a href="#cb18-69"></a>        </span>
 <span id="cb18-70"><a href="#cb18-70"></a>        <span class="do">### Plot tab ----</span></span>
 <span id="cb18-71"><a href="#cb18-71"></a>        <span class="fu">tabPanel</span>(</span>
-<span id="cb18-72"><a href="#cb18-72"></a>          <span class="at">title =</span> <span class="st">"Histogram"</span>,</span>
+<span id="cb18-72"><a href="#cb18-72"></a>          <span class="at">title =</span> <span class="st">"Plot"</span>,</span>
 <span id="cb18-73"><a href="#cb18-73"></a>          <span class="fu">plotOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
 <span id="cb18-74"><a href="#cb18-74"></a>        )</span>
 <span id="cb18-75"><a href="#cb18-75"></a>      )</span>
@@ -1500,27 +1510,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/bookdown\.org\/paul\/shiny_workshop\/");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+  function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
+      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1530,17 +1523,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start',
+      placement: 'bottom-start'
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1552,130 +1536,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
-        }
-        return container.innerHTML
-      } else {
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(note);
-        }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
-    }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
-        }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
+      return note.innerHTML;
     });
   }
       let selectedAnnoteEl;
@@ -1719,7 +1580,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
-            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1745,8 +1605,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-        // Handle positioning of the toggle
-    window.addEventListener(
+      // Handle positioning of the toggle
+      window.addEventListener(
       "resize",
       throttle(() => {
         elRect = undefined;
@@ -1754,23 +1614,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
           selectCodeLines(selectedAnnoteEl);
         }
       }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
               fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
       const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
       for (let i=0; i<annoteTargets.length; i++) {
         const annoteTarget = annoteTargets[i];
@@ -1815,7 +1675,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
               options: {
                 flipVariations: false, // true by default
                 allowedAutoPlacements: ['right'],
-                fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end'],
               },
             },
             {
@@ -1873,6 +1733,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/05-server-reactive-programming-ii.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.js" defer="true"></script>
+<script src="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.js" defer="true"></script>
 </body></html>

@@ -33,6 +33,8 @@ website:
       - 06-visualization.qmd
       - 07-deployment.qmd
       - 08-dos-and-donts.qmd
+      - 09-build-your-own.qmd
+      - 10-full-code.qmd
 
 
 format:
@@ -58,4 +60,3 @@ filters:
   - quarto
   - line-highlight
   - shinylive
-

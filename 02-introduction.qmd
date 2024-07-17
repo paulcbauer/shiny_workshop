@@ -11,7 +11,7 @@ title: "Introduction"
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 # install.packages("pacman)
-pacman::p_load(knitr, quarto, tidyverse, gganimate, kableExtra)
+pacman::p_load(knitr, quarto, tidyverse, gganimate, kableExtra, sf)
 ```
 
 Sources: @Bertini2017-jq, @wickham2021mastering and @Fay2021-ta

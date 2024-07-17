@@ -140,7 +140,7 @@ observe({
 })
 ```
 
-```{r, eval=FALSE, file="shinyapps/example/states/05-observe.R"}
+```{r, eval=FALSE, file="shinyapps/example/05-observe.R"}
 #| code-fold: true
 #| code-summary: "Complete code"
 #| source-line-numbers: "116-120"
@@ -234,7 +234,7 @@ output$plot <- renderPlotly({
 ```
 
 
-```{r, eval=FALSE, file="shinyapps/example/states/05-update.R"}
+```{r, eval=FALSE, file="shinyapps/example/05-update.R"}
 #| code-fold: true
 #| code-summary: "Complete code (important lines are highlighted)"
 #| source-line-numbers: "53-58,101-102,115-116,119"
@@ -251,7 +251,7 @@ output$plot <- renderPlotly({
 - Some examples:
   - [`updateSelectInput`](https://shiny.posit.co/r/reference/shiny/0.14/updateselectinput): Updating an input selection can update a palette selection to match varying data types -- continuous, categorical, divering.
   - [`updateTabsetPanel`](https://shiny.posit.co/r/reference/shiny/0.11/updatetabsetpanel): Updating a tabset panel can automatically switch between tabs.
-  - [`updateActionButton`]((https://shiny.posit.co/r/reference/shiny/0.14/updateactionbutton)): Updating an action button can simulate a button click, without the user needing to physically click on the button.
+  - [`updateActionButton`](https://shiny.posit.co/r/reference/shiny/0.14/updateactionbutton): Updating an action button can simulate a button click, without the user needing to physically click on the button.
 
 
 ## Implementation
@@ -340,7 +340,7 @@ filtered <- reactive({
 4. The dataset is filtered according to the slider
 
 
-```{r, eval=FALSE, file="shinyapps/example/states/05-update.R"}
+```{r, eval=FALSE, file="shinyapps/example/05-update.R"}
 #| code-fold: true
 #| code-summary: "Complete code (important lines are highlighted)"
 #| source-line-numbers: "54-61,95,102-106,132-143"
@@ -409,7 +409,7 @@ filtered <- reactive({
 ```
 
 
-```{r, eval=FALSE, file="shinyapps/example/states/05-req.R"}
+```{r, eval=FALSE, file="shinyapps/example/05-req.R"}
 #| code-fold: true
 #| code-summary: "Complete code (important lines are highlighted)"
 #| source-line-numbers: "90"

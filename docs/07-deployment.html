@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.3.433">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -74,24 +74,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.css" rel="stylesheet">
-<meta name="shinylive:serviceworker_dir" content=".">
-<script src="site_libs/quarto-contrib/shinylive-0.2.3/shinylive/load-shinylive-sw.js" type="module"></script>
-<script src="site_libs/quarto-contrib/shinylive-0.2.3/shinylive/run-python-blocks.js" type="module"></script>
-<link href="site_libs/quarto-contrib/shinylive-0.2.3/shinylive/shinylive.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 50,
-  "keyboard-shortcut": [
-    "f",
-    "/",
-    "s"
-  ],
-  "show-item-context": false,
+  "limit": 20,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -100,7 +89,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
-    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -120,7 +108,10 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <link rel="stylesheet" href="styles.css">
 <meta name="twitter:title" content="Workshop: Interactive Data Analysis with Shiny - Strengthen &amp; Deploy">
 <meta name="twitter:description" content="">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bookdown.org/paul/shiny_workshop/resources/shiny_browser.png">
+<meta name="twitter:image-height" content="81">
+<meta name="twitter:image-width" content="974">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar floating">
@@ -129,12 +120,12 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-deployment.html">Strengthen &amp; Deploy</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-deployment.html">Strengthen &amp; Deploy</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -144,14 +135,14 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Interactive Data Analysis with Shiny</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://training.gesis.org/?site=pDetails&amp;child=full&amp;pID=0x0D17F8F738B14E0991504DBF8823A002" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-cursor-fill"></i></a>
-    <a href="https://github.com/paulcbauer/shiny_workshop" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
-    <a href="https://github.com/paulcbauer/shiny_workshop/issues" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-bug-fill"></i></a>
+    <a href="https://training.gesis.org/?site=pDetails&amp;child=full&amp;pID=0x0D17F8F738B14E0991504DBF8823A002" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-cursor-fill"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop/issues" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-bug-fill"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
@@ -215,10 +206,22 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
  <span class="menu-text">Good practices when building your own app</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-build-your-own.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Build your own app</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-full-code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Example app: Full code</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -266,7 +269,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <li><a href="#deploy" id="toc-deploy" class="nav-link" data-scroll-target="#deploy"><span class="header-section-number">6.4</span> Deploy!</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/07-deployment.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/07-deployment.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -286,9 +289,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   </div>
   
 
-
 </header>
-
 
 <p>Learning outcomes - Debug Shiny apps and understand them from the inside - Supervise and test Shiny apps for robustness (appendix) - Convert simple Shiny apps to static website using shinylive - Deploy any Shiny app to the web using shinyapps.io</p>
 <section id="deploying-shiny-apps" class="level1" data-number="1">
@@ -343,7 +344,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <ul>
 <li>Simply run your app within a <code>profvis::profvis()</code> call:</li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-2_ea0f27a74e7678bd6e0bcab2c315611d">
 <div class="sourceCode cell-code" id="cb1" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">profvis</span>({<span class="fu">runApp</span>()})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -363,7 +364,7 @@ Note
 <li>Then, perform some tasks in the Shiny app</li>
 <li>Close the app, and an HTML file will open that looks something like below:</li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-3_ac024b422f9812d48c9476364bf20170">
 <div class="cell-output-display">
 <iframe src="shinyapps/guerry/guerry_profvis.html" width="100%" height="800px"></iframe>
 </div>
@@ -392,7 +393,7 @@ Note
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="resources/shiny_browser.png" class="img-fluid figure-img"></p>
-<figcaption>Accessing <code>input</code> in Shiny browser call</figcaption>
+<figcaption class="figure-caption">Accessing <code>input</code> in Shiny browser call</figcaption>
 </figure>
 </div>
 </section>
@@ -413,13 +414,13 @@ Note
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="resources/shiny_logger.png" class="img-fluid figure-img"></p>
-<figcaption>Logs from <code>logger</code></figcaption>
+<figcaption class="figure-caption">Logs from <code>logger</code></figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="resources/shiny_whereami.png" class="img-fluid figure-img"></p>
-<figcaption>Logs from <code>whereami</code></figcaption>
+<figcaption class="figure-caption">Logs from <code>whereami</code></figcaption>
 </figure>
 </div>
 </section>
@@ -438,7 +439,7 @@ Note
 <li><p>Run <a href="https://shiny.posit.co/r/reference/shiny/1.3.1/reactlog.html"><code>shiny::reactlogShow()</code></a> or <a href="https://rstudio.github.io/reactlog/reference/reactlog_show.html"><code>reactlog::reactlog_show()</code></a> after closing the app</p></li>
 <li><p>Alternatively, press <code>Strg + F3</code> while the app is running</p></li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-4_dd172700bc49b4c65816699834812995">
 <div class="cell-output-display">
 <iframe src="shinyapps/guerry/guerry_reactlog.html" width="100%" height="500px"></iframe>
 </div>
@@ -454,7 +455,7 @@ Note
 </ul>
 <section id="deployment-options" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="deployment-options"><span class="header-section-number">4.1</span> Deployment options</h2>
-<table class="caption-top table">
+<table class="table">
 <caption>Shiny app hosting</caption>
 <thead>
 <tr class="header">
@@ -550,7 +551,7 @@ Note
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="resources/shinylive-error.png" class="img-fluid figure-img"></p>
-<figcaption>A common Shinylive error</figcaption>
+<figcaption class="figure-caption">A common Shinylive error</figcaption>
 </figure>
 </div>
 </section>
@@ -560,20 +561,10 @@ Note
 <li>Shinylive is actually a library of web assets that run R in the background</li>
 <li>The <code>shinylive</code> package needs these assets to turn a Shiny app into HTML code</li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-6_0d19184de71a49244f5001536e0b99ec">
 <div class="sourceCode cell-code" id="cb2" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(shinylive)</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="fu">assets_ensure</span>()</span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="fu">assets_info</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre data-code-line-numbers=""><code>shinylive R package version:  0.1.1
-shinylive web assets version: 0.2.3
-
-Local cached shinylive asset dir:
-    C:\Users\PC\AppData\Local\shinylive\shinylive\Cache
-
-Installed assets:
-    C:/Users/PC/AppData/Local/shinylive/shinylive/Cache/shinylive-0.2.3</code></pre>
-</div>
 </div>
 </section>
 <section id="creating-the-app" class="level2" data-number="5.5">
@@ -581,8 +572,15 @@ Installed assets:
 <ul>
 <li>The <code>export</code> function creates a new directory, installs all WebR packages, and provides all asset files used to</li>
 </ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">export</span>(<span class="st">"shinyapps/example"</span>, <span class="at">destdir =</span> <span class="st">"shinyapps/example/shinylive"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-7_97834408f533e86c14ad0b075fea81f3">
+<div class="sourceCode cell-code" id="cb3" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">export</span>(<span class="st">"shinyapps/example"</span>, <span class="at">destdir =</span> <span class="st">"shinyapps/example/shinylive"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>In theory, the resulting HTML document can now simply be opened</li>
+<li>In practice, however, the HTML document must be opened on a static server, e.g.&nbsp;using the <code>httpuv</code> package:</li>
+</ul>
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-8_e766a9fcc92888c16d9c7ba366b6fd82">
+<div class="sourceCode cell-code" id="cb4" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>httpuv<span class="sc">::</span><span class="fu">runStaticServer</span>(<span class="st">"shinyapps/example/shinylive"</span>, <span class="at">port =</span> httpuv<span class="sc">::</span><span class="fu">randomPort</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="embed-shinylive-in-quarto" class="level2" data-number="5.6">
@@ -590,7 +588,7 @@ Installed assets:
 <ul>
 <li>Quarto supports Shinylive through the <code>shinylive</code> extension</li>
 </ul>
-<div class="cell">
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-9_d1dd914fc282aa94984313baa881b777">
 <div class="sourceCode cell-code" id="cb5" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>quarto<span class="sc">::</span><span class="fu">quarto_add_extension</span>(<span class="st">"quarto-ext/shinylive"</span>, <span class="at">no_prompt =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
@@ -608,213 +606,6 @@ Installed assets:
 <li><code>viewerHeight</code> specifies the height of the app viewer in pixels</li>
 </ul></li>
 </ul>
-<pre class="shinylive-r" data-code-line-numbers="" data-engine="r"><code>#| standalone: true
-#| components: [editor, viewer]
-#| layout: vertical
-#| viewerHeight: 400
-library(tidyverse)
-library(shiny)
-library(plotly)
-library(leaflet)
-library(haven)
-
-ess &lt;- readRDS("states/data/ess_trust.rds")
-ess_geo &lt;- readRDS("states/data/ess_trust_geo.rds")
-
-# UI ----
-ui &lt;- fluidPage(
-  titlePanel("European Social Survey - round 10"),
-  
-  ## Sidebar ----
-  sidebarLayout(
-    sidebarPanel(
-      ### select dependent variable
-      selectInput(
-        "xvar",
-        label = "Select a dependent variable",
-        choices = c(
-          "Trust in country's parliament" = "trust_parliament",
-          "Trust in the legal system" = "trust_legal",
-          "Trust in the police" = "trust_police",
-          "Trust in politicians" = "trust_politicians",
-          "Trust in political parties" = "trust_parties",
-          "Trust in the European Parliament" = "trust_eu",
-          "Trust in the United Nations" = "trust_un"
-        )
-      ),
-      
-      ### select a variable ----
-      selectInput(
-        "yvar",
-        label = "Select an independent variable",
-        choices = c(
-          "Placement on the left-right scale" = "left_right",
-          "Age" = "age",
-          "Feeling about household's income" = "income_feeling",
-          "How often do you use the internet?" = "internet_use",
-          "How happy are you?" = "happiness"
-        )
-      ),
-      
-      ### select a country ----
-      selectizeInput(
-        "countries",
-        label = "Filter by country",
-        choices = unique(ess$country),
-        selected = "FR",
-        multiple = TRUE
-      ),
-      
-      ### filter values ----
-      sliderInput(
-        "range",
-        label = "Set a value range",
-        min = min(ess$trust_parliament, na.rm = TRUE),
-        max = max(ess$trust_parliament, na.rm = TRUE),
-        value = range(ess$trust_parliament, na.rm = TRUE),
-        step = 1
-      )
-    ),
-    
-    ## Main panel ----
-    mainPanel(
-      tabsetPanel(
-        type = "tabs",
-        
-        ### Table tab ----
-        tabPanel(
-          title = "Table",
-          div(
-            style = "height: 600px; overflow-y: auto;",
-            tableOutput("table")
-          )
-        ),
-        
-        ### Plot tab ----
-        tabPanel(
-          title = "Plot",
-          plotlyOutput("plot", height = 600)
-        ),
-        
-        ### Map tab ----
-        tabPanel(
-          title = "Map",
-          leafletOutput("map", height = 600)
-        )
-      )
-    )
-  )
-)
-
-
-# Server ----
-server &lt;- function(input, output, session) {
-  # update slider ----
-  observe({
-    var &lt;- na.omit(ess[[input$xvar]])
-    is_ordered &lt;- is.ordered(var)
-    var &lt;- as.numeric(var)
-    updateSliderInput(
-      inputId = "range",
-      min = min(var),
-      max = max(var),
-      value = range(var),
-      step = if (is_ordered) 1
-    )
-  }) %&gt;%
-    bindEvent(input$xvar)
-  
-  # filter data ----
-  filtered &lt;- reactive({
-    req(input$countries, cancelOutput = TRUE)
-    
-    xvar &lt;- input$xvar
-    yvar &lt;- input$yvar
-    range &lt;- input$range
-    
-    # select country
-    ess &lt;- ess[ess$country %in% input$countries, ]
-    
-    # select variable
-    ess &lt;- ess[c("idno", "country", xvar, yvar)]
-    
-    # apply range
-    ess &lt;- ess[ess[[xvar]] &gt; range[1] &amp; ess[[xvar]] &lt; range[2], ]
-    ess
-  })
-  
-  # render table ----
-  output$table &lt;- renderTable({
-    filtered()
-  }, height = 400)
-
-  # render plot ----
-  output$plot &lt;- renderPlotly({
-    xvar &lt;- input$xvar
-    yvar &lt;- input$yvar
-    plot_data &lt;- filtered() %&gt;%
-      drop_na() %&gt;%
-      mutate(across(where(is.numeric), .fns = as.ordered))
-
-    p &lt;- ggplot(plot_data) +
-      aes(x = .data[[yvar]], y = .data[[xvar]], group = .data[[yvar]]) +
-      geom_violin(fill = "lightblue", show.legend = FALSE) +
-      theme_classic()
-    plotly::ggplotly(p)
-  })
-  
-  # render map ----
-  output$map &lt;- renderLeaflet({
-    var &lt;- input$xvar
-    ess_geo &lt;- ess_geo[c("country", var)]
-    
-    # create labels with a bold title and a body
-    labels &lt;- sprintf(
-      "&lt;strong&gt;%s&lt;/strong&gt;&lt;br&gt;%s",
-      ess_geo$country,
-      ess_geo[[var]]
-    )
-    labels &lt;- lapply(labels, HTML)
-    
-    # create a palette for numerics and ordinals
-    if (is.ordered(ess_geo[[var]])) {
-      pal &lt;- colorFactor("YlOrRd", domain = NULL)
-    } else {
-      pal &lt;- colorNumeric("YlOrRd", domain = NULL)
-    }
-
-    # construct leaflet canvas
-    leaflet(ess_geo) %&gt;%
-      # add base map
-      addTiles() %&gt;%
-      # add choropleths
-      addPolygons(
-        fillColor = pal(ess_geo[[var]]),
-        weight = 2,
-        opacity = 1,
-        color = "white",
-        fillOpacity = 0.7,
-        # highlight polygons on hover
-        highlightOptions = highlightOptions(
-          weight = 2,
-          color = "#666",
-          fillOpacity = 0.7,
-          bringToFront = TRUE
-        ),
-        label = labels
-      ) %&gt;%
-      # add a legend
-      addLegend(
-        position = "bottomleft",
-        pal = pal,
-        values = ess_geo[[var]],
-        opacity = 0.7,
-        title = var
-      )
-  })
-}
-
-shinyApp(ui = ui, server = server)</code></pre>
 </section>
 </section>
 <section id="shinyapps.io" class="level1" data-number="6">
@@ -830,7 +621,7 @@ shinyApp(ui = ui, server = server)</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="resources/shinyapps_plans.png" class="img-fluid figure-img"></p>
-<figcaption>Shinyapps.io plans</figcaption>
+<figcaption class="figure-caption">Shinyapps.io plans</figcaption>
 </figure>
 </div>
 <section id="rsconnect" class="level2" data-number="6.1">
@@ -853,7 +644,7 @@ shinyApp(ui = ui, server = server)</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="resources/shinyapps_signup.png" class="img-fluid figure-img"></p>
-<figcaption>Shinyapps.io sign-up</figcaption>
+<figcaption class="figure-caption">Shinyapps.io sign-up</figcaption>
 </figure>
 </div>
 </section>
@@ -869,7 +660,7 @@ shinyApp(ui = ui, server = server)</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="resources/shinyapps_token.png" class="img-fluid figure-img"></p>
-<figcaption>Shinyapps token to connect with <code>rsconnect</code></figcaption>
+<figcaption class="figure-caption">Shinyapps token to connect with <code>rsconnect</code></figcaption>
 </figure>
 </div>
 </section>
@@ -878,14 +669,14 @@ shinyApp(ui = ui, server = server)</code></pre>
 <ul>
 <li>To verify that the verification process was successful we run:</li>
 </ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>rsconnect<span class="sc">::</span><span class="fu">accounts</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-10_2c380422f270a535094ebc28fe3b4ef1">
+<div class="sourceCode cell-code" id="cb7" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>rsconnect<span class="sc">::</span><span class="fu">accounts</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Finally, to deploy an app, we simply run <code>deployApp()</code> to deploy an <code>app.R</code> in the current working directory to shinyapps.io:</li>
 </ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>rsconnect<span class="sc">::</span><span class="fu">deployApp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="07-deployment_cache/html/unnamed-chunk-11_ff582b9a89a3f736f978673c52d0e49f">
+<div class="sourceCode cell-code" id="cb8" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>rsconnect<span class="sc">::</span><span class="fu">deployApp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -972,27 +763,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/bookdown\.org\/paul\/shiny_workshop\/");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+  function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
+      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1002,17 +776,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start',
+      placement: 'bottom-start'
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1024,130 +789,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
-        }
-        return container.innerHTML
-      } else {
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(note);
-        }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
-    }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
-        }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
+      return note.innerHTML;
     });
   }
       let selectedAnnoteEl;
@@ -1191,7 +833,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
-            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1217,8 +858,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-        // Handle positioning of the toggle
-    window.addEventListener(
+      // Handle positioning of the toggle
+      window.addEventListener(
       "resize",
       throttle(() => {
         elRect = undefined;
@@ -1226,23 +867,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
           selectCodeLines(selectedAnnoteEl);
         }
       }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
               fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
       const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
       for (let i=0; i<annoteTargets.length; i++) {
         const annoteTarget = annoteTargets[i];
@@ -1287,7 +928,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
               options: {
                 flipVariations: false, // true by default
                 allowedAutoPlacements: ['right'],
-                fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end'],
               },
             },
             {
@@ -1345,6 +986,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/07-deployment.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.js" defer="true"></script>
+<script src="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.js" defer="true"></script>
 </body></html>
