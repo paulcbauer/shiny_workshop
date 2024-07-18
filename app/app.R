@@ -1,11 +1,12 @@
 library(tidyverse)
 library(shiny)
-library(plotly)
-library(leaflet)
-library(haven)
+library(plotly) # needed to render interactive plots
+library(leaflet) # needed to render interactive maps
+library(haven) # needed to display ess labels
+library(sf) # needed to display and process map data
 
-ess <- readRDS("states/data/ess_trust.rds")
-ess_geo <- readRDS("states/data/ess_trust_geo.rds")
+ess <- readRDS("ess_trust.rds")
+ess_geo <- readRDS("ess_trust_geo.rds")
 
 # UI ----
 ui <- fluidPage(
@@ -162,12 +163,8 @@ server <- function(input, output, session) {
     )
     labels <- lapply(labels, HTML)
     
-    # create a palette for numerics and ordinals
-    if (is.ordered(ess_geo[[var]])) {
-      pal <- colorFactor("YlOrRd", domain = NULL)
-    } else {
-      pal <- colorNumeric("YlOrRd", domain = NULL)
-    }
+    # create a palette for numerics
+    pal <- colorNumeric("YlOrRd", domain = NULL)
 
     # construct leaflet canvas
     leaflet(ess_geo) %>%

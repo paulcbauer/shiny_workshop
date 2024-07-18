@@ -32,9 +32,8 @@ website:
       - 05-server-reactive-programming-ii.qmd
       - 06-visualization.qmd
       - 07-deployment.qmd
-      - 08-dos-and-donts.qmd
-      - 09-build-your-own.qmd
-      - 10-full-code.qmd
+      - 08-build-your-own.qmd
+      - 09-full-code.qmd
 
 
 format:

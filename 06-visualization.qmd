@@ -1594,18 +1594,55 @@ output$gmap <- renderLeaflet({
 ```
 :::
 
-### Plot events
+### Proxies and plot events
 
 ::: callout-note
-#### Exercise 3.1
+## Exercise 3.1
+
+Taking the body of a server function below, how can you modify a proxy of the `plot` output every time the input is updated? Add a reactive expression that accesses the plot proxy on each input update.
+
+```{r, eval=FALSE}
+output$map <- renderPlotly({
+  var <- input$variable
+  plot_ly(x = ess[[var]]) %>%
+    add_histogram()
+})
+```
+:::
+
+::: {.callout-tip collapse="true"}
+A proxy typically resides in an observer.
+
+How can you ensure that the observer triggers when the input is updated?
+:::
+
+::: {.callout-warning collapse="true"}
+## Solution 3.1
+
+```{r, eval=FALSE}
+output$map <- renderPlotly({
+  var <- input$variable
+  plot_ly(x = ess[[var]]) %>%
+    add_histogram()
+})
+
+observe({
+  plotlyProxy("plot")
+}) %>%
+  bindEvent(input$variable)
+```
+:::
+
+::: callout-note
+#### Exercise 3.2
 
 Taking the code below, implement a proxy of the Leaflet map, that is, whenever the map is updated update the map proxy (`leafletProxy()`) instead of re-rendering the map. What are the advantages of updating the map using a proxy?
 
 Note that you need to isolate `input$xvar` in `renderLeaflet()`. This step is necessary in order to render the leaflet map exactly once. You can isolate an input by typing `isolate(input$xvar)`. Isolation severs an input from the reactive graph.
 
-```{r, eval=FALSE, file="shinyapps/example/06-exercise3_1.R"}
+```{r, eval=FALSE, file="shinyapps/example/06-exercise3_2.R"}
 #| code-fold: true
-#| code-summary: "Code for exercise 3.1"
+#| code-summary: "Code for exercise 3.2"
 
 ```
 :::
@@ -1613,41 +1650,38 @@ Note that you need to isolate `input$xvar` in `renderLeaflet()`. This step is ne
 ::: {.callout-tip collapse="true"}
 The workflow to update the map using a proxy is the following:
 
-1. Render the map once using `renderLeaflet()`
-2. Everytime the map is updated (by changing `input$xvar`), trigger an observer
-3. The observer changes `leafletProxy("map")`
-4. Using the proxy, clear all polygons and add the updated polygons
+1.  Render the map once using `renderLeaflet()`
+2.  Everytime the map is updated (by changing `input$xvar`), trigger an observer
+3.  The observer changes `leafletProxy("map")`
+4.  Using the proxy, clear all polygons and add the updated polygons
 
 You can clear the existing polygons and the legend using the `leaflet::clearShapes()` and `leaflet::clearControls()` functions.
 :::
 
 ::: {.callout-warning collapse="true"}
-#### Solution 3.1
+#### Solution 3.2
 
 A solution for exercise 3.1 is presented in the collapsed code chunk below. A proxy is implemented by first rendering the map once through `renderLeaflet` and then triggering an observer each time the map is updated. The observer contains a call to `leafletProxy` which updates the map in place instead of re-rendering.
 
 Although the proxy does not serve any important purpose in this case, there are two key advantages which can be observed in the result:
 
-1. The map becomes much snappier, that means the updates are shown much faster than before
-2. The map view does not reset when the map updates. You can preserve the pan position and zoom level
+1.  The map becomes much snappier, that means the updates are shown much faster than before
+2.  The map view does not reset when the map updates. You can preserve the pan position and zoom level
 
 These advantages might be irrelevant in this scenario, but can come in handy in more specific use cases.
 
-
-```{r, eval=FALSE, file="shinyapps/example/06-exercise3_1_solution.R"}
+```{r, eval=FALSE, file="shinyapps/example/06-exercise3_2_solution.R"}
 #| code-fold: true
 #| code-summary: "Complete solution code"
 #| source-line-numbers: "42,78-111"
 ```
 :::
 
-
 ::: callout-note
-#### Exercise 3.2
+#### Exercise 3.3
 
 Taking the code from exercise 3.1, add a proxy that adds small blue dots when clicking anywhere on one of the polygons.
 :::
-
 
 ::: {.callout-tip collapse="true"}
 The proxy should only be triggered in case of a specific plot event. How can this plot event be accessed?
@@ -1655,31 +1689,35 @@ The proxy should only be triggered in case of a specific plot event. How can thi
 To add a blue dot, see the [`addCircleMarkers`](https://rstudio.github.io/leaflet/reference/map-layers.html) function.
 :::
 
-
-
-
-
-
-::: callout-note
-#### Exercise 3.3
-
-So far, we have only talked about plot events in Leaflet. Taking the code below, implement an observer that prints the current plot coordinates every time the plot legend is double-clicked. Use plotly's [`event_data()`](https://rdrr.io/cran/plotly/man/event_data.html) function.
-
-```{r, eval=FALSE, file="shinyapps/example/06-exercise3_3.R"}
-#| code-fold: true
-#| code-summary: "Code for exercise 3.3"
-```
-:::
-
-
 ::: {.callout-warning collapse="true"}
 #### Solution 3.3
 
-A solution for exercise 3.2 is presented in the collapsed code chunk below. 
+To add a blue dot when a user clicks on a polygon, add a observer that holds a proxy to "map" and depends on `input$map_click_shape`
 
+```{r, eval=FALSE}
+observe({
+  
+}) %>%
+  bindEvent()
+```
 :::
 
+::: callout-note
+#### Exercise 3.4
 
+So far, we have only talked about plot events in Leaflet. Taking the code below, implement an observer that prints the current plot coordinates every time the plot legend is double-clicked. Use plotly's [`event_data()`](https://rdrr.io/cran/plotly/man/event_data.html) function.
+
+```{r, eval=FALSE, file="shinyapps/example/06-exercise3_4.R"}
+#| code-fold: true
+#| code-summary: "Code for exercise 3.4"
+```
+:::
+
+::: {.callout-warning collapse="true"}
+#### Solution 3.4
+
+A solution for exercise 3.4 is presented in the collapsed code chunk below.
+:::
 
 ### Beyond plotly and leaflet
 

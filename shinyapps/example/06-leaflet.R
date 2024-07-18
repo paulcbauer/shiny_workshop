@@ -163,11 +163,7 @@ server <- function(input, output, session) {
     labels <- lapply(labels, HTML)
     
     # create a palette for numerics and ordinals
-    if (is.ordered(ess_geo[[var]])) {
-      pal <- colorFactor("YlOrRd", domain = NULL)
-    } else {
-      pal <- colorNumeric("YlOrRd", domain = NULL)
-    }
+    pal <- colorNumeric("YlOrRd", domain = NULL)
     
     # construct leaflet canvas
     leaflet(ess_geo) %>%

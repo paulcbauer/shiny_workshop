@@ -46,6 +46,16 @@ Learning outcomes - Debug Shiny apps and understand them from the inside - Super
 -   Useful for testing performance or **speed** of your app
 -   Performance profiling in Shiny can be done with the `profvis` package
 
+
+## Interpreting flame graphs
+
+- Flame graphs are a tool to quickly visualize performance of individual parts of an app
+- They consist of two-dimensional "function boxes" which represent an individual function call
+  - The **width** of a function box indicates the time it took to process the function call
+  - The **stacked height** of function boxes indicates their ancestry. The lower boxes are the parents and the upper boxes are their children, i.e. the lower boxes call the upper boxes
+
+![The concept of a flame graph](resources/flame_graph.svg)
+
 ## Using the `profvis` package
 
 -   Simply run your app within a `profvis::profvis()` call:
@@ -59,16 +69,22 @@ It is necessary to use `runApp()`, `shinyApp()` does not suffice!
 :::
 
 -   Then, perform some tasks in the Shiny app
--   Close the app, and an HTML file will open that looks something like below:
+-   Close the app and a flame graph will be created
+-   Note the color scheme:
+    - Yellow boxes correspond to specific lines in the code
+    - Blue boxes correspond to output objects
+    - Grey boxes correspond to garbage collection
 
 ```{r echo=FALSE}
-htmltools::tags$iframe(src = "shinyapps/guerry/guerry_profvis.html", width = "100%", height = "800px")
+htmltools::tags$iframe(src = "resources/profvis.html", width = "100%", height = "800px")
 ```
+
+
 
 # Debugging Shiny apps
 
 -   Debugging Shiny apps is a unique challenge as Shiny code is not linear like regular R code
--   Setting breakpoints is tricky and only supported in RStudio
+-   Setting breakpoints is unreliable and only supported in RStudio
 -   Here, we introduce three ways to debug a Shiny app:
     -   Interactive debugging
     -   Print debugging aka logging
@@ -106,15 +122,12 @@ htmltools::tags$iframe(src = "shinyapps/guerry/guerry_profvis.html", width = "10
 ### Using the `reactlog` package
 
 -   Run [`reactlog::reactlog_enable()`](https://rstudio.github.io/reactlog/reference/setReactLog.html) before running the Shiny app or set `options(shiny.reactlog = TRUE)`
-
 -   Do stuff in your Shiny app (particularly something that triggers dependencies!)
-
 -   Run [`shiny::reactlogShow()`](https://shiny.posit.co/r/reference/shiny/1.3.1/reactlog.html) or [`reactlog::reactlog_show()`](https://rstudio.github.io/reactlog/reference/reactlog_show.html) after closing the app
-
 -   Alternatively, press `Strg + F3` while the app is running
 
 ```{r echo=FALSE}
-htmltools::tags$iframe(src = "shinyapps/guerry/guerry_reactlog.html", width = "100%", height = "500px")
+htmltools::tags$iframe(src = "resources/reactlog.html", width = "100%", height = "500px")
 ```
 
 # Deployment
@@ -176,7 +189,7 @@ knitr::include_url("https://repo.r-wasm.org/")
 -   Can be quite slow on startup
 -   Code and data are fully visible in the source code (thus not useful for sensitive data)
 -   App runs on the client machine and can thus be very slow and demanding
--   The framework is in early development and its usage is not always the most user-friendly
+-   The framework is in early development and debugging can be a real hassle
 
 ![A common Shinylive error](resources/shinylive-error.png)
 
@@ -278,3 +291,38 @@ rsconnect::accounts()
 ```{r eval=FALSE}
 rsconnect::deployApp()
 ```
+
+
+
+
+# Exercises
+
+::: callout-note
+#### Exercise 1
+
+Export your Shiny app as a static Shinylive webpage using the `shinylive` package.
+
+To prevent problems ahead of time, make sure that you are running the newest version of the Shinylive package and web assets. The latest `shinylive` version can be downloaded from GitHub:
+
+```{r}
+# pak::pkg_install("posit-dev/r-shinylive")
+packageVersion("shinylive")
+```
+
+The latest assets version can be retrieved using `shinylive::assets_version()`
+
+```{r}
+# assets_ensure()
+assets_version()
+```
+:::
+
+
+::: callout-note
+#### Exercise 2
+
+Deploy your Shiny app using [shinyapps.io]. If necessary, create an account, and then follow the instructions.
+
+Study the documentation of `?rsconnect::deployApp()` to learn about possible
+deployment configurations.
+:::
