@@ -5,6 +5,7 @@ title: "About this workshop"
 
 ```{r dependencies, include=FALSE, cache=FALSE}
 packages <- unique(renv::dependencies()$Package)
+packages <- packages[packages!="R"]
 
 # assert that all packages are available
 loadable <- vapply(packages, FUN.VALUE = logical(1), requireNamespace)
@@ -31,7 +32,7 @@ library(pander)
 
 
 
-This document serves as slides and script for the workshop ***Interactive Data Analysis with Shiny*** taught by [Paul C. Bauer](http://paulcbauer.eu/) <a href='https://twitter.com/p_c_bauer' class='fa fa-twitter' target='_blank'></a> and [Jonas Lieth]() (Gesis, Mannheim, Online, 5-7th of July 2023). Original material is licensed under a [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) license. Where we draw on other authors material other licenses may apply (see references in the syllabus as well as the citations and links in the script). For potential future versions of this material see the  [github repository](https://github.com/paulcbauer/shiny_workshop/). If you have feedback or discover errors/dead links please let us know via email (mail@paulcbauer.de/Jonas.Lieth@gesis.org) or by submitting an issue on github. And make sure to [install all the necessary packages]() before you use the script.
+This document serves as slides and script for the workshop ***Interactive Data Analysis with Shiny*** taught by [Paul C. Bauer](http://paulcbauer.eu/) <a href='https://twitter.com/p_c_bauer' class='fa fa-twitter' target='_blank'></a> and [Jonas Lieth](). Original material is licensed under a [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) license. Where we draw on other authors material other licenses may apply (see references in the syllabus as well as the citations and links in the script). For potential future versions of this material see the  [github repository](https://github.com/paulcbauer/shiny_workshop/). If you have feedback or discover errors/dead links please let us know via email (mail@paulcbauer.de/Jonas.Lieth@gesis.org) or by submitting an issue on github. And make sure to [install all the necessary packages]() before you use the script.
 
 <br><br>
 
