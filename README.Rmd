@@ -71,8 +71,8 @@ programs and the package are free and open source.
 
 ## Time schedule
 
-```{r}
-htmltools::tags$iframe(src = "resources/profvis.html", width = "100%", height = "800px")
+```{r, echo=FALSE}
+htmltools::includeHTML("resources/schedule.html")
 ```
 
 
