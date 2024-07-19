@@ -1,4 +1,3 @@
-
 library(tidyverse)
 library(shiny)
 library(plotly)
@@ -55,7 +54,7 @@ ui <- fluidPage(
       ### filter values ----
       sliderInput(
         "range",
-        label = "Set a value range (dependent variable)",
+        label = "Set a value range",
         min = min(ess$trust_parliament, na.rm = TRUE),
         max = max(ess$trust_parliament, na.rm = TRUE),
         value = range(ess$trust_parliament, na.rm = TRUE),
@@ -75,6 +74,18 @@ ui <- fluidPage(
             style = "height: 600px; overflow-y: auto;",
             tableOutput("table")
           )
+        ),
+        
+        ### Plot tab ----
+        tabPanel(
+          title = "Plot",
+          plotlyOutput("plot", height = 600)
+        ),
+        
+        ### Map tab ----
+        tabPanel(
+          title = "Map",
+          leafletOutput("map", height = 600)
         )
       )
     )
@@ -122,7 +133,67 @@ server <- function(input, output, session) {
   output$table <- renderTable({
     filtered()
   }, height = 400)
+
+  # render plot ----
+  output$plot <- renderPlotly({
+    xvar <- input$xvar
+    yvar <- input$yvar
+    plot_data <- filtered() %>%
+      drop_na() %>%
+      mutate(across(where(is.numeric), .fns = as.ordered))
+
+    p <- ggplot(plot_data) +
+      aes(x = .data[[yvar]], y = .data[[xvar]], group = .data[[yvar]]) +
+      geom_violin(fill = "lightblue", show.legend = FALSE) +
+      theme_classic()
+    plotly::ggplotly(p)
+  })
   
+  # render map ----
+  output$map <- renderLeaflet({
+    var <- input$xvar
+    ess_geo <- ess_geo[c("country", var)]
+    
+    # create labels with a bold title and a body
+    labels <- sprintf(
+      "<strong>%s</strong><br>%s",
+      ess_geo$country,
+      ess_geo[[var]]
+    )
+    labels <- lapply(labels, HTML)
+    
+    # create a palette for numerics and ordinals
+    pal <- colorNumeric("YlOrRd", domain = NULL)
+
+    # construct leaflet canvas
+    leaflet(ess_geo) %>%
+      # add base map
+      addTiles() %>%
+      # add choropleths
+      addPolygons(
+        fillColor = pal(ess_geo[[var]]),
+        weight = 2,
+        opacity = 1,
+        color = "white",
+        fillOpacity = 0.7,
+        # highlight polygons on hover
+        highlightOptions = highlightOptions(
+          weight = 2,
+          color = "#666",
+          fillOpacity = 0.7,
+          bringToFront = TRUE
+        ),
+        label = labels
+      ) %>%
+      # add a legend
+      addLegend(
+        position = "bottomleft",
+        pal = pal,
+        values = ess_geo[[var]],
+        opacity = 0.7,
+        title = var
+      )
+  })
 }
 
 shinyApp(ui = ui, server = server)
