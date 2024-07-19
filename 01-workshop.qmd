@@ -11,7 +11,7 @@ loadable <- vapply(packages, FUN.VALUE = logical(1), requireNamespace)
 
 # install missing dependencies
 if (!all(loadable)) {
-  pak::pkg_install(packages[!loadable])
+  pacman::p_install(packages[!loadable])
 }
 
 exclude <- c(
