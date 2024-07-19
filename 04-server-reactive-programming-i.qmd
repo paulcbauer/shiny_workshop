@@ -373,7 +373,32 @@ depends on both `c()` and `input$d`.
 
 
 
-## Reactive expressions (more!)
+
+## `reactive()` and other functions
+- Shiny provides a variety of reactive functions such as `reactive()`, `observe()`, `bindevent()` etc.
+- So far we have seen `reactive()` (more later!)
+- `reactive()`: wraps a normal expression to create a reactive expression
+  - is "reactive" in the sense that if its dependencies change, it will automatically update.
+  - Below reactive `string` changes whenever dependency `input$name` changes.
+  - Q: What would be the *reactive producer* and what the *reactive consumer*?
+
+
+```r
+ui <- fluidPage(
+  textInput("name", "What's your name?"),
+  textOutput("greeting"),
+)
+
+server <- function(input, output, session) {
+  string <- reactive(paste0("Hello ", input$name, "!"))
+  output$greeting <- renderText(string())
+}
+shinyApp(ui, server)
+```
+
+
+
+## Summary: reactive expressions
 - [Chapter 3.4](https://mastering-shiny.org/basic-reactivity.html#reactive-expressions-1) is recommended reading!
 - **Reactive expressions** (e.g., `reactive()`) are important because...
   - give Shiny more information so that it can do less recomputation when inputs change
@@ -393,233 +418,10 @@ knitr::include_graphics("resources/producers-consumers.png", dpi = 300)
 
 
 
-## Reactive functions: Overview
-- Shiny provides a variety of reactive functions such as `reactive()`, `observe()`, `bindevent()` and others.`
-- See insightful discussions on reactivity and reactive functions in [Chapter 3.5.1](https://mastering-shiny.org/basic-reactivity.html#timed-invalidation).
-
-
-### reactive()
-- `reactive()`: wraps a normal expression to create a reactive expression
-  - is "reactive" in the sense that if its dependencies change, it will automatically update.
-  - Below reactive `string` changes whenever dependency `input$name` changes.
-  - Q: What would be the *reactive producer* and what the *reactive consumer*?
-
-
-```r
-ui <- fluidPage(
-  textInput("name", "What's your name?"),
-  textOutput("greeting"),
-)
-
-server <- function(input, output, session) {
-  string <- reactive(paste0("Hello ", input$name, "!"))
-  output$greeting <- renderText(string())
-}
-shinyApp(ui, server)
-  })
-```
-
-### observe() vs. reactive()
-- `reactive()`: creates a reactive expression that can be changed over time by user inputs
-- `observe()`: creates an observer that runs whenever any of its reactive dependencies change
-  - i.e., code inside `observe()` will be re-evaluated whenever any **reactive inputs or reactive expressions** that it references get updated
-  - BUT we don't assign result of `observe()` to a variable, so we can't refer to it from other reactive consumers
 
 
 
-::: {.callout-note collapse="true"}
-Below we use a reactive expression using `reactive()` to create `squared`. This is then reused in the `observe()` function that wraps a render function `renderText()` that creates and the output element `output$text`.
-  
-:::
-
-```r
-library(shiny)
-
-ui <- fluidPage(
-  numericInput("num", "Enter a number", value = 1),
-  textOutput("text")
-)
-
-server <- function(input, output, session) {
-  # reactive expression
-  squared <- reactive({ 
-    input$num^2 
-  })
-  
-  # observer
-  observe({ 
-    output$text <- renderText({
-      paste0("The square of ", input$num, " is ", squared())
-    })
-  })
-}
-
-shinyApp(ui = ui, server = server)
-```
-
-
-
-
-### Reacting on events: bindEvent()
-* `bindEvent()`: provides a straightforward API for event handling
-- `observeEvent()` (observers): used when you want to perform an action in response to an event (see `input$button` below), but you don't need the result of the action to be used in the UI
-
-::: {.callout-note collapse="true"}
-In this example, when the "Generate Random Number" button is clicked, a random number is generated, but it doesn't get displayed immediately. Instead, the `output$randomNumber` expression is bound to `input$dispButton` event with `bindEvent()`, and the result is displayed only when the "Display Random Number" button is clicked. This allows you to have more control over when the UI updates in response to changes in server-side reactive values.
-:::
-
-```r
-library(shiny)
-
-# Define UI
-ui <- fluidPage(
-    actionButton("genButton", "Generate Random Number"),
-    actionButton("dispButton", "Display Random Number"),
-    textOutput("randomNumber")
-)
-
-# Define server logic
-server <- function(input, output, session) {
-    randNum <- reactiveValues(num = NULL)
-
-    observeEvent(input$genButton, {
-        randNum$num <- runif(1) # Generate a random number when genButton is clicked
-    })
-    
-    output$randomNumber <- renderText({ 
-        randNum$num # Generate the reactive expression
-    }) %>% 
-    bindEvent(input$dispButton) # Binding the output$randomNumber reactive expression to dispButton
-}
-
-# Run the application 
-shinyApp(ui = ui, server = server, options = list(display.mode='showcase'))
-```
-
-
-
-
-
-
-### eventReactive() (skip!)
-* Alternative to `bind_event()`
-* `eventReactive()`: Similar to `reactive()`, but only re-evaluates when a certain event is triggered. Can be used in combination with `observeEvent()`.
-
-
-::: {.callout-note collapse="true"}
-In this app, when you click the "Generate Random Number" button, a random number is generated, but it's not displayed yet. When you click the "Display Random Number" button, the generated number is then displayed. The `eventReactive()` function is used to create a reactive value (the random number) that is updated only when a specific event (clicking the "Generate Random Number" button) occurs.
-:::
-
-
-```r
-library(shiny)
-
-# Define UI
-ui <- fluidPage(
-    actionButton("genButton", "Generate Random Number"),
-    actionButton("dispButton", "Display Random Number"),
-    textOutput("randomNumber")
-)
-
-# Define server logic
-server <- function(input, output, session) {
-    randNum <- eventReactive(input$genButton, {
-        runif(1) # Generate a random number when genButton is clicked
-    })
-    
-    observeEvent(input$dispButton, {
-        output$randomNumber <- renderText({ randNum() }) # Display the random number when dispButton is clicked
-    })
-}
-
-# Run the application 
-shinyApp(ui = ui, server = server, options = list(display.mode='showcase'))
-```
-
-
-
-### isolate() (skip!)
-* `isolate()`: used to access the value of a reactive expression or input without setting up a dependency
-  - useful to access the current value of an input or reactive expression, but without re-running the code when that input or expression changes
-  
-::: {.callout-note collapse="true"}
-In this app, when you click the "Generate Random Number" button, a random number is generated. This number does not immediately cause a reactive event because it's isolated within the `isolate()` function. It only gets displayed when you click the "Display Random Number" button. Changes to `randNum$num` after "Display Random Number" button is clicked won't affect the displayed value until the button is clicked again. Thus, the `isolate()` function enables the use of reactive values without triggering reactivity.
-:::
-  
-
-```r
-library(shiny)
-
-# Define UI
-ui <- fluidPage(
-    actionButton("genButton", "Generate Random Number"),
-    actionButton("dispButton", "Display Random Number"),
-    textOutput("randomNumber")
-)
-
-# Define server logic
-server <- function(input, output, session) {
-    randNum <- reactiveValues(num = NULL) # Create object to store reactiv values
-
-    observeEvent(input$genButton, {
-        randNum$num <- runif(1) # Generate a random number when genButton is clicked
-    })
-    
-    observeEvent(input$dispButton, {
-        output$randomNumber <- renderText({ 
-          isolate(randNum$num) # Display the random number when dispButton is clicked, but do not reactivity link it
-        }) 
-    })
-}
-
-# Run the application 
-shinyApp(ui = ui, server = server, options = list(display.mode='showcase'))
-
-```
-
-
-### reactiveTimer() (skip!)
-* `reactiveTimer()`: used to create a reactive expression that invalidates itself after a given number of milliseconds. This can be useful for causing certain parts of your Shiny app to update on a regular interval. 
-
-::: {.callout-note collapse="true"}
-In this example, `autoInvalidate()` is a reactive expression that becomes invalidated (i.e., signals that it needs to be re-evaluated) every 1000 milliseconds. By referencing `autoInvalidate()` inside the `renderText()` function, we're creating a dependency — so, every time `autoInvalidate()` is invalidated, the current time is re-evaluated and the UI is updated with the new time.
-:::
-
-
-```r
-library(shiny)
-
-# Define UI
-ui <- fluidPage(
-  textOutput("currentTime")
-)
-
-# Define server logic
-server <- function(input, output, session) {
-  
-  # Define a reactive timer with a 1000ms (1s) interval
-  autoInvalidate <- reactiveTimer(1000)
-  
-  output$currentTime <- renderText({
-    autoInvalidate()  # This line causes the reactive expression to be invalidated (and thus re-evaluated) every second
-    as.character(Sys.time())  # Display the current time
-  })
-}
-
-# Run the application 
-shinyApp(ui = ui, server = server)
-```
-
-
-
-
-
-
-
-
-
-## Guerry app (reactivity): Tabulate data tab
-* The Guerry app includes the following reactive functions: `reactive()`, `observe()`, `isolate()`, `bindEvent()`.
+## ESS app (reactivity): Tabulate data tab
 * Below the basic code underlying the Tabulate tab of our app.
   - What would the reactive graph look like for this app (how many inputs, reatives, outputs)?
   - Which reactive functions can you identify?
