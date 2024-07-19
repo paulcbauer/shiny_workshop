@@ -5,13 +5,13 @@ title: "Introduction"
 - Learning outcomes: 
   - Understand idea/aims/advantages/steps of interactive data analysis
   - Understand basic structure of Shiny apps (components)
-  - Quick overview of the workshop data
+  - Quick overview of Guerry data
   - Discuss MVP and workflow
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 # install.packages("pacman)
-pacman::p_load(knitr, quarto, tidyverse, gganimate, kableExtra, sf)
+pacman::p_load(knitr, quarto, tidyverse, gganimate, kableExtra)
 ```
 
 Sources: @Bertini2017-jq, @wickham2021mastering and @Fay2021-ta
@@ -84,7 +84,7 @@ Sources: @Bertini2017-jq, @wickham2021mastering and @Fay2021-ta
 - **Process** not sequential but **highly iterative** (jumping back/forth between steps)
 - **Some activities exclusively human**, e.g., defining problems, generating questions, etc.
 - **Visualization only small portion** of process and effectiveness depends on other steps
-- **Interaction**: all over the place... every time you tell your computer what to do (and she returns information)
+- **Interaction**: all over the place... every time you tell your computer what to do (and it returns information)
   - Gather and transform the data
   - Specify a model and/or a query from the data
   - Specify how to represent the results (and the model)
@@ -92,7 +92,7 @@ Sources: @Bertini2017-jq, @wickham2021mastering and @Fay2021-ta
   - Synthesize and communicate the facts gathered
 - **Direct manipulation vs. command-Line interaction**: [WIMP](https://en.wikipedia.org/wiki/WIMP_(computing)) interfaces (direct manipulation, clicks, mouse overs, etc.,) are interactive but so is command line
   - You can let users type!
-- **Audience**: what skills and pre-knowledge do the have? (domain knowledge, statistics, graphs)
+- **Audience**: what (interaction) skills and pre-knowledge do the have? (domain knowledge, statistics, graphs)
 
 
 
@@ -285,23 +285,22 @@ ggplot(datasaurus_dozen, aes(x=x, y=y))+
 ### Pro & contra Shiny
 #### Pros of R Shiny:
 
-1. **Fast Prototyping**: Shiny is excellent for quickly turning ideas into applications, and is relatively easy to use even for those who aren't seasoned programmers.
-2. **Interactivity**: Shiny lets you build interactive web apps, enhancing user engagement and experience (especially good for dashboards)
-3. **Integration with R Ecosystem**: Shiny integrates seamlessly with R's **vast open-source ecosystem** (thousands of R packages, but also see [shiny for python](https://shiny.posit.co/py/))
-5. **Statistical Modeling and Visualization**: Shiny allows you to apply complex statistical modeling and visualizations within your app (leveraging R's strong capabilities)
-6. **No Need for Web Development Skills**: With Shiny, you can create web apps using R code alone. Knowledge of HTML, CSS, or JavaScript is not necessary but can help
-7. **Reactivity**: Shiny's reactivity system is excellent. Fairly simple to create applications that automatically update in response to user inputs
-8. **Sharing and Publishing**: Shiny apps can be easily published and shared, either through RStudio's Shiny server, Shinyapps.io, or embedding in R Markdown documents or websites (shinylive!).
+1. **Fast Prototyping**: Shiny is excellent for quickly turning ideas into applications; easy to use even for non-seasoned programmers
+2. **Interactivity**: lets you build interactive web apps, enhancing user engagement and experience (dashboards!)
+3. **Integration with R Ecosystem**: integrates seamlessly with R's **vast open-source ecosystem** (see [shiny for python](https://shiny.posit.co/py/))
+5. **Statistical Modeling and Visualization**: allows for complex statistical modeling and visualizations within your app
+6. **No Need for Web Development Skills**: Create web apps with R code alone (no need for HTML, CSS, or JavaScript)
+7. **Reactivity**: fairly simple to create applications that automatically update in response to user inputs
+8. **Sharing and Publishing**: apps can be easily published and shared (e.g., Shinyapps.io or shinylive)
 
 #### Cons of R Shiny:
 
-1. **Performance**: Shiny apps run on top of R, an interpreted language, which can cause performance issues when handling large amounts of data or complex calculations.
-2. **Single-threaded**: R (and by extension Shiny) is single-threaded, which can also cause performance issues when dealing with many simultaneous users (see [here](https://shiny.posit.co/r/articles/improve/scaling-and-tuning/)).
-3. **Complexity**: While Shiny's basics are easy to learn, mastering the intricacies of reactivity can be challenging.
-4. **Limited Customization**: While it is not hard to create a simple app from your R output, it can be challenging to get around more advanced R packages or even CSS or JavaScript when you require more sophisticated user interfaces.
-5. **Data Gathering and Saving**: It can be challenging to use Shiny for gathering and saving data to the database.
-6. **Maintenance Cost**: The cost of maintaining a Shiny application over time, including server costs and personnel time, can be high because Shiny maintenance requires some more unique skill sets.
-7. **Software Dependencies**: Certain Shiny applications may have many software dependencies, which can be challenging to manage and could potentially lead to issues down the line.
+1. **Performance**: apps run on top of R, an interpreted language, which can cause performance issues
+2. **Single-threaded**: R (and by extension Shiny) is single-threaded, which can also cause performance issues (see [here](https://shiny.posit.co/r/articles/improve/scaling-and-tuning/)).
+3. **Complexity**: Shiny's basics are easy but mastering intricacies of reactivity is more challenging
+4. **Data Gathering and Saving**: It can be challenging to use Shiny for gathering and saving data to the database.
+5. **Maintenance Cost**: cost of maintaining a Shiny application over time can be high (now we have shinylive!)
+6. **Software Dependencies**: Certain Shiny applications may have many software dependencies, which could potentially lead to issues down the line
 
 
 
@@ -344,8 +343,7 @@ kable(head(data))
 
 
 data_geo <- readRDS("./data/ess_trust_geo.rds")
-
-kable(head(data_geo))
+# View(data_geo)
 ```
 
 - `data_geo` (see @tbl-data-geo) comprises aggregated ESS data with geographic information (File: `ess_trust_geo.rds`; `geometry` variable describes the geographic shape of `regions`)
@@ -362,7 +360,6 @@ kable(head(data_geo))
 ```{r chunk-1, cache=TRUE, eval=FALSE, include=TRUE}
 install.packages("shiny")
 install.packages("tidyverse")
-# Guerry package is already installed
 ```
 
 2. Create a directory with the name of your app "myfirstapp" in your [working directory](https://bookdown.org/ndphillips/YaRrr/the-working-directory.html).
