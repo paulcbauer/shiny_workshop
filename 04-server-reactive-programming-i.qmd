@@ -421,13 +421,10 @@ knitr::include_graphics("resources/producers-consumers.png", dpi = 300)
 
 
 
-## ESS app (reactivity): Tabulate data tab Exercise
-* Below the basic code underlying and necessary for the Table tab of our app.
-* Please discuss in groups (breakout rooms)
-  - Which `input`, `output` and `render` functions can you identify?
-  - Which `reactive` functions can you identify?
-  - What would the reactive graph look like for this app (how many inputs, reactives, outputs are there)?
-
+## ESS app (reactivity): Tabulate data tab
+* Below the basic code underlying the Table tab of our app.
+  - What would the reactive graph look like for this app (how many inputs, reactives, outputs)?
+  - Which reactive functions can you identify?
 
 
 
