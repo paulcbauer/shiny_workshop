@@ -47,7 +47,7 @@ shinyApp(ui, server)
 
 - `ui` simple because every user gets same html
 - `server` more complicated because every user needs independent version of the app
-  - e.g., Julia using slider should not affect Petra ui!
+  - e.g., Julia using slider should not affect Petra's ui!
 - `server()` is invoked each time new session starts
   - 3 parameters (`input`, `output`, `session`) that are created by Shiny (not by us!) when session starts  connecting to specific session
 
@@ -60,7 +60,7 @@ shinyApp(ui, server)
     - **reactive functions** allow for outputs to automatically update when an input changes
 
 - `output`: a list-like object containing outputs named according to `output ID`
-  - **Difference**: `output` used for sending output instead of receiving `input` (always in concert with **render function** as below)
+  - **Difference**: `output` list used for sending output instead of receiving input through `input` list (always in concert with **render function** as below)
   - Q: How many inputs/outputs/render functions are there in the code below? What does it do?
   
 ```{r 04-server-reactive-programming-3, echo=TRUE, eval=FALSE}
@@ -94,13 +94,13 @@ shinyApp(ui, server)
   - `renderPlot({...})`
   - `renderPlotly({...})` (!)
   - `renderPrint({...})`
-  - `renderTable({...})`
-  - `renderDataTable({...})` (!)
+  - `renderTable({...})` (!)
+  - `renderDataTable({...})`
   - `renderText({...})`
-  - `renderUI({...})` (!)
-  - `renderLeaflet({...})` (!)
+  - `renderUI({...})`
+  - `renderLeaflet({...})`(!)
 
-- Our Guerry app uses those marked with  (!).
+- Our app uses those marked with  (!).
 
 ::: {.callout-warning collapse="true"}
 
@@ -229,7 +229,7 @@ shinyApp(ui, server)
 
 
 ### Exercises
-1. Can you spot errors in the code of the different `server1`, `server2` and `server3` below? 
+1. Can you spot errors in the code of the different servers `server1`, `server2` and `server3` below? 
 
 ```{r 04-server-reactive-programming-9, echo=TRUE, eval=FALSE}
 # UI
@@ -243,7 +243,6 @@ server1 <- function(input, output, server) {
   input$greeting <- renderText(paste0("Hello ", name))
 }
 
-# HOMEWORK!
 server2 <- function(input, output, server) {
   greeting <- paste0("Hello ", input$name)
   output$greeting <- renderText(greeting)
@@ -256,6 +255,25 @@ server3 <- function(input, output, server) {
 
 
 ```
+
+
+
+
+
+::: {.callout-warning collapse="true"}
+
+#### Solution(s)
+
+* Server 1: Forgot to specify refer to list using `name` instead of `input$name`.
+* Server 2: Forgot to specify that greeting is a reactive using `greeting` intead to `greeting()` within `renderText()`.
+* Server 3: Called the output that is stored in list `output` `greting` instead of `greeting`. Hence, it can not be found by the `textOutput()` function.
+
+
+:::
+
+
+
+
 
 
 
@@ -362,8 +380,9 @@ depends on both `c()` and `input$d`.
   - make apps more efficient and easier for humans to understand (simplify reactive graph!)
 - Are like inputs since you can use results of a reactive expression in an output
 - Are like outputs since they depend on inputs and automatically know when they need updating
-- Inputs and reactive expressions are **reactive producers** (see @fig-prod-consumer)
-- Reactive expressions and outputs are **reactive consumers** (see @fig-prod-consumer)
+- *Inputs* and *reactive expressions* are **reactive producers** (see @fig-prod-consumer)
+- *Reactive expressions* and *outputs* are **reactive consumers** (see @fig-prod-consumer)
+- In other words.. *reactive expressions* are both **producers** and **consumers**.
 
 ```{r 04-server-reactive-programming-11, echo = FALSE, out.width = NULL}
 #| label: fig-prod-consumer
