@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -58,6 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -99,7 +100,13 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -108,6 +115,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -122,16 +130,16 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </script>
-
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+
 <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
 
 
 <link rel="stylesheet" href="styles.css">
 <meta name="twitter:title" content="Workshop: Interactive Data Analysis with Shiny - Introduction">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://bookdown.org/paul/shiny_workshop/resources/02-bertinin-2.webp">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-sidebar floating">
@@ -140,12 +148,12 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-introduction.html">Introduction</a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-introduction.html">Introduction</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -155,14 +163,14 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Interactive Data Analysis with Shiny</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://training.gesis.org/?site=pDetails&amp;child=full&amp;pID=0x0D17F8F738B14E0991504DBF8823A002" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-cursor-fill"></i></a>
-    <a href="https://github.com/paulcbauer/shiny_workshop" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
-    <a href="https://github.com/paulcbauer/shiny_workshop/issues" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-bug-fill"></i></a>
+    <a href="https://training.gesis.org/?site=pDetails&amp;child=full&amp;pID=0x0D17F8F738B14E0991504DBF8823A002" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-cursor-fill"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop/issues" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-bug-fill"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
@@ -222,26 +230,20 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./08-dos-and-donts.html" class="sidebar-item-text sidebar-link">
+  <a href="./08-build-your-own.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Good practices when building your own app</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./09-build-your-own.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Build your own app</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./10-full-code.html" class="sidebar-item-text sidebar-link">
+  <a href="./09-full-code.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Example app: Full code</span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -282,7 +284,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <li><a href="#debugging-workflow" id="toc-debugging-workflow" class="nav-link" data-scroll-target="#debugging-workflow"><span class="header-section-number">7.2</span> Debugging workflow</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/02-introduction.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/02-introduction.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -302,14 +304,16 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
+
 
 <ul>
 <li>Learning outcomes:
 <ul>
 <li>Understand idea/aims/advantages/steps of interactive data analysis</li>
 <li>Understand basic structure of Shiny apps (components)</li>
-<li>Quick overview of Guerry data</li>
+<li>Quick overview of the workshop data</li>
 <li>Discuss MVP and workflow</li>
 </ul></li>
 </ul>
@@ -362,7 +366,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <section id="how-does-interactive-data-analysis-work" class="level3" data-number="1.3">
 <h3 data-number="1.3" class="anchored" data-anchor-id="how-does-interactive-data-analysis-work"><span class="header-section-number">1.3</span> How Does Interactive Data Analysis Work?</h3>
 <ul>
-<li><a href="#fig-bertini-two">Figure&nbsp;1</a> outlines process underlying interactive data analysis
+<li><a href="#fig-bertini-two" class="quarto-xref">Figure&nbsp;1</a> outlines process underlying interactive data analysis
 <ul>
 <li><strong>Loop</strong>
 <ul>
@@ -373,10 +377,14 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </ul></li>
 </ul></li>
 </ul>
-<div id="fig-bertini-two" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="resources/02-bertinin-2.webp" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure&nbsp;1: Process underlying interactive data analysis (Source: Bertini, 2017)</figcaption>
+<div id="fig-bertini-two" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bertini-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="resources/02-bertinin-2.webp" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bertini-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Process underlying interactive data analysis (Source: Bertini, 2017)
+</figcaption>
 </figure>
 </div>
 </section>
@@ -455,32 +463,34 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <section id="anscombess-quartet-1" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="anscombess-quartet-1"><span class="header-section-number">2.1</span> Anscombes’s quartet (1)</h3>
 <ul>
-<li><a href="#tbl-regression-anscombe">Table&nbsp;1</a> shows results from a linear regression based on Anscombe’s quartet <span class="citation" data-cites="Anscombe1973-xv">(<a href="#ref-Anscombe1973-xv" role="doc-biblioref">Anscombe 1973</a>)</span> often used to illustrate the usefulness of visualization
+<li><a href="#tbl-regression-anscombe" class="quarto-xref">Table&nbsp;1</a> shows results from a linear regression based on Anscombe’s quartet <span class="citation" data-cites="Anscombe1973-xv">(<a href="#ref-Anscombe1973-xv" role="doc-biblioref">Anscombe 1973</a>)</span> often used to illustrate the usefulness of visualization
 <ul>
 <li>Q: What do we find here?</li>
 </ul></li>
 </ul>
-<div class="cell" data-hash="02-introduction_cache/html/tbl-regression-anscombe_df0772e6d67290bf4f836bebc6c548a7">
-<div class="cell-output-display">
-<div id="tbl-regression-anscombe" class="anchored">
-
-<div id="xzpzzfokun" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xzpzzfokun table {
+<div id="tbl-regression-anscombe" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-regression-anscombe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
+</figcaption>
+<div aria-describedby="tbl-regression-anscombe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="tsgtcxczlp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tsgtcxczlp table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xzpzzfokun thead, #xzpzzfokun tbody, #xzpzzfokun tfoot, #xzpzzfokun tr, #xzpzzfokun td, #xzpzzfokun th {
+#tsgtcxczlp thead, #tsgtcxczlp tbody, #tsgtcxczlp tfoot, #tsgtcxczlp tr, #tsgtcxczlp td, #tsgtcxczlp th {
   border-style: none;
 }
 
-#xzpzzfokun p {
+#tsgtcxczlp p {
   margin: 0;
   padding: 0;
 }
 
-#xzpzzfokun .gt_table {
+#tsgtcxczlp .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -506,12 +516,12 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   border-left-color: #D3D3D3;
 }
 
-#xzpzzfokun .gt_caption {
+#tsgtcxczlp .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xzpzzfokun .gt_title {
+#tsgtcxczlp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -523,7 +533,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   border-bottom-width: 0;
 }
 
-#xzpzzfokun .gt_subtitle {
+#tsgtcxczlp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -535,7 +545,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   border-top-width: 0;
 }
 
-#xzpzzfokun .gt_heading {
+#tsgtcxczlp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -547,13 +557,13 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   border-right-color: #D3D3D3;
 }
 
-#xzpzzfokun .gt_bottom_border {
+#tsgtcxczlp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xzpzzfokun .gt_col_headings {
+#tsgtcxczlp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -568,7 +578,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   border-right-color: #D3D3D3;
 }
 
-#xzpzzfokun .gt_col_heading {
+#tsgtcxczlp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -588,7 +598,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   overflow-x: hidden;
 }
 
-#xzpzzfokun .gt_column_spanner_outer {
+#tsgtcxczlp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -600,15 +610,15 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   padding-right: 4px;
 }
 
-#xzpzzfokun .gt_column_spanner_outer:first-child {
+#tsgtcxczlp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xzpzzfokun .gt_column_spanner_outer:last-child {
+#tsgtcxczlp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xzpzzfokun .gt_column_spanner {
+#tsgtcxczlp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -620,11 +630,11 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   width: 100%;
 }
 
-#xzpzzfokun .gt_spanner_row {
+#tsgtcxczlp .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xzpzzfokun .gt_group_heading {
+#tsgtcxczlp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -650,7 +660,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   text-align: left;
 }
 
-#xzpzzfokun .gt_empty_group_heading {
+#tsgtcxczlp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -665,15 +675,15 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   vertical-align: middle;
 }
 
-#xzpzzfokun .gt_from_md > :first-child {
+#tsgtcxczlp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xzpzzfokun .gt_from_md > :last-child {
+#tsgtcxczlp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xzpzzfokun .gt_row {
+#tsgtcxczlp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -692,7 +702,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   overflow-x: hidden;
 }
 
-#xzpzzfokun .gt_stub {
+#tsgtcxczlp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -705,7 +715,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   padding-right: 5px;
 }
 
-#xzpzzfokun .gt_stub_row_group {
+#tsgtcxczlp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -719,15 +729,15 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   vertical-align: top;
 }
 
-#xzpzzfokun .gt_row_group_first td {
+#tsgtcxczlp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xzpzzfokun .gt_row_group_first th {
+#tsgtcxczlp .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xzpzzfokun .gt_summary_row {
+#tsgtcxczlp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -737,16 +747,16 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   padding-right: 5px;
 }
 
-#xzpzzfokun .gt_first_summary_row {
+#tsgtcxczlp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xzpzzfokun .gt_first_summary_row.thick {
+#tsgtcxczlp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xzpzzfokun .gt_last_summary_row {
+#tsgtcxczlp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -756,7 +766,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   border-bottom-color: #D3D3D3;
 }
 
-#xzpzzfokun .gt_grand_summary_row {
+#tsgtcxczlp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -766,7 +776,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   padding-right: 5px;
 }
 
-#xzpzzfokun .gt_first_grand_summary_row {
+#tsgtcxczlp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -776,7 +786,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   border-top-color: #D3D3D3;
 }
 
-#xzpzzfokun .gt_last_grand_summary_row_top {
+#tsgtcxczlp .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -786,11 +796,11 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   border-bottom-color: #D3D3D3;
 }
 
-#xzpzzfokun .gt_striped {
+#tsgtcxczlp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xzpzzfokun .gt_table_body {
+#tsgtcxczlp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -799,7 +809,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   border-bottom-color: #D3D3D3;
 }
 
-#xzpzzfokun .gt_footnotes {
+#tsgtcxczlp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -813,7 +823,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   border-right-color: #D3D3D3;
 }
 
-#xzpzzfokun .gt_footnote {
+#tsgtcxczlp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -822,7 +832,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   padding-right: 5px;
 }
 
-#xzpzzfokun .gt_sourcenotes {
+#tsgtcxczlp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -836,7 +846,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   border-right-color: #D3D3D3;
 }
 
-#xzpzzfokun .gt_sourcenote {
+#tsgtcxczlp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -844,162 +854,179 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   padding-right: 5px;
 }
 
-#xzpzzfokun .gt_left {
+#tsgtcxczlp .gt_left {
   text-align: left;
 }
 
-#xzpzzfokun .gt_center {
+#tsgtcxczlp .gt_center {
   text-align: center;
 }
 
-#xzpzzfokun .gt_right {
+#tsgtcxczlp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xzpzzfokun .gt_font_normal {
+#tsgtcxczlp .gt_font_normal {
   font-weight: normal;
 }
 
-#xzpzzfokun .gt_font_bold {
+#tsgtcxczlp .gt_font_bold {
   font-weight: bold;
 }
 
-#xzpzzfokun .gt_font_italic {
+#tsgtcxczlp .gt_font_italic {
   font-style: italic;
 }
 
-#xzpzzfokun .gt_super {
+#tsgtcxczlp .gt_super {
   font-size: 65%;
 }
 
-#xzpzzfokun .gt_footnote_marks {
+#tsgtcxczlp .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xzpzzfokun .gt_asterisk {
+#tsgtcxczlp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xzpzzfokun .gt_indent_1 {
+#tsgtcxczlp .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xzpzzfokun .gt_indent_2 {
+#tsgtcxczlp .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xzpzzfokun .gt_indent_3 {
+#tsgtcxczlp .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xzpzzfokun .gt_indent_4 {
+#tsgtcxczlp .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xzpzzfokun .gt_indent_5 {
+#tsgtcxczlp .gt_indent_5 {
   text-indent: 25px;
 }
-
-#xzpzzfokun .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#xzpzzfokun div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
 </style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false"><caption>Table&nbsp;1:  <p>Linear models based on sets of Anscombe’s quartet</p> </caption>
-  <thead>
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=" "> </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="y1 (Set 1)">y1 (Set 1)</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="y2 (Set 2)">y2 (Set 2)</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="y3 (Set 3)">y3 (Set 3)</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="y4 (Set 4)">y4 (Set 4)</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers=" " class="gt_row gt_left">(Intercept)</td>
-<td headers="y1 (Set 1)" class="gt_row gt_center">3.000</td>
-<td headers="y2 (Set 2)" class="gt_row gt_center">3.001</td>
-<td headers="y3 (Set 3)" class="gt_row gt_center">3.002</td>
-<td headers="y4 (Set 4)" class="gt_row gt_center">3.002</td></tr>
-    <tr><td headers=" " class="gt_row gt_left"></td>
-<td headers="y1 (Set 1)" class="gt_row gt_center">(1.125)</td>
-<td headers="y2 (Set 2)" class="gt_row gt_center">(1.125)</td>
-<td headers="y3 (Set 3)" class="gt_row gt_center">(1.124)</td>
-<td headers="y4 (Set 4)" class="gt_row gt_center">(1.124)</td></tr>
-    <tr><td headers=" " class="gt_row gt_left">x1</td>
-<td headers="y1 (Set 1)" class="gt_row gt_center">0.500</td>
-<td headers="y2 (Set 2)" class="gt_row gt_center"></td>
-<td headers="y3 (Set 3)" class="gt_row gt_center"></td>
-<td headers="y4 (Set 4)" class="gt_row gt_center"></td></tr>
-    <tr><td headers=" " class="gt_row gt_left"></td>
-<td headers="y1 (Set 1)" class="gt_row gt_center">(0.118)</td>
-<td headers="y2 (Set 2)" class="gt_row gt_center"></td>
-<td headers="y3 (Set 3)" class="gt_row gt_center"></td>
-<td headers="y4 (Set 4)" class="gt_row gt_center"></td></tr>
-    <tr><td headers=" " class="gt_row gt_left">x2</td>
-<td headers="y1 (Set 1)" class="gt_row gt_center"></td>
-<td headers="y2 (Set 2)" class="gt_row gt_center">0.500</td>
-<td headers="y3 (Set 3)" class="gt_row gt_center"></td>
-<td headers="y4 (Set 4)" class="gt_row gt_center"></td></tr>
-    <tr><td headers=" " class="gt_row gt_left"></td>
-<td headers="y1 (Set 1)" class="gt_row gt_center"></td>
-<td headers="y2 (Set 2)" class="gt_row gt_center">(0.118)</td>
-<td headers="y3 (Set 3)" class="gt_row gt_center"></td>
-<td headers="y4 (Set 4)" class="gt_row gt_center"></td></tr>
-    <tr><td headers=" " class="gt_row gt_left">x3</td>
-<td headers="y1 (Set 1)" class="gt_row gt_center"></td>
-<td headers="y2 (Set 2)" class="gt_row gt_center"></td>
-<td headers="y3 (Set 3)" class="gt_row gt_center">0.500</td>
-<td headers="y4 (Set 4)" class="gt_row gt_center"></td></tr>
-    <tr><td headers=" " class="gt_row gt_left"></td>
-<td headers="y1 (Set 1)" class="gt_row gt_center"></td>
-<td headers="y2 (Set 2)" class="gt_row gt_center"></td>
-<td headers="y3 (Set 3)" class="gt_row gt_center">(0.118)</td>
-<td headers="y4 (Set 4)" class="gt_row gt_center"></td></tr>
-    <tr><td headers=" " class="gt_row gt_left">x4</td>
-<td headers="y1 (Set 1)" class="gt_row gt_center"></td>
-<td headers="y2 (Set 2)" class="gt_row gt_center"></td>
-<td headers="y3 (Set 3)" class="gt_row gt_center"></td>
-<td headers="y4 (Set 4)" class="gt_row gt_center">0.500</td></tr>
-    <tr><td headers=" " class="gt_row gt_left"></td>
-<td headers="y1 (Set 1)" class="gt_row gt_center"></td>
-<td headers="y2 (Set 2)" class="gt_row gt_center"></td>
-<td headers="y3 (Set 3)" class="gt_row gt_center"></td>
-<td headers="y4 (Set 4)" class="gt_row gt_center">(0.118)</td></tr>
-  </tbody>
-  <tfoot class="gt_sourcenotes">
-    <tr>
-      <td class="gt_sourcenote" colspan="5">Notes: some notes...</td>
-    </tr>
-  </tfoot>
-  
+
+<table class="gt_table cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id=" " class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="y1 (Set 1)" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">y1 (Set 1)</th>
+<th id="y2 (Set 2)" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">y2 (Set 2)</th>
+<th id="y3 (Set 3)" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">y3 (Set 3)</th>
+<th id="y4 (Set 4)" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">y4 (Set 4)</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers=" ">(Intercept)</td>
+<td class="gt_row gt_center" headers="y1 (Set 1)">3.000</td>
+<td class="gt_row gt_center" headers="y2 (Set 2)">3.001</td>
+<td class="gt_row gt_center" headers="y3 (Set 3)">3.002</td>
+<td class="gt_row gt_center" headers="y4 (Set 4)">3.002</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=" "></td>
+<td class="gt_row gt_center" headers="y1 (Set 1)">(1.125)</td>
+<td class="gt_row gt_center" headers="y2 (Set 2)">(1.125)</td>
+<td class="gt_row gt_center" headers="y3 (Set 3)">(1.124)</td>
+<td class="gt_row gt_center" headers="y4 (Set 4)">(1.124)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers=" ">x1</td>
+<td class="gt_row gt_center" headers="y1 (Set 1)">0.500</td>
+<td class="gt_row gt_center" headers="y2 (Set 2)"></td>
+<td class="gt_row gt_center" headers="y3 (Set 3)"></td>
+<td class="gt_row gt_center" headers="y4 (Set 4)"></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=" "></td>
+<td class="gt_row gt_center" headers="y1 (Set 1)">(0.118)</td>
+<td class="gt_row gt_center" headers="y2 (Set 2)"></td>
+<td class="gt_row gt_center" headers="y3 (Set 3)"></td>
+<td class="gt_row gt_center" headers="y4 (Set 4)"></td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers=" ">x2</td>
+<td class="gt_row gt_center" headers="y1 (Set 1)"></td>
+<td class="gt_row gt_center" headers="y2 (Set 2)">0.500</td>
+<td class="gt_row gt_center" headers="y3 (Set 3)"></td>
+<td class="gt_row gt_center" headers="y4 (Set 4)"></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=" "></td>
+<td class="gt_row gt_center" headers="y1 (Set 1)"></td>
+<td class="gt_row gt_center" headers="y2 (Set 2)">(0.118)</td>
+<td class="gt_row gt_center" headers="y3 (Set 3)"></td>
+<td class="gt_row gt_center" headers="y4 (Set 4)"></td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers=" ">x3</td>
+<td class="gt_row gt_center" headers="y1 (Set 1)"></td>
+<td class="gt_row gt_center" headers="y2 (Set 2)"></td>
+<td class="gt_row gt_center" headers="y3 (Set 3)">0.500</td>
+<td class="gt_row gt_center" headers="y4 (Set 4)"></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=" "></td>
+<td class="gt_row gt_center" headers="y1 (Set 1)"></td>
+<td class="gt_row gt_center" headers="y2 (Set 2)"></td>
+<td class="gt_row gt_center" headers="y3 (Set 3)">(0.118)</td>
+<td class="gt_row gt_center" headers="y4 (Set 4)"></td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers=" ">x4</td>
+<td class="gt_row gt_center" headers="y1 (Set 1)"></td>
+<td class="gt_row gt_center" headers="y2 (Set 2)"></td>
+<td class="gt_row gt_center" headers="y3 (Set 3)"></td>
+<td class="gt_row gt_center" headers="y4 (Set 4)">0.500</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=" "></td>
+<td class="gt_row gt_center" headers="y1 (Set 1)"></td>
+<td class="gt_row gt_center" headers="y2 (Set 2)"></td>
+<td class="gt_row gt_center" headers="y3 (Set 3)"></td>
+<td class="gt_row gt_center" headers="y4 (Set 4)">(0.118)</td>
+</tr>
+</tbody><tfoot class="gt_sourcenotes">
+<tr class="odd">
+<td colspan="5" class="gt_sourcenote">Notes: some notes...</td>
+</tr>
+</tfoot>
+
 </table>
+
 </div>
 </div>
-</div>
+</figure>
 </div>
 </section>
 <section id="anscombess-quartet-2" class="level3" data-number="2.2">
 <h3 data-number="2.2" class="anchored" data-anchor-id="anscombess-quartet-2"><span class="header-section-number">2.2</span> Anscombes’s quartet (2)</h3>
 <ul>
-<li><a href="#tbl-anscombe">Table&nbsp;2</a> displays Anscombe’s quartet <span class="citation" data-cites="Anscombe1973-xv">(<a href="#ref-Anscombe1973-xv" role="doc-biblioref">Anscombe 1973</a>)</span>, a dataset (or 4 little datasets)
+<li><a href="#tbl-anscombe" class="quarto-xref">Table&nbsp;2</a> displays Anscombe’s quartet <span class="citation" data-cites="Anscombe1973-xv">(<a href="#ref-Anscombe1973-xv" role="doc-biblioref">Anscombe 1973</a>)</span>, a dataset (or 4 little datasets)
 <ul>
 <li>Q: What does the table reveal about the data? Is it easy to read?</li>
 </ul></li>
 </ul>
-<div class="cell" data-hash="02-introduction_cache/html/tbl-anscombe_1e68efc0746ed87e3ae262727cf9b0f3">
+<div class="cell">
+<div id="tbl-anscombe" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-anscombe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Anscombe’s quartett: Visualization
+</figcaption>
+<div aria-describedby="tbl-anscombe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-anscombe" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;2: Anscombe’s quartett: Visualization</caption>
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Anscombe's quartet data</caption>
 <thead>
 <tr class="header">
 <th style="text-align: right;" data-quarto-table-cell-role="th">x1</th>
@@ -1125,26 +1152,32 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </tr>
 </tbody>
 </table>
+
+
 </div>
-
-
+</div>
+</figure>
 </div>
 </div>
 </section>
 <section id="anscombess-quartet-3" class="level3" data-number="2.3">
 <h3 data-number="2.3" class="anchored" data-anchor-id="anscombess-quartet-3"><span class="header-section-number">2.3</span> Anscombes’s quartet (3)</h3>
 <ul>
-<li><a href="#fig-anscombe">Figure&nbsp;2</a> finally visualizes the data underlying those data
+<li><a href="#fig-anscombe" class="quarto-xref">Figure&nbsp;2</a> finally visualizes the data underlying those data
 <ul>
 <li>Q: <em>What do we see here? What is the insight?</em></li>
 </ul></li>
 </ul>
-<div class="cell" data-hash="02-introduction_cache/html/fig-anscombe_dad455d0256b13d826f9008a847e054f">
+<div class="cell">
 <div class="cell-output-display">
-<div id="fig-anscombe" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="02-introduction_files/figure-html/fig-anscombe-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;2: Anscombe’s quartet: Visualization</figcaption>
+<div id="fig-anscombe" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-anscombe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="02-introduction_files/figure-html/fig-anscombe-1.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-anscombe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Anscombe’s quartet: Visualization
+</figcaption>
 </figure>
 </div>
 </div>
@@ -1153,23 +1186,21 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <section id="the-datasaurus-dozen" class="level3" data-number="2.4">
 <h3 data-number="2.4" class="anchored" data-anchor-id="the-datasaurus-dozen"><span class="header-section-number">2.4</span> The Datasaurus Dozen</h3>
 <ul>
-<li><a href="#fig-datasaurus-own">Figure&nbsp;3</a> displays the datasaurus dozen as animated by <a href="https://github.com/thomasp85/gganimate/wiki/The-Datasaurus-Dozen">Tom Westlake</a> (see <a href="https://github.com/thomasp85/gganimate/wiki/The-Datasaurus-Dozen">here</a>, original by <a href="http://www.thefunctionalart.com/2016/08/download-datasaurus-never-trust-summary.html">Alberto Cairo</a>)
+<li><a href="#fig-datasaurus-own" class="quarto-xref">Figure&nbsp;3</a> displays the datasaurus dozen as animated by <a href="https://github.com/thomasp85/gganimate/wiki/The-Datasaurus-Dozen">Tom Westlake</a> (see <a href="https://github.com/thomasp85/gganimate/wiki/The-Datasaurus-Dozen">here</a>, original by <a href="http://www.thefunctionalart.com/2016/08/download-datasaurus-never-trust-summary.html">Alberto Cairo</a>)
 <ul>
 <li>Q: <em>What do we see here? What is the insight?</em></li>
 </ul></li>
 </ul>
-<div class="cell" data-hash="02-introduction_cache/html/fig-datasaurus-own_5353eebe3cc3ac8b021c40bb2a24f2f4">
-<div class="cell-output cell-output-stderr">
-<pre data-code-line-numbers=""><code>Warning: Paket 'gifski' wurde unter R Version 4.4.1 erstellt</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre data-code-line-numbers=""><code>Warning: Paket 'datasauRus' wurde unter R Version 4.4.1 erstellt</code></pre>
-</div>
+<div class="cell">
 <div class="cell-output-display">
-<div id="fig-datasaurus-own" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="02-introduction_files/figure-html/fig-datasaurus-own-1.gif" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3: The Datasaurus Dozen animated by Tom Westlake</figcaption>
+<div id="fig-datasaurus-own" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-datasaurus-own-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="02-introduction_files/figure-html/fig-datasaurus-own-1.gif" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-datasaurus-own-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: The Datasaurus Dozen animated by Tom Westlake
+</figcaption>
 </figure>
 </div>
 </div>
@@ -1199,15 +1230,19 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <section id="components-of-a-shiny-app" class="level3" data-number="3.2">
 <h3 data-number="3.2" class="anchored" data-anchor-id="components-of-a-shiny-app"><span class="header-section-number">3.2</span> Components of a Shiny app</h3>
 <ul>
-<li>As depicted in <a href="#fig-shinycomponents">Figure&nbsp;4</a>, a user interacts with a server on which the shinyapp/website is hosted
+<li>As depicted in <a href="#fig-shinycomponents" class="quarto-xref">Figure&nbsp;4</a>, a user interacts with a server on which the shinyapp/website is hosted
 <ul>
 <li>A Shiny app has <strong>two components</strong>, the <strong>user interface (UI)</strong> and the <strong>server</strong>, that are passed as arguments to the <code>shinyApp()</code> which creates a Shiny app from this <strong>ui/server pair</strong></li>
 </ul></li>
 </ul>
-<div id="fig-shinycomponents" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="resources/02-compontents-shiny-app.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure&nbsp;4: Source: https://hosting.analythium.io/the-anatomy-of-a-shiny-application/ (c) Analythium</figcaption>
+<div id="fig-shinycomponents" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-shinycomponents-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="resources/02-compontents-shiny-app.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-shinycomponents-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Source: https://hosting.analythium.io/the-anatomy-of-a-shiny-application/ (c) Analythium
+</figcaption>
 </figure>
 </div>
 </section>
@@ -1242,17 +1277,21 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <section id="exploring-european-social-survey-ess-the-app-we-will-build" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="exploring-european-social-survey-ess-the-app-we-will-build"><span class="header-section-number">4</span> Exploring European Social Survey (ESS): The app we will build</h2>
 <ul>
-<li>In the workshop we will built the Shiny app shown in <a href="#fig-app-image">Figure&nbsp;5</a> together. Please <a href="https://paulbauer.shinyapps.io/guerry_dashboard/">explore this app here - UPDATE LINK</a> (5-10 minutes) and answer the following questions:
+<li>In the workshop we will built the Shiny app shown in <a href="#fig-app-image" class="quarto-xref">Figure&nbsp;5</a> together. Please <a href="https://paulbauer.shinyapps.io/guerry_dashboard/">explore this app here - UPDATE LINK</a> (5-10 minutes) and answer the following questions:
 <ul>
 <li>What questions can we answer using the app?</li>
 <li>How can this app help us to understand and analyze the underlying data?</li>
 <li>What interactive elements can we identify in the app?</li>
 </ul></li>
 </ul>
-<div id="fig-app-image" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="resources/02_image_of_app.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure&nbsp;5: (Source: Original image)</figcaption>
+<div id="fig-app-image" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-app-image-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="resources/02_image_of_app.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-app-image-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: (Source: Original image)
+</figcaption>
 </figure>
 </div>
 <section id="the-data" class="level3" data-number="4.1">
@@ -1260,17 +1299,21 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <ul>
 <li>In our app we will analyze datasets from the <a href="https://www.europeansocialsurvey.org/">European Social Survey</a>, Round 10</li>
 </ul>
-<div class="cell" data-hash="02-introduction_cache/html/tbl-data_0fb0d1cad9ac5aafada6fce0304957dc">
-<details>
+<div class="cell">
+<details class="code-fold">
 <summary>Data preparation code of the app</summary>
-<div class="sourceCode cell-code" id="cb3" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"./data/ess_trust.rds"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">kable</span>(<span class="fu">head</span>(data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"./data/ess_trust.rds"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">kable</span>(<span class="fu">head</span>(data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div id="tbl-data" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Data from the European Social Survey, Round 10
+</figcaption>
+<div aria-describedby="tbl-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-data" class="anchored">
-<table class="table table-sm table-striped small">
-<caption>Table&nbsp;3: Data from the European Social Survey, Round 10</caption>
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 3%">
 <col style="width: 5%">
@@ -1406,25 +1449,31 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </table>
 </div>
 </div>
+</figure>
+</div>
 </div>
 <ul>
-<li><code>data</code> (see <a href="#tbl-data">Table&nbsp;3</a>) comprises 49519 individuals that live in 29 countries (File: <code>ess_trust.rds</code>)
+<li><code>data</code> (see <a href="#tbl-data" class="quarto-xref">Table&nbsp;3</a>) comprises 49519 individuals that live in 29 countries (File: <code>ess_trust.rds</code>)
 <ul>
 <li>Later on we also aggregate the data to the country-level</li>
 </ul></li>
 </ul>
 <p><br><br></p>
-<div class="cell" data-hash="02-introduction_cache/html/tbl-data-geo_f5809d5ff6991e7266aebc33a900a402">
-<details>
+<div class="cell">
+<details class="code-fold">
 <summary>Data preparation code of the app</summary>
-<div class="sourceCode cell-code" id="cb4" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>data_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"./data/ess_trust_geo.rds"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">kable</span>(<span class="fu">head</span>(data_geo))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>data_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"./data/ess_trust_geo.rds"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">kable</span>(<span class="fu">head</span>(data_geo))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div id="tbl-data-geo" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-geo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: Data from the European Social Survey, Round 10 with geographic information
+</figcaption>
+<div aria-describedby="tbl-data-geo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-data-geo" class="anchored">
-<table class="table table-sm table-striped small">
-<caption>Table&nbsp;4: Data from the European Social Survey, Round 10 with geographic information</caption>
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 4%">
 <col style="width: 4%">
@@ -1568,9 +1617,11 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </table>
 </div>
 </div>
+</figure>
+</div>
 </div>
 <ul>
-<li><code>data_geo</code> (see <a href="#tbl-data-geo">Table&nbsp;4</a>) comprises aggregated ESS data with geographic information (File: <code>ess_trust_geo.rds</code>; <code>geometry</code> variable describes the geographic shape of <code>regions</code>)</li>
+<li><code>data_geo</code> (see <a href="#tbl-data-geo" class="quarto-xref">Table&nbsp;4</a>) comprises aggregated ESS data with geographic information (File: <code>ess_trust_geo.rds</code>; <code>geometry</code> variable describes the geographic shape of <code>regions</code>)</li>
 <li><strong>Advantages</strong>: Dataset is interesting and contains mapping data</li>
 </ul>
 </section>
@@ -1583,10 +1634,10 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <ol type="1">
 <li>Install the relevant packages:</li>
 </ol>
-<div class="cell" data-hash="02-introduction_cache/html/chunk-1_54659d0e05f4d3159f2dd6247475999d">
-<div class="sourceCode cell-code" id="cb5" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">install.packages</span>(<span class="st">"shiny"</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co"># Guerry package is already installed</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">install.packages</span>(<span class="st">"shiny"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co"># Guerry package is already installed</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="1">
 <li>Create a directory with the name of your app “myfirstapp” in your <a href="https://bookdown.org/ndphillips/YaRrr/the-working-directory.html">working directory</a>.</li>
@@ -1594,14 +1645,18 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <li>Copy the code below and paste it into your <code>app.R</code> script (UPDATE).</li>
 </ol>
 <ol start="5" type="1">
-<li>You can run and stop the app by clicking <strong>Run App</strong> (<a href="#fig-runappbutton">Figure&nbsp;6</a>) button in the document toolbar.</li>
+<li>You can run and stop the app by clicking <strong>Run App</strong> (<a href="#fig-runappbutton" class="quarto-xref">Figure&nbsp;6</a>) button in the document toolbar.</li>
 </ol>
-<div class="cell" data-hash="02-introduction_cache/html/fig-runappbutton_ae4bd2c03342d5cf5248bb0a26e00a5a">
+<div class="cell">
 <div class="cell-output-display">
-<div id="fig-runappbutton" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="resources/02-run-app.png" class="img-fluid figure-img" width="772"></p>
-<figcaption class="figure-caption">Figure&nbsp;6: The Run App button can be found at the top-right of the source pane.</figcaption>
+<div id="fig-runappbutton" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-runappbutton-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="resources/02-run-app.png" class="img-fluid figure-img" width="772">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-runappbutton-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: The Run App button can be found at the top-right of the source pane.
+</figcaption>
 </figure>
 </div>
 </div>
@@ -1610,14 +1665,18 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <section id="minimum-viable-product-mvp" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="minimum-viable-product-mvp"><span class="header-section-number">6</span> Minimum viable product (MVP)</h2>
 <ul>
-<li>…useful concept when building apps (see <a href="#fig-mvp">Figure&nbsp;7</a>)!</li>
+<li>…useful concept when building apps (see <a href="#fig-mvp" class="quarto-xref">Figure&nbsp;7</a>)!</li>
 </ul>
-<div class="cell" data-hash="02-introduction_cache/html/fig-mvp_6479dd17531a41b332c38fed5a293e1f">
+<div class="cell">
 <div class="cell-output-display">
-<div id="fig-mvp" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="resources/MVP.png" class="img-fluid figure-img" width="400"></p>
-<figcaption class="figure-caption">Figure&nbsp;7: Illustration of MVP (Source: Fay et al.&nbsp;2021 - <a href="https://engineering-shiny.org/building-ispum-app.html">read description</a>)</figcaption>
+<div id="fig-mvp" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mvp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="resources/MVP.png" class="img-fluid figure-img" width="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mvp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Illustration of MVP (Source: Fay et al.&nbsp;2021 - <a href="https://engineering-shiny.org/building-ispum-app.html">read description</a>)
+</figcaption>
 </figure>
 </div>
 </div>
@@ -1658,14 +1717,14 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <li>Go back to 1.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb6-2"><a href="#cb6-2"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb6-3"><a href="#cb6-3"></a>  </span>
-<span id="cb6-4"><a href="#cb6-4"></a>)</span>
-<span id="cb6-5"><a href="#cb6-5"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb6-6"><a href="#cb6-6"></a>  </span>
-<span id="cb6-7"><a href="#cb6-7"></a>}</span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb4-3"><a href="#cb4-3"></a>  </span>
+<span id="cb4-4"><a href="#cb4-4"></a>)</span>
+<span id="cb4-5"><a href="#cb4-5"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb4-6"><a href="#cb4-6"></a>  </span>
+<span id="cb4-7"><a href="#cb4-7"></a>}</span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="rstudio-shiny-a-few-tips" class="level4" data-number="7.1.1">
 <h4 data-number="7.1.1" class="anchored" data-anchor-id="rstudio-shiny-a-few-tips"><span class="header-section-number">7.1.1</span> Rstudio &amp; Shiny: A few tips</h4>
@@ -1711,7 +1770,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-Anscombe1973-xv" class="csl-entry" role="listitem">
 Anscombe, F J. 1973. <span>“Graphs in Statistical Analysis.”</span> <em>Am. Stat.</em> 27 (1): 17–21.
 </div>
@@ -1820,10 +1879,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/bookdown\.org\/paul\/shiny_workshop\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1833,8 +1909,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1846,7 +1931,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1890,6 +2098,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1915,8 +2124,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-      // Handle positioning of the toggle
-      window.addEventListener(
+        // Handle positioning of the toggle
+    window.addEventListener(
       "resize",
       throttle(() => {
         elRect = undefined;
@@ -1924,23 +2133,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
           selectCodeLines(selectedAnnoteEl);
         }
       }, 10)
-      );
-      function throttle(fn, ms) {
-      let throttle = false;
-      let timer;
-        return (...args) => {
-          if(!throttle) { // first call gets through
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
               fn.apply(this, args);
-              throttle = true;
-          } else { // all the others get throttled
-              if(timer) clearTimeout(timer); // cancel #2
-              timer = setTimeout(() => {
-                fn.apply(this, args);
-                timer = throttle = false;
-              }, ms);
-          }
-        };
-      }
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
       for (let i=0; i<annoteTargets.length; i++) {
         const annoteTarget = annoteTargets[i];
@@ -1985,7 +2194,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
               options: {
                 flipVariations: false, // true by default
                 allowedAutoPlacements: ['right'],
-                fallbackPlacements: ['right', 'top', 'top-start', 'top-end'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
               },
             },
             {
@@ -2043,5 +2252,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.js" defer="true"></script>
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/02-introduction.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.js" defer="true"></script>
 </body></html>
