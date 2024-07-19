@@ -79,7 +79,7 @@ shinyApp(ui=ui, server = server)
 
 ### fluidPage (2)
 - Change `sidebarLayout(position = "right",...)` to position sidebar on the right
-- Sometimes adding borders helps..
+- Sometimes adding borders helps to understand the UI
 
 ```{r 03-user-interface-2-3, cache=TRUE, eval=FALSE, include=TRUE}
 #| code-fold: true
@@ -149,85 +149,6 @@ ui <- fluidPage(
 
 
 
-### dashboardPage (1)  {#sec-dashboardPage}
-- Alternative to `fluidPage()`
-- `dashboardPage()`: creates a dashboard interface
-  - function contained in packages `shinydashboard` and `bs4Dash` (use `bs4Dash`^[Bootstrap 4 shinydashboard using AdminLTE3: [Website](https://rinterface.github.io/bs4Dash/)]!)
-  - `dashboardHeader()`: creates a dashboard header
-  - `dashboardSidebar()`: Creates dashboard sidebar
-    - sidebar typically contains a sidebarMenu, although it may also contain a sidebarSearchForm, or other Shiny inputs.
-  - `dashboardBody()`: creates main body typically containing boxes or tabItems
-
-```{r 03-user-interface-4, cache=TRUE, eval=FALSE, include=TRUE}
-library(bs4Dash)
-# UI ----
-ui <- dashboardPage(title = "The ESS shiny app",
-                    
-                    ### Header ----
-                    header = dashboardHeader("Add title here"),
-                    
-                    ### Sidebar ----
-                    sidebar = dashboardSidebar("Sidebar menu"),
-                    
-                    ### Body ----
-                    body = dashboardBody("Main body")
-)
-
-# Server ----
-server <- function(input, output, session) {}
-
-shinyApp(ui, server)
-```
-
-### dashboardPage (2): Adding items and tabs {#sec-dashboardPage2}
-- `?sidebarMenu()`: create sidebarMenu within dashboardSidebar
-  - `menuItem(tabName = "...", text = "...", icon = icon("table"))`: Creates one item in sidebarMenu
-- `tabItems()`: creates container for tab items
-  - `tabItem(tabName = "insp", ...)`: creates tab to put inside a tab items container
-  - can be combined with `fluidRow()` and `column()`
-  - Connection through name `tabName` argument 
-
-```{r 03-user-interface-5, cache=TRUE, eval=FALSE, include=TRUE}
-library(bs4Dash)
-# UI ----
-ui <- dashboardPage(title = "The ESS shiny app",
-
-  ### Header ----
-  header = dashboardHeader(
-    title = "Title here"
-  ),
-
-  ### Sidebar ----
-  sidebar = dashboardSidebar(
-    sidebarMenu(
-      menuItem(tabName = "tab_table", 
-               text = "Table data", 
-               icon = icon("table"))
-    )
-  ),
-  ### Body ----
-  body = dashboardBody(
-    tabItems( # start tabItems
-
-      tabItem(
-        tabName = "tab_table",
-        hr(), # add separation line
-        "Here we will put a table"
-      )
-      
-    ) # end tabItems
-  )
-) # End UI
-
-
-# Server ----
-server <- function(input, output, session) {}
-
-shinyApp(ui, server)
-```
-
-
-
 
 
 ### Images {#sec-dashboardPage3}
@@ -242,95 +163,21 @@ shinyApp(ui, server)
 ```{r 03-user-interface-6, cache=TRUE, eval=FALSE, include=TRUE}
 #| code-fold: true
 #| code-summary: "Code: Adding images"
-ui <- dashboardPage( # <1>
-  title = "The ESS shiny app",
+ui <- fluidPage(
+  titlePanel(span(img(src = "https://www.gesis.org/typo3conf/ext/gesis_web_ext/Resources/Public/webpack/dist/img/logo_gesis_en.svg", style = "height: 1.4em;"), "The ESS shiny app")),
   
-  ### Header ----
-  header = dashboardHeader( # <2>
-    span(style = "display: inline-block; width: 100%;"), # <3>
-    a(  # <4>
-      class = "logo",
-      href = "https://www.gesis.org",
-      img(src = "https://www.gesis.org/typo3conf/ext/gesis_web_ext/Resources/Public/webpack/dist/img/logo_gesis_en.svg", style = "height: 1.8em;")
-    )
-  ),
-  
-  ### Sidebar ----
-  sidebar = dashboardSidebar( # <6>
-    sidebarMenu(
-      menuItem(tabName = "tab_image",  # <7>
-               text = "Image section", 
-               icon = icon("image"))
-    )
-  ),
-  ### Body ----
-  body = dashboardBody( # <8>
-    tabItems( # <9>
-      tabItem("tab_image", # <10>
-              img(src = "https://journals.openedition.org/belgeo/docannexe/image/11893/img-1.jpg", width = 358, height = 476)
-      )
-    ) # end tabItems
-  )
-) # End UI
+  sidebarLayout(
+    sidebarPanel( "This is the sidebar panel"),
+    
+    mainPanel(
+      tabsetPanel(type = "tabs",
+                  tabPanel("An image", 
+                           img(src = "https://journals.openedition.org/belgeo/docannexe/image/11893/img-1.jpg", width = 358, height = 476))
+      ))))
 
-# Server ----
+server <- function(input, output, session){}
 
-server <- function(input, output, session) {} # <11>
-
-shinyApp(ui, server) # <12>
-```
-1. `dashboardPage()`: Main function to create a dashboard page layout in Shiny.
-2. `dashboardHeader()`: Function to set up the header part of the dashboard.
-3. `span()`: Function to create an HTML span element with a style attribute to control its display.
-4. `a()`: Function to create a hyperlink element ("a" HTML tag) with a specified class, href attribute (URL), and nested img (image) element.
-5. `tagList()`: Function to create an HTML list from arguments. Here it's used to group the title components together.
-6. `dashboardSidebar()`: Function to create the sidebar of the dashboard.
-7. `menuItem()`: Function to add an item to the sidebar menu.
-8. `dashboardBody()`: Function to create the body of the dashboard.
-9. `tabItems()`: Function to create tabbed content sections. The arguments are pairs of tab names and tab content.
-10. `tabItem()`: Function to create a single tab item. Its arguments are a tab name and its content.
-11. `server`: Placeholder for server logic. In this case, it's empty.
-12. `shinyApp(ui, server)`: Main function to create a Shiny app. It takes as arguments the UI and server definitions.
-
-
-
-
-#### Add several images
-* Below some exemplary code to add several images, i.e., simply repeat the img() function
-
-```{r 03-user-interface-6-2, cache=TRUE, eval=FALSE, include=TRUE}
-#| code-fold: true
-#| code-summary: "Code: Adding images"
-ui <- dashboardPage(
-  title = "The ESS shiny app",
-  
-  ### Header ----
-  header = dashboardHeader("The ESS shiny app"),
-  
-  ### Sidebar ----
-  sidebar = dashboardSidebar(
-    sidebarMenu(
-      menuItem(tabName = "tab_image",
-               text = "Image section", 
-               icon = icon("image"))
-    )
-  ),
-  ### Body ----
-  body = dashboardBody(
-    tabItems( 
-      tabItem("tab_image",
-              img(src = "https://journals.openedition.org/belgeo/docannexe/image/11893/img-1.jpg", width = 358, height = 476),
-                            img(src = "https://journals.openedition.org/belgeo/docannexe/image/11893/img-1.jpg", width = 358, height = 476)
-      )
-    ) # end tabItems
-  )
-) # End UI
-
-# Server ----
-
-server <- function(input, output, session) {}
-
-shinyApp(ui, server)
+shinyApp(ui=ui, server = server)
 ```
 
 
@@ -348,43 +195,22 @@ shinyApp(ui, server)
 #### Solution: Using image from link
 
 ```{r 03-user-interface-7-5, echo=TRUE, eval=FALSE, include=TRUE}
-# UI ----
-ui <- dashboardPage(
-  title = "A big name in politics",
+ui <- fluidPage(
+  titlePanel(span(img(src = "https://www.gesis.org/typo3conf/ext/gesis_web_ext/Resources/Public/webpack/dist/img/logo_gesis_en.svg", style = "height: 1.4em;"), "A big name in politics")),
   
-  ### Header ----
-  header = dashboardHeader(
-    span(style = "display: inline-block; width: 100%;"),
-    title = tagList(
-      span("The Arni Dashboard", class = "brand-text")
-    )
-  ),
-  
-  ### Sidebar ----
-  sidebar = dashboardSidebar(
-    sidebarMenu(
-      menuItem(tabName = "tab_image", 
-               text = "Image section", 
-               icon = icon("image"))
-    )
-  ),
-  ### Body ----
-  body = dashboardBody(
-    tabItems( # start tabItems
-      tabItem("tab_image",
-              img(src = "http://assets.schwarzenegger.com/images/img-2.jpg", 
-                  width = 729, height = 423)
-      )
-    ) # end tabItems
-  )
-) # End UI
+  sidebarLayout(
+    sidebarPanel( "The Arni Dashboard"),
+    
+    mainPanel(
+      tabsetPanel(type = "tabs",
+                  tabPanel("An image", 
+                           img(src = "http://assets.schwarzenegger.com/images/img-2.jpg", 
+                  width = 729, height = 423))
+      ))))
 
-# Server ----
+server <- function(input, output, session){}
 
-server <- function(input, output, session) {}
-
-shinyApp(ui, server)
-
+shinyApp(ui=ui, server = server)
 ```
 
 
@@ -406,43 +232,22 @@ shinyApp(ui, server)
 6. Run the app.
 
 ```{r 03-user-interface-7, echo=TRUE, eval=FALSE, include=TRUE}
-# UI ----
-ui <- dashboardPage(
-  title = "A big name in politics",
+ui <- fluidPage(
+  titlePanel(span(img(src = "https://www.gesis.org/typo3conf/ext/gesis_web_ext/Resources/Public/webpack/dist/img/logo_gesis_en.svg", style = "height: 1.4em;"), "A big name in politics")),
   
-  ### Header ----
-  header = dashboardHeader(
-    span(style = "display: inline-block; width: 100%;"),
-    title = tagList(
-      span("The Arni Dashboard", class = "brand-text")
-    )
-  ),
-  
-  ### Sidebar ----
-  sidebar = dashboardSidebar(
-    sidebarMenu(
-      menuItem(tabName = "tab_image", 
-               text = "Image section", 
-               icon = icon("image"))
-    )
-  ),
-  ### Body ----
-  body = dashboardBody(
-    tabItems( # start tabItems
-      tabItem("tab_image",
-              img(src = "img-2.jpg", 
-                  width = 729, height = 423)
-      )
-    ) # end tabItems
-  )
-) # End UI
+  sidebarLayout(
+    sidebarPanel( "The Arni Dashboard"),
+    
+    mainPanel(
+      tabsetPanel(type = "tabs",
+                  tabPanel("An image", 
+                           img(src = "img-2.jpg", 
+                  width = 729, height = 423))
+      ))))
 
-# Server ----
+server <- function(input, output, session){}
 
-server <- function(input, output, session) {}
-
-shinyApp(ui, server)
-
+shinyApp(ui=ui, server = server)
 ```
 
 
@@ -534,8 +339,9 @@ server <- function(input, output, session) {}
 shinyApp(ui, server)
 ```
 
+* Now let's have a look within the an app
 
-### Addigional exercise(s)
+### Additional exercise(s)
 * See [Exercises 2.2.8](https://mastering-shiny.org/basic-ui.html#exercises-2).
 
 
@@ -721,15 +527,15 @@ shinyApp(ui = ui, server = server)
 
 
 ## UI: Outputs
-- HIER WEITER!!
 - Outputs in UI create placeholders that are later filled by the server function
 - Have unique ID as first argument like inputs
   - e.g., `textOutput("text")` as ID `text` that is filled by the server
 - If UI specification creates an output with ID `text`, you'll access it in the server function with `output$text` (see below)
 - Each output function on the front end is coupled with a **render function** in the back end (server)
-- Three main types of output: text, tables, and plots
+- Three main types of output: **text**, **tables**, and **plots**
 
 ### Text output
+* Below an example for text output
 
 ```{r 03-user-interface-12, cache=TRUE, eval=FALSE, include=TRUE}
 ui <- fluidPage(
@@ -751,6 +557,7 @@ shinyApp(ui, server)
 
 
 ### Table output
+* Below an example for table output
 
 ```{r 03-user-interface-14, cache=TRUE, eval=FALSE, include=TRUE}
 ui <- fluidPage(
@@ -765,8 +572,8 @@ shinyApp(ui, server)
 ```
 
 
-### Plots output
-
+### Plot output
+* Below an example for plot output
 ```{r 03-user-interface-15, cache=TRUE, eval=FALSE, include=TRUE}
 ui <- fluidPage(
   plotOutput("plot", width = "400px")
@@ -863,18 +670,18 @@ shinyApp(ui, server)
 ### Overview of Output functions
 
 * Output functions
-    + `htmlOutput()`... creates raw HTML (!)
+    + `htmlOutput()`... creates raw HTML
     + `imageOutput()`... creates image
     + `plotOutput()`... creates plot
     + `plotlyOutput` ... creates plotly graph (!)
-    + `tableOutput()`... creates table
+    + `tableOutput()`... creates table (!)
     + `textOutput()`... creates text
-    + `uiOutput()`... creates raw HTML (!)
+    + `uiOutput()`... creates raw HTML
     + `verbatimTextOutput()`... creates text
-    + `dataTableOutput()`... creates a data table (interactiv) (!)
-    + `leafletOutput()` ... creates leaflet map
+    + `dataTableOutput()`... creates a data table (interactiv)
+    + `leafletOutput()` ... creates leaflet map (!)
 
-- Our Guerry app uses those marked with  (!).
+- Our example app uses those marked with (!).
 
 
 
@@ -903,42 +710,36 @@ shinyApp(ui, server)
 
 
 ```{r 03-user-interface-17, cache=TRUE, eval=FALSE, include=TRUE}
-library(bs4Dash)
-# UI ----
-ui <- dashboardPage(title = "My Shiny App",
+ui <- fluidPage(
+  titlePanel("A big name in politics"),
 
-  ### Header ----
-  header = dashboardHeader(),
+sidebarLayout(
+  sidebarPanel( "The Arni Dashboard"),
+  
+  mainPanel(
+    
+    h2("A NEW HOPE", align = "center"),
+    h5("It is a period of civil war.", align = "center"),
+    p("p creates a paragraph of text."),
+    tags$p("A new p() command starts a new paragraph. Supply a style attribute to change the format of the entire paragraph.", style = "font-family: 'times'; font-si16pt"),
+    strong("strong() makes bold text."),
+    em("em() creates italicized (i.e, emphasized) text."),
+    tags$hr(style="border-color:black;"),
+    tags$br(),
+    tags$line(),
+    br(),
+    code("code displays your text similar to computer code"),
+    div("div creates segments of text with a similar style. This division of text is all blue because I passed the argument 'style = color:blue' to div", style = "color:blue"),
+    br(),
+    p("span does the same thing as div, but it works with",
+      span("groups of words", style = "color:blue"),
+      "that appear inside a paragraph.")
+    
+  )))
 
-  ### Sidebar ----
-  sidebar = dashboardSidebar(),
+server <- function(input, output, session){}
 
-  ### Body ----
-  body = dashboardBody(
-      h2("A NEW HOPE", align = "center"),
-              h5("It is a period of civil war.", align = "center"),
-      p("p creates a paragraph of text."),
-      tags$p("A new p() command starts a new paragraph. Supply a style attribute to change the format of the entire paragraph.", style = "font-family: 'times'; font-si16pt"),
-      strong("strong() makes bold text."),
-      em("em() creates italicized (i.e, emphasized) text."),
-      tags$hr(style="border-color:black;"),
-      tags$br(),
-      tags$line(),
-      br(),
-      code("code displays your text similar to computer code"),
-      div("div creates segments of text with a similar style. This division of text is all blue because I passed the argument 'style = color:blue' to div", style = "color:blue"),
-      br(),
-      p("span does the same thing as div, but it works with",
-        span("groups of words", style = "color:blue"),
-        "that appear inside a paragraph."))
-)
-
-
-# Server ----
-
-server <- function(input, output, session) {}
-
-shinyApp(ui, server)
+shinyApp(ui=ui, server = server)
 ```
 
 
@@ -962,30 +763,12 @@ shinyApp(ui, server)
 
 
 
-
-
-
-
-## Guerry app: Introduction tab
-* Below is the code for the Guerry app introduction tab
-  - The code has some file dependencies that need to be deleted to run it directly
-    - e.g., `includeCSS("www/styles.css")`
-  - Images that are not accessible are simply shown as blank
-  - Most UI function simply create html tags, e.g., try `h1()` or `jumbotron()`
-  - Let's do this together!
-
-
-```{r eval=FALSE}
-#| code-fold: true
-#| code-summary: Full R code including Shiny events
-
-```
 
 
 
 
 ## Summary
-- UI Layout: `fluidPage()` and `dashBoardPage()` most common (we use the latter!)
+- UI Layout created with `fluidPage()`
 - Image can be included using `img(src = "...", , width = ..., height = ...)` function
 - `*Input()` functions: Used to generate input UI widgets
   - input values are stored  in list `input$...` with particular `name`, e.g., `input$tab_tabulate_select`
@@ -994,9 +777,93 @@ shinyApp(ui, server)
 - Both input/output functions have IDs the connect them to the server
 - HTML tags can be used through `tags$name()` function, e.g., `tags$br()`
 - Not covered here: 
-  - **Dynamic **UI makes it possible to change UI as a function of input values
+  - **Dynamic **UI makes it possible to change UI as a function of input values (cf. `uiOutput()`)
 
 
+## Other important concepts, functions and packages
+* In addition to Shiny UI base functions (that are accessible throught the `shiny` package), various other packages allow for more advanced UIs
+* `dashboardPage()` from the `bs4Dash` can be used to create dashboards (see @sec-dashboardPage)
+
+
+
+
+## dashboardPage  {#sec-dashboardPage}
+- Alternative to `fluidPage()`
+- `dashboardPage()`: creates a dashboard interface
+  - function contained in packages `shinydashboard` and `bs4Dash` (use `bs4Dash`^[Bootstrap 4 shinydashboard using AdminLTE3: [Website](https://rinterface.github.io/bs4Dash/)]!)
+  - `dashboardHeader()`: creates a dashboard header
+  - `dashboardSidebar()`: Creates dashboard sidebar
+    - sidebar typically contains a sidebarMenu, although it may also contain a sidebarSearchForm, or other Shiny inputs.
+  - `dashboardBody()`: creates main body typically containing boxes or tabItems
+
+```{r 03-user-interface-4, cache=TRUE, eval=FALSE, include=TRUE}
+library(bs4Dash)
+# UI ----
+ui <- dashboardPage(title = "The ESS shiny app",
+                    
+                    ### Header ----
+                    header = dashboardHeader("Add title here"),
+                    
+                    ### Sidebar ----
+                    sidebar = dashboardSidebar("Sidebar menu"),
+                    
+                    ### Body ----
+                    body = dashboardBody("Main body")
+)
+
+# Server ----
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+```
+
+<br><br>
+
+- `?sidebarMenu()`: create sidebarMenu within dashboardSidebar
+  - `menuItem(tabName = "...", text = "...", icon = icon("table"))`: Creates one item in sidebarMenu
+- `tabItems()`: creates container for tab items
+  - `tabItem(tabName = "insp", ...)`: creates tab to put inside a tab items container
+  - can be combined with `fluidRow()` and `column()`
+  - Connection through name `tabName` argument 
+
+```{r 03-user-interface-5, cache=TRUE, eval=FALSE, include=TRUE}
+library(bs4Dash)
+# UI ----
+ui <- dashboardPage(title = "The ESS shiny app",
+
+  ### Header ----
+  header = dashboardHeader(
+    title = "Title here"
+  ),
+
+  ### Sidebar ----
+  sidebar = dashboardSidebar(
+    sidebarMenu(
+      menuItem(tabName = "tab_table", 
+               text = "Table data", 
+               icon = icon("table"))
+    )
+  ),
+  ### Body ----
+  body = dashboardBody(
+    tabItems( # start tabItems
+
+      tabItem(
+        tabName = "tab_table",
+        hr(), # add separation line
+        "Here we will put a table"
+      )
+      
+    ) # end tabItems
+  )
+) # End UI
+
+
+# Server ----
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+```
 
 
 
