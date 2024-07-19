@@ -431,7 +431,7 @@
     "href": "01-workshop.html#software-we-will-use",
     "title": "About this workshop",
     "section": "8 Software we will use",
-    "text": "8 Software we will use\n\nOpen-source software! (Q: Why?)\nR (R Core Team 2023)1\n\nonly viable competitor is Python\nInstall the necessary packages using the code below.\n\n\n# install.packages(\"pacman\")\n\npacman::p_load(c(\n   apexcharter,\n   datasauRus,\n   gganimate,\n   gifski,\n   gt,\n   gtsummary,\n   haven,\n   highcharter,\n   htmltools,\n   httpuv,\n   kableExtra,\n   leaflet,\n   listviewer,\n   modelsummary,\n   pak,\n   plotly,\n   png,\n   profvis,\n   reactlog,\n   rsconnect,\n   sf,\n   shiny,\n   shinylive,\n   tidyverse\n))\n\nShiny (Chang et al. 2022; Wickham 2021)\nggplot22 (Wickham 2016)\nplotly3 (Sievert 2020)\nNote: Ideally cite the software you use in your research especially when it is open-source (e.g., run citation(\"ggplot2\"))",
+    "text": "8 Software we will use\n\nOpen-source software! (Q: Why?)\nR (R Core Team 2023)1\n\nonly viable competitor is Python\nInstall the necessary packages using the code below.\n\n\n# install.packages(\"pacman\")\n\npacman::p_load(c(\n   apexcharter,\n   datasauRus,\n   gganimate,\n   gifski,\n   gt,\n   gtsummary,\n   haven,\n   highcharter,\n   htmltools,\n   httpuv,\n   kableExtra,\n   leaflet,\n   listviewer,\n   modelsummary,\n   plotly,\n   png,\n   profvis,\n   reactlog,\n   rsconnect,\n   sf,\n   shiny,\n   shinylive,\n   tidyverse\n))\n\nShiny (Chang et al. 2022; Wickham 2021)\nggplot22 (Wickham 2016)\nplotly3 (Sievert 2020)\nNote: Ideally cite the software you use in your research especially when it is open-source (e.g., run citation(\"ggplot2\"))",
     "crumbs": [
       "About this workshop"
     ]
