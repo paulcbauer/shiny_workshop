@@ -4,7 +4,10 @@ title: "About this workshop"
 
 
 ```{r dependencies, include=FALSE, cache=FALSE}
+library(stringr)
 packages <- unique(renv::dependencies()$Package)
+
+packages <- packages[packages!="R"]
 
 # assert that all packages are available
 loadable <- vapply(packages, FUN.VALUE = logical(1), requireNamespace)
@@ -15,16 +18,10 @@ if (!all(loadable)) {
 }
 
 exclude <- c(
-  "pander", "stringr", "renv", "rmarkdown", "knitr", "htmlwidgets", "purrr",
-  "rnaturalearthdata", "smoothr", "readr", "tidyr", "dplyr", "ggplot2",
-  "pacman", "quarto"
+  "pander", "stringr", "renv", "rmarkdown", "knitr", "htmlwidgets",
+  "rnaturalearthdata", "smoothr", "readr", "tidyr", "dplyr", "ggplot2"
 )
 packages <- sort(setdiff(packages, exclude))
-
-library(dplyr)
-library(purrr)
-library(htmltools)
-library(pander)
 ```
 
 
@@ -73,78 +70,27 @@ workshop?
 
 
 ## Contact & Outline & Dates
-- **Important**: 2nd time we teach workshop/material
+- **Important**: 1st time we teach workshop/material
 - **Course outline/content/dates:** (see toc on the left) 
+  - Day 1: Introduction to Shiny
+    - 13:00 - 14:00: Welcome and Introduction (1)
+    - 14:00 - 15:00: Introduction (2)
+    - 15:00 - 15:30: Coffee break
+    - 15:30 - 16:30: User Interface (UI): Designing the front end (1)
+    - 16:30 - 17:30: User Interface (UI): Designing the front end (2) [**Introduction tab**]
+  - Day 2: Reactive programming
+    - 13:00 - 14:00: Server: Reactive programming (1)
+    - 14:00 - 15:00: Server: Reactive programming (2)  [**Tabulate data tab**]
+    - 15:00 - 15:30: Coffee break
+    - 15:30 - 16:30: Modelling and visualizing data (1)
+    - 16:30 - 17:30: Modelling and visualizing data (2) [**Modelling data tab**]
+  - Day 3: Develop your app
+    - 13:00 - 14:00: Mapping data & advanced visualization (1)
+    - 14:00 - 15:00: Mapping data & advanced visualization (2)  [**Mapping data tab**]
+    - 15:00 - 15:30: Coffee break
+    - 15:30 - 16:30: Theming & styling 
+    - 16:30 - 17:30: Strengthen & Deploy
 
-```{r, echo=FALSE}
-schedule <- tribble(
-  ~time, ~name, ~file, ~header,
-  
-  "Tuesday, 23.07", "Introduction to Shiny", NA, TRUE,
-  "10:00-11:00", "Welcome and introduction", "01-workshop.html", FALSE,
-  "11:00-11:15", "Coffee break", NA, FALSE,
-  "11:15-12:00", "Your (first) Shiny app", "02-introduction.html", FALSE,
-  "12:00-13:00", "Lunch break", NA, FALSE,
-  "13:00-14:15", "The front end: Designing the user interface", "03-user-interface.html", FALSE,
-  "14:15-14:30", "Coffee break", NA, FALSE,
-  "14:30-16:00", "Tutorials for the UI", "03-user-interface.html", FALSE,
-  
-  "Wednesday, 24.07.", "Reactive programming", NA, TRUE,
-  "10:00-11:00", "Introduction to reactive programming", "04-server-reactive-programming-i.html", FALSE,
-  "11:00-11:15", "Coffee break", NA, FALSE,
-  "11:15-12:00", "Tutorials for reactive programming", "04-server-reactive-programming-i.html", FALSE,
-  "12:00-13:00", "Lunch break", NA, FALSE,
-  "13:00-14:15", "Advanced reactive programming", "05-server-reactive-programming-ii.html", FALSE,
-  "14:15-14:30", "Coffee break", NA, FALSE,
-  "14:30-16:00", "Tutorials for reactive programming", "05-server-reactive-programming-ii.html", FALSE,
-  
-  "Thursday, 25.07", "Finetuning and deployment", NA, TRUE,
-  "10:00-11:00", "Visualization with ggplot2 and Shiny", "06-visualization.html", FALSE,
-  "11:00-11:15", "Coffee break", NA, FALSE,
-  "11:15-12:00", "Tutorials for visualization", "06-visualization.html", FALSE,
-  "12:00-13:00", "Lunch break", NA, FALSE,
-  "13:00-14:15", "Testing and deployment", "07-deployment.html", FALSE,
-  "14:15-14:30", "Coffee break", NA, FALSE,
-  "14:30-16:00", "Tutorials for deployment", "07-deployment.html", FALSE,
-  
-  "Friday, 26.07.", "Build your own app", NA, TRUE,
-  "10:00-11:00", "Good practices when building your own app", "08-build-your-own.html", FALSE,
-  "11:00-11:15", "Coffee break", NA, FALSE,
-  "11:15-12:00", "Build your own app: Design and UI", "08-build-your-own.html", FALSE,
-  "12:00-13:00", "Lunch break", NA, FALSE,
-  "13:00-14:15", "Build your own app: Construct the reactive graph", "08-build-your-own.html", FALSE,
-  "14:15-14:30", "Coffee break", NA, FALSE,
-  "14:30-15:30", "Build your own app: Strengthen & deploy", "08-build-your-own.html", FALSE,
-  "15:30-16:00", "Exhibit: Show off your new Shiny app", "08-build-your-own.html", FALSE
-)
-
-schedule <- pmap(schedule, function(time, name, file, header) {
-  colspan <- NULL
-  if (header) {
-    colspan <- 2
-    time <- tags$b(time)
-  }
-  cell1 <- tags$td(time, colspan = colspan, valign = "middle")
-  cell2 <- NULL
-  if (!header) {
-    if (is.na(file)) {
-      name <- tags$i(name)
-    } else {
-      name <- tags$a(
-        name,
-        href = file.path("https://paulcbauer.github.io/shiny_workshop", file)
-      )
-    }
-    cell2 <- tags$td(name, valign = "middle")
-  }
-  
-  tags$tr(valign = "top", cell1, cell2)
-})
-schedule <- tags$table(tags$tbody(schedule), cellpadding = 0, cellspacing = 0)
-schedule <- as.character(schedule)
-cat(schedule, file = "resources/schedule.html")
-pander(schedule)
-```
 
 
 
@@ -152,7 +98,7 @@ pander(schedule)
 
 ## Script & material {#material}
 - **Literature**: See syllabus.
-- **Website/script**: https://paulcbauer.github.io/shiny_workshop/
+- **Website/script**: https://bookdown.org/paul/shiny_workshop/
 	- Find it: Google "shiny paul jonas"
 	- Document = slides  + script (Zoom in/out with `STRG + mousewheel`)
 	- **Code**: can all be found in the script
@@ -174,7 +120,15 @@ pander(schedule)
 	- know what the structure of a Shiny application looks like
 	- understand the basics of reactive programming for interactive data analysis and visualization
 	- be comfortable to use R Shiny to build their own interactive applications
-	- have learned about different ways to deploy their Shiny application
+	- have learned about different ways to launch their Shiny application
+
+
+
+
+
+
+  
+
 
 
 
@@ -199,15 +153,28 @@ pander(schedule)
   + Use a virtual background if you like!
   
 
-    
-    
 
+
+
+
+
+
+  
+    
 ## Recommended readings
 
 - **Important**: Our workshop does not require any prior reading. 
 - However, our schedule is primarily based on two textbooks which we generally recommend for further reading (see references on website):
 	- @wickham2021mastering: Mastering Shiny: Build Interactive Apps, Reports, and Dashboards Powered by R. Accessible online at: https://mastering-shiny.org/. 
 	- Fay, Colin, Rochette, Sébastien, Guyader, Vincent, and Girard, Cervan (2022): Engineering Production-Grade Shiny Apps. Accessible online at: https://engineering-shiny.org/.
+
+
+
+
+
+
+
+
 
 
 
@@ -224,20 +191,20 @@ options(width = 300)
 
 # format pacman string
 pkg_fmt <- paste0(
-  "# install.packages(\"pacman\")\n\n",
   "pacman::p_load(c(\n",
   paste(paste("  ", packages), collapse = ",\n"),
   "\n))"
 )
 
 pkg_fmt <- sprintf("```{r}\n%s\n```", pkg_fmt)
+#pkg_fmt <- gsub("R,\n   ", "", pkg_fmt)
 
 pander::pander(pkg_fmt)
 ```
 
 - Shiny [@chang2020; @wickham2021mastering]
-- ggplot2^[Creators: https://github.com/tidyverse/ggplot2] [@wickham2016]
-* plotly^[Creators: https://github.com/plotly/plotly.js; https://github.com/ropensci/plotly] [@sievert2020]
+- Ggplot2^[Creators: https://github.com/tidyverse/ggplot2] [@wickham2016]
+* Plotly^[Creators: https://github.com/plotly/plotly.js; https://github.com/ropensci/plotly] [@sievert2020]
 * Note: Ideally cite the software you use in your research especially when it is open-source (e.g., run `citation("ggplot2")`)
 
 
