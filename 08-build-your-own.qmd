@@ -281,17 +281,6 @@ Which machine learning models that we can use for classification have a problem 
 
 
 
-
-
-
-## Loading things
-
-
-
-
-
-
-
 ## Use the browser inspector
 
 - Browser inspectors are an extremely powerful tool that goes far beyond the scope of this workshop

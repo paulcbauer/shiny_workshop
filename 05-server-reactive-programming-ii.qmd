@@ -100,7 +100,7 @@ is.function(reactive({}))
   - Reactively changing the UI
   - Communicating with a remote storage (e.g. a database or a cloud)
   - Essentially everything that does not require assigning to a name
-  
+
   
 ::: {.callout-tip}
 Conceptually, observers may be compared to the tidyverse function [`purrr::walk`](https://www.tidyverse.org/blog/2023/05/purrr-walk-this-way/), which iterates over a list or a vector and performs "side-effects" like writing to files. Unlike `purrr::walk`, though, `observe` is probably much more common-place.
