@@ -58,6 +58,13 @@ library(shiny)
   - They reduce the amount of computation that needs to be done by Shiny
   - They reduce the mental strain in trying to understand complex Shiny code
 
+```{r}
+val <- reactive({
+  num <- input$number
+  num + 1
+})
+```
+
 
 ::: {.callout-tip}
 Conceptually and technically, reactives may be compared to traditional R functions. Functional programming follows the ["rule of three"](https://en.wikipedia.org/wiki/Rule_of_three_(computer_programming)): If code would be duplicated three times, wrap it in a function. Shiny follows the rule of two. This is because reactives not only simplify code for humans but also for machines: R only evaluates reactives if it has to. This can dramatically speed up an application.
@@ -105,32 +112,32 @@ Conceptually, observers may be compared to the tidyverse function [`purrr::walk`
 # the reactive takes the inputs and produces a reactive value
 # which can be re-used in other reactive expressions
 filtered <- reactive({
-    xvar <- input$xvar
-    yvar <- input$yvar
-    range <- input$range
-    
-    # select country
-    if (!is.null(input$countries)) {
-      ess <- ess[ess$country %in% input$countries, ]
-    }
-    
-    # select variable
-    ess[c("idno", "country", xvar, yvar)]
+  xvar <- input$xvar
+  yvar <- input$yvar
+  range <- input$range
+  
+  # select country
+  if (!is.null(input$countries)) {
+    ess <- ess[ess$country %in% input$countries, ]
+  }
+  
+  # select variable
+  ess[c("idno", "country", xvar, yvar)]
 })
 
 # the plot output is a "reactive consumer" that takes
 # the reactive value and makes a plot out of it
 output$plot <- renderPlot({
-    xvar <- input$xvar
-    yvar <- input$yvar
-    plot_data <- filtered() %>%
-      drop_na() %>%
-      mutate(across(where(is.numeric), .fns = as.ordered))
-    
-    ggplot(plot_data) +
-      aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
-      geom_violin(fill = "lightblue", show.legend = FALSE) +
-      theme_classic()
+  xvar <- input$xvar
+  yvar <- input$yvar
+  plot_data <- filtered() %>%
+    drop_na() %>%
+    mutate(across(where(is.numeric), .fns = as.ordered))
+  
+  ggplot(plot_data) +
+    aes(x = .data[[xvar]], y = .data[[yvar]], group = .data[[xvar]]) +
+    geom_violin(fill = "lightblue", show.legend = FALSE) +
+    theme_classic()
 })
 
 # the observer also takes the reactive value and prints it to the console
@@ -173,14 +180,14 @@ reactive({
   bindEvent(input$button)
 ```
 
-### Arguments to `bindEvent`
+## Arguments to `bindEvent`
 
 - `bindEvent` takes three arguments:
   - `ignoreNULL`: By default, every event is an event, even if it is `NULL`. An unpressed button would then also count as an event. If you need your plot to render only before pressing that button, then ignoring `NULL` is the right choice.
   - `ignoreInit`: By default, events are triggered when the reactive expressions are first initialized. This can be bad news for dynamically created UI elements (which are beyond this workshop). 
   - `once`: If used on an observer, this argument can be used to destroy that observer after its first use.
   
-### Example  
+## Example  
 
 - To exemplify we will add an action button, that serves the following role:
   - If the inputs are changed, nothing should happen to the plot
