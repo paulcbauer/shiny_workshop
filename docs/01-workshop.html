@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.47">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Workshop: Interactive Data Analysis with Shiny - About this workshop</title>
+<title>About this workshop – Workshop: Interactive Data Analysis with Shiny</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -133,7 +133,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="styles.css">
-<meta name="twitter:title" content="Workshop: Interactive Data Analysis with Shiny - About this workshop">
+<meta name="twitter:title" content="About this workshop – Workshop: Interactive Data Analysis with Shiny">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -144,13 +144,13 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-workshop.html">About this workshop</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -552,30 +552,29 @@ workshop?
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a>pacman::p_load(c(</span>
 <span id="cb1-4"><a href="#cb1-4"></a>   apexcharter,</span>
-<span id="cb1-5"><a href="#cb1-5"></a>   broom,</span>
-<span id="cb1-6"><a href="#cb1-6"></a>   datasauRus,</span>
-<span id="cb1-7"><a href="#cb1-7"></a>   gganimate,</span>
-<span id="cb1-8"><a href="#cb1-8"></a>   gifski,</span>
-<span id="cb1-9"><a href="#cb1-9"></a>   gt,</span>
-<span id="cb1-10"><a href="#cb1-10"></a>   gtsummary,</span>
-<span id="cb1-11"><a href="#cb1-11"></a>   haven,</span>
-<span id="cb1-12"><a href="#cb1-12"></a>   highcharter,</span>
-<span id="cb1-13"><a href="#cb1-13"></a>   htmltools,</span>
-<span id="cb1-14"><a href="#cb1-14"></a>   httpuv,</span>
-<span id="cb1-15"><a href="#cb1-15"></a>   kableExtra,</span>
-<span id="cb1-16"><a href="#cb1-16"></a>   leaflet,</span>
-<span id="cb1-17"><a href="#cb1-17"></a>   listviewer,</span>
-<span id="cb1-18"><a href="#cb1-18"></a>   modelsummary,</span>
-<span id="cb1-19"><a href="#cb1-19"></a>   plotly,</span>
-<span id="cb1-20"><a href="#cb1-20"></a>   png,</span>
-<span id="cb1-21"><a href="#cb1-21"></a>   profvis,</span>
-<span id="cb1-22"><a href="#cb1-22"></a>   reactlog,</span>
-<span id="cb1-23"><a href="#cb1-23"></a>   rsconnect,</span>
-<span id="cb1-24"><a href="#cb1-24"></a>   sf,</span>
-<span id="cb1-25"><a href="#cb1-25"></a>   shiny,</span>
-<span id="cb1-26"><a href="#cb1-26"></a>   shinylive,</span>
-<span id="cb1-27"><a href="#cb1-27"></a>   tidyverse</span>
-<span id="cb1-28"><a href="#cb1-28"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5"></a>   datasauRus,</span>
+<span id="cb1-6"><a href="#cb1-6"></a>   gganimate,</span>
+<span id="cb1-7"><a href="#cb1-7"></a>   gifski,</span>
+<span id="cb1-8"><a href="#cb1-8"></a>   gt,</span>
+<span id="cb1-9"><a href="#cb1-9"></a>   gtsummary,</span>
+<span id="cb1-10"><a href="#cb1-10"></a>   haven,</span>
+<span id="cb1-11"><a href="#cb1-11"></a>   highcharter,</span>
+<span id="cb1-12"><a href="#cb1-12"></a>   htmltools,</span>
+<span id="cb1-13"><a href="#cb1-13"></a>   httpuv,</span>
+<span id="cb1-14"><a href="#cb1-14"></a>   kableExtra,</span>
+<span id="cb1-15"><a href="#cb1-15"></a>   leaflet,</span>
+<span id="cb1-16"><a href="#cb1-16"></a>   listviewer,</span>
+<span id="cb1-17"><a href="#cb1-17"></a>   modelsummary,</span>
+<span id="cb1-18"><a href="#cb1-18"></a>   plotly,</span>
+<span id="cb1-19"><a href="#cb1-19"></a>   png,</span>
+<span id="cb1-20"><a href="#cb1-20"></a>   profvis,</span>
+<span id="cb1-21"><a href="#cb1-21"></a>   reactlog,</span>
+<span id="cb1-22"><a href="#cb1-22"></a>   rsconnect,</span>
+<span id="cb1-23"><a href="#cb1-23"></a>   sf,</span>
+<span id="cb1-24"><a href="#cb1-24"></a>   shiny,</span>
+<span id="cb1-25"><a href="#cb1-25"></a>   shinylive,</span>
+<span id="cb1-26"><a href="#cb1-26"></a>   tidyverse</span>
+<span id="cb1-27"><a href="#cb1-27"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Shiny <span class="citation" data-cites="chang2020 wickham2021mastering">(<a href="#ref-chang2020" role="doc-biblioref">Chang et al. 2022</a>; <a href="#ref-wickham2021mastering" role="doc-biblioref">Wickham 2021</a>)</span></li>
 <li>ggplot2<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <span class="citation" data-cites="wickham2016">(<a href="#ref-wickham2016" role="doc-biblioref">Wickham 2016</a>)</span></li>
@@ -657,18 +656,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -700,7 +688,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/bookdown\.org\/paul\/shiny_workshop\/");
@@ -708,7 +718,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
