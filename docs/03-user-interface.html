@@ -227,7 +227,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-build-your-own.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Good practices when building your own app</span></a>
+ <span class="menu-text">Build your own app</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -272,8 +272,10 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   </ul></li>
   <li><a href="#html-tag-functions" id="toc-html-tag-functions" class="nav-link" data-scroll-target="#html-tag-functions"><span class="header-section-number">5</span> HTML tag functions</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">6</span> Summary</a></li>
-  <li><a href="#other-important-concepts-functions-and-packages" id="toc-other-important-concepts-functions-and-packages" class="nav-link" data-scroll-target="#other-important-concepts-functions-and-packages"><span class="header-section-number">7</span> Other important concepts, functions and packages</a></li>
-  <li><a href="#sec-dashboardPage" id="toc-sec-dashboardPage" class="nav-link" data-scroll-target="#sec-dashboardPage"><span class="header-section-number">8</span> dashboardPage</a></li>
+  <li><a href="#other-important-concepts-functions-and-packages" id="toc-other-important-concepts-functions-and-packages" class="nav-link" data-scroll-target="#other-important-concepts-functions-and-packages"><span class="header-section-number">7</span> Other important concepts, functions and packages</a>
+  <ul class="collapse">
+  <li><a href="#sec-dashboardPage" id="toc-sec-dashboardPage" class="nav-link" data-scroll-target="#sec-dashboardPage"><span class="header-section-number">7.1</span> dashboardPage</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/03-user-interface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -497,7 +499,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <ol type="1">
 <li>Familiarize yourself and use the code in <a href="#sec-dashboardPage3" class="quarto-xref">Section&nbsp;2.4</a>.</li>
 <li>Change the website title to “A big name in politics”</li>
-<li>Change the sidebar menu title with “The Arni dashboard”.</li>
+<li>Change the sidebar menu title with “The Arni Shiny App”.</li>
 <li>Replace the image of Guerry with an image Arnold Schwarzenegger from the web, e.g., <a href="http://assets.schwarzenegger.com/images/img-2.jpg">here</a>.</li>
 </ol>
 <ul>
@@ -520,7 +522,7 @@ Solution: Using image from link
 <span id="cb5-2"><a href="#cb5-2"></a>  <span class="fu">titlePanel</span>(<span class="fu">span</span>(<span class="fu">img</span>(<span class="at">src =</span> <span class="st">"https://www.gesis.org/typo3conf/ext/gesis_web_ext/Resources/Public/webpack/dist/img/logo_gesis_en.svg"</span>, <span class="at">style =</span> <span class="st">"height: 1.4em;"</span>), <span class="st">"A big name in politics"</span>)),</span>
 <span id="cb5-3"><a href="#cb5-3"></a>  </span>
 <span id="cb5-4"><a href="#cb5-4"></a>  <span class="fu">sidebarLayout</span>(</span>
-<span id="cb5-5"><a href="#cb5-5"></a>    <span class="fu">sidebarPanel</span>( <span class="st">"The Arni Dashboard"</span>),</span>
+<span id="cb5-5"><a href="#cb5-5"></a>    <span class="fu">sidebarPanel</span>( <span class="st">"The Arni Shiny App"</span>),</span>
 <span id="cb5-6"><a href="#cb5-6"></a>    </span>
 <span id="cb5-7"><a href="#cb5-7"></a>    <span class="fu">mainPanel</span>(</span>
 <span id="cb5-8"><a href="#cb5-8"></a>      <span class="fu">tabsetPanel</span>(<span class="at">type =</span> <span class="st">"tabs"</span>,</span>
@@ -566,7 +568,7 @@ Solution: Using image from www folder
 <span id="cb6-2"><a href="#cb6-2"></a>  <span class="fu">titlePanel</span>(<span class="fu">span</span>(<span class="fu">img</span>(<span class="at">src =</span> <span class="st">"https://www.gesis.org/typo3conf/ext/gesis_web_ext/Resources/Public/webpack/dist/img/logo_gesis_en.svg"</span>, <span class="at">style =</span> <span class="st">"height: 1.4em;"</span>), <span class="st">"A big name in politics"</span>)),</span>
 <span id="cb6-3"><a href="#cb6-3"></a>  </span>
 <span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">sidebarLayout</span>(</span>
-<span id="cb6-5"><a href="#cb6-5"></a>    <span class="fu">sidebarPanel</span>( <span class="st">"The Arni Dashboard"</span>),</span>
+<span id="cb6-5"><a href="#cb6-5"></a>    <span class="fu">sidebarPanel</span>( <span class="st">"The Arni Shiny App"</span>),</span>
 <span id="cb6-6"><a href="#cb6-6"></a>    </span>
 <span id="cb6-7"><a href="#cb6-7"></a>    <span class="fu">mainPanel</span>(</span>
 <span id="cb6-8"><a href="#cb6-8"></a>      <span class="fu">tabsetPanel</span>(<span class="at">type =</span> <span class="st">"tabs"</span>,</span>
@@ -1117,14 +1119,14 @@ Solution
 <li>See <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">full reference for HTML tags</a><br>
 </li>
 <li>Here we just do a quick example but in <a href="https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/">this tutorial you find more information</a></li>
-<li><strong>Exercise</strong>: Please run the shiny app below and explore the effect of different html tags.</li>
+<li><strong>Exercise</strong>: Please run the shiny app below and explore the effect of different html tags. What do the different html tags do?</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb20-2"><a href="#cb20-2"></a>  <span class="fu">titlePanel</span>(<span class="st">"A big name in politics"</span>),</span>
 <span id="cb20-3"><a href="#cb20-3"></a></span>
 <span id="cb20-4"><a href="#cb20-4"></a><span class="fu">sidebarLayout</span>(</span>
-<span id="cb20-5"><a href="#cb20-5"></a>  <span class="fu">sidebarPanel</span>( <span class="st">"The Arni Dashboard"</span>),</span>
+<span id="cb20-5"><a href="#cb20-5"></a>  <span class="fu">sidebarPanel</span>( <span class="st">"The Arni Shiny App"</span>),</span>
 <span id="cb20-6"><a href="#cb20-6"></a>  </span>
 <span id="cb20-7"><a href="#cb20-7"></a>  <span class="fu">mainPanel</span>(</span>
 <span id="cb20-8"><a href="#cb20-8"></a>    </span>
@@ -1176,12 +1178,41 @@ Solution
 <section id="other-important-concepts-functions-and-packages" class="level2" data-number="7">
 <h2 data-number="7" class="anchored" data-anchor-id="other-important-concepts-functions-and-packages"><span class="header-section-number">7</span> Other important concepts, functions and packages</h2>
 <ul>
-<li>In addition to Shiny UI base functions (that are accessible throught the <code>shiny</code> package), various other packages allow for more advanced UIs</li>
-<li><code>dashboardPage()</code> from the <code>bs4Dash</code> can be used to create dashboards (see <a href="#sec-dashboardPage" class="quarto-xref">Section&nbsp;8</a>)</li>
+<li><p>In addition to Shiny UI base functions (that are accessible throught the <code>shiny</code> package), various other packages allow for more advanced UIs</p></li>
+<li><p><code>dashboardPage()</code> from the <code>bs4Dash</code> can be used to create dashboards (see <a href="#sec-dashboardPage" class="quarto-xref">Section&nbsp;7.1</a>)</p></li>
+<li><p>Custom theming and modern UI widgets: <a href="https://rstudio.github.io/bslib/"><code>bslib</code></a> and <a href="http://ijlyttle.github.io/bsplus/"><code>bsplus</code></a></p></li>
+<li><p>Custom, more beautiful UI widgets: <a href="https://dreamrs.github.io/shinyWidgets/index.html"><code>shinyWidgets</code></a>, <a href="https://systempipe.org/sps/dev/spscomps/"><code>spsComps</code></a></p></li>
+<li><p>Custom theming: <a href="https://github.com/dreamRs/fresh"><code>fresh</code></a></p></li>
+<li><p>UI frameworks:</p>
+<ul>
+<li>AdminLTE 2 (<a href="https://rstudio.github.io/shinydashboard/"><code>shinydashboard</code></a>)</li>
+<li>AdminLTE 3 (<a href="https://rinterface.github.io/bs4Dash/index.html"><code>bs4Dash</code></a>)</li>
+<li>Fluent UI (<a href="https://appsilon.github.io/shiny.fluent/">shiny.fluent</a>)</li>
+<li>bulma.io (<a href="https://rinterface.github.io/shinybulma/">shinybulma</a>)</li>
+<li>Fomantic (<a href="https://appsilon.github.io/shiny.semantic/"><code>shiny.semantic</code></a>)</li>
+<li>Material Design (<a href="https://ericrayanderson.github.io/shinymaterial/"><code>shinymaterial</code></a>)</li>
+<li>Argon (<a href="https://rinterface.github.io/argonDash/"><code>argonDash</code></a>)</li>
+<li>Tabler (<a href="https://rinterface.github.io/tablerDash/"><code>tablerDash</code></a>)</li>
+<li>Gentelella (<a href="http://code.markedmondson.me/gentelellaShiny/"><code>gentelellaShiny</code></a>)</li>
+</ul></li>
+<li><p>Loaders, spinners, and progress bars: <a href="https://waiter.john-coene.com/"><code>waiter</code></a>, <a href="https://github.com/daattali/shinycssloaders"><code>shinycssloaders</code></a>, <a href="https://dreamrs.github.io/shinybusy/"><code>shinybusy</code></a>, <a href="https://emitanaka.org/shinycustomloader/"><code>shinycustomloader</code></a></p></li>
+<li><p>Designing Shiny apps for smaller screen sizes: <a href="https://shinymobile.rinterface.com/"><code>shinyMobile</code></a> and <a href="https://github.com/rstudio/miniUI"><code>miniUI</code></a></p></li>
+<li><p>Popups and alerts: <a href="https://github.com/daattali/shinyalert"><code>shinyalert</code></a></p></li>
+<li><p>Feedback and input validation: <a href="https://merlinoa.github.io/shinyFeedback/"><code>shinyFeedback</code></a></p></li>
+<li><p>Walkthroughs: <a href="https://github.com/JohnCoene/cicerone"><code>cicerone</code></a></p></li>
+<li><p>Translation / internationalization: <a href="https://appsilon.github.io/shiny.i18n/"><code>shiny.i18n</code></a></p></li>
+<li><p>Embedding media:</p>
+<ul>
+<li>Behavioral data: <a href="http://nickstrayer.me/shinysense/"><code>shinysense</code></a></li>
+<li>Doodles: <a href="https://github.com/javierluraschi/pixels"><code>pixels</code></a>, <a href="https://github.com/feddelegrand7/fabricerin"><code>fabricerin</code></a></li>
+<li>Videos: <a href="https://ijlyttle.github.io/vembedr/"><code>vembedr</code></a>, <a href="https://cran.r-project.org/web/packages/video/"><code>video</code></a></li>
+<li>PDF files: <a href="https://github.com/yonicd/rpdf/"><code>rpdf</code></a>, <a href="https://github.com/thomasp85/shinyFiles"><code>shinyFiles</code></a></li>
+<li>Image editing: <a href="https://systempipe.org/sps/dev/drawer/"><code>drawer</code></a></li>
+<li>Code editing: <a href="http://trestletech.github.io/shinyAce/"><code>shinyAce</code></a></li>
+</ul></li>
 </ul>
-</section>
-<section id="sec-dashboardPage" class="level2" data-number="8">
-<h2 data-number="8" class="anchored" data-anchor-id="sec-dashboardPage"><span class="header-section-number">8</span> dashboardPage</h2>
+<section id="sec-dashboardPage" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="sec-dashboardPage"><span class="header-section-number">7.1</span> dashboardPage</h3>
 <ul>
 <li>Alternative to <code>fluidPage()</code></li>
 <li><code>dashboardPage()</code>: creates a dashboard interface
@@ -1269,6 +1300,7 @@ Solution
 
 
 
+</section>
 </section>
 
 

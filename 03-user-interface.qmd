@@ -784,6 +784,32 @@ shinyApp(ui=ui, server = server)
 * In addition to Shiny UI base functions (that are accessible throught the `shiny` package), various other packages allow for more advanced UIs
 * `dashboardPage()` from the `bs4Dash` can be used to create dashboards (see @sec-dashboardPage)
 
+- Custom theming and modern UI widgets: [`bslib`](https://rstudio.github.io/bslib/) and [`bsplus`](http://ijlyttle.github.io/bsplus/)
+- Custom, more beautiful UI widgets: [`shinyWidgets`](https://dreamrs.github.io/shinyWidgets/index.html), [`spsComps`](https://systempipe.org/sps/dev/spscomps/)
+- Custom theming: [`fresh`](https://github.com/dreamRs/fresh)
+- UI frameworks:
+  - AdminLTE 2 ([`shinydashboard`](https://rstudio.github.io/shinydashboard/))
+  - AdminLTE 3 ([`bs4Dash`](https://rinterface.github.io/bs4Dash/index.html))
+  - Fluent UI ([shiny.fluent](https://appsilon.github.io/shiny.fluent/))
+  - bulma.io ([shinybulma](https://rinterface.github.io/shinybulma/))
+  - Fomantic ([`shiny.semantic`](https://appsilon.github.io/shiny.semantic/))
+  - Material Design ([`shinymaterial`](https://ericrayanderson.github.io/shinymaterial/))
+  - Argon ([`argonDash`](https://rinterface.github.io/argonDash/))
+  - Tabler ([`tablerDash`](https://rinterface.github.io/tablerDash/))
+  - Gentelella ([`gentelellaShiny`](http://code.markedmondson.me/gentelellaShiny/))
+- Loaders, spinners, and progress bars: [`waiter`](https://waiter.john-coene.com/), [`shinycssloaders`](https://github.com/daattali/shinycssloaders), [`shinybusy`](https://dreamrs.github.io/shinybusy/), [`shinycustomloader`](https://emitanaka.org/shinycustomloader/)
+- Designing Shiny apps for smaller screen sizes: [`shinyMobile`](https://shinymobile.rinterface.com/) and [`miniUI`](https://github.com/rstudio/miniUI)
+- Popups and alerts: [`shinyalert`](https://github.com/daattali/shinyalert)
+- Feedback and input validation: [`shinyFeedback`](https://merlinoa.github.io/shinyFeedback/)
+- Walkthroughs: [`cicerone`](https://github.com/JohnCoene/cicerone)
+- Translation / internationalization: [`shiny.i18n`](https://appsilon.github.io/shiny.i18n/)
+- Embedding media:
+  - Behavioral data: [`shinysense`](http://nickstrayer.me/shinysense/)
+  - Doodles: [`pixels`](https://github.com/javierluraschi/pixels), [`fabricerin`](https://github.com/feddelegrand7/fabricerin)
+  - Videos: [`vembedr`](https://ijlyttle.github.io/vembedr/), [`video`](https://cran.r-project.org/web/packages/video/)
+  - PDF files: [`rpdf`](https://github.com/yonicd/rpdf/), [`shinyFiles`](https://github.com/thomasp85/shinyFiles)
+  - Image editing: [`drawer`](https://systempipe.org/sps/dev/drawer/)
+  - Code editing: [`shinyAce`](http://trestletech.github.io/shinyAce/)
 
 
 
