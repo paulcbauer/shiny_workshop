@@ -1588,7 +1588,7 @@ output$gmap <- renderLeaflet({
 
 ```{r, eval=FALSE, file="shinyapps/example/06-exercise2.R"}
 #| code-fold: true
-#| code-summary: "Complete code (important lines are highlighted)"
+#| code-summary: "Solution for exercise 2.5 (important lines are highlighted)"
 #| source-line-numbers: "92-96,209-240"
 
 ```
@@ -1672,7 +1672,7 @@ These advantages might be irrelevant in this scenario, but can come in handy in 
 
 ```{r, eval=FALSE, file="shinyapps/example/06-exercise3_2_solution.R"}
 #| code-fold: true
-#| code-summary: "Complete solution code"
+#| code-summary: "Solution for exercise 3.2 (important line are highlighted)"
 #| source-line-numbers: "42,78-111"
 ```
 :::
@@ -1684,7 +1684,7 @@ Taking the code from exercise 3.1, add a proxy that adds small blue dots when cl
 :::
 
 ::: {.callout-tip collapse="true"}
-The proxy should only be triggered in case of a specific plot event. How can this plot event be accessed?
+The proxy should be triggered if and only if a polygon is clicked. How can this plot event be accessed? Revisit section 6.2 if you are lost.
 
 To add a blue dot, see the [`addCircleMarkers`](https://rstudio.github.io/leaflet/reference/map-layers.html) function.
 :::
@@ -1692,20 +1692,39 @@ To add a blue dot, see the [`addCircleMarkers`](https://rstudio.github.io/leafle
 ::: {.callout-warning collapse="true"}
 #### Solution 3.3
 
-To add a blue dot when a user clicks on a polygon, add a observer that holds a proxy to "map" and depends on `input$map_click_shape`
+To add a blue dot when a user clicks on a polygon, add a observer that holds a proxy to "map" and depends on `input$map_click_shape.`
+
+The full solution is presented in the collapsed code chunk below.
 
 ```{r, eval=FALSE}
-observe({
-  
-}) %>%
-  bindEvent()
+  observe({
+    coords <- input$map_shape_click
+    leafletProxy("map") %>%
+      addCircleMarkers(
+        lng = coords$lng,
+        lat = coords$lat,
+        radius = 1,
+        color = "blue",
+        fillColor = "blue",
+        opacity = 1,
+        fillOpacity = 1
+      )
+  }) %>%
+    bindEvent(input$map_shape_click)
+```
+
+```{r, eval=FALSE, file="shinyapps/example/06-exercise3_3_solution.R"}
+#| code-fold: true
+#| code-summary: "Solution for exercise 3.3 (important line are highlighted)"
+#| source-line-numbers: "114-127"
+
 ```
 :::
 
 ::: callout-note
 #### Exercise 3.4
 
-So far, we have only talked about plot events in Leaflet. Taking the code below, implement an observer that prints the current plot coordinates every time the plot legend is double-clicked. Use plotly's [`event_data()`](https://rdrr.io/cran/plotly/man/event_data.html) function.
+So far, we have only talked about plot events in Leaflet. Taking the code below, implement an observer that prints the current plot coordinates every time a user hovers over the plot elements. Use plotly's [`event_data()`](https://rdrr.io/cran/plotly/man/event_data.html) function. What kinds of information are displayed?
 
 ```{r, eval=FALSE, file="shinyapps/example/06-exercise3_4.R"}
 #| code-fold: true
@@ -1713,10 +1732,30 @@ So far, we have only talked about plot events in Leaflet. Taking the code below,
 ```
 :::
 
+::: {.callout-tip collapse="true"}
+To easily print arbitrary R output to a Shiny app, you can use `verbatimTextOutput()` in the UI and `renderPrint()` in the server function.
+
+Or you can just print to the console using `print()`.
+:::
+
 ::: {.callout-warning collapse="true"}
 #### Solution 3.4
 
-A solution for exercise 3.4 is presented in the collapsed code chunk below.
+A solution for exercise 3.4 is presented in the collapsed code chunk below. The event contains information on something called "curve number", point number, and x-y coordinates inside the plot.
+
+```{r, eval=FALSE}
+output$text <- renderPrint({
+  event_data("plotly_hover")
+}) %>%
+  bindEvent(event_data("plotly_hover"))
+```
+
+```{r, eval=FALSE, file="shinyapps/example/06-exercise3_4_solution.R"}
+#| code-fold: true
+#| code-summary: "Solution for exercise 3.4 (important line are highlighted)"
+#| source-line-numbers: "34-37"
+
+```
 :::
 
 ### Beyond plotly and leaflet
