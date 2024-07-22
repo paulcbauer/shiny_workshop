@@ -227,7 +227,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-build-your-own.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Good practices when building your own app</span></a>
+ <span class="menu-text">Build your own app</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -280,7 +280,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </header>
 
 
-<p>This document serves as slides and script for the workshop <strong><em>Interactive Data Analysis with Shiny</em></strong> taught by <a href="http://paulcbauer.eu/">Paul C. Bauer</a> <a href="https://twitter.com/p_c_bauer" class="fa fa-twitter" target="_blank"></a> and <a href="">Jonas Lieth</a> (Gesis, Mannheim, Online, 5-7th of July 2023). Original material is licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a> license. Where we draw on other authors material other licenses may apply (see references in the syllabus as well as the citations and links in the script). For potential future versions of this material see the <a href="https://github.com/paulcbauer/shiny_workshop/">github repository</a>. If you have feedback or discover errors/dead links please let us know via email (mail@paulcbauer.de/Jonas.Lieth@gesis.org) or by submitting an issue on github. And make sure to <a href="">install all the necessary packages</a> before you use the script.</p>
+<p>This document serves as slides and script for the workshop <strong><em>Interactive Data Analysis with Shiny</em></strong> taught by <a href="http://paulcbauer.eu/">Paul C. Bauer</a> <a href="https://twitter.com/p_c_bauer" class="fa fa-twitter" target="_blank"></a> and <a href="">Jonas Lieth</a>. Original material is licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a> license. Where we draw on other authors material other licenses may apply (see references in the syllabus as well as the citations and links in the script). For potential future versions of this material see the <a href="https://github.com/paulcbauer/shiny_workshop/">github repository</a>. If you have feedback or discover errors/dead links please let us know via email (mail@paulcbauer.de/Jonas.Lieth@gesis.org) or by submitting an issue on github. And make sure to <a href="">install all the necessary packages</a> before you use the script.</p>
 <p><br><br></p>
 <section id="about-us-paul-jonas" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="about-us-paul-jonas"><span class="header-section-number">1</span> About us (Paul &amp; Jonas)</h2>
@@ -552,29 +552,30 @@ workshop?
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a>pacman::p_load(c(</span>
 <span id="cb1-4"><a href="#cb1-4"></a>   apexcharter,</span>
-<span id="cb1-5"><a href="#cb1-5"></a>   datasauRus,</span>
-<span id="cb1-6"><a href="#cb1-6"></a>   gganimate,</span>
-<span id="cb1-7"><a href="#cb1-7"></a>   gifski,</span>
-<span id="cb1-8"><a href="#cb1-8"></a>   gt,</span>
-<span id="cb1-9"><a href="#cb1-9"></a>   gtsummary,</span>
-<span id="cb1-10"><a href="#cb1-10"></a>   haven,</span>
-<span id="cb1-11"><a href="#cb1-11"></a>   highcharter,</span>
-<span id="cb1-12"><a href="#cb1-12"></a>   htmltools,</span>
-<span id="cb1-13"><a href="#cb1-13"></a>   httpuv,</span>
-<span id="cb1-14"><a href="#cb1-14"></a>   kableExtra,</span>
-<span id="cb1-15"><a href="#cb1-15"></a>   leaflet,</span>
-<span id="cb1-16"><a href="#cb1-16"></a>   listviewer,</span>
-<span id="cb1-17"><a href="#cb1-17"></a>   modelsummary,</span>
-<span id="cb1-18"><a href="#cb1-18"></a>   plotly,</span>
-<span id="cb1-19"><a href="#cb1-19"></a>   png,</span>
-<span id="cb1-20"><a href="#cb1-20"></a>   profvis,</span>
-<span id="cb1-21"><a href="#cb1-21"></a>   reactlog,</span>
-<span id="cb1-22"><a href="#cb1-22"></a>   rsconnect,</span>
-<span id="cb1-23"><a href="#cb1-23"></a>   sf,</span>
-<span id="cb1-24"><a href="#cb1-24"></a>   shiny,</span>
-<span id="cb1-25"><a href="#cb1-25"></a>   shinylive,</span>
-<span id="cb1-26"><a href="#cb1-26"></a>   tidyverse</span>
-<span id="cb1-27"><a href="#cb1-27"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5"></a>   broom,</span>
+<span id="cb1-6"><a href="#cb1-6"></a>   datasauRus,</span>
+<span id="cb1-7"><a href="#cb1-7"></a>   gganimate,</span>
+<span id="cb1-8"><a href="#cb1-8"></a>   gifski,</span>
+<span id="cb1-9"><a href="#cb1-9"></a>   gt,</span>
+<span id="cb1-10"><a href="#cb1-10"></a>   gtsummary,</span>
+<span id="cb1-11"><a href="#cb1-11"></a>   haven,</span>
+<span id="cb1-12"><a href="#cb1-12"></a>   highcharter,</span>
+<span id="cb1-13"><a href="#cb1-13"></a>   htmltools,</span>
+<span id="cb1-14"><a href="#cb1-14"></a>   httpuv,</span>
+<span id="cb1-15"><a href="#cb1-15"></a>   kableExtra,</span>
+<span id="cb1-16"><a href="#cb1-16"></a>   leaflet,</span>
+<span id="cb1-17"><a href="#cb1-17"></a>   listviewer,</span>
+<span id="cb1-18"><a href="#cb1-18"></a>   modelsummary,</span>
+<span id="cb1-19"><a href="#cb1-19"></a>   plotly,</span>
+<span id="cb1-20"><a href="#cb1-20"></a>   png,</span>
+<span id="cb1-21"><a href="#cb1-21"></a>   profvis,</span>
+<span id="cb1-22"><a href="#cb1-22"></a>   reactlog,</span>
+<span id="cb1-23"><a href="#cb1-23"></a>   rsconnect,</span>
+<span id="cb1-24"><a href="#cb1-24"></a>   sf,</span>
+<span id="cb1-25"><a href="#cb1-25"></a>   shiny,</span>
+<span id="cb1-26"><a href="#cb1-26"></a>   shinylive,</span>
+<span id="cb1-27"><a href="#cb1-27"></a>   tidyverse</span>
+<span id="cb1-28"><a href="#cb1-28"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Shiny <span class="citation" data-cites="chang2020 wickham2021mastering">(<a href="#ref-chang2020" role="doc-biblioref">Chang et al. 2022</a>; <a href="#ref-wickham2021mastering" role="doc-biblioref">Wickham 2021</a>)</span></li>
 <li>ggplot2<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <span class="citation" data-cites="wickham2016">(<a href="#ref-wickham2016" role="doc-biblioref">Wickham 2016</a>)</span></li>

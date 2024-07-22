@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -58,6 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -99,7 +100,13 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -108,6 +115,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -127,10 +135,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <link rel="stylesheet" href="styles.css">
 <meta name="twitter:title" content="Workshop: Interactive Data Analysis with Shiny - Server: Reactive programming">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://bookdown.org/paul/shiny_workshop/resources/graph-1b.png">
-<meta name="twitter:image-height" content="141">
-<meta name="twitter:image-width" content="566">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-sidebar floating">
@@ -139,12 +144,12 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-server-reactive-programming-i.html">Server: Reactive programming</a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-server-reactive-programming-i.html">Server: Reactive programming</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -154,14 +159,14 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Interactive Data Analysis with Shiny</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://training.gesis.org/?site=pDetails&amp;child=full&amp;pID=0x0D17F8F738B14E0991504DBF8823A002" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-cursor-fill"></i></a>
-    <a href="https://github.com/paulcbauer/shiny_workshop" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
-    <a href="https://github.com/paulcbauer/shiny_workshop/issues" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-bug-fill"></i></a>
+    <a href="https://training.gesis.org/?site=pDetails&amp;child=full&amp;pID=0x0D17F8F738B14E0991504DBF8823A002" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-cursor-fill"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+    <a href="https://github.com/paulcbauer/shiny_workshop/issues" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-bug-fill"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
@@ -221,26 +226,20 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./08-dos-and-donts.html" class="sidebar-item-text sidebar-link">
+  <a href="./08-build-your-own.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Good practices when building your own app</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./09-build-your-own.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Build your own app</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./10-full-code.html" class="sidebar-item-text sidebar-link">
+  <a href="./09-full-code.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Example app: Full code</span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -259,17 +258,9 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <li><a href="#executation-order" id="toc-executation-order" class="nav-link" data-scroll-target="#executation-order"><span class="header-section-number">5.4</span> Executation order</a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">5.5</span> Exercises</a></li>
   </ul></li>
-  <li><a href="#reactive-expressions-more" id="toc-reactive-expressions-more" class="nav-link" data-scroll-target="#reactive-expressions-more"><span class="header-section-number">6</span> Reactive expressions (more!)</a></li>
-  <li><a href="#reactive-functions-overview" id="toc-reactive-functions-overview" class="nav-link" data-scroll-target="#reactive-functions-overview"><span class="header-section-number">7</span> Reactive functions: Overview</a>
-  <ul class="collapse">
-  <li><a href="#reactive" id="toc-reactive" class="nav-link" data-scroll-target="#reactive"><span class="header-section-number">7.1</span> reactive()</a></li>
-  <li><a href="#observe-vs.-reactive" id="toc-observe-vs.-reactive" class="nav-link" data-scroll-target="#observe-vs.-reactive"><span class="header-section-number">7.2</span> observe() vs.&nbsp;reactive()</a></li>
-  <li><a href="#reacting-on-events-bindevent" id="toc-reacting-on-events-bindevent" class="nav-link" data-scroll-target="#reacting-on-events-bindevent"><span class="header-section-number">7.3</span> Reacting on events: bindEvent()</a></li>
-  <li><a href="#eventreactive-skip" id="toc-eventreactive-skip" class="nav-link" data-scroll-target="#eventreactive-skip"><span class="header-section-number">7.4</span> eventReactive() (skip!)</a></li>
-  <li><a href="#isolate-skip" id="toc-isolate-skip" class="nav-link" data-scroll-target="#isolate-skip"><span class="header-section-number">7.5</span> isolate() (skip!)</a></li>
-  <li><a href="#reactivetimer-skip" id="toc-reactivetimer-skip" class="nav-link" data-scroll-target="#reactivetimer-skip"><span class="header-section-number">7.6</span> reactiveTimer() (skip!)</a></li>
-  </ul></li>
-  <li><a href="#guerry-app-reactivity-tabulate-data-tab" id="toc-guerry-app-reactivity-tabulate-data-tab" class="nav-link" data-scroll-target="#guerry-app-reactivity-tabulate-data-tab"><span class="header-section-number">8</span> Guerry app (reactivity): Tabulate data tab</a></li>
+  <li><a href="#reactive-and-other-functions" id="toc-reactive-and-other-functions" class="nav-link" data-scroll-target="#reactive-and-other-functions"><span class="header-section-number">6</span> <code>reactive()</code> and other functions</a></li>
+  <li><a href="#summary-reactive-expressions" id="toc-summary-reactive-expressions" class="nav-link" data-scroll-target="#summary-reactive-expressions"><span class="header-section-number">7</span> Summary: reactive expressions</a></li>
+  <li><a href="#ess-app-reactivity-tabulate-data-tab" id="toc-ess-app-reactivity-tabulate-data-tab" class="nav-link" data-scroll-target="#ess-app-reactivity-tabulate-data-tab"><span class="header-section-number">8</span> ESS app (reactivity): Tabulate data tab</a></li>
   <li><a href="#loading-things-in-shiny" id="toc-loading-things-in-shiny" class="nav-link" data-scroll-target="#loading-things-in-shiny"><span class="header-section-number">9</span> Loading things in Shiny</a>
   <ul class="collapse">
   <li><a href="#when-is-code-run" id="toc-when-is-code-run" class="nav-link" data-scroll-target="#when-is-code-run"><span class="header-section-number">9.1</span> When is code run?</a></li>
@@ -280,7 +271,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <li><a href="#appendix-visualizing-reactivity-with-reactlog" id="toc-appendix-visualizing-reactivity-with-reactlog" class="nav-link" data-scroll-target="#appendix-visualizing-reactivity-with-reactlog"><span class="header-section-number">12</span> Appendix: Visualizing reactivity with reactlog</a></li>
   <li><a href="#appendix-imperative-vs.-declarative-programming-and-laziness" id="toc-appendix-imperative-vs.-declarative-programming-and-laziness" class="nav-link" data-scroll-target="#appendix-imperative-vs.-declarative-programming-and-laziness"><span class="header-section-number">13</span> Appendix: Imperative vs.&nbsp;Declarative programming and laziness</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/04-server-reactive-programming-i.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/04-server-reactive-programming-i.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -300,7 +291,9 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
+
 
 <ul>
 <li>Learning outcomes:
@@ -325,7 +318,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <ul>
 <li>“Guts” of every shiny app below</li>
 </ul>
-<div class="cell" data-hash="04-server-reactive-programming-i_cache/html/04-server-reactive-programming-2_b54df2b922ad2436253737252607c3f8">
+<div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-1" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1"></a><span class="fu">library</span>(shiny)</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2"></a></span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3"></a><span class="co"># front end interface (Html)</span></span>
@@ -339,11 +332,11 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="4" data-code-annotation="1" data-code-cell="annotated-cell-1">User interface</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="4" data-code-annotation="1">User interface</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="7" data-code-annotation="2" data-code-cell="annotated-cell-1">Server</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="7" data-code-annotation="2">Server</span>
 </dd>
 </dl>
 </div>
@@ -352,7 +345,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <li><code>ui</code> simple because every user gets same html</li>
 <li><code>server</code> more complicated because every user needs independent version of the app
 <ul>
-<li>e.g., Julia using slider should not affect Petra ui!</li>
+<li>e.g., Julia using slider should not affect Petra’s ui!</li>
 </ul></li>
 <li><code>server()</code> is invoked each time new session starts
 <ul>
@@ -373,12 +366,12 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </ul></li>
 <li><code>output</code>: a list-like object containing outputs named according to <code>output ID</code>
 <ul>
-<li><strong>Difference</strong>: <code>output</code> used for sending output instead of receiving <code>input</code> (always in concert with <strong>render function</strong> as below)</li>
+<li><strong>Difference</strong>: <code>output</code> list used for sending output instead of receiving input through <code>input</code> list (always in concert with <strong>render function</strong> as below)</li>
 <li>Q: How many inputs/outputs/render functions are there in the code below? What does it do?</li>
 </ul></li>
 </ul>
-<div class="cell" data-hash="04-server-reactive-programming-i_cache/html/04-server-reactive-programming-3_f831da99b450ebc42ba2d97f74a523e7">
-<details>
+<div class="cell">
+<details class="code-fold">
 <summary>Simple input/output example</summary>
 <div class="sourceCode cell-code" id="annotated-cell-2" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2"></a>  <span class="fu">textInput</span>(<span class="st">"name"</span>, <span class="st">"What's your name?"</span>),</span>
@@ -396,7 +389,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="7" data-code-annotation="1" data-code-cell="annotated-cell-2">render functions, e.g., <code>renderText()</code> set up special reactive context that automatically tracks what inputs the output uses AND converts output of R code into HTML suitable for display on a web page</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="7" data-code-annotation="1">render functions, e.g., <code>renderText()</code> set up special reactive context that automatically tracks what inputs the output uses AND converts output of R code into HTML suitable for display on a web page</span>
 </dd>
 </dl>
 </div>
@@ -415,13 +408,13 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <li><code>renderPlot({...})</code></li>
 <li><code>renderPlotly({...})</code> (!)</li>
 <li><code>renderPrint({...})</code></li>
-<li><code>renderTable({...})</code></li>
-<li><code>renderDataTable({...})</code> (!)</li>
+<li><code>renderTable({...})</code> (!)</li>
+<li><code>renderDataTable({...})</code></li>
 <li><code>renderText({...})</code></li>
-<li><code>renderUI({...})</code> (!)</li>
-<li><code>renderLeaflet({...})</code> (!)</li>
+<li><code>renderUI({...})</code></li>
+<li><code>renderLeaflet({...})</code>(!)</li>
 </ul></li>
-<li>Our Guerry app uses those marked with (!).</li>
+<li>Our app uses those marked with (!).</li>
 </ul>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
@@ -459,7 +452,7 @@ Solution
 <ul>
 <li>Q: How does reactivity work? What does the app below do? (Let’s run it too!)</li>
 </ul>
-<div class="cell" data-hash="04-server-reactive-programming-i_cache/html/04-server-reactive-programming-4_1a7e57d0ce96194ba25f1b7b85a36bf6">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb1-2"><a href="#cb1-2"></a>  <span class="fu">textInput</span>(<span class="st">"name"</span>, <span class="st">"What's your name?"</span>),</span>
 <span id="cb1-3"><a href="#cb1-3"></a>  <span class="fu">textOutput</span>(<span class="st">"greeting"</span>)</span>
@@ -484,18 +477,22 @@ Solution
 <ul>
 <li>Usually R code can be read from top to bottom (= order of execution)… not in Shiny!</li>
 <li><strong>Reactive graph</strong>: describes how inputs and outputs are connected to understand order of execution</li>
-<li><a href="#fig-graph-simple">Figure&nbsp;1</a> describes app in <a href="#sec-name-app">Section&nbsp;5.1</a> above.
+<li><a href="#fig-graph-simple" class="quarto-xref">Figure&nbsp;1</a> describes app in <a href="#sec-name-app" class="quarto-xref">Section&nbsp;5.1</a> above.
 <ul>
 <li>tells that <code>output$greeting</code> will need to be recomputed whenever <code>input$name</code> is changed</li>
 <li><code>greeting</code> has a reactive dependency on <code>name</code></li>
 </ul></li>
 </ul>
-<div class="cell" data-hash="04-server-reactive-programming-i_cache/html/fig-graph-simple_86f7597b8413f154cbe4717baddeab43">
+<div class="cell">
 <div class="cell-output-display">
-<div id="fig-graph-simple" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="resources/graph-1b.png" class="img-fluid figure-img" width="181"></p>
-<figcaption class="figure-caption">Figure&nbsp;1: The reactive graph shows how the inputs and outputs are connected (Source: Wickham 2021)</figcaption>
+<div id="fig-graph-simple" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-graph-simple-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="resources/graph-1b.png" class="img-fluid figure-img" width="181">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graph-simple-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: The reactive graph shows how the inputs and outputs are connected (Source: Wickham 2021)
+</figcaption>
 </figure>
 </div>
 </div>
@@ -510,23 +507,27 @@ Solution
 <li><strong>Reactive expressions</strong> take inputs and produce outputs
 <ul>
 <li>can reduce duplication in reactive code by introducing additional nodes into reactive graph</li>
-<li><a href="#fig-graph-expression">Figure&nbsp;2</a> contains reactive expression <code>string</code> (inspect shape!) with code shown below</li>
+<li><a href="#fig-graph-expression" class="quarto-xref">Figure&nbsp;2</a> contains reactive expression <code>string</code> (inspect shape!) with code shown below</li>
 </ul></li>
 </ul>
-<div class="cell" data-hash="04-server-reactive-programming-i_cache/html/fig-graph-expression_af1e7c9475c717baa7a07ed94bd7477f">
+<div class="cell">
 <div class="cell-output-display">
-<div id="fig-graph-expression" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="resources/graph-2b.png" class="img-fluid figure-img" width="291"></p>
-<figcaption class="figure-caption">Figure&nbsp;2: A reactive expression is drawn with angles on both sides because it connects inputs to outputs (Source: Wickham 2021)</figcaption>
+<div id="fig-graph-expression" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-graph-expression-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="resources/graph-2b.png" class="img-fluid figure-img" width="291">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graph-expression-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: A reactive expression is drawn with angles on both sides because it connects inputs to outputs (Source: Wickham 2021)
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <ul>
-<li>Below <code>string</code> is created with <code>reactive()</code> function to app in <a href="#sec-name-app">Section&nbsp;5.1</a>.</li>
+<li>Below <code>string</code> is created with <code>reactive()</code> function to app in <a href="#sec-name-app" class="quarto-xref">Section&nbsp;5.1</a>.</li>
 </ul>
-<div class="cell" data-hash="04-server-reactive-programming-i_cache/html/04-server-reactive-programming-7_9ae4cc72cc56a09d95ead63f925b70cb">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb2" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">textInput</span>(<span class="st">"name"</span>, <span class="st">"What's your name?"</span>),</span>
 <span id="cb2-3"><a href="#cb2-3"></a>  <span class="fu">textOutput</span>(<span class="st">"greeting"</span>),</span>
@@ -544,8 +545,8 @@ Solution
 <li>Q: How does the code below avoid duplicating code?</li>
 </ul></li>
 </ul>
-<div class="cell" data-hash="04-server-reactive-programming-i_cache/html/04-server-reactive-programming-7-2_79d5dfba6204fde53624f947c8c1fe59">
-<details>
+<div class="cell">
+<details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb3-2"><a href="#cb3-2"></a>  <span class="fu">textInput</span>(<span class="st">"name"</span>, <span class="st">"What's your name?"</span>),</span>
@@ -571,7 +572,7 @@ Solution
 <li>Better <strong>keep order for easier understanding</strong>!</li>
 </ul></li>
 </ul>
-<div class="cell" data-hash="04-server-reactive-programming-i_cache/html/04-server-reactive-programming-8-2_be4afd9c8dca30b1bb34a0b631eed002">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb4-2"><a href="#cb4-2"></a>  <span class="fu">textInput</span>(<span class="st">"name"</span>, <span class="st">"What's your name?"</span>),</span>
 <span id="cb4-3"><a href="#cb4-3"></a>  <span class="fu">textOutput</span>(<span class="st">"greeting"</span>),</span>
@@ -587,9 +588,9 @@ Solution
 <section id="exercises" class="level3" data-number="5.5">
 <h3 data-number="5.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">5.5</span> Exercises</h3>
 <ol type="1">
-<li>Can you spot errors in the code of the different <code>server1</code>, <code>server2</code> and <code>server3</code> below?</li>
+<li>Can you spot errors in the code of the different servers <code>server1</code>, <code>server2</code> and <code>server3</code> below?</li>
 </ol>
-<div class="cell" data-hash="04-server-reactive-programming-i_cache/html/04-server-reactive-programming-9_dd4078801e4db341e199ce5dd1a31349">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># UI</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb5-3"><a href="#cb5-3"></a>  <span class="fu">textInput</span>(<span class="st">"name"</span>, <span class="st">"What's your name?"</span>),</span>
@@ -601,21 +602,40 @@ Solution
 <span id="cb5-9"><a href="#cb5-9"></a>  input<span class="sc">$</span>greeting <span class="ot">&lt;-</span> <span class="fu">renderText</span>(<span class="fu">paste0</span>(<span class="st">"Hello "</span>, name))</span>
 <span id="cb5-10"><a href="#cb5-10"></a>}</span>
 <span id="cb5-11"><a href="#cb5-11"></a></span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="co"># HOMEWORK!</span></span>
-<span id="cb5-13"><a href="#cb5-13"></a>server2 <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, server) {</span>
-<span id="cb5-14"><a href="#cb5-14"></a>  greeting <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Hello "</span>, input<span class="sc">$</span>name)</span>
-<span id="cb5-15"><a href="#cb5-15"></a>  output<span class="sc">$</span>greeting <span class="ot">&lt;-</span> <span class="fu">renderText</span>(greeting)</span>
-<span id="cb5-16"><a href="#cb5-16"></a>}</span>
-<span id="cb5-17"><a href="#cb5-17"></a></span>
-<span id="cb5-18"><a href="#cb5-18"></a>server3 <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, server) {</span>
-<span id="cb5-19"><a href="#cb5-19"></a>  output<span class="sc">$</span>greting <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Hello"</span>, input<span class="sc">$</span>name)</span>
-<span id="cb5-20"><a href="#cb5-20"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-12"><a href="#cb5-12"></a>server2 <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, server) {</span>
+<span id="cb5-13"><a href="#cb5-13"></a>  greeting <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Hello "</span>, input<span class="sc">$</span>name)</span>
+<span id="cb5-14"><a href="#cb5-14"></a>  output<span class="sc">$</span>greeting <span class="ot">&lt;-</span> <span class="fu">renderText</span>(greeting)</span>
+<span id="cb5-15"><a href="#cb5-15"></a>}</span>
+<span id="cb5-16"><a href="#cb5-16"></a></span>
+<span id="cb5-17"><a href="#cb5-17"></a>server3 <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, server) {</span>
+<span id="cb5-18"><a href="#cb5-18"></a>  output<span class="sc">$</span>greting <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Hello"</span>, input<span class="sc">$</span>name)</span>
+<span id="cb5-19"><a href="#cb5-19"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution(s)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>Server 1: Forgot to specify refer to list using <code>name</code> instead of <code>input$name</code>.</li>
+<li>Server 2: Forgot to specify that greeting is a reactive using <code>greeting</code> intead to <code>greeting()</code> within <code>renderText()</code>.</li>
+<li>Server 3: Called the output that is stored in list <code>output</code> <code>greting</code> instead of <code>greeting</code>. Hence, it can not be found by the <code>textOutput()</code> function.</li>
+</ul>
+</div>
+</div>
 </div>
 <ol start="2" type="1">
 <li>Draw the reactive graph for the following three server functions (what are the inputs, reactives and ouputs): (Homework: <code>server2</code> and <code>server3</code>!)</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -624,13 +644,13 @@ Tip
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Start by deciding <strong>how many</strong> and <strong>which inputs (1)</strong>, <strong>reactives (2)</strong> and <strong>ouputs (3)</strong> there are. Then start drawing with inputs represented in the first column on the left. You could use, e.g., <code>name&gt;</code> for inputs, <code>&gt;name&gt;</code> for reactives and <code>&gt;name</code> for outputs and arrows to connect them.</p>
 </div>
 </div>
 </div>
-<div class="cell" data-hash="04-server-reactive-programming-i_cache/html/04-server-reactive-programming-10_c784218c57e1d86c689fdb6b2d3b20b7">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb6" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>server1 <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
 <span id="cb6-2"><a href="#cb6-2"></a>  c <span class="ot">&lt;-</span> <span class="fu">reactive</span>(input<span class="sc">$</span>a <span class="sc">+</span> input<span class="sc">$</span>b)</span>
 <span id="cb6-3"><a href="#cb6-3"></a>  e <span class="ot">&lt;-</span> <span class="fu">reactive</span>(<span class="fu">c</span>() <span class="sc">+</span> input<span class="sc">$</span>d)</span>
@@ -651,7 +671,7 @@ Tip
 <span id="cb6-18"><a href="#cb6-18"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -660,7 +680,7 @@ Solution(s)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li>Can you spot errors in the code of the different <code>server1</code>, <code>server2</code> and <code>server3</code> below?</li>
@@ -686,7 +706,7 @@ Solution(s)
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="resources/4.3.6.1-s1.png" class="img-fluid figure-img" width="500"></p>
-<figcaption class="figure-caption">reactive graph - server 1</figcaption>
+<figcaption>reactive graph - server 1</figcaption>
 </figure>
 </div>
 </center>
@@ -702,7 +722,7 @@ Solution(s)
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="resources/4.3.6.1-s2.png" class="img-fluid figure-img" width="400"></p>
-<figcaption class="figure-caption">reactive graph - server 2</figcaption>
+<figcaption>reactive graph - server 2</figcaption>
 </figure>
 </div>
 </center>
@@ -717,7 +737,7 @@ Solution(s)
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="resources/4.3.6.1-s3.png" class="img-fluid figure-img" width="600"></p>
-<figcaption class="figure-caption">reactive graph - server 3</figcaption>
+<figcaption>reactive graph - server 3</figcaption>
 </figure>
 </div>
 </center>
@@ -727,40 +747,11 @@ Solution(s)
 </div>
 </section>
 </section>
-<section id="reactive-expressions-more" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="reactive-expressions-more"><span class="header-section-number">6</span> Reactive expressions (more!)</h2>
+<section id="reactive-and-other-functions" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="reactive-and-other-functions"><span class="header-section-number">6</span> <code>reactive()</code> and other functions</h2>
 <ul>
-<li><a href="https://mastering-shiny.org/basic-reactivity.html#reactive-expressions-1">Chapter 3.4</a> is recommended reading!</li>
-<li><strong>Reactive expressions</strong> (e.g., <code>reactive()</code>) are important because…
-<ul>
-<li>give Shiny more information so that it can do less recomputation when inputs change</li>
-<li>make apps more efficient and easier for humans to understand (simplify reactive graph!)</li>
-</ul></li>
-<li>Are like inputs since you can use results of a reactive expression in an output</li>
-<li>Are like outputs since they depend on inputs and automatically know when they need updating</li>
-<li>Inputs and reactive expressions are <strong>reactive producers</strong> (see <a href="#fig-prod-consumer">Figure&nbsp;3</a>)</li>
-<li>Reactive expressions and outputs are <strong>reactive consumers</strong> (see <a href="#fig-prod-consumer">Figure&nbsp;3</a>)</li>
-</ul>
-<div class="cell" data-hash="04-server-reactive-programming-i_cache/html/fig-prod-consumer_9c00d86343b67a50eb5056d4d2e88034">
-<div class="cell-output-display">
-<div id="fig-prod-consumer" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="resources/producers-consumers.png" class="img-fluid figure-img" width="332"></p>
-<figcaption class="figure-caption">Figure&nbsp;3: Inputs and expressions are reactive producers; expressions and outputs are reactive consumers (Source: Wickham 2021)</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="reactive-functions-overview" class="level2" data-number="7">
-<h2 data-number="7" class="anchored" data-anchor-id="reactive-functions-overview"><span class="header-section-number">7</span> Reactive functions: Overview</h2>
-<ul>
-<li>Shiny provides a variety of reactive functions such as <code>reactive()</code>, <code>observe()</code>, <code>bindevent()</code> and others.`</li>
-<li>See insightful discussions on reactivity and reactive functions in <a href="https://mastering-shiny.org/basic-reactivity.html#timed-invalidation">Chapter 3.5.1</a>.</li>
-</ul>
-<section id="reactive" class="level3" data-number="7.1">
-<h3 data-number="7.1" class="anchored" data-anchor-id="reactive"><span class="header-section-number">7.1</span> reactive()</h3>
-<ul>
+<li>Shiny provides a variety of reactive functions such as <code>reactive()</code>, <code>observe()</code>, <code>bindevent()</code> etc.</li>
+<li>So far we have seen <code>reactive()</code> (more later!)</li>
 <li><code>reactive()</code>: wraps a normal expression to create a reactive expression
 <ul>
 <li>is “reactive” in the sense that if its dependencies change, it will automatically update.</li>
@@ -777,256 +768,179 @@ Solution(s)
 <span id="cb7-7"><a href="#cb7-7"></a>  string <span class="ot">&lt;-</span> <span class="fu">reactive</span>(<span class="fu">paste0</span>(<span class="st">"Hello "</span>, input<span class="sc">$</span>name, <span class="st">"!"</span>))</span>
 <span id="cb7-8"><a href="#cb7-8"></a>  output<span class="sc">$</span>greeting <span class="ot">&lt;-</span> <span class="fu">renderText</span>(<span class="fu">string</span>())</span>
 <span id="cb7-9"><a href="#cb7-9"></a>}</span>
-<span id="cb7-10"><a href="#cb7-10"></a><span class="fu">shinyApp</span>(ui, server)</span>
-<span id="cb7-11"><a href="#cb7-11"></a>  <span class="er">})</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="observe-vs.-reactive" class="level3" data-number="7.2">
-<h3 data-number="7.2" class="anchored" data-anchor-id="observe-vs.-reactive"><span class="header-section-number">7.2</span> observe() vs.&nbsp;reactive()</h3>
+<section id="summary-reactive-expressions" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="summary-reactive-expressions"><span class="header-section-number">7</span> Summary: reactive expressions</h2>
 <ul>
-<li><code>reactive()</code>: creates a reactive expression that can be changed over time by user inputs</li>
-<li><code>observe()</code>: creates an observer that runs whenever any of its reactive dependencies change
+<li><a href="https://mastering-shiny.org/basic-reactivity.html#reactive-expressions-1">Chapter 3.4</a> is recommended reading!</li>
+<li><strong>Reactive expressions</strong> (e.g., <code>reactive()</code>) are important because…
 <ul>
-<li>i.e., code inside <code>observe()</code> will be re-evaluated whenever any <strong>reactive inputs or reactive expressions</strong> that it references get updated</li>
-<li>BUT we don’t assign result of <code>observe()</code> to a variable, so we can’t refer to it from other reactive consumers</li>
+<li>give Shiny more information so that it can do less recomputation when inputs change</li>
+<li>make apps more efficient and easier for humans to understand (simplify reactive graph!)</li>
 </ul></li>
+<li>Are like inputs since you can use results of a reactive expression in an output</li>
+<li>Are like outputs since they depend on inputs and automatically know when they need updating</li>
+<li><em>Inputs</em> and <em>reactive expressions</em> are <strong>reactive producers</strong> (see <a href="#fig-prod-consumer" class="quarto-xref">Figure&nbsp;3</a>)</li>
+<li><em>Reactive expressions</em> and <em>outputs</em> are <strong>reactive consumers</strong> (see <a href="#fig-prod-consumer" class="quarto-xref">Figure&nbsp;3</a>)</li>
+<li>In other words.. <em>reactive expressions</em> are both <strong>producers</strong> and <strong>consumers</strong>.</li>
 </ul>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-prod-consumer" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-prod-consumer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="resources/producers-consumers.png" class="img-fluid figure-img" width="332">
 </div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Below we use a reactive expression using <code>reactive()</code> to create <code>squared</code>. This is then reused in the <code>observe()</code> function that wraps a render function <code>renderText()</code> that creates and the output element <code>output$text</code>.</p>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prod-consumer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Inputs and expressions are reactive producers; expressions and outputs are reactive consumers (Source: Wickham 2021)
+</figcaption>
+</figure>
 </div>
 </div>
 </div>
-<div class="sourceCode" id="cb8" data-code-line-numbers=""><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb8-2"><a href="#cb8-2"></a></span>
-<span id="cb8-3"><a href="#cb8-3"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb8-4"><a href="#cb8-4"></a>  <span class="fu">numericInput</span>(<span class="st">"num"</span>, <span class="st">"Enter a number"</span>, <span class="at">value =</span> <span class="dv">1</span>),</span>
-<span id="cb8-5"><a href="#cb8-5"></a>  <span class="fu">textOutput</span>(<span class="st">"text"</span>)</span>
-<span id="cb8-6"><a href="#cb8-6"></a>)</span>
-<span id="cb8-7"><a href="#cb8-7"></a></span>
-<span id="cb8-8"><a href="#cb8-8"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb8-9"><a href="#cb8-9"></a>  <span class="co"># reactive expression</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a>  squared <span class="ot">&lt;-</span> <span class="fu">reactive</span>({ </span>
-<span id="cb8-11"><a href="#cb8-11"></a>    input<span class="sc">$</span>num<span class="sc">^</span><span class="dv">2</span> </span>
-<span id="cb8-12"><a href="#cb8-12"></a>  })</span>
-<span id="cb8-13"><a href="#cb8-13"></a>  </span>
-<span id="cb8-14"><a href="#cb8-14"></a>  <span class="co"># observer</span></span>
-<span id="cb8-15"><a href="#cb8-15"></a>  <span class="fu">observe</span>({ </span>
-<span id="cb8-16"><a href="#cb8-16"></a>    output<span class="sc">$</span>text <span class="ot">&lt;-</span> <span class="fu">renderText</span>({</span>
-<span id="cb8-17"><a href="#cb8-17"></a>      <span class="fu">paste0</span>(<span class="st">"The square of "</span>, input<span class="sc">$</span>num, <span class="st">" is "</span>, <span class="fu">squared</span>())</span>
-<span id="cb8-18"><a href="#cb8-18"></a>    })</span>
-<span id="cb8-19"><a href="#cb8-19"></a>  })</span>
-<span id="cb8-20"><a href="#cb8-20"></a>}</span>
-<span id="cb8-21"><a href="#cb8-21"></a></span>
-<span id="cb8-22"><a href="#cb8-22"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="reacting-on-events-bindevent" class="level3" data-number="7.3">
-<h3 data-number="7.3" class="anchored" data-anchor-id="reacting-on-events-bindevent"><span class="header-section-number">7.3</span> Reacting on events: bindEvent()</h3>
+<section id="ess-app-reactivity-tabulate-data-tab" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="ess-app-reactivity-tabulate-data-tab"><span class="header-section-number">8</span> ESS app (reactivity): Tabulate data tab</h2>
 <ul>
-<li><code>bindEvent()</code>: provides a straightforward API for event handling</li>
-<li><code>observeEvent()</code> (observers): used when you want to perform an action in response to an event (see <code>input$button</code> below), but you don’t need the result of the action to be used in the UI</li>
-</ul>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>In this example, when the “Generate Random Number” button is clicked, a random number is generated, but it doesn’t get displayed immediately. Instead, the <code>output$randomNumber</code> expression is bound to <code>input$dispButton</code> event with <code>bindEvent()</code>, and the result is displayed only when the “Display Random Number” button is clicked. This allows you to have more control over when the UI updates in response to changes in server-side reactive values.</p>
-</div>
-</div>
-</div>
-<div class="sourceCode" id="cb9" data-code-line-numbers=""><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb9-2"><a href="#cb9-2"></a></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="co"># Define UI</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb9-5"><a href="#cb9-5"></a>    <span class="fu">actionButton</span>(<span class="st">"genButton"</span>, <span class="st">"Generate Random Number"</span>),</span>
-<span id="cb9-6"><a href="#cb9-6"></a>    <span class="fu">actionButton</span>(<span class="st">"dispButton"</span>, <span class="st">"Display Random Number"</span>),</span>
-<span id="cb9-7"><a href="#cb9-7"></a>    <span class="fu">textOutput</span>(<span class="st">"randomNumber"</span>)</span>
-<span id="cb9-8"><a href="#cb9-8"></a>)</span>
-<span id="cb9-9"><a href="#cb9-9"></a></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="co"># Define server logic</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb9-12"><a href="#cb9-12"></a>    randNum <span class="ot">&lt;-</span> <span class="fu">reactiveValues</span>(<span class="at">num =</span> <span class="cn">NULL</span>)</span>
-<span id="cb9-13"><a href="#cb9-13"></a></span>
-<span id="cb9-14"><a href="#cb9-14"></a>    <span class="fu">observeEvent</span>(input<span class="sc">$</span>genButton, {</span>
-<span id="cb9-15"><a href="#cb9-15"></a>        randNum<span class="sc">$</span>num <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>) <span class="co"># Generate a random number when genButton is clicked</span></span>
-<span id="cb9-16"><a href="#cb9-16"></a>    })</span>
-<span id="cb9-17"><a href="#cb9-17"></a>    </span>
-<span id="cb9-18"><a href="#cb9-18"></a>    output<span class="sc">$</span>randomNumber <span class="ot">&lt;-</span> <span class="fu">renderText</span>({ </span>
-<span id="cb9-19"><a href="#cb9-19"></a>        randNum<span class="sc">$</span>num <span class="co"># Generate the reactive expression</span></span>
-<span id="cb9-20"><a href="#cb9-20"></a>    }) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-21"><a href="#cb9-21"></a>    <span class="fu">bindEvent</span>(input<span class="sc">$</span>dispButton) <span class="co"># Binding the output$randomNumber reactive expression to dispButton</span></span>
-<span id="cb9-22"><a href="#cb9-22"></a>}</span>
-<span id="cb9-23"><a href="#cb9-23"></a></span>
-<span id="cb9-24"><a href="#cb9-24"></a><span class="co"># Run the application </span></span>
-<span id="cb9-25"><a href="#cb9-25"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">display.mode=</span><span class="st">'showcase'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="eventreactive-skip" class="level3" data-number="7.4">
-<h3 data-number="7.4" class="anchored" data-anchor-id="eventreactive-skip"><span class="header-section-number">7.4</span> eventReactive() (skip!)</h3>
+<li>Below the basic code underlying the Table tab of our app.
 <ul>
-<li>Alternative to <code>bind_event()</code></li>
-<li><code>eventReactive()</code>: Similar to <code>reactive()</code>, but only re-evaluates when a certain event is triggered. Can be used in combination with <code>observeEvent()</code>.</li>
-</ul>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>In this app, when you click the “Generate Random Number” button, a random number is generated, but it’s not displayed yet. When you click the “Display Random Number” button, the generated number is then displayed. The <code>eventReactive()</code> function is used to create a reactive value (the random number) that is updated only when a specific event (clicking the “Generate Random Number” button) occurs.</p>
-</div>
-</div>
-</div>
-<div class="sourceCode" id="cb10" data-code-line-numbers=""><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb10-2"><a href="#cb10-2"></a></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="co"># Define UI</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb10-5"><a href="#cb10-5"></a>    <span class="fu">actionButton</span>(<span class="st">"genButton"</span>, <span class="st">"Generate Random Number"</span>),</span>
-<span id="cb10-6"><a href="#cb10-6"></a>    <span class="fu">actionButton</span>(<span class="st">"dispButton"</span>, <span class="st">"Display Random Number"</span>),</span>
-<span id="cb10-7"><a href="#cb10-7"></a>    <span class="fu">textOutput</span>(<span class="st">"randomNumber"</span>)</span>
-<span id="cb10-8"><a href="#cb10-8"></a>)</span>
-<span id="cb10-9"><a href="#cb10-9"></a></span>
-<span id="cb10-10"><a href="#cb10-10"></a><span class="co"># Define server logic</span></span>
-<span id="cb10-11"><a href="#cb10-11"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb10-12"><a href="#cb10-12"></a>    randNum <span class="ot">&lt;-</span> <span class="fu">eventReactive</span>(input<span class="sc">$</span>genButton, {</span>
-<span id="cb10-13"><a href="#cb10-13"></a>        <span class="fu">runif</span>(<span class="dv">1</span>) <span class="co"># Generate a random number when genButton is clicked</span></span>
-<span id="cb10-14"><a href="#cb10-14"></a>    })</span>
-<span id="cb10-15"><a href="#cb10-15"></a>    </span>
-<span id="cb10-16"><a href="#cb10-16"></a>    <span class="fu">observeEvent</span>(input<span class="sc">$</span>dispButton, {</span>
-<span id="cb10-17"><a href="#cb10-17"></a>        output<span class="sc">$</span>randomNumber <span class="ot">&lt;-</span> <span class="fu">renderText</span>({ <span class="fu">randNum</span>() }) <span class="co"># Display the random number when dispButton is clicked</span></span>
-<span id="cb10-18"><a href="#cb10-18"></a>    })</span>
-<span id="cb10-19"><a href="#cb10-19"></a>}</span>
-<span id="cb10-20"><a href="#cb10-20"></a></span>
-<span id="cb10-21"><a href="#cb10-21"></a><span class="co"># Run the application </span></span>
-<span id="cb10-22"><a href="#cb10-22"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">display.mode=</span><span class="st">'showcase'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="isolate-skip" class="level3" data-number="7.5">
-<h3 data-number="7.5" class="anchored" data-anchor-id="isolate-skip"><span class="header-section-number">7.5</span> isolate() (skip!)</h3>
-<ul>
-<li><code>isolate()</code>: used to access the value of a reactive expression or input without setting up a dependency
-<ul>
-<li>useful to access the current value of an input or reactive expression, but without re-running the code when that input or expression changes</li>
-</ul></li>
-</ul>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>In this app, when you click the “Generate Random Number” button, a random number is generated. This number does not immediately cause a reactive event because it’s isolated within the <code>isolate()</code> function. It only gets displayed when you click the “Display Random Number” button. Changes to <code>randNum$num</code> after “Display Random Number” button is clicked won’t affect the displayed value until the button is clicked again. Thus, the <code>isolate()</code> function enables the use of reactive values without triggering reactivity.</p>
-</div>
-</div>
-</div>
-<div class="sourceCode" id="cb11" data-code-line-numbers=""><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb11-2"><a href="#cb11-2"></a></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="co"># Define UI</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb11-5"><a href="#cb11-5"></a>    <span class="fu">actionButton</span>(<span class="st">"genButton"</span>, <span class="st">"Generate Random Number"</span>),</span>
-<span id="cb11-6"><a href="#cb11-6"></a>    <span class="fu">actionButton</span>(<span class="st">"dispButton"</span>, <span class="st">"Display Random Number"</span>),</span>
-<span id="cb11-7"><a href="#cb11-7"></a>    <span class="fu">textOutput</span>(<span class="st">"randomNumber"</span>)</span>
-<span id="cb11-8"><a href="#cb11-8"></a>)</span>
-<span id="cb11-9"><a href="#cb11-9"></a></span>
-<span id="cb11-10"><a href="#cb11-10"></a><span class="co"># Define server logic</span></span>
-<span id="cb11-11"><a href="#cb11-11"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb11-12"><a href="#cb11-12"></a>    randNum <span class="ot">&lt;-</span> <span class="fu">reactiveValues</span>(<span class="at">num =</span> <span class="cn">NULL</span>) <span class="co"># Create object to store reactiv values</span></span>
-<span id="cb11-13"><a href="#cb11-13"></a></span>
-<span id="cb11-14"><a href="#cb11-14"></a>    <span class="fu">observeEvent</span>(input<span class="sc">$</span>genButton, {</span>
-<span id="cb11-15"><a href="#cb11-15"></a>        randNum<span class="sc">$</span>num <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>) <span class="co"># Generate a random number when genButton is clicked</span></span>
-<span id="cb11-16"><a href="#cb11-16"></a>    })</span>
-<span id="cb11-17"><a href="#cb11-17"></a>    </span>
-<span id="cb11-18"><a href="#cb11-18"></a>    <span class="fu">observeEvent</span>(input<span class="sc">$</span>dispButton, {</span>
-<span id="cb11-19"><a href="#cb11-19"></a>        output<span class="sc">$</span>randomNumber <span class="ot">&lt;-</span> <span class="fu">renderText</span>({ </span>
-<span id="cb11-20"><a href="#cb11-20"></a>          <span class="fu">isolate</span>(randNum<span class="sc">$</span>num) <span class="co"># Display the random number when dispButton is clicked, but do not reactivity link it</span></span>
-<span id="cb11-21"><a href="#cb11-21"></a>        }) </span>
-<span id="cb11-22"><a href="#cb11-22"></a>    })</span>
-<span id="cb11-23"><a href="#cb11-23"></a>}</span>
-<span id="cb11-24"><a href="#cb11-24"></a></span>
-<span id="cb11-25"><a href="#cb11-25"></a><span class="co"># Run the application </span></span>
-<span id="cb11-26"><a href="#cb11-26"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">display.mode=</span><span class="st">'showcase'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="reactivetimer-skip" class="level3" data-number="7.6">
-<h3 data-number="7.6" class="anchored" data-anchor-id="reactivetimer-skip"><span class="header-section-number">7.6</span> reactiveTimer() (skip!)</h3>
-<ul>
-<li><code>reactiveTimer()</code>: used to create a reactive expression that invalidates itself after a given number of milliseconds. This can be useful for causing certain parts of your Shiny app to update on a regular interval.</li>
-</ul>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>In this example, <code>autoInvalidate()</code> is a reactive expression that becomes invalidated (i.e., signals that it needs to be re-evaluated) every 1000 milliseconds. By referencing <code>autoInvalidate()</code> inside the <code>renderText()</code> function, we’re creating a dependency — so, every time <code>autoInvalidate()</code> is invalidated, the current time is re-evaluated and the UI is updated with the new time.</p>
-</div>
-</div>
-</div>
-<div class="sourceCode" id="cb12" data-code-line-numbers=""><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb12-2"><a href="#cb12-2"></a></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="co"># Define UI</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb12-5"><a href="#cb12-5"></a>  <span class="fu">textOutput</span>(<span class="st">"currentTime"</span>)</span>
-<span id="cb12-6"><a href="#cb12-6"></a>)</span>
-<span id="cb12-7"><a href="#cb12-7"></a></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="co"># Define server logic</span></span>
-<span id="cb12-9"><a href="#cb12-9"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb12-10"><a href="#cb12-10"></a>  </span>
-<span id="cb12-11"><a href="#cb12-11"></a>  <span class="co"># Define a reactive timer with a 1000ms (1s) interval</span></span>
-<span id="cb12-12"><a href="#cb12-12"></a>  autoInvalidate <span class="ot">&lt;-</span> <span class="fu">reactiveTimer</span>(<span class="dv">1000</span>)</span>
-<span id="cb12-13"><a href="#cb12-13"></a>  </span>
-<span id="cb12-14"><a href="#cb12-14"></a>  output<span class="sc">$</span>currentTime <span class="ot">&lt;-</span> <span class="fu">renderText</span>({</span>
-<span id="cb12-15"><a href="#cb12-15"></a>    <span class="fu">autoInvalidate</span>()  <span class="co"># This line causes the reactive expression to be invalidated (and thus re-evaluated) every second</span></span>
-<span id="cb12-16"><a href="#cb12-16"></a>    <span class="fu">as.character</span>(<span class="fu">Sys.time</span>())  <span class="co"># Display the current time</span></span>
-<span id="cb12-17"><a href="#cb12-17"></a>  })</span>
-<span id="cb12-18"><a href="#cb12-18"></a>}</span>
-<span id="cb12-19"><a href="#cb12-19"></a></span>
-<span id="cb12-20"><a href="#cb12-20"></a><span class="co"># Run the application </span></span>
-<span id="cb12-21"><a href="#cb12-21"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-<section id="guerry-app-reactivity-tabulate-data-tab" class="level2" data-number="8">
-<h2 data-number="8" class="anchored" data-anchor-id="guerry-app-reactivity-tabulate-data-tab"><span class="header-section-number">8</span> Guerry app (reactivity): Tabulate data tab</h2>
-<ul>
-<li>The Guerry app includes the following reactive functions: <code>reactive()</code>, <code>observe()</code>, <code>isolate()</code>, <code>bindEvent()</code>.</li>
-<li>Below the basic code underlying the Tabulate tab of our app.
-<ul>
-<li>What would the reactive graph look like for this app (how many inputs, reatives, outputs)?</li>
+<li>What would the reactive graph look like for this app (how many inputs, reactives, outputs)?</li>
 <li>Which reactive functions can you identify?</li>
 </ul></li>
 </ul>
+<div class="cell">
+<details class="code-fold">
+<summary>R code underlying (necessary for the) Table tab</summary>
+<div class="sourceCode cell-code" id="cb8" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="fu">library</span>(haven)</span>
+<span id="cb8-6"><a href="#cb8-6"></a></span>
+<span id="cb8-7"><a href="#cb8-7"></a>ess <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"ess_trust.rds"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8"></a>ess_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"ess_trust_geo.rds"</span>)</span>
+<span id="cb8-9"><a href="#cb8-9"></a></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="co"># UI ----</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb8-12"><a href="#cb8-12"></a>  <span class="fu">titlePanel</span>(<span class="st">"European Social Survey - round 10"</span>),</span>
+<span id="cb8-13"><a href="#cb8-13"></a>  </span>
+<span id="cb8-14"><a href="#cb8-14"></a>  <span class="do">## Sidebar ----</span></span>
+<span id="cb8-15"><a href="#cb8-15"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb8-16"><a href="#cb8-16"></a>    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb8-17"><a href="#cb8-17"></a>      <span class="do">### select dependent variable</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a>      <span class="fu">selectInput</span>(</span>
+<span id="cb8-19"><a href="#cb8-19"></a>        <span class="st">"xvar"</span>,</span>
+<span id="cb8-20"><a href="#cb8-20"></a>        <span class="at">label =</span> <span class="st">"Select a dependent variable"</span>,</span>
+<span id="cb8-21"><a href="#cb8-21"></a>        <span class="at">choices =</span> <span class="fu">c</span>(</span>
+<span id="cb8-22"><a href="#cb8-22"></a>          <span class="st">"Trust in country's parliament"</span> <span class="ot">=</span> <span class="st">"trust_parliament"</span>,</span>
+<span id="cb8-23"><a href="#cb8-23"></a>          <span class="st">"Trust in the legal system"</span> <span class="ot">=</span> <span class="st">"trust_legal"</span>,</span>
+<span id="cb8-24"><a href="#cb8-24"></a>          <span class="st">"Trust in the police"</span> <span class="ot">=</span> <span class="st">"trust_police"</span>,</span>
+<span id="cb8-25"><a href="#cb8-25"></a>          <span class="st">"Trust in politicians"</span> <span class="ot">=</span> <span class="st">"trust_politicians"</span>,</span>
+<span id="cb8-26"><a href="#cb8-26"></a>          <span class="st">"Trust in political parties"</span> <span class="ot">=</span> <span class="st">"trust_parties"</span>,</span>
+<span id="cb8-27"><a href="#cb8-27"></a>          <span class="st">"Trust in the European Parliament"</span> <span class="ot">=</span> <span class="st">"trust_eu"</span>,</span>
+<span id="cb8-28"><a href="#cb8-28"></a>          <span class="st">"Trust in the United Nations"</span> <span class="ot">=</span> <span class="st">"trust_un"</span></span>
+<span id="cb8-29"><a href="#cb8-29"></a>        )</span>
+<span id="cb8-30"><a href="#cb8-30"></a>      ),</span>
+<span id="cb8-31"><a href="#cb8-31"></a>      </span>
+<span id="cb8-32"><a href="#cb8-32"></a>      <span class="do">### select a variable ----</span></span>
+<span id="cb8-33"><a href="#cb8-33"></a>      <span class="fu">selectInput</span>(</span>
+<span id="cb8-34"><a href="#cb8-34"></a>        <span class="st">"yvar"</span>,</span>
+<span id="cb8-35"><a href="#cb8-35"></a>        <span class="at">label =</span> <span class="st">"Select an independent variable"</span>,</span>
+<span id="cb8-36"><a href="#cb8-36"></a>        <span class="at">choices =</span> <span class="fu">c</span>(</span>
+<span id="cb8-37"><a href="#cb8-37"></a>          <span class="st">"Placement on the left-right scale"</span> <span class="ot">=</span> <span class="st">"left_right"</span>,</span>
+<span id="cb8-38"><a href="#cb8-38"></a>          <span class="st">"Age"</span> <span class="ot">=</span> <span class="st">"age"</span>,</span>
+<span id="cb8-39"><a href="#cb8-39"></a>          <span class="st">"Feeling about household's income"</span> <span class="ot">=</span> <span class="st">"income_feeling"</span>,</span>
+<span id="cb8-40"><a href="#cb8-40"></a>          <span class="st">"How often do you use the internet?"</span> <span class="ot">=</span> <span class="st">"internet_use"</span>,</span>
+<span id="cb8-41"><a href="#cb8-41"></a>          <span class="st">"How happy are you?"</span> <span class="ot">=</span> <span class="st">"happiness"</span></span>
+<span id="cb8-42"><a href="#cb8-42"></a>        )</span>
+<span id="cb8-43"><a href="#cb8-43"></a>      ),</span>
+<span id="cb8-44"><a href="#cb8-44"></a>      </span>
+<span id="cb8-45"><a href="#cb8-45"></a>      <span class="do">### select a country ----</span></span>
+<span id="cb8-46"><a href="#cb8-46"></a>      <span class="fu">selectizeInput</span>(</span>
+<span id="cb8-47"><a href="#cb8-47"></a>        <span class="st">"countries"</span>,</span>
+<span id="cb8-48"><a href="#cb8-48"></a>        <span class="at">label =</span> <span class="st">"Filter by country"</span>,</span>
+<span id="cb8-49"><a href="#cb8-49"></a>        <span class="at">choices =</span> <span class="fu">unique</span>(ess<span class="sc">$</span>country),</span>
+<span id="cb8-50"><a href="#cb8-50"></a>        <span class="at">selected =</span> <span class="st">"FR"</span>,</span>
+<span id="cb8-51"><a href="#cb8-51"></a>        <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
+<span id="cb8-52"><a href="#cb8-52"></a>      ),</span>
+<span id="cb8-53"><a href="#cb8-53"></a>      </span>
+<span id="cb8-54"><a href="#cb8-54"></a>      <span class="do">### filter values ----</span></span>
+<span id="cb8-55"><a href="#cb8-55"></a>      <span class="fu">sliderInput</span>(</span>
+<span id="cb8-56"><a href="#cb8-56"></a>        <span class="st">"range"</span>,</span>
+<span id="cb8-57"><a href="#cb8-57"></a>        <span class="at">label =</span> <span class="st">"Set a value range (dependent variable)"</span>,</span>
+<span id="cb8-58"><a href="#cb8-58"></a>        <span class="at">min =</span> <span class="fu">min</span>(ess<span class="sc">$</span>trust_parliament, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-59"><a href="#cb8-59"></a>        <span class="at">max =</span> <span class="fu">max</span>(ess<span class="sc">$</span>trust_parliament, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-60"><a href="#cb8-60"></a>        <span class="at">value =</span> <span class="fu">range</span>(ess<span class="sc">$</span>trust_parliament, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-61"><a href="#cb8-61"></a>        <span class="at">step =</span> <span class="dv">1</span></span>
+<span id="cb8-62"><a href="#cb8-62"></a>      )</span>
+<span id="cb8-63"><a href="#cb8-63"></a>    ),</span>
+<span id="cb8-64"><a href="#cb8-64"></a>    </span>
+<span id="cb8-65"><a href="#cb8-65"></a>    <span class="do">## Main panel ----</span></span>
+<span id="cb8-66"><a href="#cb8-66"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb8-67"><a href="#cb8-67"></a>      <span class="fu">tabsetPanel</span>(</span>
+<span id="cb8-68"><a href="#cb8-68"></a>        <span class="at">type =</span> <span class="st">"tabs"</span>,</span>
+<span id="cb8-69"><a href="#cb8-69"></a>        </span>
+<span id="cb8-70"><a href="#cb8-70"></a>        <span class="do">### Table tab ----</span></span>
+<span id="cb8-71"><a href="#cb8-71"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb8-72"><a href="#cb8-72"></a>          <span class="at">title =</span> <span class="st">"Table"</span>,</span>
+<span id="cb8-73"><a href="#cb8-73"></a>          <span class="fu">div</span>(</span>
+<span id="cb8-74"><a href="#cb8-74"></a>            <span class="at">style =</span> <span class="st">"height: 600px; overflow-y: auto;"</span>,</span>
+<span id="cb8-75"><a href="#cb8-75"></a>            <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
+<span id="cb8-76"><a href="#cb8-76"></a>          )</span>
+<span id="cb8-77"><a href="#cb8-77"></a>        )</span>
+<span id="cb8-78"><a href="#cb8-78"></a>      )</span>
+<span id="cb8-79"><a href="#cb8-79"></a>    )</span>
+<span id="cb8-80"><a href="#cb8-80"></a>  )</span>
+<span id="cb8-81"><a href="#cb8-81"></a>)</span>
+<span id="cb8-82"><a href="#cb8-82"></a></span>
+<span id="cb8-83"><a href="#cb8-83"></a></span>
+<span id="cb8-84"><a href="#cb8-84"></a><span class="co"># Server ----</span></span>
+<span id="cb8-85"><a href="#cb8-85"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb8-86"><a href="#cb8-86"></a>  <span class="co"># update slider ----</span></span>
+<span id="cb8-87"><a href="#cb8-87"></a>  <span class="fu">observe</span>({</span>
+<span id="cb8-88"><a href="#cb8-88"></a>    var <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(ess[[input<span class="sc">$</span>xvar]])</span>
+<span id="cb8-89"><a href="#cb8-89"></a>    is_ordered <span class="ot">&lt;-</span> <span class="fu">is.ordered</span>(var)</span>
+<span id="cb8-90"><a href="#cb8-90"></a>    var <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(var)</span>
+<span id="cb8-91"><a href="#cb8-91"></a>    <span class="fu">updateSliderInput</span>(</span>
+<span id="cb8-92"><a href="#cb8-92"></a>      <span class="at">inputId =</span> <span class="st">"range"</span>,</span>
+<span id="cb8-93"><a href="#cb8-93"></a>      <span class="at">min =</span> <span class="fu">min</span>(var),</span>
+<span id="cb8-94"><a href="#cb8-94"></a>      <span class="at">max =</span> <span class="fu">max</span>(var),</span>
+<span id="cb8-95"><a href="#cb8-95"></a>      <span class="at">value =</span> <span class="fu">range</span>(var),</span>
+<span id="cb8-96"><a href="#cb8-96"></a>      <span class="at">step =</span> <span class="cf">if</span> (is_ordered) <span class="dv">1</span></span>
+<span id="cb8-97"><a href="#cb8-97"></a>    )</span>
+<span id="cb8-98"><a href="#cb8-98"></a>  }) <span class="sc">%&gt;%</span></span>
+<span id="cb8-99"><a href="#cb8-99"></a>    <span class="fu">bindEvent</span>(input<span class="sc">$</span>xvar)</span>
+<span id="cb8-100"><a href="#cb8-100"></a>  </span>
+<span id="cb8-101"><a href="#cb8-101"></a>  <span class="co"># filter data ----</span></span>
+<span id="cb8-102"><a href="#cb8-102"></a>  filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb8-103"><a href="#cb8-103"></a>    <span class="fu">req</span>(input<span class="sc">$</span>countries, <span class="at">cancelOutput =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-104"><a href="#cb8-104"></a>    </span>
+<span id="cb8-105"><a href="#cb8-105"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
+<span id="cb8-106"><a href="#cb8-106"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="cb8-107"><a href="#cb8-107"></a>    range <span class="ot">&lt;-</span> input<span class="sc">$</span>range</span>
+<span id="cb8-108"><a href="#cb8-108"></a>    </span>
+<span id="cb8-109"><a href="#cb8-109"></a>    <span class="co"># select country</span></span>
+<span id="cb8-110"><a href="#cb8-110"></a>    ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
+<span id="cb8-111"><a href="#cb8-111"></a>    </span>
+<span id="cb8-112"><a href="#cb8-112"></a>    <span class="co"># select variable</span></span>
+<span id="cb8-113"><a href="#cb8-113"></a>    ess <span class="ot">&lt;-</span> ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
+<span id="cb8-114"><a href="#cb8-114"></a>    </span>
+<span id="cb8-115"><a href="#cb8-115"></a>    <span class="co"># apply range</span></span>
+<span id="cb8-116"><a href="#cb8-116"></a>    ess <span class="ot">&lt;-</span> ess[ess[[xvar]] <span class="sc">&gt;</span> range[<span class="dv">1</span>] <span class="sc">&amp;</span> ess[[xvar]] <span class="sc">&lt;</span> range[<span class="dv">2</span>], ]</span>
+<span id="cb8-117"><a href="#cb8-117"></a>    ess</span>
+<span id="cb8-118"><a href="#cb8-118"></a>  })</span>
+<span id="cb8-119"><a href="#cb8-119"></a>  </span>
+<span id="cb8-120"><a href="#cb8-120"></a>  <span class="co"># render table ----</span></span>
+<span id="cb8-121"><a href="#cb8-121"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
+<span id="cb8-122"><a href="#cb8-122"></a>    <span class="fu">filtered</span>()</span>
+<span id="cb8-123"><a href="#cb8-123"></a>  }, <span class="at">height =</span> <span class="dv">400</span>)</span>
+<span id="cb8-124"><a href="#cb8-124"></a>  </span>
+<span id="cb8-125"><a href="#cb8-125"></a>}</span>
+<span id="cb8-126"><a href="#cb8-126"></a></span>
+<span id="cb8-127"><a href="#cb8-127"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 <section id="loading-things-in-shiny" class="level2" data-number="9">
 <h2 data-number="9" class="anchored" data-anchor-id="loading-things-in-shiny"><span class="header-section-number">9</span> Loading things in Shiny</h2>
@@ -1050,7 +964,7 @@ Note
 <li>Q: What problem might occur if we place certain code wrongly ? Where would you place data management tasks?</li>
 </ul>
 <div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1059,7 +973,7 @@ Insight
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li>If possible place anything computationally intensive outside of the render functions.
@@ -1136,22 +1050,22 @@ Insight
 <li><code>reactlog</code> can be used to visualize and explore the reactivity of a Shiny app</li>
 <li>Below we do so for the Shiny app above (app is stored in a folder)</li>
 </ul>
-<div class="cell" data-hash="04-server-reactive-programming-i_cache/html/04-server-reactive-programming-14_34b7c9a4de311bdc654ff27f7eaf9e93">
-<div class="sourceCode cell-code" id="cb13" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># Restart R to delete log</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="fu">.rs.restartR</span>()</span>
-<span id="cb13-3"><a href="#cb13-3"></a></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb13-5"><a href="#cb13-5"></a><span class="fu">library</span>(reactlog)</span>
-<span id="cb13-6"><a href="#cb13-6"></a></span>
-<span id="cb13-7"><a href="#cb13-7"></a><span class="co"># tell shiny to log all reactivity</span></span>
-<span id="cb13-8"><a href="#cb13-8"></a><span class="fu">reactlog_enable</span>()</span>
-<span id="cb13-9"><a href="#cb13-9"></a><span class="co"># reactlog_disable()</span></span>
-<span id="cb13-10"><a href="#cb13-10"></a></span>
-<span id="cb13-11"><a href="#cb13-11"></a><span class="co"># run a shiny app</span></span>
-<span id="cb13-12"><a href="#cb13-12"></a><span class="fu">runApp</span>(<span class="st">"C:/Users/Paul/Google Drive/13_SHINY_Workshop/shinyapps/guerry/states_paul/app_tab_tabulate.R"</span>)</span>
-<span id="cb13-13"><a href="#cb13-13"></a></span>
-<span id="cb13-14"><a href="#cb13-14"></a><span class="co"># once app has closed, display reactlog from shiny</span></span>
-<span id="cb13-15"><a href="#cb13-15"></a>shiny<span class="sc">::</span><span class="fu">reactlogShow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Restart R to delete log</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="fu">.rs.restartR</span>()</span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="fu">library</span>(reactlog)</span>
+<span id="cb9-6"><a href="#cb9-6"></a></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="co"># tell shiny to log all reactivity</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="fu">reactlog_enable</span>()</span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="co"># reactlog_disable()</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="co"># run a shiny app</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a><span class="fu">runApp</span>(<span class="st">"C:/Users/Paul/Google Drive/13_SHINY_Workshop/shinyapps/guerry/states_paul/app_tab_tabulate.R"</span>)</span>
+<span id="cb9-13"><a href="#cb9-13"></a></span>
+<span id="cb9-14"><a href="#cb9-14"></a><span class="co"># once app has closed, display reactlog from shiny</span></span>
+<span id="cb9-15"><a href="#cb9-15"></a>shiny<span class="sc">::</span><span class="fu">reactlogShow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="appendix-imperative-vs.-declarative-programming-and-laziness" class="level2" data-number="13">
@@ -1173,7 +1087,7 @@ Insight
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-wickham2021mastering" class="csl-entry" role="listitem">
 Wickham, Hadley. 2021. <em>Mastering Shiny</em>. " O’Reilly Media, Inc.".
 </div>
@@ -1257,10 +1171,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/bookdown\.org\/paul\/shiny_workshop\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1270,8 +1201,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1283,7 +1223,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1327,6 +1390,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1352,8 +1416,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-      // Handle positioning of the toggle
-      window.addEventListener(
+        // Handle positioning of the toggle
+    window.addEventListener(
       "resize",
       throttle(() => {
         elRect = undefined;
@@ -1361,23 +1425,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
           selectCodeLines(selectedAnnoteEl);
         }
       }, 10)
-      );
-      function throttle(fn, ms) {
-      let throttle = false;
-      let timer;
-        return (...args) => {
-          if(!throttle) { // first call gets through
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
               fn.apply(this, args);
-              throttle = true;
-          } else { // all the others get throttled
-              if(timer) clearTimeout(timer); // cancel #2
-              timer = setTimeout(() => {
-                fn.apply(this, args);
-                timer = throttle = false;
-              }, ms);
-          }
-        };
-      }
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
       for (let i=0; i<annoteTargets.length; i++) {
         const annoteTarget = annoteTargets[i];
@@ -1422,7 +1486,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
               options: {
                 flipVariations: false, // true by default
                 allowedAutoPlacements: ['right'],
-                fallbackPlacements: ['right', 'top', 'top-start', 'top-end'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
               },
             },
             {
@@ -1480,5 +1544,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.js" defer="true"></script>
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/04-server-reactive-programming-i.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script src="site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.js" defer="true"></script>
 </body></html>

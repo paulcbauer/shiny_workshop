@@ -313,7 +313,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <ul>
 <li>Understand idea/aims/advantages/steps of interactive data analysis</li>
 <li>Understand basic structure of Shiny apps (components)</li>
-<li>Quick overview of the workshop data</li>
+<li>Quick overview of Guerry data</li>
 <li>Discuss MVP and workflow</li>
 </ul></li>
 </ul>
@@ -416,7 +416,7 @@ Figure&nbsp;1: Process underlying interactive data analysis (Source: Bertini, 20
 <li><strong>Process</strong> not sequential but <strong>highly iterative</strong> (jumping back/forth between steps)</li>
 <li><strong>Some activities exclusively human</strong>, e.g., defining problems, generating questions, etc.</li>
 <li><strong>Visualization only small portion</strong> of process and effectiveness depends on other steps</li>
-<li><strong>Interaction</strong>: all over the place… every time you tell your computer what to do (and she returns information)
+<li><strong>Interaction</strong>: all over the place… every time you tell your computer what to do (and it returns information)
 <ul>
 <li>Gather and transform the data</li>
 <li>Specify a model and/or a query from the data</li>
@@ -428,7 +428,7 @@ Figure&nbsp;1: Process underlying interactive data analysis (Source: Bertini, 20
 <ul>
 <li>You can let users type!</li>
 </ul></li>
-<li><strong>Audience</strong>: what skills and pre-knowledge do the have? (domain knowledge, statistics, graphs)</li>
+<li><strong>Audience</strong>: what (interaction) skills and pre-knowledge do the have? (domain knowledge, statistics, graphs)</li>
 </ul>
 </section>
 <section id="challenges-of-interactive-visual-data-analysis" class="level3" data-number="1.6">
@@ -1251,25 +1251,24 @@ Figure&nbsp;4: Source: https://hosting.analythium.io/the-anatomy-of-a-shiny-appl
 <section id="pros-of-r-shiny" class="level4" data-number="3.3.1">
 <h4 data-number="3.3.1" class="anchored" data-anchor-id="pros-of-r-shiny"><span class="header-section-number">3.3.1</span> Pros of R Shiny:</h4>
 <ol type="1">
-<li><strong>Fast Prototyping</strong>: Shiny is excellent for quickly turning ideas into applications, and is relatively easy to use even for those who aren’t seasoned programmers.</li>
-<li><strong>Interactivity</strong>: Shiny lets you build interactive web apps, enhancing user engagement and experience (especially good for dashboards)</li>
-<li><strong>Integration with R Ecosystem</strong>: Shiny integrates seamlessly with R’s <strong>vast open-source ecosystem</strong> (thousands of R packages, but also see <a href="https://shiny.posit.co/py/">shiny for python</a>)</li>
-<li><strong>Statistical Modeling and Visualization</strong>: Shiny allows you to apply complex statistical modeling and visualizations within your app (leveraging R’s strong capabilities)</li>
-<li><strong>No Need for Web Development Skills</strong>: With Shiny, you can create web apps using R code alone. Knowledge of HTML, CSS, or JavaScript is not necessary but can help</li>
-<li><strong>Reactivity</strong>: Shiny’s reactivity system is excellent. Fairly simple to create applications that automatically update in response to user inputs</li>
-<li><strong>Sharing and Publishing</strong>: Shiny apps can be easily published and shared, either through RStudio’s Shiny server, Shinyapps.io, or embedding in R Markdown documents or websites (shinylive!).</li>
+<li><strong>Fast Prototyping</strong>: Shiny is excellent for quickly turning ideas into applications; easy to use even for non-seasoned programmers</li>
+<li><strong>Interactivity</strong>: lets you build interactive web apps, enhancing user engagement and experience (dashboards!)</li>
+<li><strong>Integration with R Ecosystem</strong>: integrates seamlessly with R’s <strong>vast open-source ecosystem</strong> (see <a href="https://shiny.posit.co/py/">shiny for python</a>)</li>
+<li><strong>Statistical Modeling and Visualization</strong>: allows for complex statistical modeling and visualizations within your app</li>
+<li><strong>No Need for Web Development Skills</strong>: Create web apps with R code alone (no need for HTML, CSS, or JavaScript)</li>
+<li><strong>Reactivity</strong>: fairly simple to create applications that automatically update in response to user inputs</li>
+<li><strong>Sharing and Publishing</strong>: apps can be easily published and shared (e.g., Shinyapps.io or shinylive)</li>
 </ol>
 </section>
 <section id="cons-of-r-shiny" class="level4" data-number="3.3.2">
 <h4 data-number="3.3.2" class="anchored" data-anchor-id="cons-of-r-shiny"><span class="header-section-number">3.3.2</span> Cons of R Shiny:</h4>
 <ol type="1">
-<li><strong>Performance</strong>: Shiny apps run on top of R, an interpreted language, which can cause performance issues when handling large amounts of data or complex calculations.</li>
-<li><strong>Single-threaded</strong>: R (and by extension Shiny) is single-threaded, which can also cause performance issues when dealing with many simultaneous users (see <a href="https://shiny.posit.co/r/articles/improve/scaling-and-tuning/">here</a>).</li>
-<li><strong>Complexity</strong>: While Shiny’s basics are easy to learn, mastering the intricacies of reactivity can be challenging.</li>
-<li><strong>Limited Customization</strong>: While it is not hard to create a simple app from your R output, it can be challenging to get around more advanced R packages or even CSS or JavaScript when you require more sophisticated user interfaces.</li>
+<li><strong>Performance</strong>: apps run on top of R, an interpreted language, which can cause performance issues</li>
+<li><strong>Single-threaded</strong>: R (and by extension Shiny) is single-threaded, which can also cause performance issues (see <a href="https://shiny.posit.co/r/articles/improve/scaling-and-tuning/">here</a>).</li>
+<li><strong>Complexity</strong>: Shiny’s basics are easy but mastering intricacies of reactivity is more challenging</li>
 <li><strong>Data Gathering and Saving</strong>: It can be challenging to use Shiny for gathering and saving data to the database.</li>
-<li><strong>Maintenance Cost</strong>: The cost of maintaining a Shiny application over time, including server costs and personnel time, can be high because Shiny maintenance requires some more unique skill sets.</li>
-<li><strong>Software Dependencies</strong>: Certain Shiny applications may have many software dependencies, which can be challenging to manage and could potentially lead to issues down the line.</li>
+<li><strong>Maintenance Cost</strong>: cost of maintaining a Shiny application over time can be high (now we have shinylive!)</li>
+<li><strong>Software Dependencies</strong>: Certain Shiny applications may have many software dependencies, which could potentially lead to issues down the line</li>
 </ol>
 </section>
 </section>
@@ -1459,166 +1458,19 @@ Table&nbsp;3: Data from the European Social Survey, Round 10
 </ul></li>
 </ul>
 <p><br><br></p>
-<div class="cell">
-<details class="code-fold">
-<summary>Data preparation code of the app</summary>
-<div class="sourceCode cell-code" id="cb2" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>data_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"./data/ess_trust_geo.rds"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">kable</span>(<span class="fu">head</span>(data_geo))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div id="tbl-data-geo" class="cell quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-geo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;4: Data from the European Social Survey, Round 10 with geographic information
 </figcaption>
 <div aria-describedby="tbl-data-geo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
-<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
-<colgroup>
-<col style="width: 4%">
-<col style="width: 4%">
-<col style="width: 6%">
-<col style="width: 8%">
-<col style="width: 6%">
-<col style="width: 6%">
-<col style="width: 9%">
-<col style="width: 7%">
-<col style="width: 4%">
-<col style="width: 4%">
-<col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 4%">
-<col style="width: 7%">
-<col style="width: 15%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">country</th>
-<th style="text-align: right;">idno</th>
-<th style="text-align: right;">internet_use</th>
-<th style="text-align: right;">trust_parliament</th>
-<th style="text-align: right;">trust_legal</th>
-<th style="text-align: right;">trust_police</th>
-<th style="text-align: right;">trust_politicians</th>
-<th style="text-align: right;">trust_parties</th>
-<th style="text-align: right;">trust_eu</th>
-<th style="text-align: right;">trust_un</th>
-<th style="text-align: right;">left_right</th>
-<th style="text-align: right;">happiness</th>
-<th style="text-align: right;">age</th>
-<th style="text-align: right;">income_feeling</th>
-<th style="text-align: left;">geometry</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">AT</td>
-<td style="text-align: right;">34895.31</td>
-<td style="text-align: right;">3.905162</td>
-<td style="text-align: right;">5.419935</td>
-<td style="text-align: right;">6.670707</td>
-<td style="text-align: right;">7.398397</td>
-<td style="text-align: right;">4.240944</td>
-<td style="text-align: right;">4.134395</td>
-<td style="text-align: right;">4.424154</td>
-<td style="text-align: right;">4.862173</td>
-<td style="text-align: right;">4.802910</td>
-<td style="text-align: right;">7.795181</td>
-<td style="text-align: right;">51.55886</td>
-<td style="text-align: right;">1.843320</td>
-<td style="text-align: left;">POLYGON ((9.527539 47.27075…</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">BE</td>
-<td style="text-align: right;">35038.46</td>
-<td style="text-align: right;">4.219705</td>
-<td style="text-align: right;">4.794974</td>
-<td style="text-align: right;">5.342419</td>
-<td style="text-align: right;">6.542469</td>
-<td style="text-align: right;">4.256980</td>
-<td style="text-align: right;">4.258837</td>
-<td style="text-align: right;">4.879747</td>
-<td style="text-align: right;">5.285965</td>
-<td style="text-align: right;">4.962722</td>
-<td style="text-align: right;">7.809524</td>
-<td style="text-align: right;">47.90713</td>
-<td style="text-align: right;">1.859818</td>
-<td style="text-align: left;">POLYGON ((4.226172 51.38647…</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">BG</td>
-<td style="text-align: right;">34676.70</td>
-<td style="text-align: right;">2.983159</td>
-<td style="text-align: right;">2.485391</td>
-<td style="text-align: right;">2.986164</td>
-<td style="text-align: right;">3.797398</td>
-<td style="text-align: right;">2.116093</td>
-<td style="text-align: right;">2.143803</td>
-<td style="text-align: right;">3.315389</td>
-<td style="text-align: right;">3.315821</td>
-<td style="text-align: right;">5.340708</td>
-<td style="text-align: right;">5.546288</td>
-<td style="text-align: right;">54.55439</td>
-<td style="text-align: right;">3.029940</td>
-<td style="text-align: left;">POLYGON ((28.01445 41.96904…</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">CH</td>
-<td style="text-align: right;">35354.03</td>
-<td style="text-align: right;">4.385862</td>
-<td style="text-align: right;">6.399862</td>
-<td style="text-align: right;">6.798931</td>
-<td style="text-align: right;">7.371745</td>
-<td style="text-align: right;">5.369314</td>
-<td style="text-align: right;">5.247230</td>
-<td style="text-align: right;">4.756133</td>
-<td style="text-align: right;">5.390658</td>
-<td style="text-align: right;">5.095272</td>
-<td style="text-align: right;">8.178456</td>
-<td style="text-align: right;">47.49934</td>
-<td style="text-align: right;">1.629874</td>
-<td style="text-align: left;">POLYGON ((9.524023 47.52422…</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">CZ</td>
-<td style="text-align: right;">35158.32</td>
-<td style="text-align: right;">3.905779</td>
-<td style="text-align: right;">4.178418</td>
-<td style="text-align: right;">5.162702</td>
-<td style="text-align: right;">5.876263</td>
-<td style="text-align: right;">3.561463</td>
-<td style="text-align: right;">3.552486</td>
-<td style="text-align: right;">4.088325</td>
-<td style="text-align: right;">4.803450</td>
-<td style="text-align: right;">5.460514</td>
-<td style="text-align: right;">7.004218</td>
-<td style="text-align: right;">49.03711</td>
-<td style="text-align: right;">2.194204</td>
-<td style="text-align: left;">POLYGON ((18.83223 49.51079…</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">DE</td>
-<td style="text-align: right;">34894.41</td>
-<td style="text-align: right;">4.225191</td>
-<td style="text-align: right;">5.098840</td>
-<td style="text-align: right;">6.127942</td>
-<td style="text-align: right;">7.102847</td>
-<td style="text-align: right;">3.964087</td>
-<td style="text-align: right;">3.992723</td>
-<td style="text-align: right;">4.562143</td>
-<td style="text-align: right;">4.903283</td>
-<td style="text-align: right;">4.387881</td>
-<td style="text-align: right;">7.818259</td>
-<td style="text-align: right;">49.64613</td>
-<td style="text-align: right;">1.662532</td>
-<td style="text-align: left;">POLYGON ((9.524023 47.52422…</td>
-</tr>
-</tbody>
-</table>
-</div>
+<details class="code-fold">
+<summary>Data preparation code of the app</summary>
+<div class="sourceCode cell-code" id="cb2" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>data_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"./data/ess_trust_geo.rds"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co"># View(data_geo)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </figure>
-</div>
 </div>
 <ul>
 <li><code>data_geo</code> (see <a href="#tbl-data-geo" class="quarto-xref">Table&nbsp;4</a>) comprises aggregated ESS data with geographic information (File: <code>ess_trust_geo.rds</code>; <code>geometry</code> variable describes the geographic shape of <code>regions</code>)</li>
@@ -1636,8 +1488,7 @@ Table&nbsp;4: Data from the European Social Survey, Round 10 with geographic inf
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">install.packages</span>(<span class="st">"shiny"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co"># Guerry package is already installed</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="1">
 <li>Create a directory with the name of your app “myfirstapp” in your <a href="https://bookdown.org/ndphillips/YaRrr/the-working-directory.html">working directory</a>.</li>
