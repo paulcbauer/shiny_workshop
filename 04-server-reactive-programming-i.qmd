@@ -562,7 +562,7 @@ server <- function(input, output, session) {
 shinyApp(ui = ui, server = server)
 ```
 
-* Exercise: In an exercise in the previous chapter we used renderDataTable() and dataTableOutput() to create an interactive table for the data. Please try to replace the corresponding code lines in our so that we get an interactive table out of the box (Tipp: Since `renderDataTable()` does not like labelled datasets we have to zap them as follows: `filtered() %>% zap_labels()`).
+* Exercise: In an exercise in the previous chapter we used `renderDataTable()` and `dataTableOutput()` to create an interactive table for the data. Please try to replace the corresponding code lines in our so that we get an interactive table out of the box (Tipp: Since `renderDataTable()` does not like labelled datasets we have to zap them as follows: `filtered() %>% zap_labels()`).
 
 
 ::: {.callout-warning collapse="true"}
