@@ -5,7 +5,7 @@ title: "Introduction"
 - Learning outcomes: 
   - Understand idea/aims/advantages/steps of interactive data analysis
   - Understand basic structure of Shiny apps (components)
-  - Quick overview of Guerry data
+  - Quick overview of our ESS app
   - Discuss MVP and workflow
 
 

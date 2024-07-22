@@ -39,9 +39,7 @@ This document serves as slides and script for the workshop ***Interactive Data A
 ## About us (Paul & Jonas)
 - Paul	
   + Instructor at University of Freiburg (Department of politics), Postdoc at LMU Munich (statistics department, Frauke Kreuter), External fellow at [MZES](https://www.mzes.uni-mannheim.de/d7/en)
-  + Previously
-    + PhD at the [University of Bern](http://www.unibe.ch/index_eng.html)
-    + research/postdoctoral fellow at the [MZES](https://www.mzes.uni-mannheim.de/d7/en), the [EUI](https://www.eui.eu/) (Florence, Italy)
+  + Previously: PhD at the [University of Bern](http://www.unibe.ch/index_eng.html); research/postdoctoral fellow at the [MZES](https://www.mzes.uni-mannheim.de/d7/en), the [EUI](https://www.eui.eu/) (Florence, Italy)
   + My [research](https://sites.google.com/view/paulcbauer/publications) ([Google Scholar](https://scholar.google.ch/citations?user=hw-b-MkAAAAJ&hl=en), [Github](https://github.com/paulcbauer))
     + **Substantive**: Political sociology & comparative politics (Trust, polarization, social media, fake news)
     + **Methods/data**: Causal inference, experiments, text data, data visualization, machine learning, big data (Google trends, Twitter)
@@ -157,7 +155,7 @@ pander(schedule)
 	- Find it: Google "shiny paul jonas"
 	- Document = slides  + script (Zoom in/out with `STRG + mousewheel`)
 	- **Code**: can all be found in the script
-	- **Data**: can usually be downloaded over links in the script. If not we'll share the files.
+	- **Data**: can usually be downloaded over links in the script or from github (e.e., see [here for the data](https://github.com/paulcbauer/shiny_workshop/tree/main/app)). If not we'll share the files.
 	- Full screen: F11
 	- **Navigation**: TOCs on left and right
 	- Search document (upper left)

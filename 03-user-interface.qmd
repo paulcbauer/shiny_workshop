@@ -36,7 +36,7 @@ pacman::p_load(knitr, quarto)
     - UI then displays different inputs and outputs
   - Shiny provides different functions that can be used to create basic layouts
 - `fluidPage()` creates the classic fluid page layout
-- `dashboardPage()` create a dashboard layout (Guerry dashboard uses that!)
+
 
 ### fluidPage (1)
 - `fluidPage()`: Creates most basic layout
@@ -814,6 +814,7 @@ shinyApp(ui=ui, server = server)
 
 
 ### dashboardPage  {#sec-dashboardPage}
+
 - Alternative to `fluidPage()`
 - `dashboardPage()`: creates a dashboard interface
   - function contained in packages `shinydashboard` and `bs4Dash` (use `bs4Dash`^[Bootstrap 4 shinydashboard using AdminLTE3: [Website](https://rinterface.github.io/bs4Dash/)]!)

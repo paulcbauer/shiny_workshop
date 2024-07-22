@@ -266,13 +266,6 @@ Which machine learning models that we can use for classification have a problem 
 
 
 
-## Loading things
-
-
-
-
-
-
 
 ## Use the browser inspector (Jonas)
 

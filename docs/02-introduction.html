@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.47">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Workshop: Interactive Data Analysis with Shiny - Introduction</title>
+<title>Introduction – Workshop: Interactive Data Analysis with Shiny</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -137,7 +137,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="styles.css">
-<meta name="twitter:title" content="Workshop: Interactive Data Analysis with Shiny - Introduction">
+<meta name="twitter:title" content="Introduction – Workshop: Interactive Data Analysis with Shiny">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -148,13 +148,13 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-introduction.html">Introduction</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -231,7 +231,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-build-your-own.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Good practices when building your own app</span></a>
+ <span class="menu-text">Build your own app</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -313,7 +313,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <ul>
 <li>Understand idea/aims/advantages/steps of interactive data analysis</li>
 <li>Understand basic structure of Shiny apps (components)</li>
-<li>Quick overview of Guerry data</li>
+<li>Quick overview of our ESS app</li>
 <li>Discuss MVP and workflow</li>
 </ul></li>
 </ul>
@@ -377,7 +377,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </ul></li>
 </ul></li>
 </ul>
-<div id="fig-bertini-two" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-bertini-two" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bertini-two-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="resources/02-bertinin-2.webp" class="img-fluid figure-img">
@@ -468,29 +468,29 @@ Figure&nbsp;1: Process underlying interactive data analysis (Source: Bertini, 20
 <li>Q: What do we find here?</li>
 </ul></li>
 </ul>
-<div id="tbl-regression-anscombe" class="cell quarto-float anchored">
+<div id="tbl-regression-anscombe" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-regression-anscombe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
 </figcaption>
 <div aria-describedby="tbl-regression-anscombe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div id="tsgtcxczlp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#tsgtcxczlp table {
+<div id="oxjtsaomzl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#oxjtsaomzl table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#tsgtcxczlp thead, #tsgtcxczlp tbody, #tsgtcxczlp tfoot, #tsgtcxczlp tr, #tsgtcxczlp td, #tsgtcxczlp th {
+#oxjtsaomzl thead, #oxjtsaomzl tbody, #oxjtsaomzl tfoot, #oxjtsaomzl tr, #oxjtsaomzl td, #oxjtsaomzl th {
   border-style: none;
 }
 
-#tsgtcxczlp p {
+#oxjtsaomzl p {
   margin: 0;
   padding: 0;
 }
 
-#tsgtcxczlp .gt_table {
+#oxjtsaomzl .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -516,12 +516,12 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   border-left-color: #D3D3D3;
 }
 
-#tsgtcxczlp .gt_caption {
+#oxjtsaomzl .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#tsgtcxczlp .gt_title {
+#oxjtsaomzl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -533,7 +533,7 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   border-bottom-width: 0;
 }
 
-#tsgtcxczlp .gt_subtitle {
+#oxjtsaomzl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -545,7 +545,7 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   border-top-width: 0;
 }
 
-#tsgtcxczlp .gt_heading {
+#oxjtsaomzl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -557,13 +557,13 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   border-right-color: #D3D3D3;
 }
 
-#tsgtcxczlp .gt_bottom_border {
+#oxjtsaomzl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tsgtcxczlp .gt_col_headings {
+#oxjtsaomzl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -578,7 +578,7 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   border-right-color: #D3D3D3;
 }
 
-#tsgtcxczlp .gt_col_heading {
+#oxjtsaomzl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -598,7 +598,7 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   overflow-x: hidden;
 }
 
-#tsgtcxczlp .gt_column_spanner_outer {
+#oxjtsaomzl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -610,15 +610,15 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   padding-right: 4px;
 }
 
-#tsgtcxczlp .gt_column_spanner_outer:first-child {
+#oxjtsaomzl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tsgtcxczlp .gt_column_spanner_outer:last-child {
+#oxjtsaomzl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tsgtcxczlp .gt_column_spanner {
+#oxjtsaomzl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -630,11 +630,11 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   width: 100%;
 }
 
-#tsgtcxczlp .gt_spanner_row {
+#oxjtsaomzl .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#tsgtcxczlp .gt_group_heading {
+#oxjtsaomzl .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -660,7 +660,7 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   text-align: left;
 }
 
-#tsgtcxczlp .gt_empty_group_heading {
+#oxjtsaomzl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -675,15 +675,15 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   vertical-align: middle;
 }
 
-#tsgtcxczlp .gt_from_md > :first-child {
+#oxjtsaomzl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tsgtcxczlp .gt_from_md > :last-child {
+#oxjtsaomzl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tsgtcxczlp .gt_row {
+#oxjtsaomzl .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -702,7 +702,7 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   overflow-x: hidden;
 }
 
-#tsgtcxczlp .gt_stub {
+#oxjtsaomzl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -715,7 +715,7 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   padding-right: 5px;
 }
 
-#tsgtcxczlp .gt_stub_row_group {
+#oxjtsaomzl .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -729,15 +729,15 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   vertical-align: top;
 }
 
-#tsgtcxczlp .gt_row_group_first td {
+#oxjtsaomzl .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tsgtcxczlp .gt_row_group_first th {
+#oxjtsaomzl .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#tsgtcxczlp .gt_summary_row {
+#oxjtsaomzl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -747,16 +747,16 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   padding-right: 5px;
 }
 
-#tsgtcxczlp .gt_first_summary_row {
+#oxjtsaomzl .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tsgtcxczlp .gt_first_summary_row.thick {
+#oxjtsaomzl .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tsgtcxczlp .gt_last_summary_row {
+#oxjtsaomzl .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -766,7 +766,7 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   border-bottom-color: #D3D3D3;
 }
 
-#tsgtcxczlp .gt_grand_summary_row {
+#oxjtsaomzl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -776,7 +776,7 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   padding-right: 5px;
 }
 
-#tsgtcxczlp .gt_first_grand_summary_row {
+#oxjtsaomzl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -786,7 +786,7 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   border-top-color: #D3D3D3;
 }
 
-#tsgtcxczlp .gt_last_grand_summary_row_top {
+#oxjtsaomzl .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -796,11 +796,11 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   border-bottom-color: #D3D3D3;
 }
 
-#tsgtcxczlp .gt_striped {
+#oxjtsaomzl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tsgtcxczlp .gt_table_body {
+#oxjtsaomzl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -809,7 +809,7 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   border-bottom-color: #D3D3D3;
 }
 
-#tsgtcxczlp .gt_footnotes {
+#oxjtsaomzl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -823,7 +823,7 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   border-right-color: #D3D3D3;
 }
 
-#tsgtcxczlp .gt_footnote {
+#oxjtsaomzl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -832,7 +832,7 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   padding-right: 5px;
 }
 
-#tsgtcxczlp .gt_sourcenotes {
+#oxjtsaomzl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -846,7 +846,7 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   border-right-color: #D3D3D3;
 }
 
-#tsgtcxczlp .gt_sourcenote {
+#oxjtsaomzl .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -854,63 +854,63 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
   padding-right: 5px;
 }
 
-#tsgtcxczlp .gt_left {
+#oxjtsaomzl .gt_left {
   text-align: left;
 }
 
-#tsgtcxczlp .gt_center {
+#oxjtsaomzl .gt_center {
   text-align: center;
 }
 
-#tsgtcxczlp .gt_right {
+#oxjtsaomzl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tsgtcxczlp .gt_font_normal {
+#oxjtsaomzl .gt_font_normal {
   font-weight: normal;
 }
 
-#tsgtcxczlp .gt_font_bold {
+#oxjtsaomzl .gt_font_bold {
   font-weight: bold;
 }
 
-#tsgtcxczlp .gt_font_italic {
+#oxjtsaomzl .gt_font_italic {
   font-style: italic;
 }
 
-#tsgtcxczlp .gt_super {
+#oxjtsaomzl .gt_super {
   font-size: 65%;
 }
 
-#tsgtcxczlp .gt_footnote_marks {
+#oxjtsaomzl .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#tsgtcxczlp .gt_asterisk {
+#oxjtsaomzl .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tsgtcxczlp .gt_indent_1 {
+#oxjtsaomzl .gt_indent_1 {
   text-indent: 5px;
 }
 
-#tsgtcxczlp .gt_indent_2 {
+#oxjtsaomzl .gt_indent_2 {
   text-indent: 10px;
 }
 
-#tsgtcxczlp .gt_indent_3 {
+#oxjtsaomzl .gt_indent_3 {
   text-indent: 15px;
 }
 
-#tsgtcxczlp .gt_indent_4 {
+#oxjtsaomzl .gt_indent_4 {
   text-indent: 20px;
 }
 
-#tsgtcxczlp .gt_indent_5 {
+#oxjtsaomzl .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -927,70 +927,70 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers=" ">(Intercept)</td>
+<td class="gt_row gt_left" headers="">(Intercept)</td>
 <td class="gt_row gt_center" headers="y1 (Set 1)">3.000</td>
 <td class="gt_row gt_center" headers="y2 (Set 2)">3.001</td>
 <td class="gt_row gt_center" headers="y3 (Set 3)">3.002</td>
 <td class="gt_row gt_center" headers="y4 (Set 4)">3.002</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers=" "></td>
+<td class="gt_row gt_left" headers=""></td>
 <td class="gt_row gt_center" headers="y1 (Set 1)">(1.125)</td>
 <td class="gt_row gt_center" headers="y2 (Set 2)">(1.125)</td>
 <td class="gt_row gt_center" headers="y3 (Set 3)">(1.124)</td>
 <td class="gt_row gt_center" headers="y4 (Set 4)">(1.124)</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers=" ">x1</td>
+<td class="gt_row gt_left" headers="">x1</td>
 <td class="gt_row gt_center" headers="y1 (Set 1)">0.500</td>
 <td class="gt_row gt_center" headers="y2 (Set 2)"></td>
 <td class="gt_row gt_center" headers="y3 (Set 3)"></td>
 <td class="gt_row gt_center" headers="y4 (Set 4)"></td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers=" "></td>
+<td class="gt_row gt_left" headers=""></td>
 <td class="gt_row gt_center" headers="y1 (Set 1)">(0.118)</td>
 <td class="gt_row gt_center" headers="y2 (Set 2)"></td>
 <td class="gt_row gt_center" headers="y3 (Set 3)"></td>
 <td class="gt_row gt_center" headers="y4 (Set 4)"></td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers=" ">x2</td>
+<td class="gt_row gt_left" headers="">x2</td>
 <td class="gt_row gt_center" headers="y1 (Set 1)"></td>
 <td class="gt_row gt_center" headers="y2 (Set 2)">0.500</td>
 <td class="gt_row gt_center" headers="y3 (Set 3)"></td>
 <td class="gt_row gt_center" headers="y4 (Set 4)"></td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers=" "></td>
+<td class="gt_row gt_left" headers=""></td>
 <td class="gt_row gt_center" headers="y1 (Set 1)"></td>
 <td class="gt_row gt_center" headers="y2 (Set 2)">(0.118)</td>
 <td class="gt_row gt_center" headers="y3 (Set 3)"></td>
 <td class="gt_row gt_center" headers="y4 (Set 4)"></td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers=" ">x3</td>
+<td class="gt_row gt_left" headers="">x3</td>
 <td class="gt_row gt_center" headers="y1 (Set 1)"></td>
 <td class="gt_row gt_center" headers="y2 (Set 2)"></td>
 <td class="gt_row gt_center" headers="y3 (Set 3)">0.500</td>
 <td class="gt_row gt_center" headers="y4 (Set 4)"></td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers=" "></td>
+<td class="gt_row gt_left" headers=""></td>
 <td class="gt_row gt_center" headers="y1 (Set 1)"></td>
 <td class="gt_row gt_center" headers="y2 (Set 2)"></td>
 <td class="gt_row gt_center" headers="y3 (Set 3)">(0.118)</td>
 <td class="gt_row gt_center" headers="y4 (Set 4)"></td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers=" ">x4</td>
+<td class="gt_row gt_left" headers="">x4</td>
 <td class="gt_row gt_center" headers="y1 (Set 1)"></td>
 <td class="gt_row gt_center" headers="y2 (Set 2)"></td>
 <td class="gt_row gt_center" headers="y3 (Set 3)"></td>
 <td class="gt_row gt_center" headers="y4 (Set 4)">0.500</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers=" "></td>
+<td class="gt_row gt_left" headers=""></td>
 <td class="gt_row gt_center" headers="y1 (Set 1)"></td>
 <td class="gt_row gt_center" headers="y2 (Set 2)"></td>
 <td class="gt_row gt_center" headers="y3 (Set 3)"></td>
@@ -1018,7 +1018,7 @@ Table&nbsp;1: Linear models based on sets of Anscombe’s quartet
 </ul></li>
 </ul>
 <div class="cell">
-<div id="tbl-anscombe" class="cell quarto-float anchored">
+<div id="tbl-anscombe" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-anscombe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2: Anscombe’s quartett: Visualization
@@ -1170,7 +1170,7 @@ Table&nbsp;2: Anscombe’s quartett: Visualization
 </ul>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-anscombe" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-anscombe" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-anscombe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="02-introduction_files/figure-html/fig-anscombe-1.png" class="img-fluid figure-img" style="width:100.0%">
@@ -1193,7 +1193,7 @@ Figure&nbsp;2: Anscombe’s quartet: Visualization
 </ul>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-datasaurus-own" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-datasaurus-own" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-datasaurus-own-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="02-introduction_files/figure-html/fig-datasaurus-own-1.gif" class="img-fluid figure-img" style="width:100.0%">
@@ -1235,7 +1235,7 @@ Figure&nbsp;3: The Datasaurus Dozen animated by Tom Westlake
 <li>A Shiny app has <strong>two components</strong>, the <strong>user interface (UI)</strong> and the <strong>server</strong>, that are passed as arguments to the <code>shinyApp()</code> which creates a Shiny app from this <strong>ui/server pair</strong></li>
 </ul></li>
 </ul>
-<div id="fig-shinycomponents" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-shinycomponents" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-shinycomponents-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="resources/02-compontents-shiny-app.png" class="img-fluid figure-img">
@@ -1276,14 +1276,14 @@ Figure&nbsp;4: Source: https://hosting.analythium.io/the-anatomy-of-a-shiny-appl
 <section id="exploring-european-social-survey-ess-the-app-we-will-build" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="exploring-european-social-survey-ess-the-app-we-will-build"><span class="header-section-number">4</span> Exploring European Social Survey (ESS): The app we will build</h2>
 <ul>
-<li>In the workshop we will built the Shiny app shown in <a href="#fig-app-image" class="quarto-xref">Figure&nbsp;5</a> together. Please <a href="https://paulbauer.shinyapps.io/guerry_dashboard/">explore this app here - UPDATE LINK</a> (5-10 minutes) and answer the following questions:
+<li>In the workshop we will built the Shiny app shown in <a href="#fig-app-image" class="quarto-xref">Figure&nbsp;5</a> together. Please <a href="https://paulbauer.shinyapps.io/ess_shinyapp/">explore this app here</a> (5-10 minutes) and answer the following questions:
 <ul>
 <li>What questions can we answer using the app?</li>
 <li>How can this app help us to understand and analyze the underlying data?</li>
 <li>What interactive elements can we identify in the app?</li>
 </ul></li>
 </ul>
-<div id="fig-app-image" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-app-image" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-app-image-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="resources/02_image_of_app.png" class="img-fluid figure-img">
@@ -1305,46 +1305,30 @@ Figure&nbsp;5: (Source: Original image)
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="fu">kable</span>(<span class="fu">head</span>(data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="tbl-data" class="cell quarto-float anchored">
+<div id="tbl-data" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;3: Data from the European Social Survey, Round 10
 </figcaption>
 <div aria-describedby="tbl-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
-<colgroup>
-<col style="width: 3%">
-<col style="width: 5%">
-<col style="width: 8%">
-<col style="width: 10%">
-<col style="width: 7%">
-<col style="width: 8%">
-<col style="width: 11%">
-<col style="width: 8%">
-<col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 6%">
-<col style="width: 6%">
-<col style="width: 2%">
-<col style="width: 9%">
-</colgroup>
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th style="text-align: right;">idno</th>
-<th style="text-align: left;">country</th>
-<th style="text-align: right;">internet_use</th>
-<th style="text-align: right;">trust_parliament</th>
-<th style="text-align: right;">trust_legal</th>
-<th style="text-align: right;">trust_police</th>
-<th style="text-align: right;">trust_politicians</th>
-<th style="text-align: right;">trust_parties</th>
-<th style="text-align: right;">trust_eu</th>
-<th style="text-align: right;">trust_un</th>
-<th style="text-align: right;">left_right</th>
-<th style="text-align: right;">happiness</th>
-<th style="text-align: right;">age</th>
-<th style="text-align: right;">income_feeling</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">idno</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">country</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">internet_use</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">trust_parliament</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">trust_legal</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">trust_police</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">trust_politicians</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">trust_parties</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">trust_eu</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">trust_un</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">left_right</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">happiness</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">age</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">income_feeling</th>
 </tr>
 </thead>
 <tbody>
@@ -1446,6 +1430,8 @@ Table&nbsp;3: Data from the European Social Survey, Round 10
 </tr>
 </tbody>
 </table>
+
+
 </div>
 </div>
 </figure>
@@ -1458,7 +1444,7 @@ Table&nbsp;3: Data from the European Social Survey, Round 10
 </ul></li>
 </ul>
 <p><br><br></p>
-<div id="tbl-data-geo" class="cell quarto-float anchored">
+<div id="tbl-data-geo" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-geo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;4: Data from the European Social Survey, Round 10 with geographic information
@@ -1500,7 +1486,7 @@ Table&nbsp;4: Data from the European Social Survey, Round 10 with geographic inf
 </ol>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-runappbutton" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-runappbutton" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-runappbutton-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="resources/02-run-app.png" class="img-fluid figure-img" width="772">
@@ -1520,7 +1506,7 @@ Figure&nbsp;6: The Run App button can be found at the top-right of the source pa
 </ul>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-mvp" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-mvp" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mvp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="resources/MVP.png" class="img-fluid figure-img" width="400">
@@ -1686,18 +1672,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1729,7 +1704,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/bookdown\.org\/paul\/shiny_workshop\/");
@@ -1737,7 +1734,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

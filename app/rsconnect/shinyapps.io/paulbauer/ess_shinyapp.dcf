@@ -1,0 +1,12 @@
+name: ess_shinyapp
+title: ess_shinyapp
+username: paulbauer
+account: paulbauer
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 12348563
+bundleId: 8891994
+url: https://paulbauer.shinyapps.io/ess_shinyapp/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
