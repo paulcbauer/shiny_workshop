@@ -1,0 +1,12 @@
+name: ess_app_workshop
+title: ess_app_workshop
+username: paulcbauer
+account: paulcbauer
+server: bookdown.org
+hostUrl: https://bookdown.org/__api__
+appId: 14354
+bundleId:
+url: https://bookdown.org/paulcbauer/ess_app_workshop/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
