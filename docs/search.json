@@ -409,7 +409,7 @@
     "href": "01-workshop.html#about-us-paul-jonas",
     "title": "About this workshop",
     "section": "1 About us (Paul & Jonas)",
-    "text": "1 About us (Paul & Jonas)\n\nPaul\n\nInstructor at University of Freiburg (Department of politics), Postdoc at LMU Munich (statistics department, Frauke Kreuter), External fellow at MZES\nPreviously\n\nPhD at the University of Bern\nresearch/postdoctoral fellow at the MZES, the EUI (Florence, Italy)\n\nMy research (Google Scholar, Github)\n\nSubstantive: Political sociology & comparative politics (Trust, polarization, social media, fake news)\nMethods/data: Causal inference, experiments, text data, data visualization, machine learning, big data (Google trends, Twitter)\n\n\nJonas\n\nCurrently a research fellow at GESIS’ survey data curation (SDC) department\nPhD student interested in social geography, spatial data science, and computational text analysis\nDeveloping R packages (e.g. r311) and Shiny apps (e.g. gretan) for research\nContact: jonas.lieth@gesis.org; Website; GitHub",
+    "text": "1 About us (Paul & Jonas)\n\nPaul\n\nInstructor at University of Freiburg (Department of politics), Postdoc at LMU Munich (statistics department, Frauke Kreuter), External fellow at MZES\nPreviously: PhD at the University of Bern; research/postdoctoral fellow at the MZES, the EUI (Florence, Italy)\nMy research (Google Scholar, Github)\n\nSubstantive: Political sociology & comparative politics (Trust, polarization, social media, fake news)\nMethods/data: Causal inference, experiments, text data, data visualization, machine learning, big data (Google trends, Twitter)\n\n\nJonas\n\nCurrently a research fellow at GESIS’ survey data curation (SDC) department\nPhD student interested in social geography, spatial data science, and computational text analysis\nDeveloping R packages (e.g. r311) and Shiny apps (e.g. gretan) for research\nContact: jonas.lieth@gesis.org; Website; GitHub",
     "crumbs": [
       "About this workshop"
     ]
@@ -439,7 +439,7 @@
     "href": "01-workshop.html#material",
     "title": "About this workshop",
     "section": "4 Script & material",
-    "text": "4 Script & material\n\nLiterature: See syllabus.\nWebsite/script: https://paulcbauer.github.io/shiny_workshop/\n\nFind it: Google “shiny paul jonas”\nDocument = slides + script (Zoom in/out with STRG + mousewheel)\nCode: can all be found in the script\nData: can usually be downloaded over links in the script. If not we’ll share the files.\nFull screen: F11\nNavigation: TOCs on left and right\nSearch document (upper left)\nDocument generated with quarto\n\nMotivation: Have a go-to script for participants (and ourselves!)\nContent: Mixture of theory, lab sessions, exercises and pure code examples for discussion",
+    "text": "4 Script & material\n\nLiterature: See syllabus.\nWebsite/script: https://paulcbauer.github.io/shiny_workshop/\n\nFind it: Google “shiny paul jonas”\nDocument = slides + script (Zoom in/out with STRG + mousewheel)\nCode: can all be found in the script\nData: can usually be downloaded over links in the script or from github (e.e., see here for the data). If not we’ll share the files.\nFull screen: F11\nNavigation: TOCs on left and right\nSearch document (upper left)\nDocument generated with quarto\n\nMotivation: Have a go-to script for participants (and ourselves!)\nContent: Mixture of theory, lab sessions, exercises and pure code examples for discussion",
     "crumbs": [
       "About this workshop"
     ]
@@ -479,7 +479,7 @@
     "href": "01-workshop.html#software-we-will-use",
     "title": "About this workshop",
     "section": "8 Software we will use",
-    "text": "8 Software we will use\n\nOpen-source software! (Q: Why?)\nR (R Core Team 2023)1\n\nonly viable competitor is Python\nInstall the necessary packages using the code below.\n\n\n# install.packages(\"pacman\")\n\npacman::p_load(c(\n   apexcharter,\n   datasauRus,\n   gganimate,\n   gifski,\n   gt,\n   gtsummary,\n   haven,\n   highcharter,\n   htmltools,\n   httpuv,\n   kableExtra,\n   leaflet,\n   listviewer,\n   modelsummary,\n   plotly,\n   png,\n   profvis,\n   reactlog,\n   rsconnect,\n   sf,\n   shiny,\n   shinylive,\n   tidyverse\n))\n\nShiny (Chang et al. 2022; Wickham 2021)\nggplot22 (Wickham 2016)\nplotly3 (Sievert 2020)\nNote: Ideally cite the software you use in your research especially when it is open-source (e.g., run citation(\"ggplot2\"))",
+    "text": "8 Software we will use\n\nOpen-source software! (Q: Why?)\nR (R Core Team 2023)1\n\nonly viable competitor is Python\nInstall the necessary packages using the code below.\n\n\n# install.packages(\"pacman\")\n\npacman::p_load(c(\n   apexcharter,\n   broom,\n   datasauRus,\n   gganimate,\n   gifski,\n   gt,\n   gtsummary,\n   haven,\n   highcharter,\n   htmltools,\n   httpuv,\n   kableExtra,\n   leaflet,\n   listviewer,\n   modelsummary,\n   plotly,\n   png,\n   profvis,\n   reactlog,\n   rsconnect,\n   sf,\n   shiny,\n   shinylive,\n   tidyverse\n))\n\nShiny (Chang et al. 2022; Wickham 2021)\nggplot22 (Wickham 2016)\nplotly3 (Sievert 2020)\nNote: Ideally cite the software you use in your research especially when it is open-source (e.g., run citation(\"ggplot2\"))",
     "crumbs": [
       "About this workshop"
     ]
