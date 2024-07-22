@@ -1,6 +1,7 @@
 library(tidyverse)
 library(shiny)
 library(plotly)
+library(sf)
 library(leaflet)
 library(haven)
 

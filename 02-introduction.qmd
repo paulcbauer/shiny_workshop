@@ -306,7 +306,7 @@ ggplot(datasaurus_dozen, aes(x=x, y=y))+
 
 
 ## Exploring European Social Survey (ESS): The app we will build
-- In the workshop we will built the Shiny app shown in @fig-app-image together. Please [explore this app here - UPDATE LINK](https://paulbauer.shinyapps.io/guerry_dashboard/) (5-10 minutes) and answer the following questions:
+- In the workshop we will built the Shiny app shown in @fig-app-image together. Please [explore this app here](https://paulbauer.shinyapps.io/ess_shinyapp/) (5-10 minutes) and answer the following questions:
   - What questions can we answer using the app?
   - How can this app help us to understand and analyze the underlying data?
   - What interactive elements can we identify in the app?

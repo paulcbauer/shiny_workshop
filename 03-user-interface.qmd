@@ -185,7 +185,7 @@ shinyApp(ui=ui, server = server)
 ### Exercise: UI layout 
 1. Familiarize yourself and use the code in @sec-dashboardPage3.
 2. Change the website title to "A big name in politics"
-3. Change the sidebar menu title with "The Arni dashboard".
+3. Change the sidebar menu title with "The Arni Shiny App".
 4. Replace the image of Guerry with an image Arnold Schwarzenegger from the web, e.g., [here](http://assets.schwarzenegger.com/images/img-2.jpg).
   - Either store the image in a `www` subfolder of your app directory or use the URL in your code.
 
@@ -199,7 +199,7 @@ ui <- fluidPage(
   titlePanel(span(img(src = "https://www.gesis.org/typo3conf/ext/gesis_web_ext/Resources/Public/webpack/dist/img/logo_gesis_en.svg", style = "height: 1.4em;"), "A big name in politics")),
   
   sidebarLayout(
-    sidebarPanel( "The Arni Dashboard"),
+    sidebarPanel( "The Arni Shiny App"),
     
     mainPanel(
       tabsetPanel(type = "tabs",
@@ -236,7 +236,7 @@ ui <- fluidPage(
   titlePanel(span(img(src = "https://www.gesis.org/typo3conf/ext/gesis_web_ext/Resources/Public/webpack/dist/img/logo_gesis_en.svg", style = "height: 1.4em;"), "A big name in politics")),
   
   sidebarLayout(
-    sidebarPanel( "The Arni Dashboard"),
+    sidebarPanel( "The Arni Shiny App"),
     
     mainPanel(
       tabsetPanel(type = "tabs",
@@ -706,7 +706,7 @@ shinyApp(ui, server)
     - `.noWS = ...` argument to remove whitespace
 - See [full reference for HTML tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)  
 - Here we just do a quick example but in [this tutorial you find more information](https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/)
-- **Exercise**: Please run the shiny app below and explore the effect of different html tags.
+- **Exercise**: Please run the shiny app below and explore the effect of different html tags. What do the different html tags do?
 
 
 ```{r 03-user-interface-17, cache=TRUE, eval=FALSE, include=TRUE}
@@ -714,7 +714,7 @@ ui <- fluidPage(
   titlePanel("A big name in politics"),
 
 sidebarLayout(
-  sidebarPanel( "The Arni Dashboard"),
+  sidebarPanel( "The Arni Shiny App"),
   
   mainPanel(
     
@@ -787,7 +787,7 @@ shinyApp(ui=ui, server = server)
 
 
 
-## dashboardPage  {#sec-dashboardPage}
+### dashboardPage  {#sec-dashboardPage}
 - Alternative to `fluidPage()`
 - `dashboardPage()`: creates a dashboard interface
   - function contained in packages `shinydashboard` and `bs4Dash` (use `bs4Dash`^[Bootstrap 4 shinydashboard using AdminLTE3: [Website](https://rinterface.github.io/bs4Dash/)]!)
