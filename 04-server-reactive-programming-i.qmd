@@ -803,7 +803,7 @@ reactlog_enable()
 # reactlog_disable()
 
 # run a shiny app
-runApp("C:/Users/Paul/Google Drive/13_SHINY_Workshop/shinyapps/guerry/states_paul/app_tab_tabulate.R")
+runApp("C:/Users/Paul/Google Drive/13_SHINY_Workshop/shinyapps/example/app_table_tab.R")
 
 # once app has closed, display reactlog from shiny
 shiny::reactlogShow()
