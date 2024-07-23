@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.47">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Workshop: Interactive Data Analysis with Shiny - Good practices when building your own app</title>
+<title>Build your own app – Workshop: Interactive Data Analysis with Shiny</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -113,7 +113,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="styles.css">
-<meta name="twitter:title" content="Workshop: Interactive Data Analysis with Shiny - Good practices when building your own app">
+<meta name="twitter:title" content="Build your own app – Workshop: Interactive Data Analysis with Shiny">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -124,13 +124,13 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-build-your-own.html">Good practices when building your own app</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-build-your-own.html">Build your own app</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -207,7 +207,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-build-your-own.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Good practices when building your own app</span></a>
+ <span class="menu-text">Build your own app</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -239,19 +239,18 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <li><a href="#prompts-data-visualization" id="toc-prompts-data-visualization" class="nav-link" data-scroll-target="#prompts-data-visualization"><span class="header-section-number">2.1.6</span> Prompts: Data visualization</a></li>
   <li><a href="#prompts-modeling" id="toc-prompts-modeling" class="nav-link" data-scroll-target="#prompts-modeling"><span class="header-section-number">2.1.7</span> Prompts: Modeling</a></li>
   </ul></li>
-  <li><a href="#loading-things" id="toc-loading-things" class="nav-link" data-scroll-target="#loading-things"><span class="header-section-number">2.2</span> Loading things</a></li>
-  <li><a href="#use-the-browser-inspector" id="toc-use-the-browser-inspector" class="nav-link" data-scroll-target="#use-the-browser-inspector"><span class="header-section-number">2.3</span> Use the browser inspector</a>
+  <li><a href="#use-the-browser-inspector" id="toc-use-the-browser-inspector" class="nav-link" data-scroll-target="#use-the-browser-inspector"><span class="header-section-number">2.2</span> Use the browser inspector</a>
   <ul class="collapse">
-  <li><a href="#browser-inspectors-in-the-wild" id="toc-browser-inspectors-in-the-wild" class="nav-link" data-scroll-target="#browser-inspectors-in-the-wild"><span class="header-section-number">2.3.1</span> Browser inspectors in the wild</a></li>
-  <li><a href="#pros-and-cons" id="toc-pros-and-cons" class="nav-link" data-scroll-target="#pros-and-cons"><span class="header-section-number">2.3.2</span> Pros and Cons</a></li>
+  <li><a href="#browser-inspectors-in-the-wild" id="toc-browser-inspectors-in-the-wild" class="nav-link" data-scroll-target="#browser-inspectors-in-the-wild"><span class="header-section-number">2.2.1</span> Browser inspectors in the wild</a></li>
+  <li><a href="#pros-and-cons" id="toc-pros-and-cons" class="nav-link" data-scroll-target="#pros-and-cons"><span class="header-section-number">2.2.2</span> Pros and Cons</a></li>
   </ul></li>
-  <li><a href="#organize-your-code" id="toc-organize-your-code" class="nav-link" data-scroll-target="#organize-your-code"><span class="header-section-number">2.4</span> Organize your code</a>
+  <li><a href="#organize-your-code" id="toc-organize-your-code" class="nav-link" data-scroll-target="#organize-your-code"><span class="header-section-number">2.3</span> Organize your code</a>
   <ul class="collapse">
-  <li><a href="#functional-programming" id="toc-functional-programming" class="nav-link" data-scroll-target="#functional-programming"><span class="header-section-number">2.4.1</span> Functional programming</a></li>
-  <li><a href="#stick-to-a-style-guide" id="toc-stick-to-a-style-guide" class="nav-link" data-scroll-target="#stick-to-a-style-guide"><span class="header-section-number">2.4.2</span> Stick to a style guide</a></li>
-  <li><a href="#annotate-your-code" id="toc-annotate-your-code" class="nav-link" data-scroll-target="#annotate-your-code"><span class="header-section-number">2.4.3</span> Annotate your code</a></li>
-  <li><a href="#modularize-your-shiny-code" id="toc-modularize-your-shiny-code" class="nav-link" data-scroll-target="#modularize-your-shiny-code"><span class="header-section-number">2.4.4</span> Modularize your Shiny code</a></li>
-  <li><a href="#build-your-shiny-app-as-a-package" id="toc-build-your-shiny-app-as-a-package" class="nav-link" data-scroll-target="#build-your-shiny-app-as-a-package"><span class="header-section-number">2.4.5</span> Build your Shiny app as a package</a></li>
+  <li><a href="#functional-programming" id="toc-functional-programming" class="nav-link" data-scroll-target="#functional-programming"><span class="header-section-number">2.3.1</span> Functional programming</a></li>
+  <li><a href="#stick-to-a-style-guide" id="toc-stick-to-a-style-guide" class="nav-link" data-scroll-target="#stick-to-a-style-guide"><span class="header-section-number">2.3.2</span> Stick to a style guide</a></li>
+  <li><a href="#annotate-your-code" id="toc-annotate-your-code" class="nav-link" data-scroll-target="#annotate-your-code"><span class="header-section-number">2.3.3</span> Annotate your code</a></li>
+  <li><a href="#modularize-your-shiny-code" id="toc-modularize-your-shiny-code" class="nav-link" data-scroll-target="#modularize-your-shiny-code"><span class="header-section-number">2.3.4</span> Modularize your Shiny code</a></li>
+  <li><a href="#build-your-shiny-app-as-a-package" id="toc-build-your-shiny-app-as-a-package" class="nav-link" data-scroll-target="#build-your-shiny-app-as-a-package"><span class="header-section-number">2.3.5</span> Build your Shiny app as a package</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">3</span> Data</a>
@@ -269,7 +268,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Good practices when building your own app</h1>
+<h1 class="title">Build your own app</h1>
 </div>
 
 
@@ -507,7 +506,7 @@ readOGR(dsn="www/data", layer="VG250_GEM", encoding = "ASCII", verbose = FALSE)<
 </ol>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-coefficient-plot234" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<div id="fig-coefficient-plot234" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-coefficient-plot234-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="08-build-your-own_files/figure-html/fig-coefficient-plot234-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480">
@@ -536,11 +535,8 @@ Figure&nbsp;1: Coefficient plot
 Which machine learning models that we can use for classification have a problem with class imbalance?</code></pre>
 </section>
 </section>
-<section id="loading-things" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="loading-things"><span class="header-section-number">2.2</span> Loading things</h2>
-</section>
-<section id="use-the-browser-inspector" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="use-the-browser-inspector"><span class="header-section-number">2.3</span> Use the browser inspector</h2>
+<section id="use-the-browser-inspector" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="use-the-browser-inspector"><span class="header-section-number">2.2</span> Use the browser inspector</h2>
 <ul>
 <li>Browser inspectors are an extremely powerful tool that goes far beyond the scope of this workshop</li>
 <li>It can be used to take a deep look at a website
@@ -555,8 +551,8 @@ Which machine learning models that we can use for classification have a problem 
 <li>… and a lot more</li>
 </ul></li>
 </ul>
-<section id="browser-inspectors-in-the-wild" class="level3" data-number="2.3.1">
-<h3 data-number="2.3.1" class="anchored" data-anchor-id="browser-inspectors-in-the-wild"><span class="header-section-number">2.3.1</span> Browser inspectors in the wild</h3>
+<section id="browser-inspectors-in-the-wild" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="browser-inspectors-in-the-wild"><span class="header-section-number">2.2.1</span> Browser inspectors in the wild</h3>
 <ul>
 <li>Every popular browser has its own implementation of an inspector
 <ul>
@@ -574,8 +570,8 @@ Which machine learning models that we can use for classification have a problem 
 </figure>
 </div>
 </section>
-<section id="pros-and-cons" class="level3" data-number="2.3.2">
-<h3 data-number="2.3.2" class="anchored" data-anchor-id="pros-and-cons"><span class="header-section-number">2.3.2</span> Pros and Cons</h3>
+<section id="pros-and-cons" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="pros-and-cons"><span class="header-section-number">2.2.2</span> Pros and Cons</h3>
 <ul>
 <li>Inspectors are useful for:
 <ul>
@@ -591,8 +587,8 @@ Which machine learning models that we can use for classification have a problem 
 </ul>
 </section>
 </section>
-<section id="organize-your-code" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="organize-your-code"><span class="header-section-number">2.4</span> Organize your code</h2>
+<section id="organize-your-code" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="organize-your-code"><span class="header-section-number">2.3</span> Organize your code</h2>
 <ul>
 <li>Shiny code becomes messy <strong>really</strong> quick!</li>
 <li>It is even more important than in normal code to keep code clean and tidy</li>
@@ -603,8 +599,8 @@ Which machine learning models that we can use for classification have a problem 
 <li>Programming with organized code is much faster and much more fun</li>
 </ul></li>
 </ul>
-<section id="functional-programming" class="level3" data-number="2.4.1">
-<h3 data-number="2.4.1" class="anchored" data-anchor-id="functional-programming"><span class="header-section-number">2.4.1</span> Functional programming</h3>
+<section id="functional-programming" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="functional-programming"><span class="header-section-number">2.3.1</span> Functional programming</h3>
 <ul>
 <li>Wrap code in functions if:
 <ul>
@@ -627,8 +623,8 @@ Which machine learning models that we can use for classification have a problem 
 <span id="cb16-2"><a href="#cb16-2"></a><span class="fu">summarize</span>(iris, <span class="fu">across</span>(<span class="fu">where</span>(is.numeric), geometric_mean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="stick-to-a-style-guide" class="level3" data-number="2.4.2">
-<h3 data-number="2.4.2" class="anchored" data-anchor-id="stick-to-a-style-guide"><span class="header-section-number">2.4.2</span> Stick to a style guide</h3>
+<section id="stick-to-a-style-guide" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="stick-to-a-style-guide"><span class="header-section-number">2.3.2</span> Stick to a style guide</h3>
 <ul>
 <li>Adopting a consistent coding style drastically improves readability for yourself and contributors</li>
 <li>The <a href="https://styler.r-lib.org/">styler</a> and <a href="https://lintr.r-lib.org/">lintr</a> packages automatically check your code for style inconsistencies, bad practictes, and possible syntactic/semantic errors</li>
@@ -654,8 +650,8 @@ Which machine learning models that we can use for classification have a problem 
 <span id="cb17-17"><a href="#cb17-17"></a>)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="annotate-your-code" class="level3" data-number="2.4.3">
-<h3 data-number="2.4.3" class="anchored" data-anchor-id="annotate-your-code"><span class="header-section-number">2.4.3</span> Annotate your code</h3>
+<section id="annotate-your-code" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="annotate-your-code"><span class="header-section-number">2.3.3</span> Annotate your code</h3>
 <ul>
 <li>Even in smaller apps, Shiny code is multiple hundred lines long</li>
 <li>RStudio annotations can help navigate large R code files</li>
@@ -674,8 +670,8 @@ Which machine learning models that we can use for classification have a problem 
 </figure>
 </div>
 </section>
-<section id="modularize-your-shiny-code" class="level3" data-number="2.4.4">
-<h3 data-number="2.4.4" class="anchored" data-anchor-id="modularize-your-shiny-code"><span class="header-section-number">2.4.4</span> Modularize your Shiny code</h3>
+<section id="modularize-your-shiny-code" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="modularize-your-shiny-code"><span class="header-section-number">2.3.4</span> Modularize your Shiny code</h3>
 <ul>
 <li>If your Shiny app is divided into multiple tabs or sections, it might make sense to wrap it into modules</li>
 <li>By modularizing, you divide a large Shiny app into multiple smaller pieces that are isolated from each other</li>
@@ -688,8 +684,8 @@ Which machine learning models that we can use for classification have a problem 
 </figure>
 </div>
 </section>
-<section id="build-your-shiny-app-as-a-package" class="level3" data-number="2.4.5">
-<h3 data-number="2.4.5" class="anchored" data-anchor-id="build-your-shiny-app-as-a-package"><span class="header-section-number">2.4.5</span> Build your Shiny app as a package</h3>
+<section id="build-your-shiny-app-as-a-package" class="level3" data-number="2.3.5">
+<h3 data-number="2.3.5" class="anchored" data-anchor-id="build-your-shiny-app-as-a-package"><span class="header-section-number">2.3.5</span> Build your Shiny app as a package</h3>
 <ul>
 <li>This tip is particularly useful for larger apps</li>
 <li>The idea is to build a robust scaffold around the Shiny app</li>
@@ -1071,18 +1067,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1114,7 +1099,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/bookdown\.org\/paul\/shiny_workshop\/");
@@ -1122,7 +1129,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

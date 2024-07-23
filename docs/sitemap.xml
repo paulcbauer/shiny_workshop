@@ -2,10 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://bookdown.org/paul/shiny_workshop/01-workshop.html</loc>
-    <lastmod>2024-07-22T15:51:07.068Z</lastmod>
+    <lastmod>2024-07-23T07:30:06.072Z</lastmod>
   </url>
   <url>
     <loc>https://bookdown.org/paul/shiny_workshop/index.html</loc>
     <lastmod>2024-07-22T10:59:03.977Z</lastmod>
+  </url>
+  <url>
+    <loc>https://bookdown.org/paul/shiny_workshop/08-build-your-own.html</loc>
+    <lastmod>2024-07-23T06:35:36.571Z</lastmod>
   </url>
 </urlset>
