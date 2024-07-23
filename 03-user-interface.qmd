@@ -276,7 +276,7 @@ shinyApp(ui=ui, server = server)
 
 
 ### UI Inputs: Logic
-- Widget = Web element the user can interact with ([Shiny widget gallery](https://shiny.posit.co/r/gallery/))
+- Widget = Web element the user can interact with ([Shiny widget gallery](https://shiny.posit.co/r/gallery/widgets/widget-gallery/))
     - Users can send messages to the SERVER/Computer (e.g. "I want to choose this variable") 
 * Underlying logic is the same for all widgets
     - User uses widget to give input
@@ -339,7 +339,7 @@ server <- function(input, output, session) {}
 shinyApp(ui, server)
 ```
 
-* Now let's have a look within the an app
+* Now try to run the code within Rstudio and take a look at the app itself!
 
 ### Additional exercise(s)
 * See [Exercises 2.2.8](https://mastering-shiny.org/basic-ui.html#exercises-2).
