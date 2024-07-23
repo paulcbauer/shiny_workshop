@@ -40,7 +40,7 @@ This document serves as slides and script for the workshop ***Interactive Data A
 - Paul	
   + Instructor at University of Freiburg (Department of politics), Postdoc at LMU Munich (statistics department, Frauke Kreuter), External fellow at [MZES](https://www.mzes.uni-mannheim.de/d7/en)
   + Previously: PhD at the [University of Bern](http://www.unibe.ch/index_eng.html); research/postdoctoral fellow at the [MZES](https://www.mzes.uni-mannheim.de/d7/en), the [EUI](https://www.eui.eu/) (Florence, Italy)
-  + My [research](https://sites.google.com/view/paulcbauer/publications) ([Google Scholar](https://scholar.google.ch/citations?user=hw-b-MkAAAAJ&hl=en), [Github](https://github.com/paulcbauer))
+  + My [research](https://www.paulcbauer.de) ([Google Scholar](https://scholar.google.ch/citations?user=hw-b-MkAAAAJ&hl=en), [Github](https://github.com/paulcbauer))
     + **Substantive**: Political sociology & comparative politics (Trust, polarization, social media, fake news)
     + **Methods/data**: Causal inference, experiments, text data, data visualization, machine learning, big data (Google trends, Twitter)
 - Jonas
