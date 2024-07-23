@@ -31,10 +31,10 @@ server <- function(input, output, session) {
   })
   
   
-  output$text <- renderText({
-    browser()
+  output$text <- renderPrint({
+    event_data("plotly_hover")
   }) %>%
-    bindEvent(event_data("plotly_doubleclick"))
+    bindEvent(event_data("plotly_hover"))
 }
 
 shinyApp(ui = ui, server = server)

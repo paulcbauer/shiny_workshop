@@ -2,7 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
+<<<<<<< HEAD
+<meta name="generator" content="quarto-1.4.555">
+=======
 <meta name="generator" content="quarto-1.5.47">
+>>>>>>> 18354eac51cd4cac26bc8d0a34753f9668329a18
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -113,7 +117,12 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="styles.css">
+<<<<<<< HEAD
+<meta name="twitter:title" content="Workshop: Interactive Data Analysis with Shiny - Server: Reactive programming II">
+<meta name="twitter:description" content="">
+=======
 <meta name="twitter:title" content="Server: Reactive programming II – Workshop: Interactive Data Analysis with Shiny">
+>>>>>>> 18354eac51cd4cac26bc8d0a34753f9668329a18
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -123,6 +132,15 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
+<<<<<<< HEAD
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-server-reactive-programming-ii.html">Server: Reactive programming II</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+=======
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -130,6 +148,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+>>>>>>> 18354eac51cd4cac26bc8d0a34753f9668329a18
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -249,6 +268,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="header-section-number">6.2</span> Example</a></li>
   </ul></li>
   <li><a href="#other-important-concepts" id="toc-other-important-concepts" class="nav-link" data-scroll-target="#other-important-concepts"><span class="header-section-number">7</span> Other important concepts</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">8</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/05-server-reactive-programming-ii.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -1432,6 +1452,182 @@ Tip
 </ul></li>
 </ul></li>
 </ul>
+</section>
+<section id="exercises" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Exercises</h1>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1.1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Imagine you need to implement the following features in a Shiny app. In principle, would you rather use a reactive or an observer (or both) for these tasks?</p>
+<ol type="1">
+<li>Filtering a dataset as input for both <code>lm()</code> and <code>ggplot()</code>.</li>
+<li>Reading from a database.</li>
+<li>Writing to a database.</li>
+<li>Update an input selection with new selection values.</li>
+<li>Collect the results of a linear regression done in the Shiny app.</li>
+<li>Display a password prompt and check if the credentials are correct.</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution 1.1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Filtering a dataset for two different operations is a good use case for <code>reactive()</code> as its output value can be cached.</li>
+<li>Reading from a file or a database is generally a task for <code>reactive()</code> as the data read in R must be stored. This cannot be done using observers.</li>
+<li>Writing to a database, however, should be done in an observer because the return value does not matter for writing.</li>
+<li>Updating the UI is usually done in an observer due to their eager evaluation.</li>
+<li>Results of a calculation in Shiny are often used for further operations down the line (e.g.&nbsp;visualization). They are thus best handled by a reactive.</li>
+<li>Ideally, passwords should stay in the R session for as short as possible. Thus they should not be handled by a reactive because reactive values are cached until the next invalidation. Additionally, proper password checks are performed using external databases which calls for observers.</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1.2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Taking the Shiny app below, gradually enter letters to the text input. Observe the printed messages in your R console. Why is the code in <code>reactive()</code> never run but the code in <code>observe()</code> is? Fix the example such that the code in <code>reactive()</code> is executed as well.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb20-2"><a href="#cb20-2"></a>  <span class="fu">textInput</span>(<span class="st">"text"</span>, <span class="st">"enter a text"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3"></a>)</span>
+<span id="cb20-4"><a href="#cb20-4"></a></span>
+<span id="cb20-5"><a href="#cb20-5"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, server) {</span>
+<span id="cb20-6"><a href="#cb20-6"></a>  val <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb20-7"><a href="#cb20-7"></a>    <span class="fu">print</span>(<span class="st">"reactive is executed"</span>)</span>
+<span id="cb20-8"><a href="#cb20-8"></a>    input<span class="sc">$</span>text</span>
+<span id="cb20-9"><a href="#cb20-9"></a>  })</span>
+<span id="cb20-10"><a href="#cb20-10"></a>  </span>
+<span id="cb20-11"><a href="#cb20-11"></a>  <span class="fu">observe</span>({</span>
+<span id="cb20-12"><a href="#cb20-12"></a>    <span class="fu">print</span>(<span class="st">"observer is executed"</span>)</span>
+<span id="cb20-13"><a href="#cb20-13"></a>    input<span class="sc">$</span>text</span>
+<span id="cb20-14"><a href="#cb20-14"></a>  })</span>
+<span id="cb20-15"><a href="#cb20-15"></a>}</span>
+<span id="cb20-16"><a href="#cb20-16"></a></span>
+<span id="cb20-17"><a href="#cb20-17"></a><span class="fu">runApp</span>(<span class="fu">shinyApp</span>(ui, server))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>::: #### Solution 1.2</p>
+<p>The code in <code>observe()</code> is run because the code takes a dependency on <code>input$text</code>. Whenever the text input is changed, the observer is re-run. The code in <code>reactive()</code> also takes a dependency on <code>input$text</code>, but since reactives are evaluated lazily, <code>reactive()</code> does not changes in the input. It only executes when it is called by a reactive consumer such as <code>observe()</code> or a render function. To make the code in <code>reactive()</code> run, we can let the observer call it:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">textInput</span>(<span class="st">"text"</span>, <span class="st">"enter a text"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3"></a>)</span>
+<span id="cb21-4"><a href="#cb21-4"></a></span>
+<span id="cb21-5"><a href="#cb21-5"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, server) {</span>
+<span id="cb21-6"><a href="#cb21-6"></a>  val <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb21-7"><a href="#cb21-7"></a>    <span class="fu">print</span>(<span class="st">"reactive is executed"</span>)</span>
+<span id="cb21-8"><a href="#cb21-8"></a>    input<span class="sc">$</span>text</span>
+<span id="cb21-9"><a href="#cb21-9"></a>  })</span>
+<span id="cb21-10"><a href="#cb21-10"></a>  </span>
+<span id="cb21-11"><a href="#cb21-11"></a>  <span class="fu">observe</span>({</span>
+<span id="cb21-12"><a href="#cb21-12"></a>    <span class="fu">print</span>(<span class="st">"observer is executed"</span>)</span>
+<span id="cb21-13"><a href="#cb21-13"></a>    <span class="fu">val</span>()</span>
+<span id="cb21-14"><a href="#cb21-14"></a>  })</span>
+<span id="cb21-15"><a href="#cb21-15"></a>}</span>
+<span id="cb21-16"><a href="#cb21-16"></a></span>
+<span id="cb21-17"><a href="#cb21-17"></a><span class="fu">runApp</span>(<span class="fu">shinyApp</span>(ui, server))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>:::</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1.3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Given the code below, which takes a variable and plots a histogram, print the summary of the selected variable each time a new variable is selected. How can this task be done without duplicating code?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb22-2"><a href="#cb22-2"></a>  <span class="fu">selectInput</span>(</span>
+<span id="cb22-3"><a href="#cb22-3"></a>    <span class="st">"var"</span>,</span>
+<span id="cb22-4"><a href="#cb22-4"></a>    <span class="st">"Select a variable"</span>,</span>
+<span id="cb22-5"><a href="#cb22-5"></a>    <span class="fu">names</span>(ess)[<span class="fu">startsWith</span>(<span class="fu">names</span>(ess), <span class="st">"trust"</span>)]</span>
+<span id="cb22-6"><a href="#cb22-6"></a>  ),</span>
+<span id="cb22-7"><a href="#cb22-7"></a>  <span class="fu">selectInput</span>(</span>
+<span id="cb22-8"><a href="#cb22-8"></a>    <span class="st">"country"</span>,</span>
+<span id="cb22-9"><a href="#cb22-9"></a>    <span class="st">"Select a country"</span>,</span>
+<span id="cb22-10"><a href="#cb22-10"></a>    <span class="fu">unique</span>(ess<span class="sc">$</span>country)</span>
+<span id="cb22-11"><a href="#cb22-11"></a>  ),</span>
+<span id="cb22-12"><a href="#cb22-12"></a>  <span class="fu">plotOutput</span>(<span class="st">"plot"</span>)</span>
+<span id="cb22-13"><a href="#cb22-13"></a>)</span>
+<span id="cb22-14"><a href="#cb22-14"></a></span>
+<span id="cb22-15"><a href="#cb22-15"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb22-16"><a href="#cb22-16"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb22-17"><a href="#cb22-17"></a>    ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>country, ]</span>
+<span id="cb22-18"><a href="#cb22-18"></a>    <span class="fu">ggplot</span>(ess) <span class="sc">+</span></span>
+<span id="cb22-19"><a href="#cb22-19"></a>      <span class="fu">aes</span>(.data[[input<span class="sc">$</span>var]]) <span class="sc">+</span></span>
+<span id="cb22-20"><a href="#cb22-20"></a>      <span class="fu">geom_histogram</span>()</span>
+<span id="cb22-21"><a href="#cb22-21"></a>  })</span>
+<span id="cb22-22"><a href="#cb22-22"></a>}</span>
+<span id="cb22-23"><a href="#cb22-23"></a></span>
+<span id="cb22-24"><a href="#cb22-24"></a><span class="fu">runApp</span>(<span class="fu">shinyApp</span>(ui, server))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>::: #### Solution 1.3</p>
+<p>To print the summary, implement an observer that prints the <code>summary()</code> of the selected variable. However, because the <code>ess</code> object is also filtered by the selected country, we would need to copy the filtering process to the observer as well, thus duplicating code. To avoid duplicating code, we can add a <code>reactive()</code> that performs the country filtering. The return value can then be forwarded to both <code>observe()</code> and <code>renderPlot()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb23-2"><a href="#cb23-2"></a>  <span class="fu">selectInput</span>(</span>
+<span id="cb23-3"><a href="#cb23-3"></a>    <span class="st">"var"</span>,</span>
+<span id="cb23-4"><a href="#cb23-4"></a>    <span class="st">"Select a variable"</span>,</span>
+<span id="cb23-5"><a href="#cb23-5"></a>    <span class="fu">names</span>(ess)[<span class="fu">startsWith</span>(<span class="fu">names</span>(ess), <span class="st">"trust"</span>)]</span>
+<span id="cb23-6"><a href="#cb23-6"></a>  ),</span>
+<span id="cb23-7"><a href="#cb23-7"></a>  <span class="fu">selectInput</span>(</span>
+<span id="cb23-8"><a href="#cb23-8"></a>    <span class="st">"country"</span>,</span>
+<span id="cb23-9"><a href="#cb23-9"></a>    <span class="st">"Select a country"</span>,</span>
+<span id="cb23-10"><a href="#cb23-10"></a>    <span class="fu">unique</span>(ess<span class="sc">$</span>country)</span>
+<span id="cb23-11"><a href="#cb23-11"></a>  ),</span>
+<span id="cb23-12"><a href="#cb23-12"></a>  <span class="fu">plotOutput</span>(<span class="st">"plot"</span>)</span>
+<span id="cb23-13"><a href="#cb23-13"></a>)</span>
+<span id="cb23-14"><a href="#cb23-14"></a></span>
+<span id="cb23-15"><a href="#cb23-15"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb23-16"><a href="#cb23-16"></a>  ess_country <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb23-17"><a href="#cb23-17"></a>    ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>country, ]</span>
+<span id="cb23-18"><a href="#cb23-18"></a>  })</span>
+<span id="cb23-19"><a href="#cb23-19"></a></span>
+<span id="cb23-20"><a href="#cb23-20"></a>  <span class="fu">observe</span>({</span>
+<span id="cb23-21"><a href="#cb23-21"></a>    <span class="fu">print</span>(<span class="fu">summary</span>(<span class="fu">ess_country</span>()[[input<span class="sc">$</span>var]]))</span>
+<span id="cb23-22"><a href="#cb23-22"></a>  })</span>
+<span id="cb23-23"><a href="#cb23-23"></a></span>
+<span id="cb23-24"><a href="#cb23-24"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb23-25"><a href="#cb23-25"></a>    <span class="fu">ggplot</span>(<span class="fu">ess_country</span>()) <span class="sc">+</span></span>
+<span id="cb23-26"><a href="#cb23-26"></a>      <span class="fu">aes</span>(.data[[input<span class="sc">$</span>var]]) <span class="sc">+</span></span>
+<span id="cb23-27"><a href="#cb23-27"></a>      <span class="fu">geom_histogram</span>()</span>
+<span id="cb23-28"><a href="#cb23-28"></a>  })</span>
+<span id="cb23-29"><a href="#cb23-29"></a>}</span>
+<span id="cb23-30"><a href="#cb23-30"></a></span>
+<span id="cb23-31"><a href="#cb23-31"></a><span class="fu">runApp</span>(<span class="fu">shinyApp</span>(ui, server))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>:::</p>
 
 
 </section>
@@ -1517,6 +1713,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
     text: getTextToCopy
   });
+<<<<<<< HEAD
+=======
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
     // For code content inside modals, clipBoardJS needs to be initialized with a container option
@@ -1527,6 +1725,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     });
     clipboardModal.on('success', onCopySuccess);
   }
+>>>>>>> 18354eac51cd4cac26bc8d0a34753f9668329a18
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/bookdown\.org\/paul\/shiny_workshop\/");
@@ -1534,7 +1733,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
+<<<<<<< HEAD
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+=======
  	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+>>>>>>> 18354eac51cd4cac26bc8d0a34753f9668329a18
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

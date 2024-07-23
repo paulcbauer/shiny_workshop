@@ -100,7 +100,7 @@ is.function(reactive({}))
   - Reactively changing the UI
   - Communicating with a remote storage (e.g. a database or a cloud)
   - Essentially everything that does not require assigning to a name
-  
+
   
 ::: {.callout-tip}
 Conceptually, observers may be compared to the tidyverse function [`purrr::walk`](https://www.tidyverse.org/blog/2023/05/purrr-walk-this-way/), which iterates over a list or a vector and performs "side-effects" like writing to files. Unlike `purrr::walk`, though, `observe` is probably much more common-place.
@@ -505,3 +505,162 @@ filtered <- reactive({
     - [`profvis`](https://rstudio.github.io/profvis/)
     - Interactively understand bottlenecks of a Shiny app
       
+
+
+# Exercises
+
+::: callout-note
+#### Exercise 1.1
+
+Imagine you need to implement the following features in a Shiny app. In principle, would you rather use a reactive or an observer (or both) for these tasks?
+
+1. Filtering a dataset as input for both `lm()` and `ggplot()`.
+2. Reading from a database.
+3. Writing to a database.
+4. Update an input selection with new selection values.
+5. Collect the results of a linear regression done in the Shiny app.
+6. Display a password prompt and check if the credentials are correct.
+:::
+
+::: {.callout-warning collapse="true"}
+
+#### Solution 1.1
+
+1. Filtering a dataset for two different operations is a good use case for `reactive()` as its output value can be cached.
+2. Reading from a file or a database is generally a task for `reactive()` as the data read in R must be stored. This cannot be done using observers.
+3. Writing to a database, however, should be done in an observer because the return value does not matter for writing.
+4. Updating the UI is usually done in an observer due to their eager evaluation.
+5. Results of a calculation in Shiny are often used for further operations down the line (e.g. visualization). They are thus best handled by a reactive.
+6. Ideally, passwords should stay in the R session for as short as possible. Thus they should not be handled by a reactive because reactive values are cached until the next invalidation. Additionally, proper password checks are performed using external databases which calls for observers.
+::: 
+
+
+
+::: callout-note
+#### Exercise 1.2
+
+Taking the Shiny app below, gradually enter letters to the text input. Observe the printed messages in your R console. Why is the code in `reactive()` never run but the code in `observe()` is? Fix the example such that the code in `reactive()` is executed as well.
+
+```{r, eval=FALSE}
+ui <- fluidPage(
+  textInput("text", "enter a text")
+)
+
+server <- function(input, output, server) {
+  val <- reactive({
+    print("reactive is executed")
+    input$text
+  })
+  
+  observe({
+    print("observer is executed")
+    input$text
+  })
+}
+
+runApp(shinyApp(ui, server))
+```
+:::
+
+:::
+#### Solution 1.2
+
+The code in `observe()` is run because the code takes a dependency on `input$text`. Whenever the text input is changed, the observer is re-run. The code in `reactive()` also takes a dependency on `input$text`, but since reactives are evaluated lazily, `reactive()` does not changes in the input. It only executes when it is called by a reactive consumer such as `observe()` or a render function. To make the code in `reactive()` run, we can let the observer call it:
+
+```{r, eval=FALSE}
+ui <- fluidPage(
+  textInput("text", "enter a text")
+)
+
+server <- function(input, output, server) {
+  val <- reactive({
+    print("reactive is executed")
+    input$text
+  })
+  
+  observe({
+    print("observer is executed")
+    val()
+  })
+}
+
+runApp(shinyApp(ui, server))
+```
+::: 
+
+
+::: callout-note
+#### Exercise 1.3
+
+Given the code below, which takes a variable and plots a histogram, print the summary of the selected variable each time a new variable is selected. How can this task be done without duplicating code?
+
+
+```{r, eval=FALSE}
+ui <- fluidPage(
+  selectInput(
+    "var",
+    "Select a variable",
+    names(ess)[startsWith(names(ess), "trust")]
+  ),
+  selectInput(
+    "country",
+    "Select a country",
+    unique(ess$country)
+  ),
+  plotOutput("plot")
+)
+
+server <- function(input, output, session) {
+  output$plot <- renderPlot({
+    ess <- ess[ess$country %in% input$country, ]
+    ggplot(ess) +
+      aes(.data[[input$var]]) +
+      geom_histogram()
+  })
+}
+
+runApp(shinyApp(ui, server))
+```
+
+:::
+
+
+:::
+#### Solution 1.3
+
+To print the summary, implement an observer that prints the `summary()` of the selected variable. However, because the `ess` object is also filtered by the selected country, we would need to copy the filtering process to the observer as well, thus duplicating code. To avoid duplicating code, we can add a `reactive()` that performs the country filtering. The return value can then be forwarded to both `observe()` and `renderPlot()`.
+
+```{r, eval=FALSE}
+ui <- fluidPage(
+  selectInput(
+    "var",
+    "Select a variable",
+    names(ess)[startsWith(names(ess), "trust")]
+  ),
+  selectInput(
+    "country",
+    "Select a country",
+    unique(ess$country)
+  ),
+  plotOutput("plot")
+)
+
+server <- function(input, output, session) {
+  ess_country <- reactive({
+    ess[ess$country %in% input$country, ]
+  })
+
+  observe({
+    print(summary(ess_country()[[input$var]]))
+  })
+
+  output$plot <- renderPlot({
+    ggplot(ess_country()) +
+      aes(.data[[input$var]]) +
+      geom_histogram()
+  })
+}
+
+runApp(shinyApp(ui, server))
+```
+::: 
