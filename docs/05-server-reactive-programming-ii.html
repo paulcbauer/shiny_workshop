@@ -2,16 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<<<<<<< HEAD
 <meta name="generator" content="quarto-1.4.555">
-=======
-<meta name="generator" content="quarto-1.5.47">
->>>>>>> 18354eac51cd4cac26bc8d0a34753f9668329a18
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Server: Reactive programming II – Workshop: Interactive Data Analysis with Shiny</title>
+<title>Workshop: Interactive Data Analysis with Shiny - Server: Reactive programming II</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -37,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -117,12 +113,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="styles.css">
-<<<<<<< HEAD
 <meta name="twitter:title" content="Workshop: Interactive Data Analysis with Shiny - Server: Reactive programming II">
-<meta name="twitter:description" content="">
-=======
-<meta name="twitter:title" content="Server: Reactive programming II – Workshop: Interactive Data Analysis with Shiny">
->>>>>>> 18354eac51cd4cac26bc8d0a34753f9668329a18
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -132,7 +123,6 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-<<<<<<< HEAD
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -140,15 +130,6 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
-=======
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-server-reactive-programming-ii.html">Server: Reactive programming II</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
->>>>>>> 18354eac51cd4cac26bc8d0a34753f9668329a18
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -266,9 +247,15 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <ul class="collapse">
   <li><a href="#required-values-req" id="toc-required-values-req" class="nav-link" data-scroll-target="#required-values-req"><span class="header-section-number">6.1</span> Required values (<code>req</code>)</a></li>
   <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="header-section-number">6.2</span> Example</a></li>
+  <li><a href="#one-step-further-validation" id="toc-one-step-further-validation" class="nav-link" data-scroll-target="#one-step-further-validation"><span class="header-section-number">6.3</span> One step further: Validation</a></li>
   </ul></li>
   <li><a href="#other-important-concepts" id="toc-other-important-concepts" class="nav-link" data-scroll-target="#other-important-concepts"><span class="header-section-number">7</span> Other important concepts</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">8</span> Exercises</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">8</span> Exercises</a>
+  <ul class="collapse">
+  <li><a href="#observers-and-reactives" id="toc-observers-and-reactives" class="nav-link" data-scroll-target="#observers-and-reactives"><span class="header-section-number">8.1</span> Observers and reactives</a></li>
+  <li><a href="#updates-and-events" id="toc-updates-and-events" class="nav-link" data-scroll-target="#updates-and-events"><span class="header-section-number">8.2</span> Updates and events</a></li>
+  <li><a href="#truthiness-and-validation" id="toc-truthiness-and-validation" class="nav-link" data-scroll-target="#truthiness-and-validation"><span class="header-section-number">8.3</span> Truthiness and validation</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/paulcbauer/shiny_workshop/edit/main/05-server-reactive-programming-ii.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulcbauer/shiny_workshop/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -381,15 +368,25 @@ Tip
 </div>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 0%">
-<col style="width: 49%">
+<col style="width: 48%">
+<col style="width: 3%">
+<col style="width: 47%">
 </colgroup>
 <thead>
 <tr class="header">
-<th><img src="https://d33wubrfki0l68.cloudfront.net/840574f96b31b47295cc1ec44d359c0493a6e1bb/4d300/diagrams/basic-reactivity/case-study-1.png" class="img-fluid" alt="Reactive graph without reactives"></th>
+<th><div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://d33wubrfki0l68.cloudfront.net/840574f96b31b47295cc1ec44d359c0493a6e1bb/4d300/diagrams/basic-reactivity/case-study-1.png" class="img-fluid figure-img"></p>
+<figcaption>Reactive graph without reactives</figcaption>
+</figure>
+</div></th>
 <th></th>
-<th><img src="https://d33wubrfki0l68.cloudfront.net/7037f40071103105203cef484ca816fa0f72555f/97d14/diagrams/basic-reactivity/case-study-2.png" class="img-fluid" alt="Reactive graph with reactives"></th>
+<th><div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://d33wubrfki0l68.cloudfront.net/7037f40071103105203cef484ca816fa0f72555f/97d14/diagrams/basic-reactivity/case-study-2.png" class="img-fluid figure-img"></p>
+<figcaption>Reactive graph with reactives</figcaption>
+</figure>
+</div></th>
 </tr>
 </thead>
 <tbody>
@@ -678,7 +675,7 @@ Tip
 <span id="cb8-14"><a href="#cb8-14"></a>  <span class="fu">bindEvent</span>(input<span class="sc">$</span>button, <span class="at">ignoreNULL =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb8-15"><a href="#cb8-15"></a></span>
 <span id="cb8-16"><a href="#cb8-16"></a></span>
-<span id="cb8-17"><a href="#cb8-17"></a>output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlotly</span>({</span>
+<span id="cb8-17"><a href="#cb8-17"></a>output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
 <span id="cb8-18"><a href="#cb8-18"></a>  plot_data <span class="ot">&lt;-</span> <span class="fu">filtered</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb8-19"><a href="#cb8-19"></a>    <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb8-20"><a href="#cb8-20"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> as.ordered))</span>
@@ -692,10 +689,10 @@ Tip
 <span id="cb8-28"><a href="#cb8-28"></a>    <span class="fu">theme_classic</span>()</span>
 <span id="cb8-29"><a href="#cb8-29"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-source-line-numbers="53-58,101-102,115-116,119">
+<div class="cell" data-source-line-numbers="55-59,101-102,114-115,118">
 <details class="code-fold">
 <summary>Complete code (important lines are highlighted)</summary>
-<div class="sourceCode cell-code" id="cb9" data-source-line-numbers="53-58,101-102,115-116,119" data-code-line-numbers="53-58,101-102,115-116,119"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">library</span>(dplyr)</span>
+<div class="sourceCode cell-code" id="cb9" data-source-line-numbers="55-59,101-102,114-115,118" data-code-line-numbers="55-59,101-102,114-115,118"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb9-2"><a href="#cb9-2"></a><span class="fu">library</span>(tidyr)</span>
 <span id="cb9-3"><a href="#cb9-3"></a><span class="fu">library</span>(shiny)</span>
 <span id="cb9-4"><a href="#cb9-4"></a><span class="fu">library</span>(plotly)</span>
@@ -749,97 +746,76 @@ Tip
 <span id="cb9-52"><a href="#cb9-52"></a>        <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
 <span id="cb9-53"><a href="#cb9-53"></a>      ),</span>
 <span id="cb9-54"><a href="#cb9-54"></a>      </span>
-<span id="cb9-55"><a href="#cb9-55"></a>      <span class="fu">sliderInput</span>(</span>
-<span id="cb9-56"><a href="#cb9-56"></a>        <span class="st">"slider"</span>,</span>
-<span id="cb9-57"><a href="#cb9-57"></a>        <span class="at">label =</span> <span class="st">"Select a range for the independent variable"</span>,</span>
-<span id="cb9-58"><a href="#cb9-58"></a>        <span class="at">min =</span> <span class="fu">min</span>(ess<span class="sc">$</span>left_right, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb9-59"><a href="#cb9-59"></a>        <span class="at">max =</span> <span class="fu">max</span>(ess<span class="sc">$</span>left_right, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb9-60"><a href="#cb9-60"></a>        <span class="at">value =</span> <span class="fu">range</span>(ess<span class="sc">$</span>left_right, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb9-61"><a href="#cb9-61"></a>        <span class="at">step =</span> <span class="dv">1</span></span>
-<span id="cb9-62"><a href="#cb9-62"></a>      )</span>
-<span id="cb9-63"><a href="#cb9-63"></a>    ),</span>
-<span id="cb9-64"><a href="#cb9-64"></a>    </span>
-<span id="cb9-65"><a href="#cb9-65"></a>    <span class="do">## Main panel ----</span></span>
-<span id="cb9-66"><a href="#cb9-66"></a>    <span class="fu">mainPanel</span>(</span>
-<span id="cb9-67"><a href="#cb9-67"></a>      <span class="fu">tabsetPanel</span>(</span>
-<span id="cb9-68"><a href="#cb9-68"></a>        <span class="at">type =</span> <span class="st">"tabs"</span>,</span>
-<span id="cb9-69"><a href="#cb9-69"></a>        </span>
-<span id="cb9-70"><a href="#cb9-70"></a>        <span class="do">### Table tab ----</span></span>
-<span id="cb9-71"><a href="#cb9-71"></a>        <span class="fu">tabPanel</span>(</span>
-<span id="cb9-72"><a href="#cb9-72"></a>          <span class="at">title =</span> <span class="st">"Table"</span>,</span>
-<span id="cb9-73"><a href="#cb9-73"></a>          <span class="fu">div</span>(</span>
-<span id="cb9-74"><a href="#cb9-74"></a>            <span class="at">style =</span> <span class="st">"height: 600px; overflow-y: auto;"</span>,</span>
-<span id="cb9-75"><a href="#cb9-75"></a>            <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
-<span id="cb9-76"><a href="#cb9-76"></a>          )</span>
-<span id="cb9-77"><a href="#cb9-77"></a>        ),</span>
-<span id="cb9-78"><a href="#cb9-78"></a>        </span>
-<span id="cb9-79"><a href="#cb9-79"></a>        <span class="do">### Plot tab ----</span></span>
-<span id="cb9-80"><a href="#cb9-80"></a>        <span class="fu">tabPanel</span>(</span>
-<span id="cb9-81"><a href="#cb9-81"></a>          <span class="at">title =</span> <span class="st">"Plot"</span>,</span>
-<span id="cb9-82"><a href="#cb9-82"></a>          <span class="fu">plotOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
-<span id="cb9-83"><a href="#cb9-83"></a>        )</span>
-<span id="cb9-84"><a href="#cb9-84"></a>      )</span>
-<span id="cb9-85"><a href="#cb9-85"></a>    )</span>
-<span id="cb9-86"><a href="#cb9-86"></a>  )</span>
-<span id="cb9-87"><a href="#cb9-87"></a>)</span>
-<span id="cb9-88"><a href="#cb9-88"></a></span>
-<span id="cb9-89"><a href="#cb9-89"></a></span>
-<span id="cb9-90"><a href="#cb9-90"></a><span class="co"># Server ----</span></span>
-<span id="cb9-91"><a href="#cb9-91"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb9-92"><a href="#cb9-92"></a>  <span class="co"># filter data ----</span></span>
-<span id="cb9-93"><a href="#cb9-93"></a>  filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb9-94"><a href="#cb9-94"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
-<span id="cb9-95"><a href="#cb9-95"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
-<span id="cb9-96"><a href="#cb9-96"></a>    range <span class="ot">&lt;-</span> input<span class="sc">$</span>slider</span>
+<span id="cb9-55"><a href="#cb9-55"></a>      <span class="fu">actionButton</span>(</span>
+<span id="cb9-56"><a href="#cb9-56"></a>        <span class="st">"button"</span>,</span>
+<span id="cb9-57"><a href="#cb9-57"></a>        <span class="at">label =</span> <span class="st">"Update parameters"</span>,</span>
+<span id="cb9-58"><a href="#cb9-58"></a>        <span class="at">icon =</span> <span class="fu">icon</span>(<span class="st">"refresh"</span>)</span>
+<span id="cb9-59"><a href="#cb9-59"></a>      )</span>
+<span id="cb9-60"><a href="#cb9-60"></a>    ),</span>
+<span id="cb9-61"><a href="#cb9-61"></a>    </span>
+<span id="cb9-62"><a href="#cb9-62"></a>    <span class="do">## Main panel ----</span></span>
+<span id="cb9-63"><a href="#cb9-63"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb9-64"><a href="#cb9-64"></a>      <span class="fu">tabsetPanel</span>(</span>
+<span id="cb9-65"><a href="#cb9-65"></a>        <span class="at">type =</span> <span class="st">"tabs"</span>,</span>
+<span id="cb9-66"><a href="#cb9-66"></a>        </span>
+<span id="cb9-67"><a href="#cb9-67"></a>        <span class="do">### Table tab ----</span></span>
+<span id="cb9-68"><a href="#cb9-68"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb9-69"><a href="#cb9-69"></a>          <span class="at">title =</span> <span class="st">"Table"</span>,</span>
+<span id="cb9-70"><a href="#cb9-70"></a>          <span class="fu">div</span>(</span>
+<span id="cb9-71"><a href="#cb9-71"></a>            <span class="at">style =</span> <span class="st">"height: 600px; overflow-y: auto;"</span>,</span>
+<span id="cb9-72"><a href="#cb9-72"></a>            <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
+<span id="cb9-73"><a href="#cb9-73"></a>          )</span>
+<span id="cb9-74"><a href="#cb9-74"></a>        ),</span>
+<span id="cb9-75"><a href="#cb9-75"></a>        </span>
+<span id="cb9-76"><a href="#cb9-76"></a>        <span class="do">### Plot tab ----</span></span>
+<span id="cb9-77"><a href="#cb9-77"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb9-78"><a href="#cb9-78"></a>          <span class="at">title =</span> <span class="st">"Plot"</span>,</span>
+<span id="cb9-79"><a href="#cb9-79"></a>          <span class="fu">plotOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
+<span id="cb9-80"><a href="#cb9-80"></a>        )</span>
+<span id="cb9-81"><a href="#cb9-81"></a>      )</span>
+<span id="cb9-82"><a href="#cb9-82"></a>    )</span>
+<span id="cb9-83"><a href="#cb9-83"></a>  )</span>
+<span id="cb9-84"><a href="#cb9-84"></a>)</span>
+<span id="cb9-85"><a href="#cb9-85"></a></span>
+<span id="cb9-86"><a href="#cb9-86"></a></span>
+<span id="cb9-87"><a href="#cb9-87"></a><span class="co"># Server ----</span></span>
+<span id="cb9-88"><a href="#cb9-88"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb9-89"><a href="#cb9-89"></a>  <span class="co"># filter data ----</span></span>
+<span id="cb9-90"><a href="#cb9-90"></a>  filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb9-91"><a href="#cb9-91"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
+<span id="cb9-92"><a href="#cb9-92"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="cb9-93"><a href="#cb9-93"></a>    range <span class="ot">&lt;-</span> input<span class="sc">$</span>range</span>
+<span id="cb9-94"><a href="#cb9-94"></a>    </span>
+<span id="cb9-95"><a href="#cb9-95"></a>    <span class="co"># select country</span></span>
+<span id="cb9-96"><a href="#cb9-96"></a>    ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
 <span id="cb9-97"><a href="#cb9-97"></a>    </span>
-<span id="cb9-98"><a href="#cb9-98"></a>    <span class="co"># select country</span></span>
-<span id="cb9-99"><a href="#cb9-99"></a>    ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
-<span id="cb9-100"><a href="#cb9-100"></a></span>
-<span id="cb9-101"><a href="#cb9-101"></a>    <span class="co"># apply range</span></span>
-<span id="cb9-102"><a href="#cb9-102"></a>    ess <span class="ot">&lt;-</span> ess[</span>
-<span id="cb9-103"><a href="#cb9-103"></a>      ess[[yvar]] <span class="sc">&gt;</span> range[<span class="dv">1</span>] <span class="sc">&amp;</span></span>
-<span id="cb9-104"><a href="#cb9-104"></a>      ess[[yvar]] <span class="sc">&lt;</span> range[<span class="dv">2</span>], </span>
-<span id="cb9-105"><a href="#cb9-105"></a>    ]</span>
-<span id="cb9-106"><a href="#cb9-106"></a>    </span>
-<span id="cb9-107"><a href="#cb9-107"></a>    <span class="co"># select variable</span></span>
-<span id="cb9-108"><a href="#cb9-108"></a>    ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
-<span id="cb9-109"><a href="#cb9-109"></a>  })</span>
-<span id="cb9-110"><a href="#cb9-110"></a>  </span>
-<span id="cb9-111"><a href="#cb9-111"></a>  <span class="co"># render table ----</span></span>
-<span id="cb9-112"><a href="#cb9-112"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
-<span id="cb9-113"><a href="#cb9-113"></a>    <span class="fu">filtered</span>()</span>
-<span id="cb9-114"><a href="#cb9-114"></a>  }, <span class="at">height =</span> <span class="dv">400</span>)</span>
-<span id="cb9-115"><a href="#cb9-115"></a>  </span>
-<span id="cb9-116"><a href="#cb9-116"></a>  <span class="co"># render plot ----</span></span>
-<span id="cb9-117"><a href="#cb9-117"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
-<span id="cb9-118"><a href="#cb9-118"></a>    plot_data <span class="ot">&lt;-</span> <span class="fu">filtered</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb9-119"><a href="#cb9-119"></a>      <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb9-120"><a href="#cb9-120"></a>      <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> as.ordered))</span>
-<span id="cb9-121"><a href="#cb9-121"></a>    </span>
-<span id="cb9-122"><a href="#cb9-122"></a>    xvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">3</span>]]</span>
-<span id="cb9-123"><a href="#cb9-123"></a>    yvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">4</span>]]</span>
-<span id="cb9-124"><a href="#cb9-124"></a></span>
-<span id="cb9-125"><a href="#cb9-125"></a>    <span class="fu">ggplot</span>(plot_data) <span class="sc">+</span></span>
-<span id="cb9-126"><a href="#cb9-126"></a>      <span class="fu">aes</span>(<span class="at">x =</span> .data[[xvar]], <span class="at">y =</span> .data[[yvar]], <span class="at">group =</span> .data[[xvar]]) <span class="sc">+</span></span>
-<span id="cb9-127"><a href="#cb9-127"></a>      <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb9-128"><a href="#cb9-128"></a>      <span class="fu">theme_classic</span>()</span>
-<span id="cb9-129"><a href="#cb9-129"></a>  })</span>
-<span id="cb9-130"><a href="#cb9-130"></a>  </span>
-<span id="cb9-131"><a href="#cb9-131"></a>  <span class="fu">observe</span>({</span>
-<span id="cb9-132"><a href="#cb9-132"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
-<span id="cb9-133"><a href="#cb9-133"></a>    <span class="fu">freezeReactiveValue</span>(input, <span class="st">"slider"</span>)</span>
-<span id="cb9-134"><a href="#cb9-134"></a>    <span class="fu">updateSliderInput</span>(</span>
-<span id="cb9-135"><a href="#cb9-135"></a>      <span class="at">session =</span> session,</span>
-<span id="cb9-136"><a href="#cb9-136"></a>      <span class="at">inputId =</span> <span class="st">"slider"</span>,</span>
-<span id="cb9-137"><a href="#cb9-137"></a>      <span class="at">min =</span> <span class="fu">min</span>(ess[[yvar]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb9-138"><a href="#cb9-138"></a>      <span class="at">max =</span> <span class="fu">max</span>(ess[[yvar]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb9-139"><a href="#cb9-139"></a>      <span class="at">value =</span> <span class="fu">range</span>(ess[[yvar]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-140"><a href="#cb9-140"></a>    )</span>
-<span id="cb9-141"><a href="#cb9-141"></a>  }) <span class="sc">%&gt;%</span></span>
-<span id="cb9-142"><a href="#cb9-142"></a>    <span class="fu">bindEvent</span>(input<span class="sc">$</span>yvar)</span>
-<span id="cb9-143"><a href="#cb9-143"></a>}</span>
-<span id="cb9-144"><a href="#cb9-144"></a></span>
-<span id="cb9-145"><a href="#cb9-145"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-98"><a href="#cb9-98"></a>    <span class="co"># select variable</span></span>
+<span id="cb9-99"><a href="#cb9-99"></a>    ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
+<span id="cb9-100"><a href="#cb9-100"></a>  }) <span class="sc">%&gt;%</span></span>
+<span id="cb9-101"><a href="#cb9-101"></a>    <span class="fu">bindEvent</span>(input<span class="sc">$</span>button, <span class="at">ignoreNULL =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-102"><a href="#cb9-102"></a>  </span>
+<span id="cb9-103"><a href="#cb9-103"></a>  <span class="co"># render table ----</span></span>
+<span id="cb9-104"><a href="#cb9-104"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
+<span id="cb9-105"><a href="#cb9-105"></a>    <span class="fu">filtered</span>()</span>
+<span id="cb9-106"><a href="#cb9-106"></a>  }, <span class="at">height =</span> <span class="dv">400</span>)</span>
+<span id="cb9-107"><a href="#cb9-107"></a>  </span>
+<span id="cb9-108"><a href="#cb9-108"></a>  <span class="co"># render plot ----</span></span>
+<span id="cb9-109"><a href="#cb9-109"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb9-110"><a href="#cb9-110"></a>    plot_data <span class="ot">&lt;-</span> <span class="fu">filtered</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-111"><a href="#cb9-111"></a>      <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-112"><a href="#cb9-112"></a>      <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> as.ordered))</span>
+<span id="cb9-113"><a href="#cb9-113"></a>    </span>
+<span id="cb9-114"><a href="#cb9-114"></a>    xvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">3</span>]]</span>
+<span id="cb9-115"><a href="#cb9-115"></a>    yvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">4</span>]]</span>
+<span id="cb9-116"><a href="#cb9-116"></a>    </span>
+<span id="cb9-117"><a href="#cb9-117"></a>    <span class="fu">ggplot</span>(plot_data) <span class="sc">+</span></span>
+<span id="cb9-118"><a href="#cb9-118"></a>      <span class="fu">aes</span>(<span class="at">x =</span> .data[[xvar]], <span class="at">y =</span> .data[[yvar]], <span class="at">group =</span> .data[[xvar]]) <span class="sc">+</span></span>
+<span id="cb9-119"><a href="#cb9-119"></a>      <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb9-120"><a href="#cb9-120"></a>      <span class="fu">theme_classic</span>()</span>
+<span id="cb9-121"><a href="#cb9-121"></a>  })</span>
+<span id="cb9-122"><a href="#cb9-122"></a>}</span>
+<span id="cb9-123"><a href="#cb9-123"></a></span>
+<span id="cb9-124"><a href="#cb9-124"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -976,10 +952,10 @@ Tip
 </dl>
 </div>
 </div>
-<div class="cell" data-source-line-numbers="54-61,95,102-106,132-143">
+<div class="cell" data-source-line-numbers="55-62,96,101-105,131-142">
 <details class="code-fold">
 <summary>Complete code (important lines are highlighted)</summary>
-<div class="sourceCode cell-code" id="cb11" data-source-line-numbers="54-61,95,102-106,132-143" data-code-line-numbers="54-61,95,102-106,132-143"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">library</span>(dplyr)</span>
+<div class="sourceCode cell-code" id="cb11" data-source-line-numbers="55-62,96,101-105,131-142" data-code-line-numbers="55-62,96,101-105,131-142"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb11-2"><a href="#cb11-2"></a><span class="fu">library</span>(tidyr)</span>
 <span id="cb11-3"><a href="#cb11-3"></a><span class="fu">library</span>(shiny)</span>
 <span id="cb11-4"><a href="#cb11-4"></a><span class="fu">library</span>(plotly)</span>
@@ -1186,7 +1162,7 @@ Tip
 </ul>
 <div class="cell" data-source-line-numbers="2">
 <div class="sourceCode cell-code" id="cb18" data-source-line-numbers="2" data-code-line-numbers="2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb18-2"><a href="#cb18-2"></a>  <span class="fu">req</span>(input<span class="sc">$</span>countries)</span>
+<span id="cb18-2"><a href="#cb18-2"></a>  <span class="fu">req</span>(input<span class="sc">$</span>countries, <span class="at">cancelOutput =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb18-3"><a href="#cb18-3"></a>  </span>
 <span id="cb18-4"><a href="#cb18-4"></a>  xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
 <span id="cb18-5"><a href="#cb18-5"></a>  yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
@@ -1325,6 +1301,163 @@ Tip
 </details>
 </div>
 </section>
+<section id="one-step-further-validation" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="one-step-further-validation"><span class="header-section-number">6.3</span> One step further: Validation</h2>
+<ul>
+<li><code>req()</code> is useful for simply controlling reactivity in general</li>
+<li><code>validate()</code> is useful for also providing a user with feedback</li>
+<li><code>validate()</code> is fed with <code>need()</code> conditions which take two arguments:
+<ul>
+<li>An expression that is tested for truthiness</li>
+<li>A message that is shown to the user if the expression is not truthy</li>
+</ul></li>
+<li><code>validate()</code> is very bare-bones! For more sophisticated input validation, check out <a href="https://merlinoa.github.io/shinyFeedback/"><code>shinyFeedback</code></a></li>
+</ul>
+<div class="cell" data-source-line-numbers="2-4">
+<div class="sourceCode cell-code" id="cb20" data-source-line-numbers="2-4" data-code-line-numbers="2-4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb20-2"><a href="#cb20-2"></a>  <span class="fu">validate</span>(</span>
+<span id="cb20-3"><a href="#cb20-3"></a>    <span class="fu">need</span>(input<span class="sc">$</span>countries, <span class="at">message =</span> <span class="st">"At least one country must be specified."</span>)</span>
+<span id="cb20-4"><a href="#cb20-4"></a>  )</span>
+<span id="cb20-5"><a href="#cb20-5"></a>  </span>
+<span id="cb20-6"><a href="#cb20-6"></a>  xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
+<span id="cb20-7"><a href="#cb20-7"></a>  yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="cb20-8"><a href="#cb20-8"></a>  range <span class="ot">&lt;-</span> input<span class="sc">$</span>range</span>
+<span id="cb20-9"><a href="#cb20-9"></a>  </span>
+<span id="cb20-10"><a href="#cb20-10"></a>  <span class="co"># select country</span></span>
+<span id="cb20-11"><a href="#cb20-11"></a>  ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
+<span id="cb20-12"><a href="#cb20-12"></a>  </span>
+<span id="cb20-13"><a href="#cb20-13"></a>  <span class="co"># select variable</span></span>
+<span id="cb20-14"><a href="#cb20-14"></a>  ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
+<span id="cb20-15"><a href="#cb20-15"></a>}) <span class="sc">%&gt;%</span></span>
+<span id="cb20-16"><a href="#cb20-16"></a>  <span class="fu">bindEvent</span>(input<span class="sc">$</span>button, <span class="at">ignoreNULL =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-source-line-numbers="90-92">
+<details class="code-fold">
+<summary>Complete code (important lines are highlighted)</summary>
+<div class="sourceCode cell-code" id="cb21" data-source-line-numbers="90-92" data-code-line-numbers="90-92"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb21-3"><a href="#cb21-3"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb21-4"><a href="#cb21-4"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb21-5"><a href="#cb21-5"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb21-6"><a href="#cb21-6"></a><span class="fu">library</span>(haven)</span>
+<span id="cb21-7"><a href="#cb21-7"></a></span>
+<span id="cb21-8"><a href="#cb21-8"></a>ess <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"ess_trust.rds"</span>)</span>
+<span id="cb21-9"><a href="#cb21-9"></a>ess_geo <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"ess_trust_geo.rds"</span>)</span>
+<span id="cb21-10"><a href="#cb21-10"></a></span>
+<span id="cb21-11"><a href="#cb21-11"></a><span class="co"># UI ----</span></span>
+<span id="cb21-12"><a href="#cb21-12"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb21-13"><a href="#cb21-13"></a>  <span class="fu">titlePanel</span>(<span class="st">"European Social Survey - round 10"</span>),</span>
+<span id="cb21-14"><a href="#cb21-14"></a>  </span>
+<span id="cb21-15"><a href="#cb21-15"></a>  <span class="do">## Sidebar ----</span></span>
+<span id="cb21-16"><a href="#cb21-16"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb21-17"><a href="#cb21-17"></a>    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb21-18"><a href="#cb21-18"></a>      <span class="do">### select dependent variable</span></span>
+<span id="cb21-19"><a href="#cb21-19"></a>      <span class="fu">selectInput</span>(</span>
+<span id="cb21-20"><a href="#cb21-20"></a>        <span class="st">"xvar"</span>,</span>
+<span id="cb21-21"><a href="#cb21-21"></a>        <span class="at">label =</span> <span class="st">"Select a dependent variable"</span>,</span>
+<span id="cb21-22"><a href="#cb21-22"></a>        <span class="at">choices =</span> <span class="fu">c</span>(</span>
+<span id="cb21-23"><a href="#cb21-23"></a>          <span class="st">"Trust in country's parliament"</span> <span class="ot">=</span> <span class="st">"trust_parliament"</span>,</span>
+<span id="cb21-24"><a href="#cb21-24"></a>          <span class="st">"Trust in the legal system"</span> <span class="ot">=</span> <span class="st">"trust_legal"</span>,</span>
+<span id="cb21-25"><a href="#cb21-25"></a>          <span class="st">"Trust in the police"</span> <span class="ot">=</span> <span class="st">"trust_police"</span>,</span>
+<span id="cb21-26"><a href="#cb21-26"></a>          <span class="st">"Trust in politicians"</span> <span class="ot">=</span> <span class="st">"trust_politicians"</span>,</span>
+<span id="cb21-27"><a href="#cb21-27"></a>          <span class="st">"Trust in political parties"</span> <span class="ot">=</span> <span class="st">"trust_parties"</span>,</span>
+<span id="cb21-28"><a href="#cb21-28"></a>          <span class="st">"Trust in the European Parliament"</span> <span class="ot">=</span> <span class="st">"trust_eu"</span>,</span>
+<span id="cb21-29"><a href="#cb21-29"></a>          <span class="st">"Trust in the United Nations"</span> <span class="ot">=</span> <span class="st">"trust_un"</span></span>
+<span id="cb21-30"><a href="#cb21-30"></a>        )</span>
+<span id="cb21-31"><a href="#cb21-31"></a>      ),</span>
+<span id="cb21-32"><a href="#cb21-32"></a>      </span>
+<span id="cb21-33"><a href="#cb21-33"></a>      <span class="do">### select a variable ----</span></span>
+<span id="cb21-34"><a href="#cb21-34"></a>      <span class="fu">selectInput</span>(</span>
+<span id="cb21-35"><a href="#cb21-35"></a>        <span class="st">"yvar"</span>,</span>
+<span id="cb21-36"><a href="#cb21-36"></a>        <span class="at">label =</span> <span class="st">"Select an independent variable"</span>,</span>
+<span id="cb21-37"><a href="#cb21-37"></a>        <span class="at">choices =</span> <span class="fu">c</span>(</span>
+<span id="cb21-38"><a href="#cb21-38"></a>          <span class="st">"Placement on the left-right scale"</span> <span class="ot">=</span> <span class="st">"left_right"</span>,</span>
+<span id="cb21-39"><a href="#cb21-39"></a>          <span class="st">"Age"</span> <span class="ot">=</span> <span class="st">"age"</span>,</span>
+<span id="cb21-40"><a href="#cb21-40"></a>          <span class="st">"Feeling about household's income"</span> <span class="ot">=</span> <span class="st">"income_feeling"</span>,</span>
+<span id="cb21-41"><a href="#cb21-41"></a>          <span class="st">"How often do you use the internet?"</span> <span class="ot">=</span> <span class="st">"internet_use"</span>,</span>
+<span id="cb21-42"><a href="#cb21-42"></a>          <span class="st">"How happy are you?"</span> <span class="ot">=</span> <span class="st">"happiness"</span></span>
+<span id="cb21-43"><a href="#cb21-43"></a>        )</span>
+<span id="cb21-44"><a href="#cb21-44"></a>      ),</span>
+<span id="cb21-45"><a href="#cb21-45"></a>      </span>
+<span id="cb21-46"><a href="#cb21-46"></a>      <span class="do">### select a country ----</span></span>
+<span id="cb21-47"><a href="#cb21-47"></a>      <span class="fu">selectizeInput</span>(</span>
+<span id="cb21-48"><a href="#cb21-48"></a>        <span class="st">"countries"</span>,</span>
+<span id="cb21-49"><a href="#cb21-49"></a>        <span class="at">label =</span> <span class="st">"Filter by country"</span>,</span>
+<span id="cb21-50"><a href="#cb21-50"></a>        <span class="at">choices =</span> <span class="fu">unique</span>(ess<span class="sc">$</span>country),</span>
+<span id="cb21-51"><a href="#cb21-51"></a>        <span class="at">selected =</span> <span class="st">"FR"</span>,</span>
+<span id="cb21-52"><a href="#cb21-52"></a>        <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
+<span id="cb21-53"><a href="#cb21-53"></a>      )</span>
+<span id="cb21-54"><a href="#cb21-54"></a>    ),</span>
+<span id="cb21-55"><a href="#cb21-55"></a>    </span>
+<span id="cb21-56"><a href="#cb21-56"></a>    <span class="do">## Main panel ----</span></span>
+<span id="cb21-57"><a href="#cb21-57"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb21-58"><a href="#cb21-58"></a>      <span class="fu">tabsetPanel</span>(</span>
+<span id="cb21-59"><a href="#cb21-59"></a>        <span class="at">type =</span> <span class="st">"tabs"</span>,</span>
+<span id="cb21-60"><a href="#cb21-60"></a>        </span>
+<span id="cb21-61"><a href="#cb21-61"></a>        <span class="do">### Table tab ----</span></span>
+<span id="cb21-62"><a href="#cb21-62"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb21-63"><a href="#cb21-63"></a>          <span class="at">title =</span> <span class="st">"Table"</span>,</span>
+<span id="cb21-64"><a href="#cb21-64"></a>          <span class="fu">div</span>(</span>
+<span id="cb21-65"><a href="#cb21-65"></a>            <span class="at">style =</span> <span class="st">"height: 600px; overflow-y: auto;"</span>,</span>
+<span id="cb21-66"><a href="#cb21-66"></a>            <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
+<span id="cb21-67"><a href="#cb21-67"></a>          )</span>
+<span id="cb21-68"><a href="#cb21-68"></a>        ),</span>
+<span id="cb21-69"><a href="#cb21-69"></a>        </span>
+<span id="cb21-70"><a href="#cb21-70"></a>        <span class="do">### Plot tab ----</span></span>
+<span id="cb21-71"><a href="#cb21-71"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb21-72"><a href="#cb21-72"></a>          <span class="at">title =</span> <span class="st">"Plot"</span>,</span>
+<span id="cb21-73"><a href="#cb21-73"></a>          <span class="fu">plotOutput</span>(<span class="st">"plot"</span>, <span class="at">height =</span> <span class="dv">600</span>)</span>
+<span id="cb21-74"><a href="#cb21-74"></a>        )</span>
+<span id="cb21-75"><a href="#cb21-75"></a>      )</span>
+<span id="cb21-76"><a href="#cb21-76"></a>    )</span>
+<span id="cb21-77"><a href="#cb21-77"></a>  )</span>
+<span id="cb21-78"><a href="#cb21-78"></a>)</span>
+<span id="cb21-79"><a href="#cb21-79"></a></span>
+<span id="cb21-80"><a href="#cb21-80"></a></span>
+<span id="cb21-81"><a href="#cb21-81"></a><span class="co"># Server ----</span></span>
+<span id="cb21-82"><a href="#cb21-82"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb21-83"><a href="#cb21-83"></a>  <span class="co"># filter data ----</span></span>
+<span id="cb21-84"><a href="#cb21-84"></a>  filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb21-85"><a href="#cb21-85"></a>    <span class="fu">validate</span>(</span>
+<span id="cb21-86"><a href="#cb21-86"></a>      <span class="fu">need</span>(input<span class="sc">$</span>countries, <span class="at">message =</span> <span class="st">"At least one country must be specified."</span>)</span>
+<span id="cb21-87"><a href="#cb21-87"></a>    )</span>
+<span id="cb21-88"><a href="#cb21-88"></a>    </span>
+<span id="cb21-89"><a href="#cb21-89"></a>    xvar <span class="ot">&lt;-</span> input<span class="sc">$</span>xvar</span>
+<span id="cb21-90"><a href="#cb21-90"></a>    yvar <span class="ot">&lt;-</span> input<span class="sc">$</span>yvar</span>
+<span id="cb21-91"><a href="#cb21-91"></a>    range <span class="ot">&lt;-</span> input<span class="sc">$</span>range</span>
+<span id="cb21-92"><a href="#cb21-92"></a>    </span>
+<span id="cb21-93"><a href="#cb21-93"></a>    <span class="co"># select country</span></span>
+<span id="cb21-94"><a href="#cb21-94"></a>    ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>countries, ]</span>
+<span id="cb21-95"><a href="#cb21-95"></a>    </span>
+<span id="cb21-96"><a href="#cb21-96"></a>    <span class="co"># select variable</span></span>
+<span id="cb21-97"><a href="#cb21-97"></a>    ess[<span class="fu">c</span>(<span class="st">"idno"</span>, <span class="st">"country"</span>, xvar, yvar)]</span>
+<span id="cb21-98"><a href="#cb21-98"></a>  })</span>
+<span id="cb21-99"><a href="#cb21-99"></a>  </span>
+<span id="cb21-100"><a href="#cb21-100"></a>  <span class="co"># render table ----</span></span>
+<span id="cb21-101"><a href="#cb21-101"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
+<span id="cb21-102"><a href="#cb21-102"></a>    <span class="fu">filtered</span>()</span>
+<span id="cb21-103"><a href="#cb21-103"></a>  }, <span class="at">height =</span> <span class="dv">400</span>)</span>
+<span id="cb21-104"><a href="#cb21-104"></a>  </span>
+<span id="cb21-105"><a href="#cb21-105"></a>  <span class="co"># render plot ----</span></span>
+<span id="cb21-106"><a href="#cb21-106"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb21-107"><a href="#cb21-107"></a>    plot_data <span class="ot">&lt;-</span> <span class="fu">filtered</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb21-108"><a href="#cb21-108"></a>      <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb21-109"><a href="#cb21-109"></a>      <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> as.ordered))</span>
+<span id="cb21-110"><a href="#cb21-110"></a>    </span>
+<span id="cb21-111"><a href="#cb21-111"></a>    xvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">3</span>]]</span>
+<span id="cb21-112"><a href="#cb21-112"></a>    yvar <span class="ot">&lt;-</span> <span class="fu">names</span>(plot_data)[[<span class="dv">4</span>]]</span>
+<span id="cb21-113"><a href="#cb21-113"></a>    </span>
+<span id="cb21-114"><a href="#cb21-114"></a>    <span class="fu">ggplot</span>(plot_data) <span class="sc">+</span></span>
+<span id="cb21-115"><a href="#cb21-115"></a>      <span class="fu">aes</span>(<span class="at">x =</span> .data[[xvar]], <span class="at">y =</span> .data[[yvar]], <span class="at">group =</span> .data[[xvar]]) <span class="sc">+</span></span>
+<span id="cb21-116"><a href="#cb21-116"></a>      <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb21-117"><a href="#cb21-117"></a>      <span class="fu">theme_classic</span>()</span>
+<span id="cb21-118"><a href="#cb21-118"></a>  })</span>
+<span id="cb21-119"><a href="#cb21-119"></a>}</span>
+<span id="cb21-120"><a href="#cb21-120"></a></span>
+<span id="cb21-121"><a href="#cb21-121"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
 </section>
 <section id="other-important-concepts" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> Other important concepts</h1>
@@ -1455,6 +1588,8 @@ Tip
 </section>
 <section id="exercises" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> Exercises</h1>
+<section id="observers-and-reactives" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="observers-and-reactives"><span class="header-section-number">8.1</span> Observers and reactives</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1505,54 +1640,61 @@ Solution 1.1
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercise 1.2
+Exercise 1.3
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Taking the Shiny app below, gradually enter letters to the text input. Observe the printed messages in your R console. Why is the code in <code>reactive()</code> never run but the code in <code>observe()</code> is? Fix the example such that the code in <code>reactive()</code> is executed as well.</p>
+<p>The following code contains two observers. Both observers depend on the same input (<code>input$button</code>), so their execution order can only be determined by their position in the code. Thus, <code>"2nd observer"</code> is printed before <code>"1st observer"</code>. Study the documentation of <code>?observe</code> and fix the app such <code>"1st observer"</code> is always printed first.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb20-2"><a href="#cb20-2"></a>  <span class="fu">textInput</span>(<span class="st">"text"</span>, <span class="st">"enter a text"</span>)</span>
-<span id="cb20-3"><a href="#cb20-3"></a>)</span>
-<span id="cb20-4"><a href="#cb20-4"></a></span>
-<span id="cb20-5"><a href="#cb20-5"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, server) {</span>
-<span id="cb20-6"><a href="#cb20-6"></a>  val <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb20-7"><a href="#cb20-7"></a>    <span class="fu">print</span>(<span class="st">"reactive is executed"</span>)</span>
-<span id="cb20-8"><a href="#cb20-8"></a>    input<span class="sc">$</span>text</span>
-<span id="cb20-9"><a href="#cb20-9"></a>  })</span>
-<span id="cb20-10"><a href="#cb20-10"></a>  </span>
-<span id="cb20-11"><a href="#cb20-11"></a>  <span class="fu">observe</span>({</span>
-<span id="cb20-12"><a href="#cb20-12"></a>    <span class="fu">print</span>(<span class="st">"observer is executed"</span>)</span>
-<span id="cb20-13"><a href="#cb20-13"></a>    input<span class="sc">$</span>text</span>
-<span id="cb20-14"><a href="#cb20-14"></a>  })</span>
-<span id="cb20-15"><a href="#cb20-15"></a>}</span>
-<span id="cb20-16"><a href="#cb20-16"></a></span>
-<span id="cb20-17"><a href="#cb20-17"></a><span class="fu">runApp</span>(<span class="fu">shinyApp</span>(ui, server))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>()</span>
+<span id="cb22-2"><a href="#cb22-2"></a></span>
+<span id="cb22-3"><a href="#cb22-3"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb22-4"><a href="#cb22-4"></a>  <span class="fu">observe</span>({</span>
+<span id="cb22-5"><a href="#cb22-5"></a>    input<span class="sc">$</span>button</span>
+<span id="cb22-6"><a href="#cb22-6"></a>    <span class="fu">print</span>(<span class="st">"2nd observer"</span>)</span>
+<span id="cb22-7"><a href="#cb22-7"></a>  })</span>
+<span id="cb22-8"><a href="#cb22-8"></a>  </span>
+<span id="cb22-9"><a href="#cb22-9"></a>  <span class="fu">observe</span>({</span>
+<span id="cb22-10"><a href="#cb22-10"></a>    input<span class="sc">$</span>button</span>
+<span id="cb22-11"><a href="#cb22-11"></a>    <span class="fu">print</span>(<span class="st">"1st observer"</span>)</span>
+<span id="cb22-12"><a href="#cb22-12"></a>  })</span>
+<span id="cb22-13"><a href="#cb22-13"></a>}</span>
+<span id="cb22-14"><a href="#cb22-14"></a></span>
+<span id="cb22-15"><a href="#cb22-15"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
-<p>::: #### Solution 1.2</p>
-<p>The code in <code>observe()</code> is run because the code takes a dependency on <code>input$text</code>. Whenever the text input is changed, the observer is re-run. The code in <code>reactive()</code> also takes a dependency on <code>input$text</code>, but since reactives are evaluated lazily, <code>reactive()</code> does not changes in the input. It only executes when it is called by a reactive consumer such as <code>observe()</code> or a render function. To make the code in <code>reactive()</code> run, we can let the observer call it:</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution 1.2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>observe()</code> features an argument called <code>priority</code> which allows you to control the execution order. A higher value indicates a higher priority. Setting <code>priority = 1</code> makes the “1st observer” run before the “2nd observer” which has a default priority of 0.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">textInput</span>(<span class="st">"text"</span>, <span class="st">"enter a text"</span>)</span>
-<span id="cb21-3"><a href="#cb21-3"></a>)</span>
-<span id="cb21-4"><a href="#cb21-4"></a></span>
-<span id="cb21-5"><a href="#cb21-5"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, server) {</span>
-<span id="cb21-6"><a href="#cb21-6"></a>  val <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb21-7"><a href="#cb21-7"></a>    <span class="fu">print</span>(<span class="st">"reactive is executed"</span>)</span>
-<span id="cb21-8"><a href="#cb21-8"></a>    input<span class="sc">$</span>text</span>
-<span id="cb21-9"><a href="#cb21-9"></a>  })</span>
-<span id="cb21-10"><a href="#cb21-10"></a>  </span>
-<span id="cb21-11"><a href="#cb21-11"></a>  <span class="fu">observe</span>({</span>
-<span id="cb21-12"><a href="#cb21-12"></a>    <span class="fu">print</span>(<span class="st">"observer is executed"</span>)</span>
-<span id="cb21-13"><a href="#cb21-13"></a>    <span class="fu">val</span>()</span>
-<span id="cb21-14"><a href="#cb21-14"></a>  })</span>
-<span id="cb21-15"><a href="#cb21-15"></a>}</span>
-<span id="cb21-16"><a href="#cb21-16"></a></span>
-<span id="cb21-17"><a href="#cb21-17"></a><span class="fu">runApp</span>(<span class="fu">shinyApp</span>(ui, server))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>()</span>
+<span id="cb23-2"><a href="#cb23-2"></a></span>
+<span id="cb23-3"><a href="#cb23-3"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb23-4"><a href="#cb23-4"></a>  <span class="fu">observe</span>({</span>
+<span id="cb23-5"><a href="#cb23-5"></a>    <span class="fu">print</span>(<span class="st">"2nd observer"</span>)</span>
+<span id="cb23-6"><a href="#cb23-6"></a>  })</span>
+<span id="cb23-7"><a href="#cb23-7"></a>  </span>
+<span id="cb23-8"><a href="#cb23-8"></a>  <span class="fu">observe</span>({</span>
+<span id="cb23-9"><a href="#cb23-9"></a>    <span class="fu">print</span>(<span class="st">"1st observer"</span>)</span>
+<span id="cb23-10"><a href="#cb23-10"></a>  }, <span class="at">priority =</span> <span class="dv">1</span>)</span>
+<span id="cb23-11"><a href="#cb23-11"></a>}</span>
+<span id="cb23-12"><a href="#cb23-12"></a></span>
+<span id="cb23-13"><a href="#cb23-13"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>:::</p>
+</div>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1563,73 +1705,776 @@ Exercise 1.3
 </div>
 </div>
 <div class="callout-body-container callout-body">
+<p>Taking the Shiny app below, gradually enter letters to the text input. Observe the printed messages in your R console. Why is the code in <code>reactive()</code> never run but the code in <code>observe()</code> is? Fix the example such that the code in <code>reactive()</code> is executed as well.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb24-2"><a href="#cb24-2"></a>  <span class="fu">textInput</span>(<span class="st">"text"</span>, <span class="st">"enter a text"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3"></a>)</span>
+<span id="cb24-4"><a href="#cb24-4"></a></span>
+<span id="cb24-5"><a href="#cb24-5"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, server) {</span>
+<span id="cb24-6"><a href="#cb24-6"></a>  val <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb24-7"><a href="#cb24-7"></a>    <span class="fu">print</span>(<span class="st">"reactive is executed"</span>)</span>
+<span id="cb24-8"><a href="#cb24-8"></a>    input<span class="sc">$</span>text</span>
+<span id="cb24-9"><a href="#cb24-9"></a>  })</span>
+<span id="cb24-10"><a href="#cb24-10"></a>  </span>
+<span id="cb24-11"><a href="#cb24-11"></a>  <span class="fu">observe</span>({</span>
+<span id="cb24-12"><a href="#cb24-12"></a>    <span class="fu">print</span>(<span class="st">"observer is executed"</span>)</span>
+<span id="cb24-13"><a href="#cb24-13"></a>    input<span class="sc">$</span>text</span>
+<span id="cb24-14"><a href="#cb24-14"></a>  })</span>
+<span id="cb24-15"><a href="#cb24-15"></a>}</span>
+<span id="cb24-16"><a href="#cb24-16"></a></span>
+<span id="cb24-17"><a href="#cb24-17"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Recall one of the main differences between <code>observe()</code> and <code>reactive()</code>: Reactives are lazy, observers are eager. Eagerly evaluated code triggers every time a dependency is invalidated, lazily evaluated triggers only when it is called from outside.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution 1.3
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The code in <code>observe()</code> is run because the code takes a dependency on <code>input$text</code>. Whenever the text input is changed, the observer is re-run. The code in <code>reactive()</code> also takes a dependency on <code>input$text</code>, but since reactives are evaluated lazily, <code>reactive()</code> does not changes in the input. It only executes when it is called by a reactive consumer such as <code>observe()</code> or a render function. To make the code in <code>reactive()</code> run, we can let the observer call it:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb25-2"><a href="#cb25-2"></a>  <span class="fu">textInput</span>(<span class="st">"text"</span>, <span class="st">"enter a text"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3"></a>)</span>
+<span id="cb25-4"><a href="#cb25-4"></a></span>
+<span id="cb25-5"><a href="#cb25-5"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, server) {</span>
+<span id="cb25-6"><a href="#cb25-6"></a>  val <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb25-7"><a href="#cb25-7"></a>    <span class="fu">print</span>(<span class="st">"reactive is executed"</span>)</span>
+<span id="cb25-8"><a href="#cb25-8"></a>    input<span class="sc">$</span>text</span>
+<span id="cb25-9"><a href="#cb25-9"></a>  })</span>
+<span id="cb25-10"><a href="#cb25-10"></a>  </span>
+<span id="cb25-11"><a href="#cb25-11"></a>  <span class="fu">observe</span>({</span>
+<span id="cb25-12"><a href="#cb25-12"></a>    <span class="fu">print</span>(<span class="st">"observer is executed"</span>)</span>
+<span id="cb25-13"><a href="#cb25-13"></a>    <span class="fu">val</span>()</span>
+<span id="cb25-14"><a href="#cb25-14"></a>  })</span>
+<span id="cb25-15"><a href="#cb25-15"></a>}</span>
+<span id="cb25-16"><a href="#cb25-16"></a></span>
+<span id="cb25-17"><a href="#cb25-17"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1.4
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Given the code below, which takes a variable and plots a histogram, print the summary of the selected variable each time a new variable is selected. How can this task be done without duplicating code?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb22-2"><a href="#cb22-2"></a>  <span class="fu">selectInput</span>(</span>
-<span id="cb22-3"><a href="#cb22-3"></a>    <span class="st">"var"</span>,</span>
-<span id="cb22-4"><a href="#cb22-4"></a>    <span class="st">"Select a variable"</span>,</span>
-<span id="cb22-5"><a href="#cb22-5"></a>    <span class="fu">names</span>(ess)[<span class="fu">startsWith</span>(<span class="fu">names</span>(ess), <span class="st">"trust"</span>)]</span>
-<span id="cb22-6"><a href="#cb22-6"></a>  ),</span>
-<span id="cb22-7"><a href="#cb22-7"></a>  <span class="fu">selectInput</span>(</span>
-<span id="cb22-8"><a href="#cb22-8"></a>    <span class="st">"country"</span>,</span>
-<span id="cb22-9"><a href="#cb22-9"></a>    <span class="st">"Select a country"</span>,</span>
-<span id="cb22-10"><a href="#cb22-10"></a>    <span class="fu">unique</span>(ess<span class="sc">$</span>country)</span>
-<span id="cb22-11"><a href="#cb22-11"></a>  ),</span>
-<span id="cb22-12"><a href="#cb22-12"></a>  <span class="fu">plotOutput</span>(<span class="st">"plot"</span>)</span>
-<span id="cb22-13"><a href="#cb22-13"></a>)</span>
-<span id="cb22-14"><a href="#cb22-14"></a></span>
-<span id="cb22-15"><a href="#cb22-15"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb22-16"><a href="#cb22-16"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
-<span id="cb22-17"><a href="#cb22-17"></a>    ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>country, ]</span>
-<span id="cb22-18"><a href="#cb22-18"></a>    <span class="fu">ggplot</span>(ess) <span class="sc">+</span></span>
-<span id="cb22-19"><a href="#cb22-19"></a>      <span class="fu">aes</span>(.data[[input<span class="sc">$</span>var]]) <span class="sc">+</span></span>
-<span id="cb22-20"><a href="#cb22-20"></a>      <span class="fu">geom_histogram</span>()</span>
-<span id="cb22-21"><a href="#cb22-21"></a>  })</span>
-<span id="cb22-22"><a href="#cb22-22"></a>}</span>
-<span id="cb22-23"><a href="#cb22-23"></a></span>
-<span id="cb22-24"><a href="#cb22-24"></a><span class="fu">runApp</span>(<span class="fu">shinyApp</span>(ui, server))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb26-2"><a href="#cb26-2"></a>  <span class="fu">selectInput</span>(</span>
+<span id="cb26-3"><a href="#cb26-3"></a>    <span class="st">"var"</span>,</span>
+<span id="cb26-4"><a href="#cb26-4"></a>    <span class="st">"Select a variable"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5"></a>    <span class="fu">names</span>(ess)[<span class="fu">startsWith</span>(<span class="fu">names</span>(ess), <span class="st">"trust"</span>)]</span>
+<span id="cb26-6"><a href="#cb26-6"></a>  ),</span>
+<span id="cb26-7"><a href="#cb26-7"></a>  <span class="fu">selectInput</span>(</span>
+<span id="cb26-8"><a href="#cb26-8"></a>    <span class="st">"country"</span>,</span>
+<span id="cb26-9"><a href="#cb26-9"></a>    <span class="st">"Select a country"</span>,</span>
+<span id="cb26-10"><a href="#cb26-10"></a>    <span class="fu">unique</span>(ess<span class="sc">$</span>country)</span>
+<span id="cb26-11"><a href="#cb26-11"></a>  ),</span>
+<span id="cb26-12"><a href="#cb26-12"></a>  <span class="fu">plotOutput</span>(<span class="st">"plot"</span>)</span>
+<span id="cb26-13"><a href="#cb26-13"></a>)</span>
+<span id="cb26-14"><a href="#cb26-14"></a></span>
+<span id="cb26-15"><a href="#cb26-15"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb26-16"><a href="#cb26-16"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb26-17"><a href="#cb26-17"></a>    ess <span class="ot">&lt;-</span> ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>country, ]</span>
+<span id="cb26-18"><a href="#cb26-18"></a>    <span class="fu">ggplot</span>(ess) <span class="sc">+</span></span>
+<span id="cb26-19"><a href="#cb26-19"></a>      <span class="fu">aes</span>(.data[[input<span class="sc">$</span>var]]) <span class="sc">+</span></span>
+<span id="cb26-20"><a href="#cb26-20"></a>      <span class="fu">geom_histogram</span>()</span>
+<span id="cb26-21"><a href="#cb26-21"></a>  })</span>
+<span id="cb26-22"><a href="#cb26-22"></a>}</span>
+<span id="cb26-23"><a href="#cb26-23"></a></span>
+<span id="cb26-24"><a href="#cb26-24"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
-<p>::: #### Solution 1.3</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution 1.4
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>To print the summary, implement an observer that prints the <code>summary()</code> of the selected variable. However, because the <code>ess</code> object is also filtered by the selected country, we would need to copy the filtering process to the observer as well, thus duplicating code. To avoid duplicating code, we can add a <code>reactive()</code> that performs the country filtering. The return value can then be forwarded to both <code>observe()</code> and <code>renderPlot()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb23-2"><a href="#cb23-2"></a>  <span class="fu">selectInput</span>(</span>
-<span id="cb23-3"><a href="#cb23-3"></a>    <span class="st">"var"</span>,</span>
-<span id="cb23-4"><a href="#cb23-4"></a>    <span class="st">"Select a variable"</span>,</span>
-<span id="cb23-5"><a href="#cb23-5"></a>    <span class="fu">names</span>(ess)[<span class="fu">startsWith</span>(<span class="fu">names</span>(ess), <span class="st">"trust"</span>)]</span>
-<span id="cb23-6"><a href="#cb23-6"></a>  ),</span>
-<span id="cb23-7"><a href="#cb23-7"></a>  <span class="fu">selectInput</span>(</span>
-<span id="cb23-8"><a href="#cb23-8"></a>    <span class="st">"country"</span>,</span>
-<span id="cb23-9"><a href="#cb23-9"></a>    <span class="st">"Select a country"</span>,</span>
-<span id="cb23-10"><a href="#cb23-10"></a>    <span class="fu">unique</span>(ess<span class="sc">$</span>country)</span>
-<span id="cb23-11"><a href="#cb23-11"></a>  ),</span>
-<span id="cb23-12"><a href="#cb23-12"></a>  <span class="fu">plotOutput</span>(<span class="st">"plot"</span>)</span>
-<span id="cb23-13"><a href="#cb23-13"></a>)</span>
-<span id="cb23-14"><a href="#cb23-14"></a></span>
-<span id="cb23-15"><a href="#cb23-15"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb23-16"><a href="#cb23-16"></a>  ess_country <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb23-17"><a href="#cb23-17"></a>    ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>country, ]</span>
-<span id="cb23-18"><a href="#cb23-18"></a>  })</span>
-<span id="cb23-19"><a href="#cb23-19"></a></span>
-<span id="cb23-20"><a href="#cb23-20"></a>  <span class="fu">observe</span>({</span>
-<span id="cb23-21"><a href="#cb23-21"></a>    <span class="fu">print</span>(<span class="fu">summary</span>(<span class="fu">ess_country</span>()[[input<span class="sc">$</span>var]]))</span>
-<span id="cb23-22"><a href="#cb23-22"></a>  })</span>
-<span id="cb23-23"><a href="#cb23-23"></a></span>
-<span id="cb23-24"><a href="#cb23-24"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
-<span id="cb23-25"><a href="#cb23-25"></a>    <span class="fu">ggplot</span>(<span class="fu">ess_country</span>()) <span class="sc">+</span></span>
-<span id="cb23-26"><a href="#cb23-26"></a>      <span class="fu">aes</span>(.data[[input<span class="sc">$</span>var]]) <span class="sc">+</span></span>
-<span id="cb23-27"><a href="#cb23-27"></a>      <span class="fu">geom_histogram</span>()</span>
-<span id="cb23-28"><a href="#cb23-28"></a>  })</span>
-<span id="cb23-29"><a href="#cb23-29"></a>}</span>
-<span id="cb23-30"><a href="#cb23-30"></a></span>
-<span id="cb23-31"><a href="#cb23-31"></a><span class="fu">runApp</span>(<span class="fu">shinyApp</span>(ui, server))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb27-2"><a href="#cb27-2"></a>  <span class="fu">selectInput</span>(</span>
+<span id="cb27-3"><a href="#cb27-3"></a>    <span class="st">"var"</span>,</span>
+<span id="cb27-4"><a href="#cb27-4"></a>    <span class="st">"Select a variable"</span>,</span>
+<span id="cb27-5"><a href="#cb27-5"></a>    <span class="fu">names</span>(ess)[<span class="fu">startsWith</span>(<span class="fu">names</span>(ess), <span class="st">"trust"</span>)]</span>
+<span id="cb27-6"><a href="#cb27-6"></a>  ),</span>
+<span id="cb27-7"><a href="#cb27-7"></a>  <span class="fu">selectInput</span>(</span>
+<span id="cb27-8"><a href="#cb27-8"></a>    <span class="st">"country"</span>,</span>
+<span id="cb27-9"><a href="#cb27-9"></a>    <span class="st">"Select a country"</span>,</span>
+<span id="cb27-10"><a href="#cb27-10"></a>    <span class="fu">unique</span>(ess<span class="sc">$</span>country)</span>
+<span id="cb27-11"><a href="#cb27-11"></a>  ),</span>
+<span id="cb27-12"><a href="#cb27-12"></a>  <span class="fu">plotOutput</span>(<span class="st">"plot"</span>)</span>
+<span id="cb27-13"><a href="#cb27-13"></a>)</span>
+<span id="cb27-14"><a href="#cb27-14"></a></span>
+<span id="cb27-15"><a href="#cb27-15"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb27-16"><a href="#cb27-16"></a>  ess_country <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb27-17"><a href="#cb27-17"></a>    ess[ess<span class="sc">$</span>country <span class="sc">%in%</span> input<span class="sc">$</span>country, ]</span>
+<span id="cb27-18"><a href="#cb27-18"></a>  })</span>
+<span id="cb27-19"><a href="#cb27-19"></a></span>
+<span id="cb27-20"><a href="#cb27-20"></a>  <span class="fu">observe</span>({</span>
+<span id="cb27-21"><a href="#cb27-21"></a>    <span class="fu">print</span>(<span class="fu">summary</span>(<span class="fu">ess_country</span>()[[input<span class="sc">$</span>var]]))</span>
+<span id="cb27-22"><a href="#cb27-22"></a>  })</span>
+<span id="cb27-23"><a href="#cb27-23"></a></span>
+<span id="cb27-24"><a href="#cb27-24"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb27-25"><a href="#cb27-25"></a>    <span class="fu">ggplot</span>(<span class="fu">ess_country</span>()) <span class="sc">+</span></span>
+<span id="cb27-26"><a href="#cb27-26"></a>      <span class="fu">aes</span>(.data[[input<span class="sc">$</span>var]]) <span class="sc">+</span></span>
+<span id="cb27-27"><a href="#cb27-27"></a>      <span class="fu">geom_histogram</span>()</span>
+<span id="cb27-28"><a href="#cb27-28"></a>  })</span>
+<span id="cb27-29"><a href="#cb27-29"></a>}</span>
+<span id="cb27-30"><a href="#cb27-30"></a></span>
+<span id="cb27-31"><a href="#cb27-31"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>:::</p>
+</div>
+</div>
+</div>
+</section>
+<section id="updates-and-events" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="updates-and-events"><span class="header-section-number">8.2</span> Updates and events</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 2.1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The code below implements a UI that contains checkboxes with four European regions (Central, Eastern, Southern, Northern) and an input selection for the country. Change the app such that <code>selectizeInput()</code> only shows those countries belonging to a region selected in <code>checkboxGroupInput()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb28-2"><a href="#cb28-2"></a>  <span class="at">Central =</span> <span class="fu">c</span>(<span class="st">"AT"</span>, <span class="st">"BE"</span>, <span class="st">"CH"</span>, <span class="st">"DE"</span>, <span class="st">"NL"</span>, <span class="st">"PL"</span>, <span class="st">"CZ"</span>),</span>
+<span id="cb28-3"><a href="#cb28-3"></a>  <span class="at">Eastern =</span> <span class="fu">c</span>(<span class="st">"BG"</span>, <span class="st">"EE"</span>, <span class="st">"HR"</span>, <span class="st">"HU"</span>, <span class="st">"LT"</span>, <span class="st">"LV"</span>, <span class="st">"PL"</span>, <span class="st">"SI"</span>, <span class="st">"SK"</span>),</span>
+<span id="cb28-4"><a href="#cb28-4"></a>  <span class="at">Southern =</span> <span class="fu">c</span>(<span class="st">"ES"</span>, <span class="st">"IT"</span>, <span class="st">"PT"</span>, <span class="st">"RS"</span>, <span class="st">"ME"</span>),</span>
+<span id="cb28-5"><a href="#cb28-5"></a>  <span class="at">Northern =</span> <span class="fu">c</span>(<span class="st">"IS"</span>, <span class="st">"SE"</span>, <span class="st">"FI"</span>, <span class="st">"GB"</span>, <span class="st">"IE"</span>, <span class="st">"DK"</span>)</span>
+<span id="cb28-6"><a href="#cb28-6"></a>)</span>
+<span id="cb28-7"><a href="#cb28-7"></a></span>
+<span id="cb28-8"><a href="#cb28-8"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb28-9"><a href="#cb28-9"></a>  <span class="fu">checkboxGroupInput</span>(</span>
+<span id="cb28-10"><a href="#cb28-10"></a>    <span class="st">"region"</span>,</span>
+<span id="cb28-11"><a href="#cb28-11"></a>    <span class="at">label =</span> <span class="st">"Select a European region"</span>,</span>
+<span id="cb28-12"><a href="#cb28-12"></a>    <span class="at">choices =</span> <span class="fu">names</span>(regions)</span>
+<span id="cb28-13"><a href="#cb28-13"></a>  ),</span>
+<span id="cb28-14"><a href="#cb28-14"></a>  <span class="fu">selectizeInput</span>(</span>
+<span id="cb28-15"><a href="#cb28-15"></a>    <span class="st">"country"</span>,</span>
+<span id="cb28-16"><a href="#cb28-16"></a>    <span class="at">label =</span> <span class="st">"Select a country"</span>,</span>
+<span id="cb28-17"><a href="#cb28-17"></a>    <span class="at">choices =</span> regions</span>
+<span id="cb28-18"><a href="#cb28-18"></a>  )</span>
+<span id="cb28-19"><a href="#cb28-19"></a>)</span>
+<span id="cb28-20"><a href="#cb28-20"></a></span>
+<span id="cb28-21"><a href="#cb28-21"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb28-22"><a href="#cb28-22"></a></span>
+<span id="cb28-23"><a href="#cb28-23"></a>}</span>
+<span id="cb28-24"><a href="#cb28-24"></a></span>
+<span id="cb28-25"><a href="#cb28-25"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The function you need to update the input selection is called <code>updateSelectizeInput()</code>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution 2.1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>In the solution, I add an observer with <code>updateSelectizeInput()</code> that updates <code>selectizeInput()</code>. The updated values correspond to the countries of the selected region in the <code>regions</code> list.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb29-2"><a href="#cb29-2"></a>  <span class="at">Central =</span> <span class="fu">c</span>(<span class="st">"AT"</span>, <span class="st">"BE"</span>, <span class="st">"CH"</span>, <span class="st">"DE"</span>, <span class="st">"NL"</span>, <span class="st">"PL"</span>, <span class="st">"CZ"</span>),</span>
+<span id="cb29-3"><a href="#cb29-3"></a>  <span class="at">Eastern =</span> <span class="fu">c</span>(<span class="st">"BG"</span>, <span class="st">"EE"</span>, <span class="st">"HR"</span>, <span class="st">"HU"</span>, <span class="st">"LT"</span>, <span class="st">"LV"</span>, <span class="st">"PL"</span>, <span class="st">"SI"</span>, <span class="st">"SK"</span>),</span>
+<span id="cb29-4"><a href="#cb29-4"></a>  <span class="at">Southern =</span> <span class="fu">c</span>(<span class="st">"ES"</span>, <span class="st">"IT"</span>, <span class="st">"PT"</span>, <span class="st">"RS"</span>, <span class="st">"ME"</span>),</span>
+<span id="cb29-5"><a href="#cb29-5"></a>  <span class="at">Northern =</span> <span class="fu">c</span>(<span class="st">"IS"</span>, <span class="st">"SE"</span>, <span class="st">"FI"</span>, <span class="st">"GB"</span>, <span class="st">"IE"</span>, <span class="st">"DK"</span>)</span>
+<span id="cb29-6"><a href="#cb29-6"></a>)</span>
+<span id="cb29-7"><a href="#cb29-7"></a></span>
+<span id="cb29-8"><a href="#cb29-8"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb29-9"><a href="#cb29-9"></a>  <span class="fu">checkboxGroupInput</span>(</span>
+<span id="cb29-10"><a href="#cb29-10"></a>    <span class="st">"region"</span>,</span>
+<span id="cb29-11"><a href="#cb29-11"></a>    <span class="at">label =</span> <span class="st">"Select a European region"</span>,</span>
+<span id="cb29-12"><a href="#cb29-12"></a>    <span class="at">choices =</span> <span class="fu">names</span>(regions)</span>
+<span id="cb29-13"><a href="#cb29-13"></a>  ),</span>
+<span id="cb29-14"><a href="#cb29-14"></a>  <span class="fu">selectizeInput</span>(</span>
+<span id="cb29-15"><a href="#cb29-15"></a>    <span class="st">"country"</span>,</span>
+<span id="cb29-16"><a href="#cb29-16"></a>    <span class="at">label =</span> <span class="st">"Select a country"</span>,</span>
+<span id="cb29-17"><a href="#cb29-17"></a>    <span class="at">choices =</span> regions</span>
+<span id="cb29-18"><a href="#cb29-18"></a>  )</span>
+<span id="cb29-19"><a href="#cb29-19"></a>)</span>
+<span id="cb29-20"><a href="#cb29-20"></a></span>
+<span id="cb29-21"><a href="#cb29-21"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb29-22"><a href="#cb29-22"></a>  <span class="fu">observe</span>({</span>
+<span id="cb29-23"><a href="#cb29-23"></a>    <span class="fu">updateSelectizeInput</span>(</span>
+<span id="cb29-24"><a href="#cb29-24"></a>      <span class="at">inputId =</span> <span class="st">"country"</span>,</span>
+<span id="cb29-25"><a href="#cb29-25"></a>      <span class="at">choices =</span> regions[input<span class="sc">$</span>region]</span>
+<span id="cb29-26"><a href="#cb29-26"></a>    )</span>
+<span id="cb29-27"><a href="#cb29-27"></a>  })</span>
+<span id="cb29-28"><a href="#cb29-28"></a>}</span>
+<span id="cb29-29"><a href="#cb29-29"></a></span>
+<span id="cb29-30"><a href="#cb29-30"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 2.2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Looking at the app from exercise 2.1, <code>selectizeInput()</code> is updated every time a European region is selected. In this case, this is probably what we expect from the app. To get a little more control of the reactivity flow, implement an action button that needs to be pressed in order for <code>selectizeInput()</code> to be updated.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code from exercise 2.1</summary>
+<div class="sourceCode cell-code" id="cb30" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb30-2"><a href="#cb30-2"></a>  <span class="at">Central =</span> <span class="fu">c</span>(<span class="st">"AT"</span>, <span class="st">"BE"</span>, <span class="st">"CH"</span>, <span class="st">"DE"</span>, <span class="st">"NL"</span>, <span class="st">"PL"</span>, <span class="st">"CZ"</span>),</span>
+<span id="cb30-3"><a href="#cb30-3"></a>  <span class="at">Eastern =</span> <span class="fu">c</span>(<span class="st">"BG"</span>, <span class="st">"EE"</span>, <span class="st">"HR"</span>, <span class="st">"HU"</span>, <span class="st">"LT"</span>, <span class="st">"LV"</span>, <span class="st">"PL"</span>, <span class="st">"SI"</span>, <span class="st">"SK"</span>),</span>
+<span id="cb30-4"><a href="#cb30-4"></a>  <span class="at">Southern =</span> <span class="fu">c</span>(<span class="st">"ES"</span>, <span class="st">"IT"</span>, <span class="st">"PT"</span>, <span class="st">"RS"</span>, <span class="st">"ME"</span>),</span>
+<span id="cb30-5"><a href="#cb30-5"></a>  <span class="at">Northern =</span> <span class="fu">c</span>(<span class="st">"IS"</span>, <span class="st">"SE"</span>, <span class="st">"FI"</span>, <span class="st">"GB"</span>, <span class="st">"IE"</span>, <span class="st">"DK"</span>)</span>
+<span id="cb30-6"><a href="#cb30-6"></a>)</span>
+<span id="cb30-7"><a href="#cb30-7"></a></span>
+<span id="cb30-8"><a href="#cb30-8"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb30-9"><a href="#cb30-9"></a>  <span class="fu">checkboxGroupInput</span>(</span>
+<span id="cb30-10"><a href="#cb30-10"></a>    <span class="st">"region"</span>,</span>
+<span id="cb30-11"><a href="#cb30-11"></a>    <span class="at">label =</span> <span class="st">"Select a European region"</span>,</span>
+<span id="cb30-12"><a href="#cb30-12"></a>    <span class="at">choices =</span> <span class="fu">names</span>(regions)</span>
+<span id="cb30-13"><a href="#cb30-13"></a>  ),</span>
+<span id="cb30-14"><a href="#cb30-14"></a>  <span class="fu">selectizeInput</span>(</span>
+<span id="cb30-15"><a href="#cb30-15"></a>    <span class="st">"country"</span>,</span>
+<span id="cb30-16"><a href="#cb30-16"></a>    <span class="at">label =</span> <span class="st">"Select a country"</span>,</span>
+<span id="cb30-17"><a href="#cb30-17"></a>    <span class="at">choices =</span> regions</span>
+<span id="cb30-18"><a href="#cb30-18"></a>  )</span>
+<span id="cb30-19"><a href="#cb30-19"></a>)</span>
+<span id="cb30-20"><a href="#cb30-20"></a></span>
+<span id="cb30-21"><a href="#cb30-21"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb30-22"><a href="#cb30-22"></a>  <span class="fu">observe</span>({</span>
+<span id="cb30-23"><a href="#cb30-23"></a>    <span class="fu">updateSelectizeInput</span>(</span>
+<span id="cb30-24"><a href="#cb30-24"></a>      <span class="at">inputId =</span> <span class="st">"country"</span>,</span>
+<span id="cb30-25"><a href="#cb30-25"></a>      <span class="at">choices =</span> regions[input<span class="sc">$</span>region]</span>
+<span id="cb30-26"><a href="#cb30-26"></a>    )</span>
+<span id="cb30-27"><a href="#cb30-27"></a>  })</span>
+<span id="cb30-28"><a href="#cb30-28"></a>}</span>
+<span id="cb30-29"><a href="#cb30-29"></a></span>
+<span id="cb30-30"><a href="#cb30-30"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution 2.2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>In the solution, I add an observer with <code>updateSelectizeInput()</code> that updates <code>selectizeInput()</code>. The updated values correspond to the countries of the selected region in the <code>regions</code> list.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb31-2"><a href="#cb31-2"></a>  <span class="at">Central =</span> <span class="fu">c</span>(<span class="st">"AT"</span>, <span class="st">"BE"</span>, <span class="st">"CH"</span>, <span class="st">"DE"</span>, <span class="st">"NL"</span>, <span class="st">"PL"</span>, <span class="st">"CZ"</span>),</span>
+<span id="cb31-3"><a href="#cb31-3"></a>  <span class="at">Eastern =</span> <span class="fu">c</span>(<span class="st">"BG"</span>, <span class="st">"EE"</span>, <span class="st">"HR"</span>, <span class="st">"HU"</span>, <span class="st">"LT"</span>, <span class="st">"LV"</span>, <span class="st">"PL"</span>, <span class="st">"SI"</span>, <span class="st">"SK"</span>),</span>
+<span id="cb31-4"><a href="#cb31-4"></a>  <span class="at">Southern =</span> <span class="fu">c</span>(<span class="st">"ES"</span>, <span class="st">"IT"</span>, <span class="st">"PT"</span>, <span class="st">"RS"</span>, <span class="st">"ME"</span>),</span>
+<span id="cb31-5"><a href="#cb31-5"></a>  <span class="at">Northern =</span> <span class="fu">c</span>(<span class="st">"IS"</span>, <span class="st">"SE"</span>, <span class="st">"FI"</span>, <span class="st">"GB"</span>, <span class="st">"IE"</span>, <span class="st">"DK"</span>)</span>
+<span id="cb31-6"><a href="#cb31-6"></a>)</span>
+<span id="cb31-7"><a href="#cb31-7"></a></span>
+<span id="cb31-8"><a href="#cb31-8"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb31-9"><a href="#cb31-9"></a>  <span class="fu">checkboxGroupInput</span>(</span>
+<span id="cb31-10"><a href="#cb31-10"></a>    <span class="st">"region"</span>,</span>
+<span id="cb31-11"><a href="#cb31-11"></a>    <span class="at">label =</span> <span class="st">"Select a European region"</span>,</span>
+<span id="cb31-12"><a href="#cb31-12"></a>    <span class="at">choices =</span> <span class="fu">names</span>(regions)</span>
+<span id="cb31-13"><a href="#cb31-13"></a>  ),</span>
+<span id="cb31-14"><a href="#cb31-14"></a>  <span class="fu">selectizeInput</span>(</span>
+<span id="cb31-15"><a href="#cb31-15"></a>    <span class="st">"country"</span>,</span>
+<span id="cb31-16"><a href="#cb31-16"></a>    <span class="at">label =</span> <span class="st">"Select a country"</span>,</span>
+<span id="cb31-17"><a href="#cb31-17"></a>    <span class="at">choices =</span> regions</span>
+<span id="cb31-18"><a href="#cb31-18"></a>  ),</span>
+<span id="cb31-19"><a href="#cb31-19"></a>  <span class="fu">actionButton</span>(</span>
+<span id="cb31-20"><a href="#cb31-20"></a>    <span class="st">"button"</span>,</span>
+<span id="cb31-21"><a href="#cb31-21"></a>    <span class="at">label =</span> <span class="st">"Update"</span>,</span>
+<span id="cb31-22"><a href="#cb31-22"></a>    <span class="at">icon =</span> <span class="fu">icon</span>(<span class="st">"refresh"</span>)</span>
+<span id="cb31-23"><a href="#cb31-23"></a>  )</span>
+<span id="cb31-24"><a href="#cb31-24"></a>)</span>
+<span id="cb31-25"><a href="#cb31-25"></a></span>
+<span id="cb31-26"><a href="#cb31-26"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb31-27"><a href="#cb31-27"></a>  <span class="fu">observe</span>({</span>
+<span id="cb31-28"><a href="#cb31-28"></a>    <span class="fu">updateSelectizeInput</span>(</span>
+<span id="cb31-29"><a href="#cb31-29"></a>      <span class="at">inputId =</span> <span class="st">"country"</span>,</span>
+<span id="cb31-30"><a href="#cb31-30"></a>      <span class="at">choices =</span> regions[input<span class="sc">$</span>region]</span>
+<span id="cb31-31"><a href="#cb31-31"></a>    )</span>
+<span id="cb31-32"><a href="#cb31-32"></a>  }) <span class="sc">%&gt;%</span></span>
+<span id="cb31-33"><a href="#cb31-33"></a>    <span class="fu">bindEvent</span>(input<span class="sc">$</span>button)</span>
+<span id="cb31-34"><a href="#cb31-34"></a>}</span>
+<span id="cb31-35"><a href="#cb31-35"></a></span>
+<span id="cb31-36"><a href="#cb31-36"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 2.3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The (admittedly quite useless) Shiny app below implements two buttons, each of which adds 1 to either tab A or tab B. Right now, to see the result in either tab, you would need to manually click on the tabs. Change the app such that changing button A or B automatically opens the corresponding tab.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb32-2"><a href="#cb32-2"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb32-3"><a href="#cb32-3"></a>    <span class="at">id =</span> <span class="st">"tabset_panel"</span>,</span>
+<span id="cb32-4"><a href="#cb32-4"></a>    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb32-5"><a href="#cb32-5"></a>      <span class="fu">actionButton</span>(<span class="st">"button_a"</span>, <span class="st">"Add to A"</span>),</span>
+<span id="cb32-6"><a href="#cb32-6"></a>      <span class="fu">br</span>(),</span>
+<span id="cb32-7"><a href="#cb32-7"></a>      <span class="fu">actionButton</span>(<span class="st">"button_b"</span>, <span class="st">"Add to B"</span>)</span>
+<span id="cb32-8"><a href="#cb32-8"></a>    ),</span>
+<span id="cb32-9"><a href="#cb32-9"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb32-10"><a href="#cb32-10"></a>      <span class="fu">tabsetPanel</span>(</span>
+<span id="cb32-11"><a href="#cb32-11"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb32-12"><a href="#cb32-12"></a>          <span class="at">title =</span> <span class="st">"Tab A"</span>,</span>
+<span id="cb32-13"><a href="#cb32-13"></a>          <span class="fu">verbatimTextOutput</span>(<span class="st">"tab_a"</span>)</span>
+<span id="cb32-14"><a href="#cb32-14"></a>        ),</span>
+<span id="cb32-15"><a href="#cb32-15"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb32-16"><a href="#cb32-16"></a>          <span class="at">title =</span> <span class="st">"Tab B"</span>,</span>
+<span id="cb32-17"><a href="#cb32-17"></a>          <span class="fu">verbatimTextOutput</span>(<span class="st">"tab_b"</span>)</span>
+<span id="cb32-18"><a href="#cb32-18"></a>        )</span>
+<span id="cb32-19"><a href="#cb32-19"></a>      )</span>
+<span id="cb32-20"><a href="#cb32-20"></a>    )</span>
+<span id="cb32-21"><a href="#cb32-21"></a>  )</span>
+<span id="cb32-22"><a href="#cb32-22"></a>)</span>
+<span id="cb32-23"><a href="#cb32-23"></a></span>
+<span id="cb32-24"><a href="#cb32-24"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb32-25"><a href="#cb32-25"></a>  output<span class="sc">$</span>tab_a <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>(<span class="fu">as.vector</span>(input<span class="sc">$</span>button_a))</span>
+<span id="cb32-26"><a href="#cb32-26"></a>  output<span class="sc">$</span>tab_b <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>(<span class="fu">as.vector</span>(input<span class="sc">$</span>button_b))</span>
+<span id="cb32-27"><a href="#cb32-27"></a>}</span>
+<span id="cb32-28"><a href="#cb32-28"></a></span>
+<span id="cb32-29"><a href="#cb32-29"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The function that you need to update a tabset panel is called <code>updateTabsetPanel()</code>. It requires the ID assigned to <code>tabsetPanel()</code>.</p>
+<p>While there are technically many ways to solve this task, the most obvious one at this point requires two observers. If you want to implement the solution using only a single observer, consider using super assignment (see <code>?"&lt;&lt;-"</code> or <a href="https://adv-r.hadley.nz/environments.html#super-assignment--">here</a>).</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution 2.3
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>In the server function, I add two observers. The first only triggers when <code>tab_a</code> is pressed, the second one when <code>tab_b</code> is pressed. Within each observer, the tabset panel is updated using <code>updateTabsetPanel()</code>. <code>inputId</code> takes <code>"tabset_panel"</code>, the ID assigned to <code>tabsetPanel()</code> in the UI. <code>selected</code> takes the label of the tab that should be selected.</p>
+<p>It is also possible to implement a solution with only a single observer, but this is much trickier. The code chunk below implements such a solution using the super assignment operator <code>&lt;&lt;-</code>. Since reactive expressions are technically functions, you can use <code>&lt;&lt;-</code> to conveniently store non-reactive values in the session.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb33-2"><a href="#cb33-2"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb33-3"><a href="#cb33-3"></a>    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb33-4"><a href="#cb33-4"></a>      <span class="fu">actionButton</span>(<span class="st">"button_a"</span>, <span class="st">"Add to A"</span>),</span>
+<span id="cb33-5"><a href="#cb33-5"></a>      <span class="fu">br</span>(),</span>
+<span id="cb33-6"><a href="#cb33-6"></a>      <span class="fu">actionButton</span>(<span class="st">"button_b"</span>, <span class="st">"Add to B"</span>)</span>
+<span id="cb33-7"><a href="#cb33-7"></a>    ),</span>
+<span id="cb33-8"><a href="#cb33-8"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb33-9"><a href="#cb33-9"></a>      <span class="fu">tabsetPanel</span>(</span>
+<span id="cb33-10"><a href="#cb33-10"></a>        <span class="at">id =</span> <span class="st">"tabset_panel"</span>,</span>
+<span id="cb33-11"><a href="#cb33-11"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb33-12"><a href="#cb33-12"></a>          <span class="at">title =</span> <span class="st">"Tab A"</span>,</span>
+<span id="cb33-13"><a href="#cb33-13"></a>          <span class="fu">verbatimTextOutput</span>(<span class="st">"tab_a"</span>)</span>
+<span id="cb33-14"><a href="#cb33-14"></a>        ),</span>
+<span id="cb33-15"><a href="#cb33-15"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb33-16"><a href="#cb33-16"></a>          <span class="at">title =</span> <span class="st">"Tab B"</span>,</span>
+<span id="cb33-17"><a href="#cb33-17"></a>          <span class="fu">verbatimTextOutput</span>(<span class="st">"tab_b"</span>)</span>
+<span id="cb33-18"><a href="#cb33-18"></a>        )</span>
+<span id="cb33-19"><a href="#cb33-19"></a>      )</span>
+<span id="cb33-20"><a href="#cb33-20"></a>    )</span>
+<span id="cb33-21"><a href="#cb33-21"></a>  )</span>
+<span id="cb33-22"><a href="#cb33-22"></a>)</span>
+<span id="cb33-23"><a href="#cb33-23"></a></span>
+<span id="cb33-24"><a href="#cb33-24"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb33-25"><a href="#cb33-25"></a>  output<span class="sc">$</span>tab_a <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>(<span class="fu">as.vector</span>(input<span class="sc">$</span>button_a))</span>
+<span id="cb33-26"><a href="#cb33-26"></a>  output<span class="sc">$</span>tab_b <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>(<span class="fu">as.vector</span>(input<span class="sc">$</span>button_b))</span>
+<span id="cb33-27"><a href="#cb33-27"></a>  </span>
+<span id="cb33-28"><a href="#cb33-28"></a>  <span class="fu">observe</span>({</span>
+<span id="cb33-29"><a href="#cb33-29"></a>    <span class="fu">updateTabsetPanel</span>(<span class="at">inputId =</span> <span class="st">"tabset_panel"</span>, <span class="at">selected =</span> <span class="st">"Tab A"</span>)</span>
+<span id="cb33-30"><a href="#cb33-30"></a>  }) <span class="sc">%&gt;%</span></span>
+<span id="cb33-31"><a href="#cb33-31"></a>    <span class="fu">bindEvent</span>(input<span class="sc">$</span>button_a)</span>
+<span id="cb33-32"><a href="#cb33-32"></a>  </span>
+<span id="cb33-33"><a href="#cb33-33"></a>  <span class="fu">observe</span>({</span>
+<span id="cb33-34"><a href="#cb33-34"></a>    <span class="fu">updateTabsetPanel</span>(<span class="at">inputId =</span> <span class="st">"tabset_panel"</span>, <span class="at">selected =</span> <span class="st">"Tab B"</span>)</span>
+<span id="cb33-35"><a href="#cb33-35"></a>  }) <span class="sc">%&gt;%</span></span>
+<span id="cb33-36"><a href="#cb33-36"></a>    <span class="fu">bindEvent</span>(input<span class="sc">$</span>button_b)</span>
+<span id="cb33-37"><a href="#cb33-37"></a>}</span>
+<span id="cb33-38"><a href="#cb33-38"></a></span>
+<span id="cb33-39"><a href="#cb33-39"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Alternative solution</summary>
+<div class="sourceCode cell-code" id="cb34" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb34-2"><a href="#cb34-2"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb34-3"><a href="#cb34-3"></a>    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb34-4"><a href="#cb34-4"></a>      <span class="fu">actionButton</span>(<span class="st">"button_a"</span>, <span class="st">"Add to A"</span>),</span>
+<span id="cb34-5"><a href="#cb34-5"></a>      <span class="fu">br</span>(),</span>
+<span id="cb34-6"><a href="#cb34-6"></a>      <span class="fu">actionButton</span>(<span class="st">"button_b"</span>, <span class="st">"Add to B"</span>)</span>
+<span id="cb34-7"><a href="#cb34-7"></a>    ),</span>
+<span id="cb34-8"><a href="#cb34-8"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb34-9"><a href="#cb34-9"></a>      <span class="fu">tabsetPanel</span>(</span>
+<span id="cb34-10"><a href="#cb34-10"></a>        <span class="at">id =</span> <span class="st">"tabset_panel"</span>,</span>
+<span id="cb34-11"><a href="#cb34-11"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb34-12"><a href="#cb34-12"></a>          <span class="at">title =</span> <span class="st">"Tab A"</span>,</span>
+<span id="cb34-13"><a href="#cb34-13"></a>          <span class="fu">verbatimTextOutput</span>(<span class="st">"tab_a"</span>)</span>
+<span id="cb34-14"><a href="#cb34-14"></a>        ),</span>
+<span id="cb34-15"><a href="#cb34-15"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb34-16"><a href="#cb34-16"></a>          <span class="at">title =</span> <span class="st">"Tab B"</span>,</span>
+<span id="cb34-17"><a href="#cb34-17"></a>          <span class="fu">verbatimTextOutput</span>(<span class="st">"tab_b"</span>)</span>
+<span id="cb34-18"><a href="#cb34-18"></a>        )</span>
+<span id="cb34-19"><a href="#cb34-19"></a>      )</span>
+<span id="cb34-20"><a href="#cb34-20"></a>    )</span>
+<span id="cb34-21"><a href="#cb34-21"></a>  )</span>
+<span id="cb34-22"><a href="#cb34-22"></a>)</span>
+<span id="cb34-23"><a href="#cb34-23"></a></span>
+<span id="cb34-24"><a href="#cb34-24"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb34-25"><a href="#cb34-25"></a>  output<span class="sc">$</span>tab_a <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>(<span class="fu">as.vector</span>(input<span class="sc">$</span>button_a))</span>
+<span id="cb34-26"><a href="#cb34-26"></a>  output<span class="sc">$</span>tab_b <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>(<span class="fu">as.vector</span>(input<span class="sc">$</span>button_b))</span>
+<span id="cb34-27"><a href="#cb34-27"></a>  </span>
+<span id="cb34-28"><a href="#cb34-28"></a>  last_a <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb34-29"><a href="#cb34-29"></a>  last_b <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb34-30"><a href="#cb34-30"></a>  <span class="fu">observe</span>({</span>
+<span id="cb34-31"><a href="#cb34-31"></a>    button_a <span class="ot">&lt;-</span> input<span class="sc">$</span>button_a</span>
+<span id="cb34-32"><a href="#cb34-32"></a>    button_b <span class="ot">&lt;-</span> input<span class="sc">$</span>button_b</span>
+<span id="cb34-33"><a href="#cb34-33"></a>    <span class="cf">if</span> (button_a <span class="sc">!=</span> last_a) {</span>
+<span id="cb34-34"><a href="#cb34-34"></a>      last_a <span class="ot">&lt;&lt;-</span> button_a</span>
+<span id="cb34-35"><a href="#cb34-35"></a>      sel <span class="ot">&lt;-</span> <span class="st">"Tab A"</span></span>
+<span id="cb34-36"><a href="#cb34-36"></a>    } <span class="cf">else</span> <span class="cf">if</span> (button_b <span class="sc">!=</span> last_b) {</span>
+<span id="cb34-37"><a href="#cb34-37"></a>      last_b <span class="ot">&lt;&lt;-</span> button_b</span>
+<span id="cb34-38"><a href="#cb34-38"></a>      sel <span class="ot">&lt;-</span> <span class="st">"Tab B"</span></span>
+<span id="cb34-39"><a href="#cb34-39"></a>    } <span class="cf">else</span> {</span>
+<span id="cb34-40"><a href="#cb34-40"></a>      <span class="fu">return</span>()</span>
+<span id="cb34-41"><a href="#cb34-41"></a>    }</span>
+<span id="cb34-42"><a href="#cb34-42"></a>    </span>
+<span id="cb34-43"><a href="#cb34-43"></a>    <span class="fu">updateTabsetPanel</span>(<span class="at">inputId =</span> <span class="st">"tabset_panel"</span>, <span class="at">selected =</span> sel)</span>
+<span id="cb34-44"><a href="#cb34-44"></a>  })</span>
+<span id="cb34-45"><a href="#cb34-45"></a>}</span>
+<span id="cb34-46"><a href="#cb34-46"></a></span>
+<span id="cb34-47"><a href="#cb34-47"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="truthiness-and-validation" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="truthiness-and-validation"><span class="header-section-number">8.3</span> Truthiness and validation</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 3.1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Shiny app below implements three features: - A numeric input that lets you select a number to compute the natural logarithm of - A file input that lets you read and print an R object from a file - An input selection that shows you an emoji depending on the selected value</p>
+<p>At its current state, the app does not go out of its way to check the input for correctness. What problems could this cause in the usage of the app? How can these problems be prevented? Implement an input validation that catches potential problems before they occur and gives appropriate feedback to the user.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb35-2"><a href="#cb35-2"></a>  <span class="fu">fluidRow</span>(</span>
+<span id="cb35-3"><a href="#cb35-3"></a>    <span class="fu">column</span>(</span>
+<span id="cb35-4"><a href="#cb35-4"></a>      <span class="dv">4</span>,</span>
+<span id="cb35-5"><a href="#cb35-5"></a>      <span class="fu">numericInput</span>(</span>
+<span id="cb35-6"><a href="#cb35-6"></a>        <span class="st">"number"</span>,</span>
+<span id="cb35-7"><a href="#cb35-7"></a>        <span class="at">label =</span> <span class="st">"Select a number to compute the natural log of"</span>,</span>
+<span id="cb35-8"><a href="#cb35-8"></a>        <span class="at">value =</span> <span class="dv">3</span></span>
+<span id="cb35-9"><a href="#cb35-9"></a>      )</span>
+<span id="cb35-10"><a href="#cb35-10"></a>    ),</span>
+<span id="cb35-11"><a href="#cb35-11"></a>    <span class="fu">column</span>(</span>
+<span id="cb35-12"><a href="#cb35-12"></a>      <span class="dv">4</span>,</span>
+<span id="cb35-13"><a href="#cb35-13"></a>      <span class="fu">verbatimTextOutput</span>(<span class="st">"number_result"</span>)</span>
+<span id="cb35-14"><a href="#cb35-14"></a>    )</span>
+<span id="cb35-15"><a href="#cb35-15"></a>  ),</span>
+<span id="cb35-16"><a href="#cb35-16"></a>  </span>
+<span id="cb35-17"><a href="#cb35-17"></a>  <span class="fu">fluidRow</span>(</span>
+<span id="cb35-18"><a href="#cb35-18"></a>    <span class="fu">column</span>(</span>
+<span id="cb35-19"><a href="#cb35-19"></a>      <span class="dv">4</span>,</span>
+<span id="cb35-20"><a href="#cb35-20"></a>      <span class="fu">fileInput</span>(</span>
+<span id="cb35-21"><a href="#cb35-21"></a>        <span class="st">"file"</span>,</span>
+<span id="cb35-22"><a href="#cb35-22"></a>        <span class="at">label =</span> <span class="st">"Select an RDS file"</span></span>
+<span id="cb35-23"><a href="#cb35-23"></a>      )</span>
+<span id="cb35-24"><a href="#cb35-24"></a>    ),</span>
+<span id="cb35-25"><a href="#cb35-25"></a>    <span class="fu">column</span>(</span>
+<span id="cb35-26"><a href="#cb35-26"></a>      <span class="dv">4</span>,</span>
+<span id="cb35-27"><a href="#cb35-27"></a>      <span class="fu">verbatimTextOutput</span>(<span class="st">"file_result"</span>)</span>
+<span id="cb35-28"><a href="#cb35-28"></a>    )</span>
+<span id="cb35-29"><a href="#cb35-29"></a>  ),</span>
+<span id="cb35-30"><a href="#cb35-30"></a>  </span>
+<span id="cb35-31"><a href="#cb35-31"></a>  <span class="fu">fluidRow</span>(</span>
+<span id="cb35-32"><a href="#cb35-32"></a>    <span class="fu">column</span>(</span>
+<span id="cb35-33"><a href="#cb35-33"></a>      <span class="dv">4</span>,</span>
+<span id="cb35-34"><a href="#cb35-34"></a>      <span class="fu">selectInput</span>(</span>
+<span id="cb35-35"><a href="#cb35-35"></a>        <span class="st">"animal"</span>,</span>
+<span id="cb35-36"><a href="#cb35-36"></a>        <span class="at">label =</span> <span class="st">"Select an animal"</span>,</span>
+<span id="cb35-37"><a href="#cb35-37"></a>        <span class="at">choices =</span> <span class="fu">c</span>(<span class="st">"dog"</span>, <span class="st">"cat"</span>, <span class="st">"mouse"</span>),</span>
+<span id="cb35-38"><a href="#cb35-38"></a>        <span class="at">selected =</span> <span class="st">"mouse"</span>,</span>
+<span id="cb35-39"><a href="#cb35-39"></a>        <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
+<span id="cb35-40"><a href="#cb35-40"></a>      )</span>
+<span id="cb35-41"><a href="#cb35-41"></a>    ),</span>
+<span id="cb35-42"><a href="#cb35-42"></a>    <span class="fu">column</span>(</span>
+<span id="cb35-43"><a href="#cb35-43"></a>      <span class="dv">4</span>,</span>
+<span id="cb35-44"><a href="#cb35-44"></a>      <span class="fu">htmlOutput</span>(<span class="st">"animal_result"</span>)</span>
+<span id="cb35-45"><a href="#cb35-45"></a>    )</span>
+<span id="cb35-46"><a href="#cb35-46"></a>  )</span>
+<span id="cb35-47"><a href="#cb35-47"></a>)</span>
+<span id="cb35-48"><a href="#cb35-48"></a></span>
+<span id="cb35-49"><a href="#cb35-49"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb35-50"><a href="#cb35-50"></a>  output<span class="sc">$</span>number_result <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>({</span>
+<span id="cb35-51"><a href="#cb35-51"></a>    lg <span class="ot">&lt;-</span> <span class="fu">log</span>(input<span class="sc">$</span>number)</span>
+<span id="cb35-52"><a href="#cb35-52"></a>    <span class="fu">paste0</span>(<span class="st">"Natural logarithm:</span><span class="sc">\n</span><span class="st">"</span>, lg)</span>
+<span id="cb35-53"><a href="#cb35-53"></a>  })</span>
+<span id="cb35-54"><a href="#cb35-54"></a>  </span>
+<span id="cb35-55"><a href="#cb35-55"></a>  output<span class="sc">$</span>file_result <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>({</span>
+<span id="cb35-56"><a href="#cb35-56"></a>    <span class="fu">readRDS</span>(input<span class="sc">$</span>file)</span>
+<span id="cb35-57"><a href="#cb35-57"></a>  })</span>
+<span id="cb35-58"><a href="#cb35-58"></a>  </span>
+<span id="cb35-59"><a href="#cb35-59"></a>  output<span class="sc">$</span>animal_result <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
+<span id="cb35-60"><a href="#cb35-60"></a>    url <span class="ot">&lt;-</span> <span class="cf">switch</span>(</span>
+<span id="cb35-61"><a href="#cb35-61"></a>      input<span class="sc">$</span>animal,</span>
+<span id="cb35-62"><a href="#cb35-62"></a>      <span class="at">dog =</span> <span class="st">"https://images.emojiterra.com/google/noto-emoji/unicode-15.1/color/svg/1f415.svg"</span>,</span>
+<span id="cb35-63"><a href="#cb35-63"></a>      <span class="at">cat =</span> <span class="st">"https://images.emojiterra.com/google/noto-emoji/unicode-15.1/color/svg/1f408.svg"</span>,</span>
+<span id="cb35-64"><a href="#cb35-64"></a>      <span class="at">mouse =</span> <span class="st">"https://images.emojiterra.com/google/noto-emoji/unicode-15.1/color/svg/1f401.svg"</span></span>
+<span id="cb35-65"><a href="#cb35-65"></a>    )</span>
+<span id="cb35-66"><a href="#cb35-66"></a>    <span class="fu">img</span>(<span class="at">src =</span> url, <span class="at">width =</span> <span class="st">"30%"</span>)</span>
+<span id="cb35-67"><a href="#cb35-67"></a>  })</span>
+<span id="cb35-68"><a href="#cb35-68"></a>}</span>
+<span id="cb35-69"><a href="#cb35-69"></a></span>
+<span id="cb35-70"><a href="#cb35-70"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Experiment with the app to find out ways the app could fail or produce an undesirable result. An undesirable result can be an error, but it can also be an unexpected value like <code>NA</code>.</p>
+<p>The <code>validate()</code> function can take an arbitrary amount of <code>need()</code>s to check for multiple conditions.</p>
+<p>If one condition needs to be checked before the other conditions, you can wrap it in a separate call to <code>validate()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="fu">validate</span>(<span class="fu">need</span>(<span class="cn">TRUE</span>, <span class="st">"Necessary first condition"</span>))</span>
+<span id="cb36-2"><a href="#cb36-2"></a></span>
+<span id="cb36-3"><a href="#cb36-3"></a><span class="fu">validate</span>(</span>
+<span id="cb36-4"><a href="#cb36-4"></a>  <span class="fu">need</span>(<span class="cn">TRUE</span>, <span class="st">"all"</span>),</span>
+<span id="cb36-5"><a href="#cb36-5"></a>  <span class="fu">need</span>(<span class="cn">TRUE</span>, <span class="st">"the"</span>),</span>
+<span id="cb36-6"><a href="#cb36-6"></a>  <span class="fu">need</span>(<span class="cn">TRUE</span>, <span class="st">"other"</span>),</span>
+<span id="cb36-7"><a href="#cb36-7"></a>  <span class="fu">need</span>(<span class="cn">TRUE</span>, <span class="st">"conditions"</span>)</span>
+<span id="cb36-8"><a href="#cb36-8"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution 2.3
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>One problem with the app can be observed directly upon starting the app: The default value of <code>input$file</code> (which is <code>NULL</code>) cannot be read by <code>readRDS()</code>: Shiny issues an error. Similar behavior can be seen when selecting a non-natural number of when selecting multiple animals.</p>
+<p>A possible solution to this problem is to use <code>validate()</code> to check the input before processing it. The following code chunk implements several checks: - For <code>numericInput()</code>, it checks whether the selected number is larger than 0. - For <code>fileInput()</code>, it first checks whether the file is <code>NULL</code>. If not, it proceeds to check if the file exists and if it ends on <code>.rds</code>. - For <code>selectInput()</code>, it checks whether at least one, but not two or more animals are selected.</p>
+<div class="cell" data-source-line-numbers="52-54,61-65,72-75">
+<details class="code-fold">
+<summary>Alternative solution</summary>
+<div class="sourceCode cell-code" id="cb37" data-source-line-numbers="52-54,61-65,72-75" data-code-line-numbers="52-54,61-65,72-75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb37-2"><a href="#cb37-2"></a>  <span class="fu">fluidRow</span>(</span>
+<span id="cb37-3"><a href="#cb37-3"></a>    <span class="fu">column</span>(</span>
+<span id="cb37-4"><a href="#cb37-4"></a>      <span class="dv">4</span>,</span>
+<span id="cb37-5"><a href="#cb37-5"></a>      <span class="fu">numericInput</span>(</span>
+<span id="cb37-6"><a href="#cb37-6"></a>        <span class="st">"number"</span>,</span>
+<span id="cb37-7"><a href="#cb37-7"></a>        <span class="at">label =</span> <span class="st">"Select a number to compute the natural log of"</span>,</span>
+<span id="cb37-8"><a href="#cb37-8"></a>        <span class="at">value =</span> <span class="dv">3</span></span>
+<span id="cb37-9"><a href="#cb37-9"></a>      )</span>
+<span id="cb37-10"><a href="#cb37-10"></a>    ),</span>
+<span id="cb37-11"><a href="#cb37-11"></a>    <span class="fu">column</span>(</span>
+<span id="cb37-12"><a href="#cb37-12"></a>      <span class="dv">4</span>,</span>
+<span id="cb37-13"><a href="#cb37-13"></a>      <span class="fu">verbatimTextOutput</span>(<span class="st">"number_result"</span>)</span>
+<span id="cb37-14"><a href="#cb37-14"></a>    )</span>
+<span id="cb37-15"><a href="#cb37-15"></a>  ),</span>
+<span id="cb37-16"><a href="#cb37-16"></a>  </span>
+<span id="cb37-17"><a href="#cb37-17"></a>  <span class="fu">fluidRow</span>(</span>
+<span id="cb37-18"><a href="#cb37-18"></a>    <span class="fu">column</span>(</span>
+<span id="cb37-19"><a href="#cb37-19"></a>      <span class="dv">4</span>,</span>
+<span id="cb37-20"><a href="#cb37-20"></a>      <span class="fu">fileInput</span>(</span>
+<span id="cb37-21"><a href="#cb37-21"></a>        <span class="st">"file"</span>,</span>
+<span id="cb37-22"><a href="#cb37-22"></a>        <span class="at">label =</span> <span class="st">"Select an RDS file"</span></span>
+<span id="cb37-23"><a href="#cb37-23"></a>      )</span>
+<span id="cb37-24"><a href="#cb37-24"></a>    ),</span>
+<span id="cb37-25"><a href="#cb37-25"></a>    <span class="fu">column</span>(</span>
+<span id="cb37-26"><a href="#cb37-26"></a>      <span class="dv">4</span>,</span>
+<span id="cb37-27"><a href="#cb37-27"></a>      <span class="fu">verbatimTextOutput</span>(<span class="st">"file_result"</span>)</span>
+<span id="cb37-28"><a href="#cb37-28"></a>    )</span>
+<span id="cb37-29"><a href="#cb37-29"></a>  ),</span>
+<span id="cb37-30"><a href="#cb37-30"></a>  </span>
+<span id="cb37-31"><a href="#cb37-31"></a>  <span class="fu">fluidRow</span>(</span>
+<span id="cb37-32"><a href="#cb37-32"></a>    <span class="fu">column</span>(</span>
+<span id="cb37-33"><a href="#cb37-33"></a>      <span class="dv">4</span>,</span>
+<span id="cb37-34"><a href="#cb37-34"></a>      <span class="fu">selectInput</span>(</span>
+<span id="cb37-35"><a href="#cb37-35"></a>        <span class="st">"animal"</span>,</span>
+<span id="cb37-36"><a href="#cb37-36"></a>        <span class="at">label =</span> <span class="st">"Select an animal"</span>,</span>
+<span id="cb37-37"><a href="#cb37-37"></a>        <span class="at">choices =</span> <span class="fu">c</span>(<span class="st">"dog"</span>, <span class="st">"cat"</span>, <span class="st">"mouse"</span>),</span>
+<span id="cb37-38"><a href="#cb37-38"></a>        <span class="at">selected =</span> <span class="st">"mouse"</span>,</span>
+<span id="cb37-39"><a href="#cb37-39"></a>        <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
+<span id="cb37-40"><a href="#cb37-40"></a>      )</span>
+<span id="cb37-41"><a href="#cb37-41"></a>    ),</span>
+<span id="cb37-42"><a href="#cb37-42"></a>    <span class="fu">column</span>(</span>
+<span id="cb37-43"><a href="#cb37-43"></a>      <span class="dv">4</span>,</span>
+<span id="cb37-44"><a href="#cb37-44"></a>      <span class="fu">htmlOutput</span>(<span class="st">"animal_result"</span>)</span>
+<span id="cb37-45"><a href="#cb37-45"></a>    )</span>
+<span id="cb37-46"><a href="#cb37-46"></a>  )</span>
+<span id="cb37-47"><a href="#cb37-47"></a>)</span>
+<span id="cb37-48"><a href="#cb37-48"></a></span>
+<span id="cb37-49"><a href="#cb37-49"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb37-50"><a href="#cb37-50"></a>  output<span class="sc">$</span>number_result <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>({</span>
+<span id="cb37-51"><a href="#cb37-51"></a>    number <span class="ot">&lt;-</span> input<span class="sc">$</span>number</span>
+<span id="cb37-52"><a href="#cb37-52"></a>    <span class="fu">validate</span>(</span>
+<span id="cb37-53"><a href="#cb37-53"></a>      <span class="fu">need</span>(number <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"Input must be a natural number."</span>)</span>
+<span id="cb37-54"><a href="#cb37-54"></a>    )</span>
+<span id="cb37-55"><a href="#cb37-55"></a>    </span>
+<span id="cb37-56"><a href="#cb37-56"></a>    <span class="fu">log</span>(number)</span>
+<span id="cb37-57"><a href="#cb37-57"></a>  })</span>
+<span id="cb37-58"><a href="#cb37-58"></a>  </span>
+<span id="cb37-59"><a href="#cb37-59"></a>  output<span class="sc">$</span>file_result <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>({</span>
+<span id="cb37-60"><a href="#cb37-60"></a>    file <span class="ot">&lt;-</span> input<span class="sc">$</span>file<span class="sc">$</span>datapath</span>
+<span id="cb37-61"><a href="#cb37-61"></a>    <span class="fu">validate</span>(<span class="fu">need</span>(<span class="sc">!</span><span class="fu">is.null</span>(file), <span class="st">"Please select an RDS file"</span>))</span>
+<span id="cb37-62"><a href="#cb37-62"></a>    <span class="fu">validate</span>(</span>
+<span id="cb37-63"><a href="#cb37-63"></a>      <span class="fu">need</span>(<span class="fu">file.exists</span>(file), <span class="st">"Input file must exist"</span>),</span>
+<span id="cb37-64"><a href="#cb37-64"></a>      <span class="fu">need</span>(<span class="fu">grepl</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">.rds$"</span>, file), <span class="st">"Input file must be .rds"</span>)</span>
+<span id="cb37-65"><a href="#cb37-65"></a>    )</span>
+<span id="cb37-66"><a href="#cb37-66"></a>    </span>
+<span id="cb37-67"><a href="#cb37-67"></a>    <span class="fu">readRDS</span>(file)</span>
+<span id="cb37-68"><a href="#cb37-68"></a>  })</span>
+<span id="cb37-69"><a href="#cb37-69"></a>  </span>
+<span id="cb37-70"><a href="#cb37-70"></a>  output<span class="sc">$</span>animal_result <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
+<span id="cb37-71"><a href="#cb37-71"></a>    animal <span class="ot">&lt;-</span> input<span class="sc">$</span>animal</span>
+<span id="cb37-72"><a href="#cb37-72"></a>    <span class="fu">validate</span>(</span>
+<span id="cb37-73"><a href="#cb37-73"></a>      <span class="fu">need</span>(<span class="fu">length</span>(animal) <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"Please select an animal."</span>),</span>
+<span id="cb37-74"><a href="#cb37-74"></a>      <span class="fu">need</span>(<span class="fu">length</span>(animal) <span class="sc">&lt;</span> <span class="dv">2</span>, <span class="st">"Please select a maximum of one animal."</span>)</span>
+<span id="cb37-75"><a href="#cb37-75"></a>    )</span>
+<span id="cb37-76"><a href="#cb37-76"></a>    </span>
+<span id="cb37-77"><a href="#cb37-77"></a>    url <span class="ot">&lt;-</span> <span class="cf">switch</span>(</span>
+<span id="cb37-78"><a href="#cb37-78"></a>      animal,</span>
+<span id="cb37-79"><a href="#cb37-79"></a>      <span class="at">dog =</span> <span class="st">"https://images.emojiterra.com/google/noto-emoji/unicode-15.1/color/svg/1f415.svg"</span>,</span>
+<span id="cb37-80"><a href="#cb37-80"></a>      <span class="at">cat =</span> <span class="st">"https://images.emojiterra.com/google/noto-emoji/unicode-15.1/color/svg/1f408.svg"</span>,</span>
+<span id="cb37-81"><a href="#cb37-81"></a>      <span class="at">mouse =</span> <span class="st">"https://images.emojiterra.com/google/noto-emoji/unicode-15.1/color/svg/1f401.svg"</span></span>
+<span id="cb37-82"><a href="#cb37-82"></a>    )</span>
+<span id="cb37-83"><a href="#cb37-83"></a>    <span class="fu">img</span>(<span class="at">src =</span> url, <span class="at">width =</span> <span class="st">"30%"</span>)</span>
+<span id="cb37-84"><a href="#cb37-84"></a>  })</span>
+<span id="cb37-85"><a href="#cb37-85"></a>}</span>
+<span id="cb37-86"><a href="#cb37-86"></a></span>
+<span id="cb37-87"><a href="#cb37-87"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1668,7 +2513,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1700,32 +2556,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-<<<<<<< HEAD
-=======
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
->>>>>>> 18354eac51cd4cac26bc8d0a34753f9668329a18
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/bookdown\.org\/paul\/shiny_workshop\/");
@@ -1733,11 +2564,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
-<<<<<<< HEAD
  	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
-=======
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
->>>>>>> 18354eac51cd4cac26bc8d0a34753f9668329a18
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
