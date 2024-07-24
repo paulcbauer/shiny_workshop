@@ -49,7 +49,7 @@ shinyApp(ui, server)
 - `server` more complicated because every user needs independent version of the app
   - e.g., Julia using slider should not affect Petra's ui!
 - `server()` is invoked each time new session starts
-  - 3 parameters (`input`, `output`, `session`) that are created by Shiny (not by us!) when session starts  connecting to specific session
+  - 3 parameters (`input`, `output`, `session`) that are created by Shiny (not by us!) when user starts  connecting to specific session
 
 
 
