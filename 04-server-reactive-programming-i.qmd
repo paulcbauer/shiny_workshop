@@ -36,7 +36,7 @@ library(shiny)
 # front end interface (Html)
 ui <- fluidPage() # <1>
 
-# back end logic
+# backend logic
 server <- function(input, output, session) {} # <2>
 
 shinyApp(ui, server)
@@ -55,13 +55,14 @@ shinyApp(ui, server)
 
 ## Input & output (lists)
 - `input`: a list-like object that contains all the **input data sent from the browser**, named according to the **input ID**
-  - e.g., `numericInput("count", label = "Number of values", value = 100)` generates `input$count`
+  - e.g., `numericInput("count", label = "Number of values", value = 100)` generates element `input$count`
   - `input` can only be read from within reactive contexts created by a **reactive functions** like `renderText()` or `reactive()`
     - **reactive functions** allow for outputs to automatically update when an input changes
 
 - `output`: a list-like object containing outputs named according to `output ID`
-  - **Difference**: `output` list used for sending output instead of receiving input through `input` list (always in concert with **render function** as below)
-  - Q: How many inputs/outputs/render functions are there in the code below? What does it do?
+  - **Difference**: `output` list used for sending output instead of receiving input through `input` list (always in concert with a **render function**)
+
+- *Q: How many inputs/outputs/render functions are there in the code below? What does it do?*
   
 ```{r 04-server-reactive-programming-3, echo=TRUE, eval=FALSE}
 #| code-fold: true
@@ -88,7 +89,7 @@ shinyApp(ui, server)
 ## Render functions
 
 - **render functions**, located in `server`, wrap generated outputs and correspond to the type or reactive output
-  - resulting values are stored in `output$...` list
+  - resulting values are stored in the `output$...` list
 - Q: What do you think are the following render functions used for? (e.g., )
   - `renderImage({...})`
   - `renderPlot({...})`
@@ -140,16 +141,16 @@ shinyApp(ui, server)
 
 - Shiny performs the `renderText()` action every time we update `input$name` (automatically!)
 - **reactive** refers to any expression that automatically updates itself when its dependencies change
-- **Important**: Code informs Shiny how it could create the string if it needs to, but it's up to Shiny when (and even if!) the code should be run
+- **Important**: Code within `renderText({})` informs Shiny how it could create the string if it needs to, but it's up to Shiny when (and even if!) the code should be run
 - **Recipe**: App provides Shiny with **recipe** (not commands) what to do with inputs
 
 
 
 ### The reactive graph
 - Usually R code can be read from top to bottom (= order of execution)... not in Shiny!
-- **Reactive graph**: describes how inputs and outputs are connected to understand order of execution
+- **Reactive graph**: describes how inputs/outputs are connected to understand order of execution
 - @fig-graph-simple describes app in @sec-name-app above.
-  - tells that `output$greeting` will need to be recomputed whenever `input$name` is changed
+  - says that `output$greeting` will need to be recomputed whenever `input$name` is changed
   - `greeting` has a reactive dependency on `name`
 
 ```{r 04-server-reactive-programming-5, echo = FALSE, out.width = NULL}
@@ -183,16 +184,18 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   string <- reactive(paste0("Hello ", input$name, "!"))
+  
   output$greeting <- renderText(string())
 }
 shinyApp(ui, server)
 ```
 
-- **Avoid duplication**
-  - Q: How does the code below avoid duplicating code?
+
+### Reactive expressions: May avoid duplications
+- *Q: How does the code below avoid duplicating code?*
 
 ```{r 04-server-reactive-programming-7-2, echo=TRUE, eval=FALSE}
-#| code-fold: true
+#| code-fold: false
 #| code-summary: "Show the code"
 ui <- fluidPage(
   textInput("name", "What's your name?"),
@@ -211,8 +214,8 @@ shinyApp(ui, server)
 
 ### Executation order
 - Order Shiny code is run is solely determined by reactive graph
-- Below we flip code in server function below
-  - Better **keep order for easier understanding**!
+- We can flip code as we want below..
+  - But better **keep order for easier understanding**!
 
 ```{r 04-server-reactive-programming-8-2, echo=TRUE, eval=FALSE}
 ui <- fluidPage(
@@ -229,7 +232,7 @@ shinyApp(ui, server)
 
 
 ### Exercises
-1. Can you spot errors in the code of the different servers `server1`, `server2` and `server3` below? 
+1. Below you find code for three different servers (`server1`, `server2` and `server3`). Can you spot errors the programmer made?
 
 ```{r 04-server-reactive-programming-9, echo=TRUE, eval=FALSE}
 # UI
@@ -264,8 +267,8 @@ server3 <- function(input, output, server) {
 
 #### Solution(s)
 
-* Server 1: Forgot to specify refer to list using `name` instead of `input$name`.
-* Server 2: Forgot to specify that greeting is a reactive using `greeting` intead to `greeting()` within `renderText()`.
+* Server 1: Forgot to specify that list and uses `name` instead of `input$name`.
+* Server 2: Forgot to specify that greeting is a reactive using `greeting` intead of `greeting()` within `renderText()`. Besides, `input$name` is not wrapped into a reactive function like `renderText()` or `reactive()`.
 * Server 3: Called the output that is stored in list `output` `greting` instead of `greeting`. Hence, it can not be found by the `textOutput()` function.
 
 
@@ -277,7 +280,7 @@ server3 <- function(input, output, server) {
 
 
 
-2.  Draw the reactive graph for the following three server functions (what are the inputs, reactives and ouputs):  (Homework: `server2` and `server3`!)
+2.  Using the same symbols as in @fig-graph-expression, please draw the reactive graphs for the following three server functions. Always start by making a list of all the contained inputs, reactives and ouputs.
 
 ::: {.callout-tip collapse="true"}
 Start by deciding **how many** and **which inputs (1)**, **reactives (2)** and **ouputs (3)** there are. Then start drawing with inputs represented in the first column on the left. You could use, e.g., `name>` for inputs, `>name>` for reactives and `>name` for outputs and arrows to connect them.
@@ -310,16 +313,7 @@ server3 <- function(input, output, session) {
 #### Solution(s)
 
 
-
-1. Can you spot errors in the code of the different `server1`, `server2` and `server3` below?
-  - `server1`: Forgot `input$`
-  - `server2`: `input$name` outside of `renderText()` function
-  - `server3`: Typo in `output$greting`
-
-<br><br><br>
-
-
-2.  Draw the reactive graph for the following three server functions ([Solution source](https://mastering-shiny-solutions.org/basic-reactivity.html#exercise-4.3.6.1)):
+* ([Solution source](https://mastering-shiny-solutions.org/basic-reactivity.html#exercise-4.3.6.1)):
 
 To create the reactive graph we need to consider the inputs, reactive
 expressions, and outputs of the app.
@@ -380,7 +374,6 @@ depends on both `c()` and `input$d`.
 - `reactive()`: wraps a normal expression to create a reactive expression
   - is "reactive" in the sense that if its dependencies change, it will automatically update.
   - Below reactive `string` changes whenever dependency `input$name` changes.
-  - Q: What would be the *reactive producer* and what the *reactive consumer*?
 
 
 ```r
@@ -405,9 +398,9 @@ shinyApp(ui, server)
   - make apps more efficient and easier for humans to understand (simplify reactive graph!)
 - Are like inputs since you can use results of a reactive expression in an output
 - Are like outputs since they depend on inputs and automatically know when they need updating
-- *Inputs* and *reactive expressions* are **reactive producers** (see @fig-prod-consumer)
-- *Reactive expressions* and *outputs* are **reactive consumers** (see @fig-prod-consumer)
-- In other words.. *reactive expressions* are both **producers** and **consumers**.
+- **Inputs** also called **Producers** (see @fig-prod-consumer)
+- **Outputs** also called **Consumers**
+- **Reactive expressions** are both **producers** and **consumers**.
 
 ```{r 04-server-reactive-programming-11, echo = FALSE, out.width = NULL}
 #| label: fig-prod-consumer
@@ -421,11 +414,8 @@ knitr::include_graphics("resources/producers-consumers.png", dpi = 300)
 
 
 
-## ESS app (reactivity): Tabulate data tab
-* Below the basic code underlying the Table tab of our app.
-  - What would the reactive graph look like for this app (how many inputs, reactives, outputs)?
-  - Which reactive functions can you identify?
-
+## ESS app (reactivity): Tabulate data tab exercise
+* Below you find the basic code underlying the Table tab of our app.
 
 
 ```{r eval=FALSE}
@@ -562,12 +552,31 @@ server <- function(input, output, session) {
 shinyApp(ui = ui, server = server)
 ```
 
-* Exercise: In an exercise in the previous chapter we used `renderDataTable()` and `dataTableOutput()` to create an interactive table for the data. Please try to replace the corresponding code lines in our so that we get an interactive table out of the box (Tipp: Since `renderDataTable()` does not like labelled datasets we have to zap them as follows: `filtered() %>% zap_labels()`).
+1. How many inputs, reactives and outputs can you identify (Tipp: Only keep the code of the server and search for `input$`,  `output$` and `reactive`)?
+2. What would the reactive graph look like for the app?
+3. In an exercise in the previous chapter we used `renderDataTable()` and `dataTableOutput()` to create an interactive table for the data. Please try to replace the corresponding code lines in our so that we get an interactive table out of the box (Tipp: Since `renderDataTable()` does not like labelled datasets we have to zap them as follows: `filtered() %>% zap_labels()`).
+
 
 
 ::: {.callout-warning collapse="true"}
 
 #### Solution
+
+1. 
+* Inputs: `input$xvar`, `input$yvar`, `input$countries`, `input$range`
+* Reactives: `filtered`
+* Outputs: `output$table`
+
+2. ...draw the reactive graph.
+
+* `xvar>` &rarr; `>filtered>`
+* `yvar>` &rarr; `>filtered>`
+* `countries>` &rarr; `>filtered>`
+* `range>` &rarr; `>filtered>`
+
+* `>filtered>` &rarr; `>table`
+
+3. Using `renderDataTable()` and `dataTableOutput()` instead of the standard table.
 
 ```{r eval=FALSE}
 library(tidyverse)
@@ -727,8 +736,11 @@ shinyApp(ui = ui, server = server)
 
 ![](resources/run-many-times.png)
 
-* Q: So where shall we put the function to load the datasets?
-* Q: What problem might occur if we place certain code wrongly ? Where would you place data management tasks?
+* Where shall we load datasets?
+* Where shall we load libraries?
+* Where shall we load manual functions?
+* What problem might occur if we place certain code wrongly ? Where would you place data management tasks?
+* Where should we place code that is affected by widget choices?
 
 ::: {.callout-warning collapse="true"}
 
