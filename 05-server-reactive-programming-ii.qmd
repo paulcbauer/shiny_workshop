@@ -146,7 +146,7 @@ observe({
 
 # Events
 
--   We talk about an *event* when a reactive expression is triggered by another reactive expression
+-   We talk about an *event* when a reactive expression is triggered
 -   For example:
     -   A user clicks a button
     -   The Shiny session initializes
@@ -542,7 +542,7 @@ Imagine you need to implement the following features in a Shiny app. In principl
 :::
 
 ::: callout-note
-#### Exercise 1.3
+#### Exercise 1.2
 
 The following code contains two observers. Both observers depend on the same input (`input$button`), so their execution order can only be determined by their position in the code. Thus, `"2nd observer"` is printed before `"1st observer"`. Study the documentation of `?observe` and fix the app such `"1st observer"` is always printed first.
 
@@ -1033,6 +1033,7 @@ shinyApp(ui, server)
 #### Exercise 3.1
 
 The Shiny app below implements three features:
+
 - A numeric input that lets you select a number to compute the natural logarithm of
 - A file input that lets you read and print an R object from a file
 - An input selection that shows you an emoji depending on the selected value
