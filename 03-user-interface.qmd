@@ -597,7 +597,7 @@ shinyApp(ui, server)
 a.  `renderPrint(summary(mtcars))`
 b.  `renderText("Good morning!")`
 c.  `renderPrint(t.test(1:5, 2:6))`
-d.  `renderText(str(lm(mpg ~ wt, data = mtcars)))`
+d.  `renderPrint(str(lm(mpg ~ wt, data = mtcars)))`
 
 ::: {.callout-warning collapse="true"}
 
@@ -629,7 +629,7 @@ shinyApp(ui, server)
 
 
 2.  Update the options in the call to `renderDataTable()` below so that the data is displayed, but all other controls are suppress (i.e. remove the search, ordering, and filtering commands).
-    You'll need to read `?renderDataTable` and review the options at <https://datatables.net/reference/option/> or at <https://shiny.posit.co/r/gallery/widgets/datatables-options/>
+    You'll need to read `?renderDataTable` and review the options at <https://shiny.posit.co/r/gallery/widgets/datatables-options/> by checking the code (or <https://datatables.net/reference/option/>).
 
 ```{r 03-user-interface-16, eval=FALSE}
 ui <- fluidPage(
