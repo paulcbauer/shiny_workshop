@@ -649,6 +649,8 @@ shinyApp(ui, server)
 Given the code below, which takes a variable and plots a histogram, print the summary of the selected variable each time a new variable is selected. How can this task be done without duplicating code?
 
 ```{r, eval=FALSE}
+ess <- readRDS("ess_trust.rds")
+
 ui <- fluidPage(
   selectInput(
     "var",
@@ -1091,8 +1093,7 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   output$number_result <- renderPrint({
-    lg <- log(input$number)
-    paste0("Natural logarithm:\n", lg)
+    log(input$number)
   })
   
   output$file_result <- renderPrint({
