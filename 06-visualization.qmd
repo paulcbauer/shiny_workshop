@@ -419,7 +419,7 @@ leaflet(ess_geo) %>% # <1>
 -   Depending on the data
 
 ```{r}
-#| source-line-numbers: "1,6"
+#| source-line-numbers: "2,7"
 pal <- colorNumeric("YlOrRd", domain = NULL) # <1>
 
 leaflet(ess_geo) %>%
@@ -475,7 +475,7 @@ leaflet(ess_geo) %>%
     -   Beautifully styled labels require some knowledge of HTML and CSS
 
 ```{r}
-#| source-line-numbers: "1-6,18-24"
+#| source-line-numbers: "2-7,20-27"
 labels <- sprintf( # <1>
   "<strong>%s</strong><br>%s", # <1>
   ess_geo$country, # <1>
@@ -691,14 +691,21 @@ output$map <- renderLeaflet({
 -   Proxies are best combined with functions that add to, remove to, or clear a widget
 -   The following table summarizes these functions
 
++----------+----------------------------------------------------------------------+--------------------+-------------------+
 | Category | Add functions                                                        | Remove             | Clear             |
-|----------|----------------------------------------------------------------------|--------------------|-------------------|
++==========+======================================================================+====================+===================+
 | tile     | `addTiles()`, `addProviderTiles()`                                   | `removeTiles()`    | `clearTiles()`    |
++----------+----------------------------------------------------------------------+--------------------+-------------------+
 | marker   | `addMarkers()`, `addCircleMarkers()`                                 | `removeMarker()`   | `clearMarkers()`  |
++----------+----------------------------------------------------------------------+--------------------+-------------------+
 | shape    | `addPolygons()`, `addPolylines()`, `addCircles()`, `addRectangles()` | `removeShape()`    | `clearShapes()`   |
++----------+----------------------------------------------------------------------+--------------------+-------------------+
 | geojson  | `addGeoJSON()`                                                       | `removeGeoJSON()`  | `clearGeoJSON()`  |
++----------+----------------------------------------------------------------------+--------------------+-------------------+
 | topojson | `addTopoJSON()`                                                      | `removeTopoJSON()` | `clearTopoJSON()` |
++----------+----------------------------------------------------------------------+--------------------+-------------------+
 | control  | `addControl()`                                                       | `removeControl()`  | `clearControls()` |
++----------+----------------------------------------------------------------------+--------------------+-------------------+
 
 ### Synthesis: Plot events, proxies, and plot manipulation
 
@@ -740,7 +747,7 @@ server <- function(input, output, session) {
     bindEvent(input$map_marker_click) # <3>
 }
 
-runApp(shinyApp(ui, server))
+shinyApp(ui, server)
 ```
 
 1.  Render the leaflet map once. Note that the render function does not take any dependencies and is thus only run once.
@@ -754,7 +761,12 @@ runApp(shinyApp(ui, server))
 ::: callout-note
 #### Exercise 1.1
 
-Add a new tab to the app. Add an output canvas to the UI and a render function to the server function such that the new tab is able to display an interactive plotly widget.
+Taking the ESS app (full code below), add an output canvas to the UI and a render function to the server function such that the new tab is able to display an interactive plotly widget.
+
+```{r, eval=FALSE, file="shinyapps/example/app.R"}
+#| code-fold: true
+#| code-summary: "Complete code for the ESS app"
+```
 :::
 
 ::: {.callout-warning collapse="true"}
@@ -817,8 +829,8 @@ library(plotly)
 library(leaflet)
 library(haven)
 
-ess <- readRDS("data/ess_trust.rds")
-ess_geo <- readRDS("data/ess_trust_geo.rds")
+ess <- readRDS("ess_trust.rds")
+ess_geo <- readRDS("ess_trust_geo.rds")
 
 # UI ----
 ui <- fluidPage(
@@ -1030,7 +1042,7 @@ shinyApp(ui = ui, server = server)
 ::: callout-note
 #### Exercise 1.2
 
-In section 3, we implemented a bivariate plot of the ESS data. For this exercise, create a univariate plotly plot of one of the trust variables. In the solution, I will be using a histogram, but this could also be a stacked bar chart, a kernel density curve, etc. The idea is to get a quick overview of the statistical distribution of a trust variable.
+In section 3, we implemented a bivariate plot of the ESS data. For this exercise, create a plotly histogram of one of the trust variables. The idea is to get a quick overview of the statistical distribution of a trust variable.
 
 You can do this either through plotly's own grammar (`plot_ly()`) or by converting a ggplot (`ggplotly()`). In the solutions, I will be using plotly though.
 
@@ -1060,14 +1072,14 @@ Customize the plotly plot according to the following requests:
 -   Remove the modebar
 -   Increase the gap between histogram bars to 20%.
 -   Change the bar color to green
+
+Plotly can be very confusing and using Google and other utensils is explicitly welcome!
 :::
 
 ::: {.callout-tip collapse="true"}
 Recall that plotly can be customized using the `layout`, `style`, and `config` functions.
 
 To find out about options specific to a plotly histogram, call `plotly::schema()` and navigate to `traces -> histogram`.
-
-Plotly can be very confusing and there is no shame in using google!
 :::
 
 ::: {.callout-warning collapse="true"}
@@ -1104,13 +1116,13 @@ Implement the plot from exercise 1.3 in the Shiny app. Instead of plotting a sin
 ```{r, eval=FALSE}
 output$hist <- renderPlotly({
   plot_ly(filtered()) %>%
-  add_histogram(x = as.numeric(ess[input$xvar])) %>%
+    add_histogram(x = as.numeric(ess[input$xvar])) %>%
 
   # everything that changes the overall theming goes here
   layout(
-      xaxis = list(title = "Trust in the national parliament"),
-      yaxis = list(title = "Observations"),
-      bargap = 0.2
+    xaxis = list(title = "Trust in the national parliament"),
+    yaxis = list(title = "Observations"),
+    bargap = 0.2
   ) %>%
 
   # everything that changes the data- and plot-specific theming goes here
@@ -1134,7 +1146,12 @@ output$hist <- renderPlotly({
 ::: callout-note
 #### Exercise 2.1
 
-Add a new tab to the app. Add an output canvas to the UI and a render function to the server function such that the new tab is able to display an interactive leaflet widget.
+Taking the ESS app (full code below), add a new tab to the app. Add an output canvas to the UI and a render function to the server function such that the new tab is able to display an interactive map.
+
+```{r, eval=FALSE, file="shinyapps/example/app.R"}
+#| code-fold: true
+#| code-summary: "Complete code for the ESS app"
+```
 :::
 
 ::: {.callout-warning collapse="true"}
@@ -1197,8 +1214,8 @@ library(plotly)
 library(leaflet)
 library(haven)
 
-ess <- readRDS("data/ess_trust.rds")
-ess_geo <- readRDS("data/ess_trust_geo.rds")
+ess <- readRDS("ess_trust.rds")
+ess_geo <- readRDS("ess_trust_geo.rds")
 
 # UI ----
 ui <- fluidPage(
@@ -1411,6 +1428,8 @@ shinyApp(ui = ui, server = server)
 #### Exercise 2.2
 
 In section 4, we added an interactive map showing the average of the ESS dataset across Europe. For this exercise, create an interactive map that maps one of the trust variables using a binned scale. Add a basemap, polygons, a legend, and set the default view on Southeastern Europe.
+
+Gathering all information for creating a Leaflet map can be a struggle, so using Google and other utensils is explicitly welcome.
 :::
 
 ::: {.callout-warning collapse="true"}
@@ -1423,7 +1442,7 @@ In section 4, we added an interactive map showing the average of the ESS dataset
     -   The `fillColor` argument takes a vector of colors which can be created using the `pal` palette function
 -   `addLegend` adds the legend
 
-```{r}
+```{r, results='asis'}
 ess_geo <- readRDS("data/ess_trust_geo.rds")
 
 pal <- colorBin("YlOrRd", domain = ess_geo$trust_eu)
@@ -1465,7 +1484,7 @@ Customize the map from exercise 2.2 according to the following requests:
     -   To control color and size, you can use the `color`, `fillOpacity`, `opacity`, and `radius` arguments
 -   Legend positioning is controlled with the `position` argument of `addLegend`
 
-```{r}
+```{r, results='asis'}
 pal <- colorBin("YlOrRd", domain = ess_geo$trust_eu)
 
 leaflet(ess_geo) %>%
@@ -1504,7 +1523,7 @@ In section 4, we added labels that appear when hovering over a polygon. In this 
 ::: {.callout-warning collapse="true"}
 #### Solution 2.3
 
-```{r}
+```{r, results='asis'}
 pal <- colorBin("YlOrRd", domain = ess_geo$trust_eu)
 popup <- HTML("This is <strong>GESIS</strong> in Mannheim, DE")
 

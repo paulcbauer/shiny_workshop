@@ -1312,6 +1312,7 @@ Tip
 <li>A message that is shown to the user if the expression is not truthy</li>
 </ul></li>
 <li><code>validate()</code> is very bare-bones! For more sophisticated input validation, check out <a href="https://merlinoa.github.io/shinyFeedback/"><code>shinyFeedback</code></a></li>
+<li>Input validation is but one of many techniques in <a href="https://medium.com/@arumukherjee121/the-art-of-defensive-programming-62c6f22b2758">defensive programming</a> which is a good principle for making Shiny apps</li>
 </ul>
 <div class="cell" data-source-line-numbers="2-4">
 <div class="sourceCode cell-code" id="cb20" data-source-line-numbers="2-4" data-code-line-numbers="2-4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>filtered <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
@@ -2376,7 +2377,12 @@ Solution 2.3
 <div id="callout-22" class="callout-22-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>One problem with the app can be observed directly upon starting the app: The default value of <code>input$file</code> (which is <code>NULL</code>) cannot be read by <code>readRDS()</code>: Shiny issues an error. Similar behavior can be seen when selecting a non-natural number of when selecting multiple animals.</p>
-<p>A possible solution to this problem is to use <code>validate()</code> to check the input before processing it. The following code chunk implements several checks: - For <code>numericInput()</code>, it checks whether the selected number is larger than 0. - For <code>fileInput()</code>, it first checks whether the file is <code>NULL</code>. If not, it proceeds to check if the file exists and if it ends on <code>.rds</code>. - For <code>selectInput()</code>, it checks whether at least one, but not two or more animals are selected.</p>
+<p>A possible solution to this problem is to use <code>validate()</code> to check the input before processing it. The following code chunk implements several checks:</p>
+<ul>
+<li>For <code>numericInput()</code>, it checks whether the selected number is larger than 0.</li>
+<li>For <code>fileInput()</code>, it first checks whether the file is <code>NULL</code>. If not, it proceeds to check if the file exists and if it ends on <code>.rds</code>.</li>
+<li>For <code>selectInput()</code>, it checks whether at least one, but not two or more animals are selected.</li>
+</ul>
 <div class="cell" data-source-line-numbers="52-54,61-65,72-75">
 <details class="code-fold">
 <summary>Alternative solution</summary>
