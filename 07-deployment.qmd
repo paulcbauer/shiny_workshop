@@ -40,47 +40,6 @@ Learning outcomes - Debug Shiny apps and understand them from the inside - Super
 -   Chapters [11](https://engineering-shiny.org/build-yourself-safety-net.html#testing-the-interactive-logic) and [13](https://engineering-shiny.org/deploy.html) of Colin Fay's Engineering Production-Grade Shiny Apps
 -   Chapters [21](https://mastering-shiny.org/scaling-testing.html) and [23](https://mastering-shiny.org/performance.html) of Hadley Wickham's Mastering Shiny
 
-# Performance profiling
-
--   Profiling means recording how much time and memory certain actions in your Shiny app need
--   Useful for testing performance or **speed** of your app
--   Performance profiling in Shiny can be done with the `profvis` package
-
-
-## Interpreting flame graphs
-
-- Flame graphs are a tool to quickly visualize performance of individual parts of an app
-- They consist of two-dimensional "function boxes" which represent an individual function call
-  - The **width** of a function box indicates the time it took to process the function call
-  - The **stacked height** of function boxes indicates their ancestry. The lower boxes are the parents and the upper boxes are their children, i.e. the lower boxes call the upper boxes
-
-![The concept of a flame graph](resources/flame_graph.svg)
-
-## Using the `profvis` package
-
--   Simply run your app within a `profvis::profvis()` call:
-
-```{r eval=FALSE}
-profvis({runApp()})
-```
-
-::: callout-note
-It is necessary to use `runApp()`, `shinyApp()` does not suffice!
-:::
-
--   Then, perform some tasks in the Shiny app
--   Close the app and a flame graph will be created
--   Note the color scheme:
-    - Yellow boxes correspond to specific lines in the code
-    - Blue boxes correspond to output objects
-    - Grey boxes correspond to garbage collection
-
-```{r echo=FALSE}
-htmltools::tags$iframe(src = "resources/profvis.html", width = "100%", height = "800px")
-```
-
-
-
 # Debugging Shiny apps
 
 -   Debugging Shiny apps is a unique challenge as Shiny code is not linear like regular R code
@@ -291,6 +250,48 @@ rsconnect::accounts()
 ```{r eval=FALSE}
 rsconnect::deployApp()
 ```
+
+
+
+# Appendix: Performance profiling
+
+-   Profiling means recording how much time and memory certain actions in your Shiny app need
+-   Useful for testing performance or **speed** of your app
+-   Performance profiling in Shiny can be done with the `profvis` package
+
+
+## Interpreting flame graphs
+
+- Flame graphs are a tool to quickly visualize performance of individual parts of an app
+- They consist of two-dimensional "function boxes" which represent an individual function call
+  - The **width** of a function box indicates the time it took to process the function call
+  - The **stacked height** of function boxes indicates their ancestry. The lower boxes are the parents and the upper boxes are their children, i.e. the lower boxes call the upper boxes
+
+![The concept of a flame graph](resources/flame_graph.svg)
+
+## Using the `profvis` package
+
+-   Simply run your app within a `profvis::profvis()` call:
+
+```{r eval=FALSE}
+profvis({runApp()})
+```
+
+::: callout-note
+It is necessary to use `runApp()`, `shinyApp()` does not suffice!
+:::
+
+-   Then, perform some tasks in the Shiny app
+-   Close the app and a flame graph will be created
+-   Note the color scheme:
+    - Yellow boxes correspond to specific lines in the code
+    - Blue boxes correspond to output objects
+    - Grey boxes correspond to garbage collection
+
+```{r echo=FALSE}
+htmltools::tags$iframe(src = "resources/profvis.html", width = "100%", height = "800px")
+```
+
 
 
 

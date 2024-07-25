@@ -113,7 +113,7 @@ server <- function(input, output, session) {
   
   # filter data ----
   filtered <- reactive({
-    req(input$countries, cancelOutput = TRUE)
+    req(input$countries)
     
     xvar <- input$xvar
     yvar <- input$yvar
