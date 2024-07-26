@@ -53,6 +53,7 @@ This schedule is mostly a **suggestion**! Depending on the type of app you are b
 ### Avaible LLMs
 * Closed-source
   + ChatGPT X (OpenAI, ~Microsoft): [https://chat.openai.com/](https://chat.openai.com/)
+    + [Github copilot](https://github.com/features/copilot) in Rstudio
   + Gemini (Google) [https://gemini.google.com/](https://gemini.google.com/)
   + Amazon Titan: [https://aws.amazon.com/bedrock/titan/](https://aws.amazon.com/bedrock/titan/)
 * Open-source
@@ -318,16 +319,16 @@ I uploaded a dataset and a plot. Please provide me the ggplot2 code that I need 
 ```
 
 
-4. As a follow-up you can refine the plot code through prompts (`"Please omit the intercept from the plot"`).
+4. As a follow-up you can refine the plot code through prompts ("`Please omit the intercept from the plot`").
 
-
-
-
-### Github copilot in Rstudio
+### Discussion: LLMs
+* What useful prompts have you learned about? 
+* What are the dangers of using LLMs (e.g., ChatGPT)?
+  + e.g., privacy, dependency, etc.
 
 
 ## Draw the reactive graph (draw.io)
-* We have seen various reactive graphs
+* We have seen various reactive graphs (and learned about reactivity logging)
 * Drawing the reactive graph for your own app..
   + ...helps to understand the reactive logic of your app
   + ...helps you to find inefficiencies (duplicated code)
@@ -342,6 +343,39 @@ I uploaded a dataset and a plot. Please provide me the ggplot2 code that I need 
   + Search for the file you downloaded: "reactive-graph-ess-app.drawio"
   
   
+## Anonymize data & synthetic data
+* If you work on sensitive data...
+  + ...you might still want to share the shiny app publicly
+  + ...share the shiny app outside of your organization
+  + ...seek help from outsiders
+
+* For this you need synthetic data that you can create as shown below:
+
+```{r 03-user-interface-6, cache=TRUE, eval=FALSE, include=TRUE}
+#| code-fold: false
+#| code-summary: "Code: Creating synthetic data for anonymization"
+# Install and load the synthpop package
+  install.packages("synthpop")
+  library(synthpop)
+  library(tidyverse)
+
+# Load your dataset
+# For demonstration, let's use the iris dataset
+  data(iris)
+  original_data <- iris # iris is your dataframe (replace with your own data, e.g., imported in R)
+
+# Generate synthetic data
+  synthetic_data <- syn(original_data)
+  # synthetic_data is a list
+
+# Extract the new synthetic data and store in a datafame
+# iris_synthetic contains the synthetica data that you can share (with us)
+  iris_synthetic <- synthetic_data$syn
+
+# Save the data
+  write_csv(iris_synthetic, "data_synthetic.csv")
+```
+
 
 
 
