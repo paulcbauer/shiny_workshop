@@ -652,14 +652,16 @@ Figure&nbsp;1: Coefficient plot
 <li>…helps to debug more complex apps</li>
 </ul></li>
 <li>draw.io: a diagramming or whiteboarding application</li>
-<li>How to
-<ul>
+<li>Steps
+<ol type="1">
 <li>Download the file for the reactive graph <a href="https://drive.google.com/file/d/13W9CmQd2G86vyAxnrNZ7PZ7FYubWwGZD/view?usp=sharing">here</a></li>
 <li>Go to the website <a href="https://draw.io">draw.io</a>/<a href="https://app.diagrams.net/">app.diagrams.net/</a></li>
 <li>Select “Diagramme speichern in/Save diagrams” -&gt; “Später fragen/Ask later”</li>
 <li>Select “Datei öffnen von Gerät”</li>
 <li>Search for the file you downloaded: “reactive-graph-ess-app.drawio”</li>
-</ul></li>
+<li>Open the file</li>
+<li>Modify the graph for your shiny app</li>
+</ol></li>
 </ul>
 </section>
 <section id="anonymize-data-synthetic-data" class="level2" data-number="2.3">
@@ -685,15 +687,15 @@ Figure&nbsp;1: Coefficient plot
 <span id="cb16-9"><a href="#cb16-9"></a>  original_data <span class="ot">&lt;-</span> iris <span class="co"># iris is your dataframe (replace with your own data, e.g., imported in R)</span></span>
 <span id="cb16-10"><a href="#cb16-10"></a></span>
 <span id="cb16-11"><a href="#cb16-11"></a><span class="co"># Generate synthetic data</span></span>
-<span id="cb16-12"><a href="#cb16-12"></a>  synthetic_data <span class="ot">&lt;-</span> <span class="fu">syn</span>(original_data)</span>
-<span id="cb16-13"><a href="#cb16-13"></a>  <span class="co"># synthetic_data is a list</span></span>
+<span id="cb16-12"><a href="#cb16-12"></a>  data_synthetic_list <span class="ot">&lt;-</span> <span class="fu">syn</span>(original_data)</span>
+<span id="cb16-13"><a href="#cb16-13"></a>  <span class="co"># data_synthetic_list is a list</span></span>
 <span id="cb16-14"><a href="#cb16-14"></a></span>
 <span id="cb16-15"><a href="#cb16-15"></a><span class="co"># Extract the new synthetic data and store in a datafame</span></span>
-<span id="cb16-16"><a href="#cb16-16"></a><span class="co"># iris_synthetic contains the synthetica data that you can share (with us)</span></span>
-<span id="cb16-17"><a href="#cb16-17"></a>  iris_synthetic <span class="ot">&lt;-</span> synthetic_data<span class="sc">$</span>syn</span>
+<span id="cb16-16"><a href="#cb16-16"></a><span class="co"># data_synthetic contains the synthetica data that you can share (with us)</span></span>
+<span id="cb16-17"><a href="#cb16-17"></a>  data_synthetic <span class="ot">&lt;-</span> data_synthetic_list<span class="sc">$</span>syn</span>
 <span id="cb16-18"><a href="#cb16-18"></a></span>
 <span id="cb16-19"><a href="#cb16-19"></a><span class="co"># Save the data</span></span>
-<span id="cb16-20"><a href="#cb16-20"></a>  <span class="fu">write_csv</span>(iris_synthetic, <span class="st">"data_synthetic.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-20"><a href="#cb16-20"></a>  <span class="fu">write_csv</span>(data_synthetic, <span class="st">"data_synthetic.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="use-the-browser-inspector" class="level2" data-number="2.4">

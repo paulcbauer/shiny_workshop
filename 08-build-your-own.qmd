@@ -335,12 +335,14 @@ I uploaded a dataset and a plot. Please provide me the ggplot2 code that I need 
   + ...helps to think about alternative reactive models
   + ...helps to debug more complex apps
 * draw.io: a diagramming or whiteboarding application
-* How to
-  + Download the file for the reactive graph [here](https://drive.google.com/file/d/13W9CmQd2G86vyAxnrNZ7PZ7FYubWwGZD/view?usp=sharing)
-  + Go to the website [draw.io](https://draw.io)/[app.diagrams.net/](https://app.diagrams.net/)
-  + Select "Diagramme speichern in/Save diagrams" -> "Später fragen/Ask later"
-  + Select "Datei öffnen von Gerät"
-  + Search for the file you downloaded: "reactive-graph-ess-app.drawio"
+* Steps
+  1. Download the file for the reactive graph [here](https://drive.google.com/file/d/13W9CmQd2G86vyAxnrNZ7PZ7FYubWwGZD/view?usp=sharing)
+  2. Go to the website [draw.io](https://draw.io)/[app.diagrams.net/](https://app.diagrams.net/)
+  3. Select "Diagramme speichern in/Save diagrams" -> "Später fragen/Ask later"
+  4. Select "Datei öffnen von Gerät"
+  5. Search for the file you downloaded: "reactive-graph-ess-app.drawio"
+  6. Open the file
+  7. Modify the graph for your shiny app
   
   
 ## Anonymize data & synthetic data
@@ -365,15 +367,15 @@ I uploaded a dataset and a plot. Please provide me the ggplot2 code that I need 
   original_data <- iris # iris is your dataframe (replace with your own data, e.g., imported in R)
 
 # Generate synthetic data
-  synthetic_data <- syn(original_data)
-  # synthetic_data is a list
+  data_synthetic_list <- syn(original_data)
+  # data_synthetic_list is a list
 
 # Extract the new synthetic data and store in a datafame
-# iris_synthetic contains the synthetica data that you can share (with us)
-  iris_synthetic <- synthetic_data$syn
+# data_synthetic contains the synthetica data that you can share (with us)
+  data_synthetic <- data_synthetic_list$syn
 
 # Save the data
-  write_csv(iris_synthetic, "data_synthetic.csv")
+  write_csv(data_synthetic, "data_synthetic.csv")
 ```
 
 
