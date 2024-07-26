@@ -280,7 +280,7 @@ server3 <- function(input, output, server) {
 
 
 
-2.  Using the same symbols as in @fig-graph-expression, please draw the reactive graphs for the following three server functions. Always start by making a list of all the contained inputs, reactives and ouputs.
+2.  Using the same symbols as in @fig-graph-expression, please draw the reactive graphs for the following three server functions. Always start by making a list of all the contained inputs, reactives and ouputs (**do server1 in the group!**).
 
 ::: {.callout-tip collapse="true"}
 Start by deciding **how many** and **which inputs (1)**, **reactives (2)** and **ouputs (3)** there are. Then start drawing with inputs represented in the first column on the left. You could use, e.g., `name>` for inputs, `>name>` for reactives and `>name` for outputs and arrows to connect them.
@@ -567,14 +567,15 @@ shinyApp(ui = ui, server = server)
 * Reactives: `filtered`
 * Outputs: `output$table`
 
-2. ...draw the reactive graph.
+2. The reactive graph is shown in @fig-reactive-graph-ess-app-table.
 
-* `xvar>` &rarr; `>filtered>`
-* `yvar>` &rarr; `>filtered>`
-* `countries>` &rarr; `>filtered>`
-* `range>` &rarr; `>filtered>`
+```{r 04-server-reactive-programming-113454, echo = FALSE, out.width = NULL}
+#| label: fig-reactive-graph-ess-app-table
+#| fig-cap: "Reactive graph for app version that only includes the table"
 
-* `>filtered>` &rarr; `>table`
+knitr::include_graphics("resources/reactive-graph-ess-app-table.drawio.svg")
+```
+
 
 3. Using `renderDataTable()` and `dataTableOutput()` instead of the standard table.
 
