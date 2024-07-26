@@ -1,5 +1,6 @@
 ---
 title: "Build your own app"
+code-block-bg: true
 ---
 
 ```{r, include=FALSE}
@@ -56,7 +57,7 @@ This schedule is mostly a **suggestion**! Depending on the type of app you are b
   + Amazon Titan: https://aws.amazon.com/bedrock/titan/
 * Open-source
   + HuggingChat: https://huggingface.co/chat/
-  + LAMA: https://github.com/facebookresearch/LAMA
+  + LAMA: https://github.com/facebookresearch/LAMA ([open-source = path forward](https://about.fb.com/news/2024/07/open-source-ai-is-the-path-forward/))
 * [Curated list of papers about large language models](https://github.com/Hannibal046/Awesome-LLM)
 * [Top Open-Source LLMs for 2024 and Their Uses](https://www.datacamp.com/blog/top-open-source-llms)
 
@@ -70,9 +71,11 @@ This schedule is mostly a **suggestion**! Depending on the type of app you are b
 * Some exemplary prompts in the sections below.
 
 
-### Prompts: code & understand code/functions
+#### Prompts: code & understand code/functions
 
-```
+* Understand the code of a shiny app:
+
+```{llm}
 Please explain what the shiny app below does. How does it work and what is it's logic.
 
 ui <- fluidPage(
@@ -89,12 +92,16 @@ shinyApp(ui, server)
 ```
 
 Followed by:
-```
+```{llm}
 Please add ... to the shiny app.
 ```
 
+<br><br>
 
-```
+
+* Understand a function and its arguments:
+
+```{llm}
 Please explain the hyperparamters in this model:
 
 xgb_spec <- boost_tree(
@@ -109,20 +116,24 @@ xgb_spec <- boost_tree(
 ```
 
 
-
 Followed by:
 
 
-```
+```{llm}
 Please further explain the learn_rate.
 
 ```
 
 
 
-### Prompts: Data management & preparation
+#### Prompts: Data management & preparation
 
-```
+<br><br>
+
+
+* Obtain code to recode variable in a dataset:
+
+```{llm}
 Please provide dplyr code to rename the following variables and give them better names (lowercaps). Below is the codebook:
 
 pdwrk - Doing last 7 days: paid work
@@ -144,7 +155,9 @@ dngna - Doing last 7 days: no answer
 
 
 
-```
+* Inquire about necessary preprocessing steps for ML models:
+
+```{llm}
 How do I need to prepare and preprocess the data if I want to built a Naive Bayes classifier?
 
 
@@ -161,40 +174,75 @@ Please write the code into a single recipe.
  
 
 
-### Prompts: Data visualization
+#### Prompts: Data visualization
 
+* Get basic plotting code for a variable:
 
-
-```
+```{llm}
 I have a dataset called "data" that includes the variable age. Please provide me with ggplot code to produce a histogram.
 ```
 
+<br><br>
 
-```
-Please explain the ggplot2 code (add comments to the code).
+* Explain ggplot2 code and add comments:
+
+```{llm}
+Please explain the ggplot2 code by adding comments to the code below.
+
+...
 ```
 
+<br><br>
 
-```
+* Find out how to modify code:
+
+
+```{llm}
 I want to change the x-axis lables (angle 50%) in the ggplot2 code below:
+  
+...
 ```
 
+<br><br>
 
-```
+* Ask general questions:
+
+
+```{llm}
 I can I encode data dimensions in a graph? What possibilities do I have?
 ```
 
+<br><br>
 
-```
+* Ask general questions:
+
+```{llm}
 How can I ideally visualize a linegraph where the two lines are perfectly overlapping each other but I want to visualize just that.
 ```
 
+<br><br>
 
-```
+* Ask how to update old code using newer packages:
+
+```{llm}
 How can I translate the code below when I want to use the sf package in R instead of rgdal?
 
 readOGR(dsn="www/data", layer="VG250_GEM", encoding = "ASCII", verbose = FALSE)
 ```
+
+
+#### Prompts: Modeling
+
+* Ask about statistical models:
+
+```{llm}
+What is the difference between a logistic regression model and naive bayes in the machine learning context?
+
+
+Which machine learning models that we can use for classification have a problem with class imbalance?
+```
+
+
 
 
 #### ChatGPT4o: Upload data & generate plot
@@ -202,7 +250,7 @@ readOGR(dsn="www/data", layer="VG250_GEM", encoding = "ASCII", verbose = FALSE)
 
 2. Run the code below 
 
-```
+```{llm}
 # Load necessary packages
 	# install.packages("synthpop")
 	library(datasets)
@@ -265,19 +313,35 @@ ggplot(data_coefs, aes(x = Variable, y = Coefficient)) +
 
 3. Use the following prompt. If the plot is not based on that particular dataset, i.e., include the variable names of the dataset, you may have to also add which variables should be mapped in which way.
 
-`I uploaded a dataset and a plot. Please provide me the ggplot2 code that I need to produce that plot based on the data in one code chunk.`
+```{llm}
+I uploaded a dataset and a plot. Please provide me the ggplot2 code that I need to produce that plot based on the data in one code chunk.`
+```
+
 
 4. As a follow-up you can refine the plot code through prompts (`"Please omit the intercept from the plot"`).
 
 
-### Prompts: Modeling
-
-```
-What is the difference between a logistic regression model and naive bayes in the machine learning context?
 
 
-Which machine learning models that we can use for classification have a problem with class imbalance?
-```
+### Github copilot in Rstudio
+
+
+## Draw the reactive graph (draw.io)
+* We have seen various reactive graphs
+* Drawing the reactive graph for your own app..
+  + ...helps to understand the reactive logic of your app
+  + ...helps you to find inefficiencies (duplicated code)
+  + ...helps to think about alternative reactive models
+  + ...helps to debug more complex apps
+* draw.io: a diagramming or whiteboarding application
+* How to
+  + Download the file for the reactive graph [here](https://drive.google.com/file/d/13W9CmQd2G86vyAxnrNZ7PZ7FYubWwGZD/view?usp=sharing)
+  + Go to the website [draw.io](https://draw.io)/[app.diagrams.net/](https://app.diagrams.net/)
+  + Select "Diagramme speichern in/Save diagrams" -> "Später fragen/Ask later"
+  + Select "Datei öffnen von Gerät"
+  + Search for the file you downloaded: "reactive-graph-ess-app.drawio"
+  
+  
 
 
 
