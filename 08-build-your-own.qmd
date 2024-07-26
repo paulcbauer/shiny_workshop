@@ -52,11 +52,11 @@ This schedule is mostly a **suggestion**! Depending on the type of app you are b
 
 ### Avaible LLMs
 * Closed-source
-  + ChatGPT X (OpenAI, ~Microsoft): https://chat.openai.com/
-  + Gemini (Google) https://gemini.google.com/
-  + Amazon Titan: https://aws.amazon.com/bedrock/titan/
+  + ChatGPT X (OpenAI, ~Microsoft): [https://chat.openai.com/](https://chat.openai.com/)
+  + Gemini (Google) [https://gemini.google.com/](https://gemini.google.com/)
+  + Amazon Titan: [https://aws.amazon.com/bedrock/titan/](https://aws.amazon.com/bedrock/titan/)
 * Open-source
-  + HuggingChat: https://huggingface.co/chat/
+  + HuggingChat: [https://huggingface.co/chat/](https://huggingface.co/chat/)
   + LAMA: https://github.com/facebookresearch/LAMA ([open-source = path forward](https://about.fb.com/news/2024/07/open-source-ai-is-the-path-forward/))
 * [Curated list of papers about large language models](https://github.com/Hannibal046/Awesome-LLM)
 * [Top Open-Source LLMs for 2024 and Their Uses](https://www.datacamp.com/blog/top-open-source-llms)
