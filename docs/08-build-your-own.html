@@ -53,7 +53,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script>const headroomChanged = new CustomEvent("quarto-hrChanged", {
@@ -5378,23 +5398,21 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
   <li><a href="#attention-hallucination" id="toc-attention-hallucination" class="nav-link" data-scroll-target="#attention-hallucination"><span class="header-section-number">2.1.1</span> Attention: Hallucination</a></li>
   <li><a href="#avaible-llms" id="toc-avaible-llms" class="nav-link" data-scroll-target="#avaible-llms"><span class="header-section-number">2.1.2</span> Avaible LLMs</a></li>
   <li><a href="#useful-prompts" id="toc-useful-prompts" class="nav-link" data-scroll-target="#useful-prompts"><span class="header-section-number">2.1.3</span> Useful prompts</a></li>
-  <li><a href="#prompts-code-understand-codefunctions" id="toc-prompts-code-understand-codefunctions" class="nav-link" data-scroll-target="#prompts-code-understand-codefunctions"><span class="header-section-number">2.1.4</span> Prompts: code &amp; understand code/functions</a></li>
-  <li><a href="#prompts-data-management-preparation" id="toc-prompts-data-management-preparation" class="nav-link" data-scroll-target="#prompts-data-management-preparation"><span class="header-section-number">2.1.5</span> Prompts: Data management &amp; preparation</a></li>
-  <li><a href="#prompts-data-visualization" id="toc-prompts-data-visualization" class="nav-link" data-scroll-target="#prompts-data-visualization"><span class="header-section-number">2.1.6</span> Prompts: Data visualization</a></li>
-  <li><a href="#prompts-modeling" id="toc-prompts-modeling" class="nav-link" data-scroll-target="#prompts-modeling"><span class="header-section-number">2.1.7</span> Prompts: Modeling</a></li>
+  <li><a href="#github-copilot-in-rstudio" id="toc-github-copilot-in-rstudio" class="nav-link" data-scroll-target="#github-copilot-in-rstudio"><span class="header-section-number">2.1.4</span> Github copilot in Rstudio</a></li>
   </ul></li>
-  <li><a href="#use-the-browser-inspector" id="toc-use-the-browser-inspector" class="nav-link" data-scroll-target="#use-the-browser-inspector"><span class="header-section-number">2.2</span> Use the browser inspector</a>
+  <li><a href="#draw-the-reactive-graph-draw.io" id="toc-draw-the-reactive-graph-draw.io" class="nav-link" data-scroll-target="#draw-the-reactive-graph-draw.io"><span class="header-section-number">2.2</span> Draw the reactive graph (draw.io)</a></li>
+  <li><a href="#use-the-browser-inspector" id="toc-use-the-browser-inspector" class="nav-link" data-scroll-target="#use-the-browser-inspector"><span class="header-section-number">2.3</span> Use the browser inspector</a>
   <ul class="collapse">
-  <li><a href="#browser-inspectors-in-the-wild" id="toc-browser-inspectors-in-the-wild" class="nav-link" data-scroll-target="#browser-inspectors-in-the-wild"><span class="header-section-number">2.2.1</span> Browser inspectors in the wild</a></li>
-  <li><a href="#pros-and-cons" id="toc-pros-and-cons" class="nav-link" data-scroll-target="#pros-and-cons"><span class="header-section-number">2.2.2</span> Pros and Cons</a></li>
+  <li><a href="#browser-inspectors-in-the-wild" id="toc-browser-inspectors-in-the-wild" class="nav-link" data-scroll-target="#browser-inspectors-in-the-wild"><span class="header-section-number">2.3.1</span> Browser inspectors in the wild</a></li>
+  <li><a href="#pros-and-cons" id="toc-pros-and-cons" class="nav-link" data-scroll-target="#pros-and-cons"><span class="header-section-number">2.3.2</span> Pros and Cons</a></li>
   </ul></li>
-  <li><a href="#organize-your-code" id="toc-organize-your-code" class="nav-link" data-scroll-target="#organize-your-code"><span class="header-section-number">2.3</span> Organize your code</a>
+  <li><a href="#organize-your-code" id="toc-organize-your-code" class="nav-link" data-scroll-target="#organize-your-code"><span class="header-section-number">2.4</span> Organize your code</a>
   <ul class="collapse">
-  <li><a href="#functional-programming" id="toc-functional-programming" class="nav-link" data-scroll-target="#functional-programming"><span class="header-section-number">2.3.1</span> Functional programming</a></li>
-  <li><a href="#stick-to-a-style-guide" id="toc-stick-to-a-style-guide" class="nav-link" data-scroll-target="#stick-to-a-style-guide"><span class="header-section-number">2.3.2</span> Stick to a style guide</a></li>
-  <li><a href="#annotate-your-code" id="toc-annotate-your-code" class="nav-link" data-scroll-target="#annotate-your-code"><span class="header-section-number">2.3.3</span> Annotate your code</a></li>
-  <li><a href="#modularize-your-shiny-code" id="toc-modularize-your-shiny-code" class="nav-link" data-scroll-target="#modularize-your-shiny-code"><span class="header-section-number">2.3.4</span> Modularize your Shiny code</a></li>
-  <li><a href="#build-your-shiny-app-as-a-package" id="toc-build-your-shiny-app-as-a-package" class="nav-link" data-scroll-target="#build-your-shiny-app-as-a-package"><span class="header-section-number">2.3.5</span> Build your Shiny app as a package</a></li>
+  <li><a href="#functional-programming" id="toc-functional-programming" class="nav-link" data-scroll-target="#functional-programming"><span class="header-section-number">2.4.1</span> Functional programming</a></li>
+  <li><a href="#stick-to-a-style-guide" id="toc-stick-to-a-style-guide" class="nav-link" data-scroll-target="#stick-to-a-style-guide"><span class="header-section-number">2.4.2</span> Stick to a style guide</a></li>
+  <li><a href="#annotate-your-code" id="toc-annotate-your-code" class="nav-link" data-scroll-target="#annotate-your-code"><span class="header-section-number">2.4.3</span> Annotate your code</a></li>
+  <li><a href="#modularize-your-shiny-code" id="toc-modularize-your-shiny-code" class="nav-link" data-scroll-target="#modularize-your-shiny-code"><span class="header-section-number">2.4.4</span> Modularize your Shiny code</a></li>
+  <li><a href="#build-your-shiny-app-as-a-package" id="toc-build-your-shiny-app-as-a-package" class="nav-link" data-scroll-target="#build-your-shiny-app-as-a-package"><span class="header-section-number">2.4.5</span> Build your Shiny app as a package</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">3</span> Data</a>
@@ -5503,7 +5521,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </ul></li>
 </ul></li>
 <li>Very good overview on <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">Wikipedia</a></li>
-<li>Discussions in <span class="citation" data-cites="Zhang2023-ok">(<a href="#ref-Zhang2023-ok" role="doc-biblioref"><strong>Zhang2023-ok?</strong></a>)</span>, <span class="citation" data-cites="Huang2023-zf">(<a href="#ref-Huang2023-zf" role="doc-biblioref"><strong>Huang2023-zf?</strong></a>)</span> and <span class="citation" data-cites="Metz2023-qz">(<a href="#ref-Metz2023-qz" role="doc-biblioref"><strong>Metz2023-qz?</strong></a>)</span></li>
+<li>Discussions in <span class="citation" data-cites="Zhang2023-ok">Zhang et al. (<a href="#ref-Zhang2023-ok" role="doc-biblioref">2023</a>)</span>, <span class="citation" data-cites="Huang2023-zf">Huang et al. (<a href="#ref-Huang2023-zf" role="doc-biblioref">2023</a>)</span> and <span class="citation" data-cites="Metz2023-qz">Metz (<a href="#ref-Metz2023-qz" role="doc-biblioref">2023</a>)</span></li>
 <li>Problem less relevant when asking LLMs for function code because you check/test it yourself</li>
 </ul>
 </section>
@@ -5519,7 +5537,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 <li>Open-source
 <ul>
 <li>HuggingChat: https://huggingface.co/chat/</li>
-<li>LAMA: https://github.com/facebookresearch/LAMA</li>
+<li>LAMA: https://github.com/facebookresearch/LAMA (<a href="https://about.fb.com/news/2024/07/open-source-ai-is-the-path-forward/">open-source = path forward</a>)</li>
 </ul></li>
 <li><a href="https://github.com/Hannibal046/Awesome-LLM">Curated list of papers about large language models</a></li>
 <li><a href="https://www.datacamp.com/blog/top-open-source-llms">Top Open-Source LLMs for 2024 and Their Uses</a></li>
@@ -5538,6 +5556,7 @@ gtag('config', 'G-BVZNWTMFX1', { 'anonymize_ip': true});
 </ul></li>
 <li>Some exemplary prompts in the sections below.</li>
 </ul>
+<<<<<<< Updated upstream
 </section>
 <section id="prompts-code-understand-codefunctions" class="level3" data-number="2.1.4">
 <h3 data-number="2.1.4" class="anchored" data-anchor-id="prompts-code-understand-codefunctions"><span class="header-section-number">2.1.4</span> Prompts: code &amp; understand code/functions</h3>
@@ -5612,10 +5631,163 @@ Please write the code into a single recipe.</code></pre>
 readOGR(dsn=&quot;www/data&quot;, layer=&quot;VG250_GEM&quot;, encoding = &quot;ASCII&quot;, verbose = FALSE)</code></pre>
 <section id="chatgpt4o-upload-data-generate-plot" class="level4" data-number="2.1.6.1">
 <h4 data-number="2.1.6.1" class="anchored" data-anchor-id="chatgpt4o-upload-data-generate-plot"><span class="header-section-number">2.1.6.1</span> ChatGPT4o: Upload data &amp; generate plot</h4>
+=======
+<section id="prompts-code-understand-codefunctions" class="level4" data-number="2.1.3.1">
+<h4 data-number="2.1.3.1" class="anchored" data-anchor-id="prompts-code-understand-codefunctions"><span class="header-section-number">2.1.3.1</span> Prompts: code &amp; understand code/functions</h4>
+<ul>
+<li>Understand the code of a shiny app:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource llm number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href="#cb1-1"></a>Please explain what the shiny app below does. How does it work and what is it's logic.</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a>ui &lt;- fluidPage(</span>
+<span id="cb1-4"><a href="#cb1-4"></a>  textInput("name", "What's your name?"),</span>
+<span id="cb1-5"><a href="#cb1-5"></a>  textOutput("greeting")</span>
+<span id="cb1-6"><a href="#cb1-6"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a>server &lt;- function(input, output, session) {</span>
+<span id="cb1-9"><a href="#cb1-9"></a>  output$greeting &lt;- renderText({</span>
+<span id="cb1-10"><a href="#cb1-10"></a>    paste0("Hello ", input$name, "!")</span>
+<span id="cb1-11"><a href="#cb1-11"></a>  })</span>
+<span id="cb1-12"><a href="#cb1-12"></a>}</span>
+<span id="cb1-13"><a href="#cb1-13"></a>shinyApp(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Followed by:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource llm number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href="#cb2-1"></a>Please add ... to the shiny app.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br><br></p>
+<ul>
+<li>Understand a function and its arguments:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource llm number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a href="#cb3-1"></a>Please explain the hyperparamters in this model:</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>xgb_spec &lt;- boost_tree(</span>
+<span id="cb3-4"><a href="#cb3-4"></a>  trees = 1000,</span>
+<span id="cb3-5"><a href="#cb3-5"></a>  tree_depth = tune(), min_n = tune(),</span>
+<span id="cb3-6"><a href="#cb3-6"></a>  loss_reduction = tune(),                     ## first three: model complexity</span>
+<span id="cb3-7"><a href="#cb3-7"></a>  sample_size = tune(), mtry = tune(),         ## randomness</span>
+<span id="cb3-8"><a href="#cb3-8"></a>  learn_rate = tune()                          ## step size</span>
+<span id="cb3-9"><a href="#cb3-9"></a>) %&gt;%</span>
+<span id="cb3-10"><a href="#cb3-10"></a>  set_engine("xgboost") %&gt;%</span>
+<span id="cb3-11"><a href="#cb3-11"></a>  set_mode("classification")</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Followed by:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource llm number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a href="#cb4-1"></a>Please further explain the learn_rate.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="prompts-data-management-preparation" class="level4" data-number="2.1.3.2">
+<h4 data-number="2.1.3.2" class="anchored" data-anchor-id="prompts-data-management-preparation"><span class="header-section-number">2.1.3.2</span> Prompts: Data management &amp; preparation</h4>
+<p><br><br></p>
+<ul>
+<li>Obtain code to recode variable in a dataset:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource llm number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href="#cb5-1"></a>Please provide dplyr code to rename the following variables and give them better names (lowercaps). Below is the codebook:</span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a>pdwrk - Doing last 7 days: paid work</span>
+<span id="cb5-4"><a href="#cb5-4"></a>edctn - Doing last 7 days: education</span>
+<span id="cb5-5"><a href="#cb5-5"></a>uempla - Doing last 7 days: unemployed, actively looking for job</span>
+<span id="cb5-6"><a href="#cb5-6"></a>uempli - Doing last 7 days: unemployed, not actively looking for job</span>
+<span id="cb5-7"><a href="#cb5-7"></a>dsbld - Doing last 7 days: permanently sick or disabled</span>
+<span id="cb5-8"><a href="#cb5-8"></a>rtrd - Doing last 7 days: retired</span>
+<span id="cb5-9"><a href="#cb5-9"></a>cmsrv - Doing last 7 days: community or military service</span>
+<span id="cb5-10"><a href="#cb5-10"></a>hswrk - Doing last 7 days: housework, looking after children, others</span>
+<span id="cb5-11"><a href="#cb5-11"></a>dngoth - Doing last 7 days: other</span>
+<span id="cb5-12"><a href="#cb5-12"></a>dngref - Doing last 7 days: refusal</span>
+<span id="cb5-13"><a href="#cb5-13"></a>dngdk - Doing last 7 days: don't know</span>
+<span id="cb5-14"><a href="#cb5-14"></a>dngna - Doing last 7 days: no answer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br><br></p>
+<ul>
+<li>Inquire about necessary preprocessing steps for ML models:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource llm number-lines code-with-copy"><code class="sourceCode"><span id="cb6-1"><a href="#cb6-1"></a>How do I need to prepare and preprocess the data if I want to built a Naive Bayes classifier?</span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a>What is particular in data preparation for Naive Bayes that is not necessary for other machine learning models?</span>
+<span id="cb6-5"><a href="#cb6-5"></a></span>
+<span id="cb6-6"><a href="#cb6-6"></a></span>
+<span id="cb6-7"><a href="#cb6-7"></a>How should I ideally preprocess the data that I feed into a Naive Bayes classifier?</span>
+<span id="cb6-8"><a href="#cb6-8"></a></span>
+<span id="cb6-9"><a href="#cb6-9"></a></span>
+<span id="cb6-10"><a href="#cb6-10"></a>I want to build a Naive Bayes Classifier. Please outline the preprocessing steps that you would recommend and provide tidymodels recipe code that includes those step.</span>
+<span id="cb6-11"><a href="#cb6-11"></a>Please write the code into a single recipe.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="prompts-data-visualization" class="level4" data-number="2.1.3.3">
+<h4 data-number="2.1.3.3" class="anchored" data-anchor-id="prompts-data-visualization"><span class="header-section-number">2.1.3.3</span> Prompts: Data visualization</h4>
+<ul>
+<li>Get basic plotting code for a variable:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource llm number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a href="#cb7-1"></a>I have a dataset called "data" that includes the variable age. Please provide me with ggplot code to produce a histogram.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br><br></p>
+<ul>
+<li>Explain ggplot2 code and add comments:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource llm number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a href="#cb8-1"></a>Please explain the ggplot2 code by adding comments to the code below.</span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br><br></p>
+<ul>
+<li>Find out how to modify code:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource llm number-lines code-with-copy"><code class="sourceCode"><span id="cb9-1"><a href="#cb9-1"></a>I want to change the x-axis lables (angle 50%) in the ggplot2 code below:</span>
+<span id="cb9-2"><a href="#cb9-2"></a>  </span>
+<span id="cb9-3"><a href="#cb9-3"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br><br></p>
+<ul>
+<li>Ask general questions:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource llm number-lines code-with-copy"><code class="sourceCode"><span id="cb10-1"><a href="#cb10-1"></a>I can I encode data dimensions in a graph? What possibilities do I have?</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br><br></p>
+<ul>
+<li>Ask general questions:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource llm number-lines code-with-copy"><code class="sourceCode"><span id="cb11-1"><a href="#cb11-1"></a>How can I ideally visualize a linegraph where the two lines are perfectly overlapping each other but I want to visualize just that.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br><br></p>
+<ul>
+<li>Ask how to update old code using newer packages:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource llm number-lines code-with-copy"><code class="sourceCode"><span id="cb12-1"><a href="#cb12-1"></a>How can I translate the code below when I want to use the sf package in R instead of rgdal?</span>
+<span id="cb12-2"><a href="#cb12-2"></a></span>
+<span id="cb12-3"><a href="#cb12-3"></a>readOGR(dsn="www/data", layer="VG250_GEM", encoding = "ASCII", verbose = FALSE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="prompts-modeling" class="level4" data-number="2.1.3.4">
+<h4 data-number="2.1.3.4" class="anchored" data-anchor-id="prompts-modeling"><span class="header-section-number">2.1.3.4</span> Prompts: Modeling</h4>
+<ul>
+<li>Ask about statistical models:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource llm number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a href="#cb13-1"></a>What is the difference between a logistic regression model and naive bayes in the machine learning context?</span>
+<span id="cb13-2"><a href="#cb13-2"></a></span>
+<span id="cb13-3"><a href="#cb13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4"></a>Which machine learning models that we can use for classification have a problem with class imbalance?</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="chatgpt4o-upload-data-generate-plot" class="level4" data-number="2.1.3.5">
+<h4 data-number="2.1.3.5" class="anchored" data-anchor-id="chatgpt4o-upload-data-generate-plot"><span class="header-section-number">2.1.3.5</span> ChatGPT4o: Upload data &amp; generate plot</h4>
+>>>>>>> Stashed changes
 <ol type="1">
 <li><p>Load the data into R (here we use the preloaded <code>swiss</code> dataset)</p></li>
 <li><p>Run the code below</p></li>
 </ol>
+<<<<<<< Updated upstream
 <pre data-code-line-numbers><code># Load necessary packages
     # install.packages(&quot;synthpop&quot;)
     library(datasets)
@@ -5643,6 +5815,37 @@ readOGR(dsn=&quot;www/data&quot;, layer=&quot;VG250_GEM&quot;, encoding = &quot;
 
 # Save the new dataset locally
     write_csv(data, &quot;data_fake.csv&quot;)</code></pre>
+=======
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource llm number-lines code-with-copy"><code class="sourceCode"><span id="cb14-1"><a href="#cb14-1"></a># Load necessary packages</span>
+<span id="cb14-2"><a href="#cb14-2"></a>    # install.packages("synthpop")</span>
+<span id="cb14-3"><a href="#cb14-3"></a>    library(datasets)</span>
+<span id="cb14-4"><a href="#cb14-4"></a>    library(synthpop)</span>
+<span id="cb14-5"><a href="#cb14-5"></a>    library(readr)</span>
+<span id="cb14-6"><a href="#cb14-6"></a></span>
+<span id="cb14-7"><a href="#cb14-7"></a># Load the dataset</span>
+<span id="cb14-8"><a href="#cb14-8"></a>    data &lt;- swiss # load your own dataset here</span>
+<span id="cb14-9"><a href="#cb14-9"></a></span>
+<span id="cb14-10"><a href="#cb14-10"></a># View the original swiss dataset</span>
+<span id="cb14-11"><a href="#cb14-11"></a>    head(data)</span>
+<span id="cb14-12"><a href="#cb14-12"></a></span>
+<span id="cb14-13"><a href="#cb14-13"></a># Generate synthetic data to anonymize the original dataset</span>
+<span id="cb14-14"><a href="#cb14-14"></a># The syn function will generate synthetic data while preserving the structure and statistical properties</span>
+<span id="cb14-15"><a href="#cb14-15"></a>    synth_data &lt;- syn(data)</span>
+<span id="cb14-16"><a href="#cb14-16"></a></span>
+<span id="cb14-17"><a href="#cb14-17"></a># View the synthetic data</span>
+<span id="cb14-18"><a href="#cb14-18"></a>    head(synth_data$syn)</span>
+<span id="cb14-19"><a href="#cb14-19"></a></span>
+<span id="cb14-20"><a href="#cb14-20"></a># Replace the original data with the synthetic data</span>
+<span id="cb14-21"><a href="#cb14-21"></a>    data &lt;- synth_data$syn</span>
+<span id="cb14-22"><a href="#cb14-22"></a></span>
+<span id="cb14-23"><a href="#cb14-23"></a># View the modified dataset to ensure it has been replaced correctly</span>
+<span id="cb14-24"><a href="#cb14-24"></a>    head(data)</span>
+<span id="cb14-25"><a href="#cb14-25"></a></span>
+<span id="cb14-26"><a href="#cb14-26"></a># Save the new dataset locally</span>
+<span id="cb14-27"><a href="#cb14-27"></a>    write_csv(data, "data_fake.csv")</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+>>>>>>> Stashed changes
 <ol start="2" type="1">
 <li>Upload <code>data_fake.csv</code> and <a href="#fig-coefficient-plot234">Figure 1</a> (this is just an example) into ChatGPT4o.</li>
 </ol>
@@ -5659,22 +5862,51 @@ readOGR(dsn=&quot;www/data&quot;, layer=&quot;VG250_GEM&quot;, encoding = &quot;
 <ol start="3" type="1">
 <li>Use the following prompt. If the plot is not based on that particular dataset, i.e., include the variable names of the dataset, you may have to also add which variables should be mapped in which way.</li>
 </ol>
-<p><code>I uploaded a dataset and a plot. Please provide me the ggplot2 code that I need to produce that plot based on the data in one code chunk.</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource llm number-lines code-with-copy"><code class="sourceCode"><span id="cb15-1"><a href="#cb15-1"></a>I uploaded a dataset and a plot. Please provide me the ggplot2 code that I need to produce that plot based on the data in one code chunk.`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <ol start="4" type="1">
 <li>As a follow-up you can refine the plot code through prompts (<code>&quot;Please omit the intercept from the plot&quot;</code>).</li>
 </ol>
 </section>
 </section>
+<<<<<<< Updated upstream
 <section id="prompts-modeling" class="level3" data-number="2.1.7">
 <h3 data-number="2.1.7" class="anchored" data-anchor-id="prompts-modeling"><span class="header-section-number">2.1.7</span> Prompts: Modeling</h3>
 <pre data-code-line-numbers><code>What is the difference between a logistic regression model and naive bayes in the machine learning context?
 
 
 Which machine learning models that we can use for classification have a problem with class imbalance?</code></pre>
+=======
+<section id="github-copilot-in-rstudio" class="level3" data-number="2.1.4">
+<h3 data-number="2.1.4" class="anchored" data-anchor-id="github-copilot-in-rstudio"><span class="header-section-number">2.1.4</span> Github copilot in Rstudio</h3>
+>>>>>>> Stashed changes
 </section>
 </section>
-<section id="use-the-browser-inspector" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="use-the-browser-inspector"><span class="header-section-number">2.2</span> Use the browser inspector</h2>
+<section id="draw-the-reactive-graph-draw.io" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="draw-the-reactive-graph-draw.io"><span class="header-section-number">2.2</span> Draw the reactive graph (draw.io)</h2>
+<ul>
+<li>We have seen various reactive graphs</li>
+<li>Drawing the reactive graph for your own app..
+<ul>
+<li>…helps to understand the reactive logic of your app</li>
+<li>…helps you to find inefficiencies (duplicated code)</li>
+<li>…helps to think about alternative reactive models</li>
+<li>…helps to debug more complex apps</li>
+</ul></li>
+<li>draw.io: a diagramming or whiteboarding application</li>
+<li>How to
+<ul>
+<li>Download the file for the reactive graph <a href="https://drive.google.com/file/d/13W9CmQd2G86vyAxnrNZ7PZ7FYubWwGZD/view?usp=sharing">here</a></li>
+<li>Go to the website <a href="https://draw.io">draw.io</a>/<a href="https://app.diagrams.net/">app.diagrams.net/</a></li>
+<li>Select “Diagramme speichern in/Save diagrams” -&gt; “Später fragen/Ask later”</li>
+<li>Select “Datei öffnen von Gerät”</li>
+<li>Search for the file you downloaded: “reactive-graph-ess-app.drawio”</li>
+</ul></li>
+</ul>
+</section>
+<section id="use-the-browser-inspector" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="use-the-browser-inspector"><span class="header-section-number">2.3</span> Use the browser inspector</h2>
 <ul>
 <li>Browser inspectors are an extremely powerful tool that goes far beyond the scope of this workshop</li>
 <li>It can be used to take a deep look at a website
@@ -5689,8 +5921,8 @@ Which machine learning models that we can use for classification have a problem 
 <li>… and a lot more</li>
 </ul></li>
 </ul>
-<section id="browser-inspectors-in-the-wild" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="browser-inspectors-in-the-wild"><span class="header-section-number">2.2.1</span> Browser inspectors in the wild</h3>
+<section id="browser-inspectors-in-the-wild" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="browser-inspectors-in-the-wild"><span class="header-section-number">2.3.1</span> Browser inspectors in the wild</h3>
 <ul>
 <li>Every popular browser has its own implementation of an inspector
 <ul>
@@ -5708,8 +5940,8 @@ Which machine learning models that we can use for classification have a problem 
 </figure>
 </div>
 </section>
-<section id="pros-and-cons" class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="pros-and-cons"><span class="header-section-number">2.2.2</span> Pros and Cons</h3>
+<section id="pros-and-cons" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="pros-and-cons"><span class="header-section-number">2.3.2</span> Pros and Cons</h3>
 <ul>
 <li>Inspectors are useful for:
 <ul>
@@ -5725,8 +5957,8 @@ Which machine learning models that we can use for classification have a problem 
 </ul>
 </section>
 </section>
-<section id="organize-your-code" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="organize-your-code"><span class="header-section-number">2.3</span> Organize your code</h2>
+<section id="organize-your-code" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="organize-your-code"><span class="header-section-number">2.4</span> Organize your code</h2>
 <ul>
 <li>Shiny code becomes messy <strong>really</strong> quick!</li>
 <li>It is even more important than in normal code to keep code clean and tidy</li>
@@ -5737,8 +5969,8 @@ Which machine learning models that we can use for classification have a problem 
 <li>Programming with organized code is much faster and much more fun</li>
 </ul></li>
 </ul>
-<section id="functional-programming" class="level3" data-number="2.3.1">
-<h3 data-number="2.3.1" class="anchored" data-anchor-id="functional-programming"><span class="header-section-number">2.3.1</span> Functional programming</h3>
+<section id="functional-programming" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="functional-programming"><span class="header-section-number">2.4.1</span> Functional programming</h3>
 <ul>
 <li>Wrap code in functions if:
 <ul>
@@ -5747,27 +5979,42 @@ Which machine learning models that we can use for classification have a problem 
 </ul></li>
 <li>Bad:</li>
 </ul>
+<<<<<<< Updated upstream
 <div class="cell" data-hash="08-build-your-own_cache/html/unnamed-chunk-2_87e9029523c9a7063e681f200b0e4f9e">
 <div class="sourceCode cell-code" id="cb15" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(iris<span class="sc">$</span>Sepal.Length)))</span>
 <span id="cb15-2"><a href="#cb15-2"></a><span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(iris<span class="sc">$</span>Sepal.Width)))</span>
 <span id="cb15-3"><a href="#cb15-3"></a><span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(iris<span class="sc">$</span>Petal.Length)))</span>
 <span id="cb15-4"><a href="#cb15-4"></a><span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(iris<span class="sc">$</span>Petal.Width)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(iris<span class="sc">$</span>Sepal.Length)))</span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(iris<span class="sc">$</span>Sepal.Width)))</span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(iris<span class="sc">$</span>Petal.Length)))</span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(iris<span class="sc">$</span>Petal.Width)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+>>>>>>> Stashed changes
 </div>
 <ul>
 <li>Good:</li>
 </ul>
+<<<<<<< Updated upstream
 <div class="cell" data-hash="08-build-your-own_cache/html/unnamed-chunk-3_6f6f657aaf3fa3bc99d0edfd190a95a2">
 <div class="sourceCode cell-code" id="cb16" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>geometric_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(x)))</span>
 <span id="cb16-2"><a href="#cb16-2"></a><span class="fu">summarize</span>(iris, <span class="fu">across</span>(<span class="fu">where</span>(is.numeric), geometric_mean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>geometric_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(x)))</span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="fu">summarize</span>(iris, <span class="fu">across</span>(<span class="fu">where</span>(is.numeric), geometric_mean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+>>>>>>> Stashed changes
 </div>
 </section>
-<section id="stick-to-a-style-guide" class="level3" data-number="2.3.2">
-<h3 data-number="2.3.2" class="anchored" data-anchor-id="stick-to-a-style-guide"><span class="header-section-number">2.3.2</span> Stick to a style guide</h3>
+<section id="stick-to-a-style-guide" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="stick-to-a-style-guide"><span class="header-section-number">2.4.2</span> Stick to a style guide</h3>
 <ul>
 <li>Adopting a consistent coding style drastically improves readability for yourself and contributors</li>
 <li>The <a href="https://styler.r-lib.org/">styler</a> and <a href="https://lintr.r-lib.org/">lintr</a> packages automatically check your code for style inconsistencies, bad practictes, and possible syntactic/semantic errors</li>
 <li>The following code is valid, but deciphering what’s going on might take a while</li>
 </ul>
+<<<<<<< Updated upstream
 <div class="cell" data-hash="08-build-your-own_cache/html/unnamed-chunk-4_585825957713c28f0b20c1fdf9de2313">
 <div class="sourceCode cell-code" id="cb17" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>ui<span class="ot">&lt;-</span><span class="fu">fluidPage</span>(<span class="fu">selectInput</span>(<span class="st">&quot;var&quot;</span></span>
 <span id="cb17-2"><a href="#cb17-2"></a>            ,<span class="st">&quot;Variable&quot;</span>,<span class="fu">names</span>(mtcars))</span>
@@ -5786,20 +6033,49 @@ Which machine learning models that we can use for classification have a problem 
 <span id="cb17-15"><a href="#cb17-15"></a>          ,<span class="at">breaks=</span>input<span class="sc">$</span>bins</span>
 <span id="cb17-16"><a href="#cb17-16"></a>          ,<span class="at">main=</span>input<span class="sc">$</span>var)},<span class="at">res =</span><span class="dv">96</span></span>
 <span id="cb17-17"><a href="#cb17-17"></a>)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>ui<span class="ot">&lt;-</span><span class="fu">fluidPage</span>(<span class="fu">selectInput</span>(<span class="st">"var"</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a>            ,<span class="st">"Variable"</span>,<span class="fu">names</span>(mtcars))</span>
+<span id="cb18-3"><a href="#cb18-3"></a>  ,<span class="fu">numericInput</span>(<span class="st">"bins"</span>,<span class="st">"bins"</span>,<span class="dv">10</span>,<span class="at">min=</span> <span class="dv">1</span>),<span class="fu">plotOutput</span>(<span class="st">"hist"</span>))</span>
+<span id="cb18-4"><a href="#cb18-4"></a>server<span class="ot">&lt;-</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a><span class="cf">function</span>(</span>
+<span id="cb18-6"><a href="#cb18-6"></a>input,output,session</span>
+<span id="cb18-7"><a href="#cb18-7"></a>) {</span>
+<span id="cb18-8"><a href="#cb18-8"></a>  data<span class="ot">&lt;-</span></span>
+<span id="cb18-9"><a href="#cb18-9"></a>    <span class="fu">reactive</span>(</span>
+<span id="cb18-10"><a href="#cb18-10"></a>             mtcars[[input<span class="sc">$</span>var]]</span>
+<span id="cb18-11"><a href="#cb18-11"></a>    )</span>
+<span id="cb18-12"><a href="#cb18-12"></a>  output<span class="sc">$</span>hist<span class="ot">&lt;-</span></span>
+<span id="cb18-13"><a href="#cb18-13"></a>    <span class="fu">renderPlot</span>(</span>
+<span id="cb18-14"><a href="#cb18-14"></a>    {<span class="fu">hist</span>(<span class="fu">data</span>()</span>
+<span id="cb18-15"><a href="#cb18-15"></a>          ,<span class="at">breaks=</span>input<span class="sc">$</span>bins</span>
+<span id="cb18-16"><a href="#cb18-16"></a>          ,<span class="at">main=</span>input<span class="sc">$</span>var)},<span class="at">res =</span><span class="dv">96</span></span>
+<span id="cb18-17"><a href="#cb18-17"></a>)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+>>>>>>> Stashed changes
 </div>
 </section>
-<section id="annotate-your-code" class="level3" data-number="2.3.3">
-<h3 data-number="2.3.3" class="anchored" data-anchor-id="annotate-your-code"><span class="header-section-number">2.3.3</span> Annotate your code</h3>
+<section id="annotate-your-code" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="annotate-your-code"><span class="header-section-number">2.4.3</span> Annotate your code</h3>
 <ul>
 <li>Even in smaller apps, Shiny code is multiple hundred lines long</li>
 <li>RStudio annotations can help navigate large R code files</li>
 </ul>
+<<<<<<< Updated upstream
 <div class="cell" data-hash="08-build-your-own_cache/html/unnamed-chunk-5_e75f5767ae318f047a075625b2c0946a">
 <div class="sourceCode cell-code" id="cb18" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># Header 1 ----</span></span>
 <span id="cb18-2"><a href="#cb18-2"></a><span class="do">## Header 1.1 ----</span></span>
 <span id="cb18-3"><a href="#cb18-3"></a><span class="do">### Header 1.1.1 ----</span></span>
 <span id="cb18-4"><a href="#cb18-4"></a><span class="do">### Header 1.1.2 ----</span></span>
 <span id="cb18-5"><a href="#cb18-5"></a><span class="co"># Header 2 ----</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># Header 1 ----</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="do">## Header 1.1 ----</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="do">### Header 1.1.1 ----</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="do">### Header 1.1.2 ----</span></span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="co"># Header 2 ----</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+>>>>>>> Stashed changes
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -5808,8 +6084,8 @@ Which machine learning models that we can use for classification have a problem 
 </figure>
 </div>
 </section>
-<section id="modularize-your-shiny-code" class="level3" data-number="2.3.4">
-<h3 data-number="2.3.4" class="anchored" data-anchor-id="modularize-your-shiny-code"><span class="header-section-number">2.3.4</span> Modularize your Shiny code</h3>
+<section id="modularize-your-shiny-code" class="level3" data-number="2.4.4">
+<h3 data-number="2.4.4" class="anchored" data-anchor-id="modularize-your-shiny-code"><span class="header-section-number">2.4.4</span> Modularize your Shiny code</h3>
 <ul>
 <li>If your Shiny app is divided into multiple tabs or sections, it might make sense to wrap it into modules</li>
 <li>By modularizing, you divide a large Shiny app into multiple smaller pieces that are isolated from each other</li>
@@ -5822,8 +6098,8 @@ Which machine learning models that we can use for classification have a problem 
 </figure>
 </div>
 </section>
-<section id="build-your-shiny-app-as-a-package" class="level3" data-number="2.3.5">
-<h3 data-number="2.3.5" class="anchored" data-anchor-id="build-your-shiny-app-as-a-package"><span class="header-section-number">2.3.5</span> Build your Shiny app as a package</h3>
+<section id="build-your-shiny-app-as-a-package" class="level3" data-number="2.4.5">
+<h3 data-number="2.4.5" class="anchored" data-anchor-id="build-your-shiny-app-as-a-package"><span class="header-section-number">2.4.5</span> Build your Shiny app as a package</h3>
 <ul>
 <li>This tip is particularly useful for larger apps</li>
 <li>The idea is to build a robust scaffold around the Shiny app</li>
@@ -5866,10 +6142,17 @@ Which machine learning models that we can use for classification have a problem 
 </ul></li>
 <li>How to read the data:</li>
 </ul>
+<<<<<<< Updated upstream
 <div class="cell" data-hash="08-build-your-own_cache/html/unnamed-chunk-6_d7ff685011e6f196ef76c61705706399">
 <div class="sourceCode cell-code" id="cb19" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">library</span>(haven) <span class="co"># the haven package has to be attached</span></span>
 <span id="cb19-2"><a href="#cb19-2"></a>ess <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;ess_trust.rds&quot;</span>)</span>
 <span id="cb19-3"><a href="#cb19-3"></a>ess</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">library</span>(haven) <span class="co"># the haven package has to be attached</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a>ess <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"ess_trust.rds"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3"></a>ess</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+>>>>>>> Stashed changes
 </div>
 <div class="cell" data-hash="08-build-your-own_cache/html/unnamed-chunk-7_9f5cde291cd0f6de754b610150fa0e1b">
 <div class="cell-output cell-output-stdout">
@@ -5982,9 +6265,15 @@ Which machine learning models that we can use for classification have a problem 
 </ul></li>
 <li>How to read the data:</li>
 </ul>
+<<<<<<< Updated upstream
 <div class="cell" data-hash="08-build-your-own_cache/html/unnamed-chunk-8_94326df028559c8ef2a4aa56081cdccc">
 <div class="sourceCode cell-code" id="cb21" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>guerry <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">url</span>(<span class="st">&quot;https://github.com/paulcbauer/shiny_workshop/raw/shiny_workshop_2024/data/guerry.rds&quot;</span>))</span>
 <span id="cb21-2"><a href="#cb21-2"></a>guerry</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>guerry <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">url</span>(<span class="st">"https://github.com/paulcbauer/shiny_workshop/raw/shiny_workshop_2024/data/guerry.rds"</span>))</span>
+<span id="cb22-2"><a href="#cb22-2"></a>guerry</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+>>>>>>> Stashed changes
 <div class="cell-output cell-output-stdout">
 <pre data-code-line-numbers><code>Simple feature collection with 85 features and 26 fields
 Geometry type: MULTIPOLYGON
@@ -6167,9 +6456,20 @@ Exercise 3: 14:30 - 15:30
 </div>
 
 
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Huang2023-zf" class="csl-entry" role="listitem">
+Huang, Lei, Weijiang Yu, Weitao Ma, Weihong Zhong, Zhangyin Feng, Haotian Wang, Qianglong Chen, et al. 2023. <span>“A Survey on Hallucination in Large Language Models: Principles, Taxonomy, Challenges, and Open Questions,”</span> November. <a href="https://arxiv.org/abs/2311.05232">https://arxiv.org/abs/2311.05232</a>.
+</div>
+<div id="ref-Metz2023-qz" class="csl-entry" role="listitem">
+Metz, Cade. 2023. <span>“Chatbots May <span>‘Hallucinate’</span> More Often Than Many Realize.”</span> <em>The New York Times</em>, November.
+</div>
+<div id="ref-Zhang2023-ok" class="csl-entry" role="listitem">
+Zhang, Yue, Yafu Li, Leyang Cui, Deng Cai, Lemao Liu, Tingchen Fu, Xinting Huang, et al. 2023. <span>“Siren’s Song in the <span>AI</span> Ocean: A Survey on Hallucination in Large Language Models,”</span> September. <a href="https://arxiv.org/abs/2309.01219">https://arxiv.org/abs/2309.01219</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
