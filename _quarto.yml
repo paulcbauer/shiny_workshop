@@ -46,7 +46,6 @@ format:
     code-annotations: hover
     code-line-numbers: true
     tbl-cap-location: top
-    embed-resources: true
 editor: 
   mode: source
 execute:
