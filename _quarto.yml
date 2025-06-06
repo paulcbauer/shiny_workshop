@@ -29,9 +29,9 @@ website:
       - 02-introduction.qmd
       - 03-user-interface.qmd
       - 04-server-reactive-programming-i.qmd
-      - 05-server-reactive-programming-ii.qmd
-      - 06-visualization.qmd
-      - 07-deployment.qmd
+      - 05-visualization.qmd
+      - 06-deployment.qmd
+      - 07-server-reactive-programming-ii.qmd
       - 08-build-your-own.qmd
       - 09-full-code.qmd
 

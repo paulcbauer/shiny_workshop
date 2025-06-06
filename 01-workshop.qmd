@@ -79,7 +79,7 @@ workshop?
 schedule <- tribble(
   ~time, ~name, ~file, ~header,
   
-  "Tuesday, 23.07", "Introduction to Shiny", NA, TRUE,
+  "Thursday, 03.07", "Introduction to Shiny", NA, TRUE,
   "10:00-11:00", "Welcome and introduction", "01-workshop.html", FALSE,
   "11:00-11:15", "Coffee break", NA, FALSE,
   "11:15-12:00", "Your (first) Shiny app", "02-introduction.html", FALSE,
@@ -88,33 +88,32 @@ schedule <- tribble(
   "14:15-14:30", "Coffee break", NA, FALSE,
   "14:30-16:00", "Tutorials for the UI", "03-user-interface.html", FALSE,
   
-  "Wednesday, 24.07.", "Reactive programming", NA, TRUE,
+  "Friday, 04.07.", "Reactive programming", NA, TRUE,
   "10:00-11:00", "Introduction to reactive programming", "04-server-reactive-programming-i.html", FALSE,
   "11:00-11:15", "Coffee break", NA, FALSE,
   "11:15-12:00", "Tutorials for reactive programming", "04-server-reactive-programming-i.html", FALSE,
+  "12:00-13:00", "Lunch break", NA, FALSE,
+  "13:00-14:15", "Visualization with ggplot2 and Shiny", "06-visualization.html", FALSE,
+  "14:15-14:30", "Coffee break", NA, FALSE,
+  "14:30-16:00", "Tutorials for visualization", "06-visualization.html", FALSE,
+  
+  "Thursday, 10.07", "Strengthen and enhance", NA, TRUE,
+  "10:00-11:00", "Testing and deployment", "07-deployment.html", FALSE,
+  "11:00-11:15", "Coffee break", NA, FALSE,
+  "11:15-12:00", "Tutorials for deployment", "07-deployment.html", FALSE,
   "12:00-13:00", "Lunch break", NA, FALSE,
   "13:00-14:15", "Advanced reactive programming", "05-server-reactive-programming-ii.html", FALSE,
   "14:15-14:30", "Coffee break", NA, FALSE,
   "14:30-16:00", "Tutorials for reactive programming", "05-server-reactive-programming-ii.html", FALSE,
   
-  "Thursday, 25.07", "Finetuning and deployment", NA, TRUE,
-  "10:00-11:00", "Visualization with ggplot2 and Shiny", "06-visualization.html", FALSE,
+  "Friday, 11.07.", "Build your own app", NA, TRUE,
+  "10:00-11:00", "Exhibit: Show off your new Shiny app", "08-build-your-own.html", FALSE,
   "11:00-11:15", "Coffee break", NA, FALSE,
-  "11:15-12:00", "Tutorials for visualization", "06-visualization.html", FALSE,
+  "11:15-12:00", "Exhibit: Show off your new Shiny app", "08-build-your-own.html", FALSE,
   "12:00-13:00", "Lunch break", NA, FALSE,
-  "13:00-14:15", "Testing and deployment", "07-deployment.html", FALSE,
+  "13:00-14:15", "Good practices when building your own app", "08-build-your-own.html", FALSE,
   "14:15-14:30", "Coffee break", NA, FALSE,
-  "14:30-16:00", "Tutorials for deployment", "07-deployment.html", FALSE,
-  
-  "Friday, 26.07.", "Build your own app", NA, TRUE,
-  "10:00-11:00", "Good practices when building your own app", "08-build-your-own.html", FALSE,
-  "11:00-11:15", "Coffee break", NA, FALSE,
-  "11:15-12:00", "Build your own app: Design and UI", "08-build-your-own.html", FALSE,
-  "12:00-13:00", "Lunch break", NA, FALSE,
-  "13:00-14:15", "Build your own app: Construct the reactive graph", "08-build-your-own.html", FALSE,
-  "14:15-14:30", "Coffee break", NA, FALSE,
-  "14:30-15:30", "Build your own app: Strengthen & deploy", "08-build-your-own.html", FALSE,
-  "15:30-16:00", "Exhibit: Show off your new Shiny app", "08-build-your-own.html", FALSE
+  "14:30-16:00", "Good practices when building your own app", "08-build-your-own.html", FALSE
 )
 
 schedule <- pmap(schedule, function(time, name, file, header) {
@@ -204,11 +203,10 @@ pander(schedule)
 
 ## Recommended readings
 
-- **Important**: Our workshop does not require any prior reading. 
-- However, our schedule is primarily based on two textbooks which we generally recommend for further reading (see references on website):
+- Our schedule is primarily based on two textbooks which we generally recommend for further reading (see references on website):
 	- @wickham2021mastering: Mastering Shiny: Build Interactive Apps, Reports, and Dashboards Powered by R. Accessible online at: https://mastering-shiny.org/. 
 	- Fay, Colin, Rochette, Sébastien, Guyader, Vincent, and Girard, Cervan (2022): Engineering Production-Grade Shiny Apps. Accessible online at: https://engineering-shiny.org/.
-
+- If you haven't read chapters 1-3 of "Mastering Shiny" yet, don't worry: We will recap them this week
 
 
 
@@ -216,7 +214,7 @@ pander(schedule)
 ## Software we will use
 - Open-source software! (Q: Why?)
 - R [@rcoreteam2023]^[Creators: [Core contributors](https://www.r-project.org/contributors.html)  and thousands of package authors.]
-  - only viable competitor is Python
+  - If you use Python, it has Shiny, too! https://shiny.posit.co/py/
   - Install the necessary packages using the code below.
 
 ```{r workshop-1, echo=FALSE, results='asis', cache=FALSE}

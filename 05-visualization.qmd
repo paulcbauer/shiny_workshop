@@ -691,21 +691,14 @@ output$map <- renderLeaflet({
 -   Proxies are best combined with functions that add to, remove to, or clear a widget
 -   The following table summarizes these functions
 
-+----------+----------------------------------------------------------------------+--------------------+-------------------+
-| Category | Add functions                                                        | Remove             | Clear             |
-+==========+======================================================================+====================+===================+
-| tile     | `addTiles()`, `addProviderTiles()`                                   | `removeTiles()`    | `clearTiles()`    |
-+----------+----------------------------------------------------------------------+--------------------+-------------------+
-| marker   | `addMarkers()`, `addCircleMarkers()`                                 | `removeMarker()`   | `clearMarkers()`  |
-+----------+----------------------------------------------------------------------+--------------------+-------------------+
-| shape    | `addPolygons()`, `addPolylines()`, `addCircles()`, `addRectangles()` | `removeShape()`    | `clearShapes()`   |
-+----------+----------------------------------------------------------------------+--------------------+-------------------+
-| geojson  | `addGeoJSON()`                                                       | `removeGeoJSON()`  | `clearGeoJSON()`  |
-+----------+----------------------------------------------------------------------+--------------------+-------------------+
-| topojson | `addTopoJSON()`                                                      | `removeTopoJSON()` | `clearTopoJSON()` |
-+----------+----------------------------------------------------------------------+--------------------+-------------------+
-| control  | `addControl()`                                                       | `removeControl()`  | `clearControls()` |
-+----------+----------------------------------------------------------------------+--------------------+-------------------+
+| Category | Add functions | Remove | Clear |
+|----|----|----|----|
+| tile | `addTiles()`, `addProviderTiles()` | `removeTiles()` | `clearTiles()` |
+| marker | `addMarkers()`, `addCircleMarkers()` | `removeMarker()` | `clearMarkers()` |
+| shape | `addPolygons()`, `addPolylines()`, `addCircles()`, `addRectangles()` | `removeShape()` | `clearShapes()` |
+| geojson | `addGeoJSON()` | `removeGeoJSON()` | `clearGeoJSON()` |
+| topojson | `addTopoJSON()` | `removeTopoJSON()` | `clearTopoJSON()` |
+| control | `addControl()` | `removeControl()` | `clearControls()` |
 
 ### Synthesis: Plot events, proxies, and plot manipulation
 
