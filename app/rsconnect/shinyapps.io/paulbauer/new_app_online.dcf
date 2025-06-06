@@ -1,0 +1,13 @@
+name: new_app_online
+title: new_app_online
+username: paulbauer
+account: paulbauer
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 12368924
+bundleId: 8910692
+url: https://paulbauer.shinyapps.io/new_app_online/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: desktop.ini|reactive-graph-ess-app.drawio

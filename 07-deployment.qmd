@@ -203,11 +203,11 @@ filters:
 
 
 # shinyapps.io
-
 -   A common choice for more casual Shiny apps is shinyapps.io
     -   It requires not much technical knowledge to deploy
     -   It does not require a pre-existing infrastructure (e.g., a server)
     -   It offers a free plan
+- Step-by-step setup explanation (see below or [here](https://docs.posit.co/shinyapps.io/guide/getting_started/index.html))
 
 ![Shinyapps.io plans](resources/shinyapps_plans.png)
 
